@@ -1,0 +1,6 @@
+Extensões Necessárias para o Node-RED
+
+opc-ua: npm install node-red-contrib-opcua
+S7: npm install node-red-contrib-s7
+dasboard: npm install @flowfuse/node-red-dashboard
+led: npm install node-red-contrib-ui-led

@@ -1,0 +1,35 @@
+Controle de Versões e Atualizações do Node-RED - arquivo de criação das variáveis
+
+V5.7 - 14/08/2024
+
+Inclusão das variáveis de simulação da estação Master [20]
+Criação das variáveis de controle para o Master [20] - Produção início ao fim.
+
+V5.6 - 08/08/2024
+
+Inclusão das variáveis de controle da estação Sorting [60]
+
+V5.5 - 05/08/2024
+
+Atualização dos nomes das variáveis de On/Off para Start/Stop e do sinal O_80_Mag_Empty.
+Atualização das descrições de todas as variáveispara inglês
+Implementação das variáveis de simulação para as estações Conveyor [30], Handling 1 [50] e Sorting [60]
+Adequação dos nomes das variáveis para o AAS (com letras iniciando)
+Acertado o NameSpace para que as variáveis do RFID fiquem junto com as demais do Conveyor [30] (ns=12) e corrigido as demais estações.
+
+V5.4 - 31/07/2024
+
+Implementação de variáveis de controle para a estação Handling 2 [90] para o sentido de movimento do braço além de botão de Start
+Implementação de variáveis de controle para a estação Processing [100] para o modo de produção
+Implementação das variáveis de simulação para a estação Handling 2 [90] e Processing [100]
+
+
+V5.3 - 30/07/2024
+
+Implementação de variáveis de controle para a estação Testing [70] para o modo de funcionamento (Identified e Requested)
+Implementação de variáveis de controle para a estação Distribution [80] para o modo de funcionamento (Manual e Automatic) além de botão de Start
+Implementação das variáveis de simulação para a estação Testing [70] e Distribution [80]
+
+17/07/2024
+
+Correção de problemas na estação Handling [90] que estava criando os sinais dos sensores (outputs) pois estavam duplicados com os Inputs.
