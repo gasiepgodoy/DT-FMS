@@ -1,0 +1,36 @@
+Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
+
+V6.0 - 24/09/2024 - AAS
+	
+	Implementação da 1ª versão do AAS, somente para a unidade Distribution [80]
+	P.S.: A versão 5.7 permanecerá rodando e sendo desenvolvida visto que o AAS ainda precisa ser terminado para poder ser implantado por completo.
+
+V5.7 - 19/09/2024
+
+Corrigido acionamento da vairável I_20_Led_On
+Retirado os acionamentos individuias das estação via "Controls and Information"
+Adicionado o Botão via "Controls and Information" para a produção de uma peça.
+
+V5.6 - 08/08/2024
+
+Inclusão das variáveis de controle da estação Sorting [60]
+Implementação dos controles via Dasboard na aba "Controls and Information" para a estação Sorting [60] 
+
+V5.5 - 05/08/2024
+
+Atualização dos nomes das variáveis de On/Off para Start/Stop e do sinal 80_O_Mag_Empty.
+Atualização das descrições de todas as variáveispara inglês
+Adequação dos nomes das variáveis para o AAS (com letras iniciando)
+Acertado o NameSpace das estações para que as variáveis do RFID fiquem junto com as demais do Conveyor [30] (ns=12) e corrigido as demais estações.
+
+V5.4 - 31/07/2024
+Implementação dos controles via Dasboard na aba "Controls and Information" para a estação Distribution [80] - Start e Modo (Automatico ou Manual).
+Implementação dos controles via Dasboard na aba "Controls and Information" para a estação Handling 1 [90] - Start e Modo (Cart2Del e Del2Cart).
+Implementação dos controles via Dasboard na aba "Controls and Information" para a estação Processing [100] - Modo (Rotate, Test e Test+Drill).
+Atualizado arquivos config.csv e s7endpoint_CLP Mestre.csv
+
+
+V5.3 - 30/07/2024
+
+Implementação dos controles via Dasboard na aba "Controls and Information" para a estação [70] Testing.
+Atualizado arquivos config.csv e s7endpoint_CLP Mestre.csv

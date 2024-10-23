@@ -1,0 +1,5309 @@
+[
+    {
+        "id": "1e5ebb110790523d",
+        "type": "tab",
+        "label": "OPC UA AAS",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8a210b1b2d6fb8e6",
+        "type": "tab",
+        "label": "Distribution [80] - AAS",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "58b07d9f4c4b1706",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-custom",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#0033ff",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "reset": false
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0033ff",
+                    "value": "#0033ff",
+                    "edited": true
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0033ff",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": true
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#4d70ff",
+                    "edited": true
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0033ff",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Gêmeo Digital FMS UNESP",
+            "hideToolbar": "false",
+            "allowSwipe": "true",
+            "lockMenu": "true",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 41,
+                "sy": 48,
+                "gx": 4,
+                "gy": 4,
+                "cx": 5,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "bdc48601.ebf958",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://localhost:53881/UA/SimpleNodeRedServer",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "365e8cfe98365963",
+        "type": "ui_tab",
+        "name": "Processing",
+        "icon": "dashboard",
+        "order": 9,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "4db85cc2c3f3ee1f",
+        "type": "ui_group",
+        "name": "Indicadores Físicos",
+        "tab": "365e8cfe98365963",
+        "order": 1,
+        "disp": true,
+        "width": 4,
+        "collapse": true
+    },
+    {
+        "id": "41464d608859ff6f",
+        "type": "ui_group",
+        "name": "Saídas Físicas",
+        "tab": "365e8cfe98365963",
+        "order": 5,
+        "disp": true,
+        "width": 4,
+        "collapse": true
+    },
+    {
+        "id": "4b549bb9b107a1ba",
+        "type": "ui_group",
+        "name": "Saídas Auxiliares",
+        "tab": "365e8cfe98365963",
+        "order": 6,
+        "disp": true,
+        "width": 4,
+        "collapse": true
+    },
+    {
+        "id": "d98a027d2ae4a0fc",
+        "type": "ui_group",
+        "name": "Indicadores Auxiliares",
+        "tab": "365e8cfe98365963",
+        "order": 2,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "13b6253a52f19631",
+        "type": "ui_tab",
+        "name": "Handling 2",
+        "icon": "dashboard",
+        "order": 8,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "8502af753d8a3cd6",
+        "type": "ui_group",
+        "name": "Indicadores Físicos",
+        "tab": "13b6253a52f19631",
+        "order": 1,
+        "disp": true,
+        "width": 4,
+        "collapse": true
+    },
+    {
+        "id": "19b5077a547c6988",
+        "type": "ui_group",
+        "name": "Indicadores Auxiliares",
+        "tab": "13b6253a52f19631",
+        "order": 2,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "74541ed2c3b30fcd",
+        "type": "ui_group",
+        "name": "Saídas Físicas",
+        "tab": "13b6253a52f19631",
+        "order": 5,
+        "disp": true,
+        "width": 4,
+        "collapse": true
+    },
+    {
+        "id": "55537b71cd70198d",
+        "type": "ui_group",
+        "name": "Saídas Auxiliares",
+        "tab": "13b6253a52f19631",
+        "order": 6,
+        "disp": true,
+        "width": 4,
+        "collapse": true
+    },
+    {
+        "id": "032f0526ef729e4f",
+        "type": "ui_group",
+        "name": "Feedback Físicas",
+        "tab": "365e8cfe98365963",
+        "order": 3,
+        "disp": true,
+        "width": 4,
+        "collapse": true
+    },
+    {
+        "id": "9fbccd56417957ca",
+        "type": "ui_group",
+        "name": "Feedback Auxiliares",
+        "tab": "365e8cfe98365963",
+        "order": 4,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "457b284432a79871",
+        "type": "ui_group",
+        "name": "Feedbacks Físicas",
+        "tab": "13b6253a52f19631",
+        "order": 3,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "92256b517e117333",
+        "type": "ui_group",
+        "name": "Feedback Auxiliares",
+        "tab": "13b6253a52f19631",
+        "order": 4,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "75eec5da8bb3cafd",
+        "type": "ui_tab",
+        "name": "Distributing",
+        "icon": "dashboard",
+        "order": 7,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "276ea77ae2469a38",
+        "type": "ui_group",
+        "name": "Indicadores Físicos",
+        "tab": "75eec5da8bb3cafd",
+        "order": 1,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "9755ca8b2f7d867b",
+        "type": "ui_group",
+        "name": "Indicadores Auxiliares",
+        "tab": "75eec5da8bb3cafd",
+        "order": 2,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "51236a1b7334e2a1",
+        "type": "ui_group",
+        "name": "Feedbacks Físicas",
+        "tab": "75eec5da8bb3cafd",
+        "order": 3,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "65087ea1b393b39f",
+        "type": "ui_group",
+        "name": "FeedBack Auxiliares",
+        "tab": "75eec5da8bb3cafd",
+        "order": 4,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "7208759de347726c",
+        "type": "ui_group",
+        "name": "Saídas Físicas",
+        "tab": "75eec5da8bb3cafd",
+        "order": 5,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "2d534c1b223b558f",
+        "type": "ui_group",
+        "name": "Saídas Auxiliares",
+        "tab": "75eec5da8bb3cafd",
+        "order": 6,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "4d21dea1ebfd90f8",
+        "type": "ui_tab",
+        "name": "Testing",
+        "icon": "dashboard",
+        "order": 6,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "116a62fe6e21d4cb",
+        "type": "ui_group",
+        "name": "Indicadores Físicos",
+        "tab": "4d21dea1ebfd90f8",
+        "order": 1,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "cfcd7a81a0899c7a",
+        "type": "ui_group",
+        "name": "Indicadores Auxiliares",
+        "tab": "4d21dea1ebfd90f8",
+        "order": 2,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "643733664707fbab",
+        "type": "ui_group",
+        "name": "Feedbacks Físicas",
+        "tab": "4d21dea1ebfd90f8",
+        "order": 3,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "279cd6ef4e5287bf",
+        "type": "ui_group",
+        "name": "Feedbacks Auxiliares",
+        "tab": "4d21dea1ebfd90f8",
+        "order": 4,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "02090abb923ad2a1",
+        "type": "ui_group",
+        "name": "Saídas Físicas",
+        "tab": "4d21dea1ebfd90f8",
+        "order": 5,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "47e777994ac87b36",
+        "type": "ui_group",
+        "name": "Saídas Auxiliares",
+        "tab": "4d21dea1ebfd90f8",
+        "order": 6,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "ca5cf8643fe2a4f0",
+        "type": "ui_tab",
+        "name": "Sorting",
+        "icon": "dashboard",
+        "order": 5,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "7bbdfd6a103ce2a9",
+        "type": "ui_tab",
+        "name": "Handling 1",
+        "icon": "dashboard",
+        "order": 4,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "30faf6160f4af981",
+        "type": "ui_group",
+        "name": "Indicadores Físicos",
+        "tab": "ca5cf8643fe2a4f0",
+        "order": 1,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "71f34efed0855c31",
+        "type": "ui_group",
+        "name": "Indicadores Auxiliares",
+        "tab": "ca5cf8643fe2a4f0",
+        "order": 2,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "ea09c373a8232386",
+        "type": "ui_group",
+        "name": "Feedback Físicas",
+        "tab": "ca5cf8643fe2a4f0",
+        "order": 3,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "569f219a5edf7062",
+        "type": "ui_group",
+        "name": "Feedback Auxiliares",
+        "tab": "ca5cf8643fe2a4f0",
+        "order": 4,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "1343d1923c73fc20",
+        "type": "ui_group",
+        "name": "Saídas Físicas",
+        "tab": "ca5cf8643fe2a4f0",
+        "order": 5,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "bac4ac110c864b0f",
+        "type": "ui_group",
+        "name": "Saídas Auxiliares",
+        "tab": "ca5cf8643fe2a4f0",
+        "order": 6,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "e7bfacee66eb2f8c",
+        "type": "ui_group",
+        "name": "Indicadores Físicos",
+        "tab": "7bbdfd6a103ce2a9",
+        "order": 1,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "c143a2ea9959e2ed",
+        "type": "ui_group",
+        "name": "Indicadores Auxiliares",
+        "tab": "7bbdfd6a103ce2a9",
+        "order": 2,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "c3027355d963ad3f",
+        "type": "ui_group",
+        "name": "Feedback Físicas",
+        "tab": "7bbdfd6a103ce2a9",
+        "order": 3,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "26d48f60295d2dfe",
+        "type": "ui_group",
+        "name": "Feedback Auxiliares",
+        "tab": "7bbdfd6a103ce2a9",
+        "order": 4,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "34a4f5bd21fec98a",
+        "type": "ui_group",
+        "name": "Saídas Físicas",
+        "tab": "7bbdfd6a103ce2a9",
+        "order": 5,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "291096354e5ff07e",
+        "type": "ui_group",
+        "name": "Saídas Auxiliares",
+        "tab": "7bbdfd6a103ce2a9",
+        "order": 6,
+        "disp": true,
+        "width": "4",
+        "collapse": true
+    },
+    {
+        "id": "c084bf36e5e6cc16",
+        "type": "ui_tab",
+        "name": "Conveyor",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "4e4e3ee7c9310ada",
+        "type": "ui_group",
+        "name": "Testing",
+        "tab": "c084bf36e5e6cc16",
+        "order": 1,
+        "disp": true,
+        "width": "3",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "6747ae1afbe691a6",
+        "type": "ui_group",
+        "name": "Processing",
+        "tab": "c084bf36e5e6cc16",
+        "order": 2,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "8e3092c207a50985",
+        "type": "ui_group",
+        "name": "Vision",
+        "tab": "c084bf36e5e6cc16",
+        "order": 3,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "30975223e21839a6",
+        "type": "ui_group",
+        "name": "Robot",
+        "tab": "c084bf36e5e6cc16",
+        "order": 4,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "cc05b45c5510e407",
+        "type": "ui_group",
+        "name": "Storage",
+        "tab": "c084bf36e5e6cc16",
+        "order": 5,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "ab36e030f251cee1",
+        "type": "ui_group",
+        "name": "Sorting",
+        "tab": "c084bf36e5e6cc16",
+        "order": 6,
+        "disp": true,
+        "width": "3",
+        "collapse": true
+    },
+    {
+        "id": "3e78e0094dd8e676",
+        "type": "ui_tab",
+        "name": "Master",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "60b51ea5585bafaa",
+        "type": "ui_group",
+        "name": "Indicadores Físicos",
+        "tab": "3e78e0094dd8e676",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "a9bfb6dd48bed907",
+        "type": "ui_group",
+        "name": "FeedBack Físicos",
+        "tab": "3e78e0094dd8e676",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "c9881be37b183035",
+        "type": "ui_group",
+        "name": "Saídas Físicas",
+        "tab": "3e78e0094dd8e676",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "e466ee420f20a484",
+        "type": "ui_group",
+        "name": "Tag Report",
+        "tab": "eb41eddfedcef970",
+        "order": 2,
+        "disp": true,
+        "width": "16",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "8431a9e526aa9725",
+        "type": "ui_group",
+        "name": "Tag ID",
+        "tab": "eb41eddfedcef970",
+        "order": 4,
+        "disp": true,
+        "width": 7,
+        "collapse": false
+    },
+    {
+        "id": "1639807b893a7ab8",
+        "type": "ui_group",
+        "name": "Initialization Procedure",
+        "tab": "eb41eddfedcef970",
+        "order": 1,
+        "disp": true,
+        "width": "9",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "69ebfd48108bfa68",
+        "type": "ui_group",
+        "name": "Server Write Status",
+        "tab": "eb41eddfedcef970",
+        "order": 5,
+        "disp": true,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "eb41eddfedcef970",
+        "type": "ui_tab",
+        "name": "RFID",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "f8821c668b1ce35a",
+        "type": "ui_tab",
+        "name": "Controls and Information",
+        "icon": "dashboard",
+        "order": 10,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "6a1cda3946edf6c3",
+        "type": "ui_group",
+        "name": "Testing",
+        "tab": "f8821c668b1ce35a",
+        "order": 2,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "504320704e1794f2",
+        "type": "ui_group",
+        "name": "Distribution",
+        "tab": "f8821c668b1ce35a",
+        "order": 3,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "d6a7dffda898ebdb",
+        "type": "ui_group",
+        "name": "Handling 2",
+        "tab": "f8821c668b1ce35a",
+        "order": 4,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "62a15769e0e7c556",
+        "type": "ui_group",
+        "name": "Processing",
+        "tab": "f8821c668b1ce35a",
+        "order": 5,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "f27a4c72b844a7fc",
+        "type": "ui_group",
+        "name": "Handling 1",
+        "tab": "f8821c668b1ce35a",
+        "order": 1,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "339ba5c2faac5183",
+        "type": "ui_tab",
+        "d": true,
+        "name": "Home",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "9f019a36e695c0a1",
+        "type": "ui_group",
+        "d": true,
+        "name": "Tag report",
+        "tab": "339ba5c2faac5183",
+        "order": 2,
+        "disp": true,
+        "width": "8",
+        "collapse": false
+    },
+    {
+        "id": "f4fe1ac01aebf529",
+        "type": "ui_group",
+        "d": true,
+        "name": "Comando de Inicialização",
+        "tab": "339ba5c2faac5183",
+        "order": 1,
+        "disp": true,
+        "width": "9",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2dba782137e8612f",
+        "type": "ui_group",
+        "d": true,
+        "name": "Tag ID",
+        "tab": "339ba5c2faac5183",
+        "order": 3,
+        "disp": true,
+        "width": "7",
+        "collapse": false
+    },
+    {
+        "id": "66b606e0d3eb38ce",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://localhost:53880",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "cd25c23ae1474cc2",
+        "type": "ui_tab",
+        "name": "Master",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "0ae70aad77a4afae",
+        "type": "ui_group",
+        "name": "Indicadores Físicos",
+        "tab": "cd25c23ae1474cc2",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "27c3024c95883a3a",
+        "type": "ui_group",
+        "name": "FeedBack Físicos",
+        "tab": "cd25c23ae1474cc2",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "0f1fb8fc3246e5e1",
+        "type": "ui_group",
+        "name": "Saídas Físicas",
+        "tab": "cd25c23ae1474cc2",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "ee4a48ac4d210450",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://localhost:53885/UA/SimpleNodeRedServer",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "84543cd4dd2b20bf",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://TREL16087112.vstage.co:53530/OPCUA/SimulationServer",
+        "secpol": "None",
+        "secmode": "None",
+        "login": false
+    },
+    {
+        "id": "909235198aacab72",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://localhost:62544/Quickstarts/AlarmConditionServer",
+        "login": false
+    },
+    {
+        "id": "815850cb7cbf4029",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "b58e5a3ca4d41fd9",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "2949296325faec7f",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://TREL16087112.vstage.co:53530/OPCUA/SimulationServer",
+        "secpol": "None",
+        "secmode": "None",
+        "login": false
+    },
+    {
+        "id": "b58e5a3ca4d41fd9",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "58abab3378adb110",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://localhost:62544/Quickstarts/AlarmConditionServer",
+        "login": false
+    },
+    {
+        "id": "2b61e0d36e46f648",
+        "type": "s7 endpoint",
+        "transport": "iso-on-tcp",
+        "address": "200.145.26.35",
+        "port": "102",
+        "rack": "0",
+        "slot": "2",
+        "localtsaphi": "01",
+        "localtsaplo": "00",
+        "remotetsaphi": "01",
+        "remotetsaplo": "00",
+        "connmode": "rack-slot",
+        "adapter": "",
+        "busaddr": "2",
+        "cycletime": "50",
+        "timeout": "1500",
+        "name": "CLP_Mestre",
+        "vartable": [
+            {
+                "addr": "I20.0",
+                "name": "O_20_On"
+            },
+            {
+                "addr": "I20.1",
+                "name": "O_20_Off"
+            },
+            {
+                "addr": "I20.6",
+                "name": "O_20_Controler_On"
+            },
+            {
+                "addr": "I22.0",
+                "name": "F_22_Led_On"
+            },
+            {
+                "addr": "I22.1",
+                "name": "F_22_Led_Off"
+            },
+            {
+                "addr": "I22.7",
+                "name": "F_22_Conveyor"
+            },
+            {
+                "addr": "I34.0",
+                "name": "O_34_Cart_Stat"
+            },
+            {
+                "addr": "I34.1",
+                "name": "O_34_Cart_Next"
+            },
+            {
+                "addr": "I34.2",
+                "name": "O_34_Optic"
+            },
+            {
+                "addr": "I34.3",
+                "name": "O_34_Count"
+            },
+            {
+                "addr": "I34.4",
+                "name": "O_34_Pist_Bck"
+            },
+            {
+                "addr": "I34.5",
+                "name": "F_34_Release_FB"
+            },
+            {
+                "addr": "I35.0",
+                "name": "O_35_Cart_Stat"
+            },
+            {
+                "addr": "I35.1",
+                "name": "O_35_Cart_Next"
+            },
+            {
+                "addr": "I35.2",
+                "name": "O_35_Optic"
+            },
+            {
+                "addr": "I35.3",
+                "name": "O_35_Count"
+            },
+            {
+                "addr": "I35.4",
+                "name": "O_35_Pist_Bck"
+            },
+            {
+                "addr": "I35.5",
+                "name": "F_35_Release_FB"
+            },
+            {
+                "addr": "I36.0",
+                "name": "O_36_Cart_Stat"
+            },
+            {
+                "addr": "I36.1",
+                "name": "O_36_Cart_Next"
+            },
+            {
+                "addr": "I36.2",
+                "name": "O_36_Optic"
+            },
+            {
+                "addr": "I36.3",
+                "name": "O_36_Count"
+            },
+            {
+                "addr": "I36.4",
+                "name": "O_36_Pist_Bck"
+            },
+            {
+                "addr": "I36.5",
+                "name": "F_36_Release_FB"
+            },
+            {
+                "addr": "I37.0",
+                "name": "O_37_Cart_Stat"
+            },
+            {
+                "addr": "I37.1",
+                "name": "O_37_Cart_Next"
+            },
+            {
+                "addr": "I37.2",
+                "name": "O_37_Optic"
+            },
+            {
+                "addr": "I37.3",
+                "name": "O_37_Count"
+            },
+            {
+                "addr": "I37.4",
+                "name": "O_37_Pist_Bck"
+            },
+            {
+                "addr": "I37.5",
+                "name": "F_37_Release_FB"
+            },
+            {
+                "addr": "I38.0",
+                "name": "O_38_Cart_Stat"
+            },
+            {
+                "addr": "I38.1",
+                "name": "O_38_Cart_Next"
+            },
+            {
+                "addr": "I38.2",
+                "name": "O_38_Optic"
+            },
+            {
+                "addr": "I38.3",
+                "name": "O_38_Count"
+            },
+            {
+                "addr": "I38.4",
+                "name": "O_38_Pist_Bck"
+            },
+            {
+                "addr": "I38.5",
+                "name": "F_38_Release_FB"
+            },
+            {
+                "addr": "I39.0",
+                "name": "O_39_Cart_Stat"
+            },
+            {
+                "addr": "I39.1",
+                "name": "O_39_Cart_Next"
+            },
+            {
+                "addr": "I39.2",
+                "name": "O_39_Optic"
+            },
+            {
+                "addr": "I39.3",
+                "name": "O_39_Count"
+            },
+            {
+                "addr": "I39.4",
+                "name": "O_39_Pist_Bck"
+            },
+            {
+                "addr": "I39.5",
+                "name": "F_39_Release_FB"
+            },
+            {
+                "addr": "I50.0",
+                "name": "O_50_Part_Reserve"
+            },
+            {
+                "addr": "I50.1",
+                "name": "O_50_Claw_Cart"
+            },
+            {
+                "addr": "I50.2",
+                "name": "O_50_Claw_Del"
+            },
+            {
+                "addr": "I50.3",
+                "name": "O_50_Claw_Reserve"
+            },
+            {
+                "addr": "I50.4",
+                "name": "O_50_Claw_Low"
+            },
+            {
+                "addr": "I50.5",
+                "name": "O_50_Claw_High"
+            },
+            {
+                "addr": "I50.6",
+                "name": "O_50_Part_in_Claw"
+            },
+            {
+                "addr": "I51.0",
+                "name": "O_51_Start"
+            },
+            {
+                "addr": "I51.1",
+                "name": "O_51_Stop"
+            },
+            {
+                "addr": "I51.2",
+                "name": "O_51_Key_Pos"
+            },
+            {
+                "addr": "I51.3",
+                "name": "O_51_Reset"
+            },
+            {
+                "addr": "I51.4",
+                "name": "O_51_Panel_I4"
+            },
+            {
+                "addr": "I51.5",
+                "name": "O_51_Panel_I5"
+            },
+            {
+                "addr": "I51.6",
+                "name": "O_51_Panel_I6"
+            },
+            {
+                "addr": "I51.7",
+                "name": "O_51_Panel_I7"
+            },
+            {
+                "addr": "I52.0",
+                "name": "F_52_Claw_2_Del"
+            },
+            {
+                "addr": "I52.1",
+                "name": "F_52_Claw_2_Cart"
+            },
+            {
+                "addr": "I52.2",
+                "name": "F_52_Claw_Down"
+            },
+            {
+                "addr": "I52.3",
+                "name": "F_52_Close_Claw"
+            },
+            {
+                "addr": "I53.0",
+                "name": "F_53_Led_Start"
+            },
+            {
+                "addr": "I53.1",
+                "name": "F_53_Led_Reset"
+            },
+            {
+                "addr": "I53.2",
+                "name": "F_53_Led_Extra1"
+            },
+            {
+                "addr": "I53.3",
+                "name": "F_53_Led_Extra2"
+            },
+            {
+                "addr": "I53.4",
+                "name": "F_53_Panel_O4"
+            },
+            {
+                "addr": "I53.5",
+                "name": "F_53_Panel_O5"
+            },
+            {
+                "addr": "I53.6",
+                "name": "F_53_Panel_O6"
+            },
+            {
+                "addr": "I53.7",
+                "name": "F_53_Panel_O7"
+            },
+            {
+                "addr": "I60.0",
+                "name": "O_60_SPart"
+            },
+            {
+                "addr": "I60.1",
+                "name": "O_60_SInd"
+            },
+            {
+                "addr": "I60.2",
+                "name": "O_60_SPhoto"
+            },
+            {
+                "addr": "I60.3",
+                "name": "O_60_Part_Pass"
+            },
+            {
+                "addr": "I60.4",
+                "name": "O_60_SL1_Bck"
+            },
+            {
+                "addr": "I60.5",
+                "name": "O_60_SL1_Fwd"
+            },
+            {
+                "addr": "I60.6",
+                "name": "O_60_SL2_Bck"
+            },
+            {
+                "addr": "I60.7",
+                "name": "O_60_SL2_Fwd"
+            },
+            {
+                "addr": "I61.0",
+                "name": "O_61_Start"
+            },
+            {
+                "addr": "I61.1",
+                "name": "O_61_Stop"
+            },
+            {
+                "addr": "I61.2",
+                "name": "O_61_Key_Pos"
+            },
+            {
+                "addr": "I61.3",
+                "name": "O_61_Reset"
+            },
+            {
+                "addr": "I61.4",
+                "name": "O_61_Panel_I4"
+            },
+            {
+                "addr": "I61.5",
+                "name": "O_61_Panel_I5"
+            },
+            {
+                "addr": "I61.6",
+                "name": "O_61_Panel_I6"
+            },
+            {
+                "addr": "I61.7",
+                "name": "O_61_Panel_I7"
+            },
+            {
+                "addr": "I62.0",
+                "name": "F_62_Conveyor"
+            },
+            {
+                "addr": "I62.1",
+                "name": "F_62_P1"
+            },
+            {
+                "addr": "I62.2",
+                "name": "F_62_P2"
+            },
+            {
+                "addr": "I62.3",
+                "name": "F_62_Identify"
+            },
+            {
+                "addr": "I63.0",
+                "name": "F_63_Led_Start"
+            },
+            {
+                "addr": "I63.1",
+                "name": "F_63_Led_Reset"
+            },
+            {
+                "addr": "I63.2",
+                "name": "F_63_Led_Extra1"
+            },
+            {
+                "addr": "I63.3",
+                "name": "F_63_Led_Extra2"
+            },
+            {
+                "addr": "I63.4",
+                "name": "F_63_Panel_O4"
+            },
+            {
+                "addr": "I63.5",
+                "name": "F_63_Panel_O5"
+            },
+            {
+                "addr": "I63.6",
+                "name": "F_63_Panel_O6"
+            },
+            {
+                "addr": "I63.7",
+                "name": "F_63_Panel_O7"
+            },
+            {
+                "addr": "I65.0",
+                "name": "O_65_ID_1"
+            },
+            {
+                "addr": "I65.1",
+                "name": "O_65_ID_2"
+            },
+            {
+                "addr": "I70.0",
+                "name": "O_70_SInductive"
+            },
+            {
+                "addr": "I70.1",
+                "name": "O_70_SPart"
+            },
+            {
+                "addr": "I70.2",
+                "name": "O_70_SStation"
+            },
+            {
+                "addr": "I70.3",
+                "name": "O_70_SPart_Height"
+            },
+            {
+                "addr": "I70.4",
+                "name": "O_70_Elev_High"
+            },
+            {
+                "addr": "I70.5",
+                "name": "O_70_Elev_Low"
+            },
+            {
+                "addr": "I70.6",
+                "name": "O_70_Pist_Back"
+            },
+            {
+                "addr": "I71.0",
+                "name": "O_71_Start"
+            },
+            {
+                "addr": "I71.1",
+                "name": "O_71_Stop"
+            },
+            {
+                "addr": "I71.2",
+                "name": "O_71_Key_Pos"
+            },
+            {
+                "addr": "I71.3",
+                "name": "O_71_Reset"
+            },
+            {
+                "addr": "I71.4",
+                "name": "O_71_Panel_I4"
+            },
+            {
+                "addr": "I71.5",
+                "name": "O_71_Panel_I5"
+            },
+            {
+                "addr": "I71.6",
+                "name": "O_71_Panel_I6"
+            },
+            {
+                "addr": "I71.7",
+                "name": "O_71_Panel_I7"
+            },
+            {
+                "addr": "I72.0",
+                "name": "F_72_Elev_Down"
+            },
+            {
+                "addr": "I72.1",
+                "name": "F_72_Elev_Up"
+            },
+            {
+                "addr": "I72.2",
+                "name": "F_72_Eject_Part"
+            },
+            {
+                "addr": "I72.3",
+                "name": "F_72_Air_On"
+            },
+            {
+                "addr": "I73.0",
+                "name": "F_73_Led_Start"
+            },
+            {
+                "addr": "I73.1",
+                "name": "F_73_Led_Reset"
+            },
+            {
+                "addr": "I73.2",
+                "name": "F_73_Led_Extra1"
+            },
+            {
+                "addr": "I73.3",
+                "name": "F_73_Led_Extra2"
+            },
+            {
+                "addr": "I73.4",
+                "name": "F_73_Panel_O4"
+            },
+            {
+                "addr": "I73.5",
+                "name": "F_73_Panel_O5"
+            },
+            {
+                "addr": "I73.6",
+                "name": "F_73_Panel_O6"
+            },
+            {
+                "addr": "I73.7",
+                "name": "F_73_Panel_O7"
+            },
+            {
+                "addr": "I75.0",
+                "name": "O_75_ID_Delivery1"
+            },
+            {
+                "addr": "I75.1",
+                "name": "O_75_ID_Delivery2"
+            },
+            {
+                "addr": "I80.0",
+                "name": "O_80_Mag_Full"
+            },
+            {
+                "addr": "I80.1",
+                "name": "O_80_Pist_Back"
+            },
+            {
+                "addr": "I80.2",
+                "name": "O_80_Pist_Fwd"
+            },
+            {
+                "addr": "I80.3",
+                "name": "O_80_Part_Stuck"
+            },
+            {
+                "addr": "I80.4",
+                "name": "O_80_Arm_Mag"
+            },
+            {
+                "addr": "I80.5",
+                "name": "O_80_Arm_Del"
+            },
+            {
+                "addr": "I80.6",
+                "name": "O_80_Mag_Empty"
+            },
+            {
+                "addr": "I81.0",
+                "name": "O_81_Start"
+            },
+            {
+                "addr": "I81.1",
+                "name": "O_81_Stop"
+            },
+            {
+                "addr": "I81.2",
+                "name": "O_81_Key_Pos"
+            },
+            {
+                "addr": "I81.3",
+                "name": "O_81_Reset"
+            },
+            {
+                "addr": "I81.4",
+                "name": "O_81_Panel_I4"
+            },
+            {
+                "addr": "I81.5",
+                "name": "O_81_Panel_I5"
+            },
+            {
+                "addr": "I81.6",
+                "name": "O_81_Panel_I6"
+            },
+            {
+                "addr": "I81.7",
+                "name": "O_81_Panel_I7"
+            },
+            {
+                "addr": "I82.0",
+                "name": "F_82_Pist_Adv"
+            },
+            {
+                "addr": "I82.1",
+                "name": "F_82_Suction_On"
+            },
+            {
+                "addr": "I82.2",
+                "name": "F_82_Suction_Off"
+            },
+            {
+                "addr": "I82.3",
+                "name": "F_82_Arm_2_Del"
+            },
+            {
+                "addr": "I82.4",
+                "name": "F_82_Arm_2_Mag"
+            },
+            {
+                "addr": "I83.0",
+                "name": "F_83_Led_Start"
+            },
+            {
+                "addr": "I83.1",
+                "name": "F_83_Led_Reset"
+            },
+            {
+                "addr": "I83.2",
+                "name": "F_83_Led_Extra1"
+            },
+            {
+                "addr": "I83.3",
+                "name": "F_83_Led_Extra2"
+            },
+            {
+                "addr": "I83.4",
+                "name": "F_83_Panel_O4"
+            },
+            {
+                "addr": "I83.5",
+                "name": "F_83_Panel_O5"
+            },
+            {
+                "addr": "I83.6",
+                "name": "F_83_Panel_O6"
+            },
+            {
+                "addr": "I83.7",
+                "name": "F_83_Panel_O7"
+            },
+            {
+                "addr": "I90.0",
+                "name": "O_90_Part_Reserve"
+            },
+            {
+                "addr": "I90.1",
+                "name": "O_90_Claw_Del"
+            },
+            {
+                "addr": "I90.2",
+                "name": "O_90_Claw_Reserve"
+            },
+            {
+                "addr": "I90.3",
+                "name": "O_90_Claw_Cart"
+            },
+            {
+                "addr": "I90.4",
+                "name": "O_90_Claw_Low"
+            },
+            {
+                "addr": "I90.5",
+                "name": "O_90_Claw_High"
+            },
+            {
+                "addr": "I90.6",
+                "name": "O_90_Part_in_Claw"
+            },
+            {
+                "addr": "I91.0",
+                "name": "O_91_Start"
+            },
+            {
+                "addr": "I91.1",
+                "name": "O_91_Stop"
+            },
+            {
+                "addr": "I91.2",
+                "name": "O_91_Key_Pos"
+            },
+            {
+                "addr": "I91.3",
+                "name": "O_91_Reset"
+            },
+            {
+                "addr": "I91.4",
+                "name": "O_91_Panel_I4"
+            },
+            {
+                "addr": "I91.5",
+                "name": "O_91_Panel_I5"
+            },
+            {
+                "addr": "I91.6",
+                "name": "O_91_Panel_I6"
+            },
+            {
+                "addr": "I91.7",
+                "name": "O_91_Panel_I7"
+            },
+            {
+                "addr": "I92.0",
+                "name": "F_92_Claw_2_Cart"
+            },
+            {
+                "addr": "I92.1",
+                "name": "F_92_Claw_2_Del"
+            },
+            {
+                "addr": "I92.2",
+                "name": "F_92_Claw_Down"
+            },
+            {
+                "addr": "I92.3",
+                "name": "F_92_Close_Claw"
+            },
+            {
+                "addr": "I93.0",
+                "name": "F_93_Led_Start"
+            },
+            {
+                "addr": "I93.1",
+                "name": "F_93_Led_Reset"
+            },
+            {
+                "addr": "I93.2",
+                "name": "F_93_Led_Extra1"
+            },
+            {
+                "addr": "I93.3",
+                "name": "F_93_Led_Extra2"
+            },
+            {
+                "addr": "I93.4",
+                "name": "F_93_Panel_O4"
+            },
+            {
+                "addr": "I93.5",
+                "name": "F_93_Panel_O5"
+            },
+            {
+                "addr": "I93.6",
+                "name": "F_93_Panel_O6"
+            },
+            {
+                "addr": "I93.7",
+                "name": "F_93_Panel_O7"
+            },
+            {
+                "addr": "I100.0",
+                "name": "O_100_PInit_Pos"
+            },
+            {
+                "addr": "I100.1",
+                "name": "O_100_PDrill_Pos"
+            },
+            {
+                "addr": "I100.2",
+                "name": "O_100_PTest_Pos"
+            },
+            {
+                "addr": "I100.3",
+                "name": "O_100_SDrill_High"
+            },
+            {
+                "addr": "I100.4",
+                "name": "O_100_SDrill_Low"
+            },
+            {
+                "addr": "I100.5",
+                "name": "O_100_RT_Sensor"
+            },
+            {
+                "addr": "I100.6",
+                "name": "O_100_PTest_Ok"
+            },
+            {
+                "addr": "I101.0",
+                "name": "O_101_Start"
+            },
+            {
+                "addr": "I101.1",
+                "name": "O_101_Stop"
+            },
+            {
+                "addr": "I101.2",
+                "name": "O_101_Key_Pos"
+            },
+            {
+                "addr": "I101.3",
+                "name": "O_101_Reset"
+            },
+            {
+                "addr": "I101.4",
+                "name": "O_101_Panel_I4"
+            },
+            {
+                "addr": "I101.5",
+                "name": "O_101_Panel_I5"
+            },
+            {
+                "addr": "I101.6",
+                "name": "O_101_Panel_I6"
+            },
+            {
+                "addr": "I101.7",
+                "name": "O_101_Panel_I7"
+            },
+            {
+                "addr": "I102.0",
+                "name": "F_102_Drill_On"
+            },
+            {
+                "addr": "I102.1",
+                "name": "F_102_RT_On"
+            },
+            {
+                "addr": "I102.2",
+                "name": "F_102_Drill_Down"
+            },
+            {
+                "addr": "I102.3",
+                "name": "F_102_Drill_Up"
+            },
+            {
+                "addr": "I102.4",
+                "name": "F_102_Drill_Pin"
+            },
+            {
+                "addr": "I102.5",
+                "name": "F_102_Test_Pin"
+            },
+            {
+                "addr": "I103.0",
+                "name": "F_103_Led_Start"
+            },
+            {
+                "addr": "I103.1",
+                "name": "F_103_Led_Reset"
+            },
+            {
+                "addr": "I103.2",
+                "name": "F_103_Led_Extra1"
+            },
+            {
+                "addr": "I103.3",
+                "name": "F_103_Led_Extra2"
+            },
+            {
+                "addr": "I103.4",
+                "name": "F_103_Panel_O4"
+            },
+            {
+                "addr": "I103.5",
+                "name": "F_103_Panel_O5"
+            },
+            {
+                "addr": "I103.6",
+                "name": "F_103_Panel_O6"
+            },
+            {
+                "addr": "I103.7",
+                "name": "F_103_Panel_O7"
+            },
+            {
+                "addr": "Q20.0",
+                "name": "I_20_Led_On"
+            },
+            {
+                "addr": "Q20.1",
+                "name": "I_20_Led_Off"
+            },
+            {
+                "addr": "Q20.7",
+                "name": "I_20_Conveyor"
+            },
+            {
+                "addr": "Q34.0",
+                "name": "I_34_Cart_Test"
+            },
+            {
+                "addr": "Q34.1",
+                "name": "C_34_Request"
+            },
+            {
+                "addr": "Q35.0",
+                "name": "I_35_Cart_Proc"
+            },
+            {
+                "addr": "Q35.1",
+                "name": "C_35_Request"
+            },
+            {
+                "addr": "Q36.0",
+                "name": "I_36_Cart_Vision"
+            },
+            {
+                "addr": "Q36.1",
+                "name": "C_36_Request"
+            },
+            {
+                "addr": "Q37.0",
+                "name": "I_37_Cart_Robot"
+            },
+            {
+                "addr": "Q37.1",
+                "name": "C_37_Request"
+            },
+            {
+                "addr": "Q38.0",
+                "name": "I_38_Cart_Storage"
+            },
+            {
+                "addr": "Q38.1",
+                "name": "C_38_Request"
+            },
+            {
+                "addr": "Q39.0",
+                "name": "I_39_Cart_Sort"
+            },
+            {
+                "addr": "Q39.1",
+                "name": "C_39_Request"
+            },
+            {
+                "addr": "Q50.0",
+                "name": "I_50_Claw_2_Del"
+            },
+            {
+                "addr": "Q50.1",
+                "name": "I_50_Claw_2_Cart"
+            },
+            {
+                "addr": "Q50.2",
+                "name": "I_50_Claw_Down"
+            },
+            {
+                "addr": "Q50.3",
+                "name": "I_50_Close_Claw"
+            },
+            {
+                "addr": "Q51.0",
+                "name": "I_51_Led_Start"
+            },
+            {
+                "addr": "Q51.1",
+                "name": "I_51_Led_Reset"
+            },
+            {
+                "addr": "Q51.2",
+                "name": "I_51_Led_Extra1"
+            },
+            {
+                "addr": "Q51.3",
+                "name": "I_51_Led_Extra2"
+            },
+            {
+                "addr": "Q51.4",
+                "name": "I_51_Panel_O4"
+            },
+            {
+                "addr": "Q51.5",
+                "name": "I_51_Panel_O5"
+            },
+            {
+                "addr": "Q51.6",
+                "name": "I_51_Panel_O6"
+            },
+            {
+                "addr": "Q51.7",
+                "name": "I_51_Panel_O7"
+            },
+            {
+                "addr": "Q55.0",
+                "name": "C_55_Cart2Del"
+            },
+            {
+                "addr": "Q55.1",
+                "name": "C_55_Del2Cart"
+            },
+            {
+                "addr": "Q55.2",
+                "name": "C_55_MoveArm"
+            },
+            {
+                "addr": "Q60.0",
+                "name": "I_60_Conveyor"
+            },
+            {
+                "addr": "Q60.1",
+                "name": "I_60_P1"
+            },
+            {
+                "addr": "Q60.2",
+                "name": "I_60_P2"
+            },
+            {
+                "addr": "Q60.3",
+                "name": "I_60_Identify"
+            },
+            {
+                "addr": "Q61.0",
+                "name": "I_61_Led_Start"
+            },
+            {
+                "addr": "Q61.1",
+                "name": "I_61_Led_Reset"
+            },
+            {
+                "addr": "Q61.2",
+                "name": "I_61_Led_Extra1"
+            },
+            {
+                "addr": "Q61.3",
+                "name": "I_61_Led_Extra2"
+            },
+            {
+                "addr": "Q61.4",
+                "name": "I_61_Panel_O4"
+            },
+            {
+                "addr": "Q61.5",
+                "name": "I_61_Panel_O5"
+            },
+            {
+                "addr": "Q61.6",
+                "name": "I_61_Panel_O6"
+            },
+            {
+                "addr": "Q61.7",
+                "name": "I_61_Panel_O7"
+            },
+            {
+                "addr": "Q65.0",
+                "name": "C_65_RBS_Output"
+            },
+            {
+                "addr": "Q65.1",
+                "name": "C_65_RSB_Output"
+            },
+            {
+                "addr": "Q65.2",
+                "name": "C_65_BRS_Output"
+            },
+            {
+                "addr": "Q65.3",
+                "name": "C_65_BSR_Output"
+            },
+            {
+                "addr": "Q65.4",
+                "name": "C_65_SRB_Output"
+            },
+            {
+                "addr": "Q65.5",
+                "name": "C_65_SBR_Output"
+            },
+            {
+                "addr": "Q70.0",
+                "name": "I_70_Elev_Down"
+            },
+            {
+                "addr": "Q70.1",
+                "name": "I_70_Elev_Up"
+            },
+            {
+                "addr": "Q70.2",
+                "name": "I_70_Eject_Part"
+            },
+            {
+                "addr": "Q70.3",
+                "name": "I_70_Air_On"
+            },
+            {
+                "addr": "Q71.0",
+                "name": "I_71_Led_Start"
+            },
+            {
+                "addr": "Q71.1",
+                "name": "I_71_Led_Reset"
+            },
+            {
+                "addr": "Q71.2",
+                "name": "I_71_Led_Extra1"
+            },
+            {
+                "addr": "Q71.3",
+                "name": "I_71_Led_Extra2"
+            },
+            {
+                "addr": "Q71.4",
+                "name": "I_71_Panel_O4"
+            },
+            {
+                "addr": "Q71.5",
+                "name": "I_71_Panel_O5"
+            },
+            {
+                "addr": "Q71.6",
+                "name": "I_71_Panel_O6"
+            },
+            {
+                "addr": "Q71.7",
+                "name": "I_71_Panel_O7"
+            },
+            {
+                "addr": "Q75.0",
+                "name": "I_75_RQ_Delivery1"
+            },
+            {
+                "addr": "Q75.1",
+                "name": "I_75_RQ_Delivery2"
+            },
+            {
+                "addr": "Q75.2",
+                "name": "C_75_Identified"
+            },
+            {
+                "addr": "Q75.3",
+                "name": "C_75_Requested"
+            },
+            {
+                "addr": "Q80.0",
+                "name": "I_80_Pist_Adv"
+            },
+            {
+                "addr": "Q80.1",
+                "name": "I_80_Suction_On"
+            },
+            {
+                "addr": "Q80.2",
+                "name": "I_80_Suction_Off"
+            },
+            {
+                "addr": "Q80.3",
+                "name": "I_80_Arm_2_Del"
+            },
+            {
+                "addr": "Q80.4",
+                "name": "I_80_Arm_2_Mag"
+            },
+            {
+                "addr": "Q81.0",
+                "name": "I_81_Led_Start"
+            },
+            {
+                "addr": "Q81.1",
+                "name": "I_81_Led_Reset"
+            },
+            {
+                "addr": "Q81.2",
+                "name": "I_81_Led_Extra1"
+            },
+            {
+                "addr": "Q81.3",
+                "name": "I_81_Led_Extra2"
+            },
+            {
+                "addr": "Q81.4",
+                "name": "I_81_Panel_O4"
+            },
+            {
+                "addr": "Q81.5",
+                "name": "I_81_Panel_O5"
+            },
+            {
+                "addr": "Q81.6",
+                "name": "I_81_Panel_O6"
+            },
+            {
+                "addr": "Q81.7",
+                "name": "I_81_Panel_O7"
+            },
+            {
+                "addr": "Q85.0",
+                "name": "C_85_Start"
+            },
+            {
+                "addr": "Q85.1",
+                "name": "C_85_Manual"
+            },
+            {
+                "addr": "Q85.2",
+                "name": "C_85_Automatic"
+            },
+            {
+                "addr": "Q90.0",
+                "name": "I_90_Claw_2_Cart"
+            },
+            {
+                "addr": "Q90.1",
+                "name": "I_90_Claw_2_Del"
+            },
+            {
+                "addr": "Q90.2",
+                "name": "I_90_Claw_Down"
+            },
+            {
+                "addr": "Q90.3",
+                "name": "I_90_Close_Claw"
+            },
+            {
+                "addr": "Q91.0",
+                "name": "I_91_Led_Start"
+            },
+            {
+                "addr": "Q91.1",
+                "name": "I_91_Led_Reset"
+            },
+            {
+                "addr": "Q91.2",
+                "name": "I_91_Led_Extra1"
+            },
+            {
+                "addr": "Q91.3",
+                "name": "I_91_Led_Extra2"
+            },
+            {
+                "addr": "Q91.4",
+                "name": "I_91_Panel_O4"
+            },
+            {
+                "addr": "Q91.5",
+                "name": "I_91_Panel_O5"
+            },
+            {
+                "addr": "Q91.6",
+                "name": "I_91_Panel_O6"
+            },
+            {
+                "addr": "Q91.7",
+                "name": "I_91_Panel_O7"
+            },
+            {
+                "addr": "Q95.0",
+                "name": "C_95_Cart2Del"
+            },
+            {
+                "addr": "Q95.1",
+                "name": "C_95_Del2Cart"
+            },
+            {
+                "addr": "Q95.2",
+                "name": "C_95_MoveArm"
+            },
+            {
+                "addr": "Q100.0",
+                "name": "I_100_Drill_On"
+            },
+            {
+                "addr": "Q100.1",
+                "name": "I_100_RT_On"
+            },
+            {
+                "addr": "Q100.2",
+                "name": "I_100_Drill_Down"
+            },
+            {
+                "addr": "Q100.3",
+                "name": "I_100_Drill_Up"
+            },
+            {
+                "addr": "Q100.4",
+                "name": "I_100_Drill_Pin"
+            },
+            {
+                "addr": "Q100.5",
+                "name": "I_100_Test_Pin"
+            },
+            {
+                "addr": "Q101.0",
+                "name": "I_101_Led_Start"
+            },
+            {
+                "addr": "Q101.1",
+                "name": "I_101_Led_Reset"
+            },
+            {
+                "addr": "Q101.2",
+                "name": "I_101_Led_Extra1"
+            },
+            {
+                "addr": "Q101.3",
+                "name": "I_101_Led_Extra2"
+            },
+            {
+                "addr": "Q101.4",
+                "name": "I_101_Panel_O4"
+            },
+            {
+                "addr": "Q101.5",
+                "name": "I_101_Panel_O5"
+            },
+            {
+                "addr": "Q101.6",
+                "name": "I_101_Panel_O6"
+            },
+            {
+                "addr": "Q101.7",
+                "name": "I_101_Panel_O7"
+            },
+            {
+                "addr": "Q105.0",
+                "name": "C_105_Test"
+            },
+            {
+                "addr": "Q105.1",
+                "name": "C_105_TestDrill"
+            },
+            {
+                "addr": "Q105.2",
+                "name": "C_105_Rotation"
+            }
+        ]
+    },
+    {
+        "id": "b90d0987155af131",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://192.168.1.1:4840",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "08bcd39ee1250d3d",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://H7Q8Q13.mshome.net:53530/OPCUA/SimulationServer",
+        "secpol": "None",
+        "secmode": "None",
+        "login": false,
+        "usercert": false,
+        "usercertificate": "d:/temp/DNA_client_selfSigned.pem",
+        "userprivatekey": "d:/temp/private_key.pem"
+    },
+    {
+        "id": "5cea49805a4c4207",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://localhost:53888",
+        "secpol": "None",
+        "secmode": "None",
+        "none": false,
+        "login": false,
+        "usercert": true,
+        "usercertificate": "C:/Users/karaimi/AppData/Roaming/node-red-opcua-nodejs/Config/UserPKI/UserCert_certificate.pem",
+        "userprivatekey": "C:/Users/karaimi/AppData/Roaming/node-red-opcua-nodejs/Config/UserPKI/own/private/private_key.pem"
+    },
+    {
+        "id": "6d2f9c903203812d",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://localhost:40501/UA/nodeset",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "392a0b7ffe74c5ce",
+        "type": "ui_group",
+        "name": "Distribution",
+        "tab": "7288ab89225d1c4c",
+        "order": 2,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "7288ab89225d1c4c",
+        "type": "ui_tab",
+        "name": "Controls and Information",
+        "icon": "dashboard",
+        "order": 10,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "fbd1b1266192944c",
+        "type": "ui_tab",
+        "name": "Master",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "9c8267adbbf9b5bd",
+        "type": "ui_group",
+        "name": "Indicadores Físicos",
+        "tab": "fbd1b1266192944c",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "58d23365a02a018e",
+        "type": "ui_group",
+        "name": "FeedBack Físicos",
+        "tab": "fbd1b1266192944c",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "76620d9bd4fd33de",
+        "type": "ui_group",
+        "name": "Saídas Físicas",
+        "tab": "fbd1b1266192944c",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "751d428a30ed7c76",
+        "type": "ui_group",
+        "name": "Tag report",
+        "tab": "6ade2bd49c2c759c",
+        "order": 2,
+        "disp": true,
+        "width": 16,
+        "collapse": false
+    },
+    {
+        "id": "6f62cba60dee3e33",
+        "type": "ui_group",
+        "name": "Tag ID",
+        "tab": "6ade2bd49c2c759c",
+        "order": 4,
+        "disp": true,
+        "width": 7,
+        "collapse": false
+    },
+    {
+        "id": "ca05d8cd35684050",
+        "type": "ui_group",
+        "name": "Comando de Inicialização",
+        "tab": "6ade2bd49c2c759c",
+        "order": 1,
+        "disp": true,
+        "width": 9,
+        "collapse": false
+    },
+    {
+        "id": "79601338f772ee95",
+        "type": "ui_group",
+        "name": "Status Escrita do Servidor",
+        "tab": "6ade2bd49c2c759c",
+        "order": 5,
+        "disp": true,
+        "width": 7,
+        "collapse": false
+    },
+    {
+        "id": "6ade2bd49c2c759c",
+        "type": "ui_tab",
+        "name": "RFID",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "28943f11e32d77aa",
+        "type": "ui_tab",
+        "name": "Controls and Information",
+        "icon": "dashboard",
+        "order": 10,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e8c8a0dc94637e29",
+        "type": "ui_group",
+        "name": "Testing",
+        "tab": "28943f11e32d77aa",
+        "order": 3,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "60ad85555e2ca764",
+        "type": "ui_group",
+        "name": "Distribution",
+        "tab": "28943f11e32d77aa",
+        "order": 4,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "76f2f1639826d18a",
+        "type": "ui_group",
+        "name": "Handling 2",
+        "tab": "28943f11e32d77aa",
+        "order": 5,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "6896955fd8ce888d",
+        "type": "ui_group",
+        "name": "Processing",
+        "tab": "28943f11e32d77aa",
+        "order": 6,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "3676c6f9aab4e161",
+        "type": "ui_group",
+        "name": "Handling 1",
+        "tab": "28943f11e32d77aa",
+        "order": 1,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "a9dc724060d6ae71",
+        "type": "ui_group",
+        "name": "Sorting",
+        "tab": "28943f11e32d77aa",
+        "order": 2,
+        "disp": true,
+        "width": "4",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "26c2f7b7e1c76ba2",
+        "type": "s7 in",
+        "z": "1e5ebb110790523d",
+        "endpoint": "2b61e0d36e46f648",
+        "mode": "all",
+        "variable": "",
+        "diff": false,
+        "name": "",
+        "x": 90,
+        "y": 280,
+        "wires": [
+            [
+                "9d79a115a1c6dd6b"
+            ]
+        ]
+    },
+    {
+        "id": "08733d3e756d35b6",
+        "type": "function",
+        "z": "1e5ebb110790523d",
+        "name": "Finds Variable",
+        "func": "var station = msg.station;\nvar variableClass = msg.variableClass;\nvar variable = msg.variable;\nvar topic = \"br=/Objects/AASROOT/\"+ station + \"/OperationalData/\" + variableClass + \"/\" + variable + \"/Value\";\nmsg = {\n    variable: msg.variable,\n    datatype: \"Boolean\",\n    topic: topic\n}\nreturn msg;\n\n// topic: \"br=/Objects/AASROOT/myStation1/Handling2/Feedback/Q_94_Claw_2_Cart/Value\"",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 480,
+        "wires": [
+            [
+                "40de31ae0d17e01c"
+            ]
+        ]
+    },
+    {
+        "id": "9d79a115a1c6dd6b",
+        "type": "trigger",
+        "z": "1e5ebb110790523d",
+        "name": "",
+        "op1": "",
+        "op2": "0",
+        "op1type": "pay",
+        "op2type": "str",
+        "duration": "0",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 150,
+        "y": 320,
+        "wires": [
+            [
+                "bcce54ac715b9c61"
+            ]
+        ]
+    },
+    {
+        "id": "bcce54ac715b9c61",
+        "type": "function",
+        "z": "1e5ebb110790523d",
+        "name": "Creates List",
+        "func": "// Obter o payload original\nlet payload = msg.payload;\n\n// Criar um novo objeto para armazenar as variáveis filtradas\nlet filteredPayload = {};\n\n// Filtrar apenas as variáveis que contém \"_80_\" no nome\nfor (let key in payload) {\n    if (key.match(/_8[0-9]_/)) {\n        filteredPayload[key] = payload[key];\n    }\n}\n\n// Definir o payload filtrado como a nova mensagem de saída\nmsg.payload = filteredPayload;\n\n// Retornar a mensagem\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 360,
+        "wires": [
+            [
+                "1df4bcaa9a0dc8b5"
+            ]
+        ]
+    },
+    {
+        "id": "40de31ae0d17e01c",
+        "type": "OpcUa-Client",
+        "z": "1e5ebb110790523d",
+        "endpoint": "bdc48601.ebf958",
+        "action": "read",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "name": "OPC Client",
+        "x": 330,
+        "y": 520,
+        "wires": [
+            [
+                "6887fd3334206384"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "cc71b49ae6b2d975",
+        "type": "OpcUa-Server",
+        "z": "1e5ebb110790523d",
+        "port": "53881",
+        "name": "OPC Server",
+        "endpoint": "UA/nodeset",
+        "users": "",
+        "nodesetDir": "C:\\ProjetoGemeo",
+        "autoAcceptUnknownCertificate": true,
+        "registerToDiscovery": false,
+        "constructDefaultAddressSpace": false,
+        "allowAnonymous": true,
+        "endpointNone": true,
+        "endpointSign": true,
+        "endpointSignEncrypt": true,
+        "endpointBasic128Rsa15": true,
+        "endpointBasic256": true,
+        "endpointBasic256Sha256": true,
+        "maxNodesPerBrowse": 0,
+        "maxNodesPerHistoryReadData": 0,
+        "maxNodesPerHistoryReadEvents": 0,
+        "maxNodesPerHistoryUpdateData": 0,
+        "maxNodesPerRead": 0,
+        "maxNodesPerWrite": 0,
+        "maxNodesPerMethodCall": 0,
+        "maxNodesPerRegisterNodes": 0,
+        "maxNodesPerNodeManagement": 0,
+        "maxMonitoredItemsPerCall": 0,
+        "maxNodesPerHistoryUpdateEvents": 0,
+        "maxNodesPerTranslateBrowsePathsToNodeIds": 0,
+        "maxConnectionsPerEndpoint": 20,
+        "maxMessageSize": 4096,
+        "maxBufferSize": 4096,
+        "maxSessions": 20,
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "d92a79125c5a69fd"
+            ]
+        ]
+    },
+    {
+        "id": "1df4bcaa9a0dc8b5",
+        "type": "delay",
+        "z": "1e5ebb110790523d",
+        "name": "6s delay",
+        "pauseType": "delay",
+        "timeout": "6",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 200,
+        "y": 400,
+        "wires": [
+            [
+                "2fa0fb80ea209372"
+            ]
+        ]
+    },
+    {
+        "id": "b0dbdb98b65b514e",
+        "type": "inject",
+        "z": "1e5ebb110790523d",
+        "name": "Start",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 220,
+        "wires": [
+            [
+                "d34dda7a1644aca4"
+            ]
+        ]
+    },
+    {
+        "id": "d34dda7a1644aca4",
+        "type": "function",
+        "z": "1e5ebb110790523d",
+        "name": "Header",
+        "func": "let csvHeader = \"Variable;Namespace;Identifier\\n\";  // Define o cabeçalho do CSV\nmsg.payload = csvHeader;  // Coloca o cabeçalho como a carga útil\nmsg.append = false;  // Sobrescreve o arquivo\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 220,
+        "wires": [
+            [
+                "5eadca38cb11eca1"
+            ]
+        ]
+    },
+    {
+        "id": "5eadca38cb11eca1",
+        "type": "file",
+        "z": "1e5ebb110790523d",
+        "name": "CSV File",
+        "filename": "C:\\ProjetoGemeo\\variable.csv",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "utf8",
+        "x": 380,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a864bc3fae95f8d6",
+        "type": "file",
+        "z": "1e5ebb110790523d",
+        "name": "CSV File",
+        "filename": "C:\\ProjetoGemeo\\variable.csv",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "utf8",
+        "x": 540,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6887fd3334206384",
+        "type": "function",
+        "z": "1e5ebb110790523d",
+        "name": "Return of query",
+        "func": "let csvLine = `${msg.variable};${msg.topic}\\n`;  // Cria uma nova linha com os valores\nmsg.payload = csvLine;  // Coloca a linha CSV como a carga útil\nmsg.append = true;  // Adiciona ao final do arquivo, sem sobrescrever\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 560,
+        "wires": [
+            [
+                "a864bc3fae95f8d6"
+            ]
+        ]
+    },
+    {
+        "id": "2fa0fb80ea209372",
+        "type": "function",
+        "z": "1e5ebb110790523d",
+        "name": "Creates Classes",
+        "func": "let variables = msg.payload;  // Assumindo que msg.payload é um array de variáveis\nvar station = \"Distribution_80\";\nvar variableClass = \"\";\n\nfor (let key in variables) {\n    if (variables.hasOwnProperty(key)) {\n        if (key.includes(\"I_\")) variableClass = \"Output\";\n        if (key.includes(\"O_\")) variableClass = \"Input\";\n        if (key.includes(\"F_\")) variableClass = \"Feedback\";\n        if (key.includes(\"C_\")) variableClass = \"Control\";\n        if (variableClass != \"\") node.send({ variable: key, variableClass: variableClass, station: station });  // Envia uma mensagem com a linha atual\n    }\n}\n\nreturn null;  // Finaliza o nó principal (não precisa enviar mais mensagens depois do loop)\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 440,
+        "wires": [
+            [
+                "08733d3e756d35b6"
+            ]
+        ]
+    },
+    {
+        "id": "1d8bbd285d2ad11a",
+        "type": "file in",
+        "z": "1e5ebb110790523d",
+        "name": "CSV File",
+        "filename": "C:\\ProjetoGemeo\\variable.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "utf8",
+        "allProps": false,
+        "x": 920,
+        "y": 260,
+        "wires": [
+            [
+                "8abfd5fad3253212"
+            ]
+        ]
+    },
+    {
+        "id": "8abfd5fad3253212",
+        "type": "function",
+        "z": "1e5ebb110790523d",
+        "name": "Variable => ns;i",
+        "func": "const csv = msg.payload;  // O conteúdo do CSV como string\nconst variable = msg.variable;  // A variável para buscar\n\nmsg.payload = {};\n\nconst lines = csv.trim().split('\\n');  // Divide o conteúdo em linhas e remove espaços extras\nconst header = lines.shift().split(';');  // Remove e divide o cabeçalho pelo delimitador ';'\n\nconst data = lines.map(line => {\n    const [Variable, Namespace, Identifier] = line.split(';').map(value => value.trim());\n    return { Variable, Namespace, Identifier };\n});\n\n// Debug: log the data and variable to check correctness\n// node.warn(`Data: ${JSON.stringify(data)}`);\n// node.warn(`Variable: ${variable}`);\n\nfunction getNamespaceIdentifier(variable) {\n    const row = data.find(r => r.Variable === variable);\n    if (row) {\n        return `${row.Namespace};${row.Identifier}`;\n    }\n    return null;\n}\n\nmsg.id = getNamespaceIdentifier(variable);\n\n// Debug: log the result\n// node.warn(`Identifier: ${msg.identifier}`);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 300,
+        "wires": [
+            [
+                "415cb390239f70a9"
+            ]
+        ]
+    },
+    {
+        "id": "8e2c0b76797875ca",
+        "type": "file in",
+        "z": "1e5ebb110790523d",
+        "name": "CSV File",
+        "filename": "C:\\ProjetoGemeo\\variable.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "utf8",
+        "allProps": false,
+        "x": 340,
+        "y": 940,
+        "wires": [
+            [
+                "e5fb923fcde70fe7"
+            ]
+        ]
+    },
+    {
+        "id": "e5fb923fcde70fe7",
+        "type": "function",
+        "z": "1e5ebb110790523d",
+        "name": "ns;i => Variable",
+        "func": "const csv = msg.payload;  // O conteúdo do CSV como string\nconst namespaceIdentifier = msg.identifier;  // O Namespace;Identifier para buscar\n\nconst lines = csv.trim().split('\\n');  // Divide o conteúdo em linhas e remove espaços extras\nconst header = lines.shift().split(';');  // Remove e divide o cabeçalho pelo delimitador ';'\n\nconst data = lines.map(line => {\n    const [Variable, Namespace, Identifier] = line.split(';').map(value => value.trim());\n    return { Variable, Namespace, Identifier };\n});\n\n// Debug: log the data and namespaceIdentifier to check correctness\n// node.warn(`Data: ${JSON.stringify(data)}`);\n// node.warn(`NamespaceIdentifier: ${namespaceIdentifier}`);\n\nfunction getVariable(namespaceIdentifier) {\n    const [namespace, identifier] = namespaceIdentifier.split(';').map(value => value.trim());\n    const row = data.find(r => r.Namespace === namespace && r.Identifier === identifier);\n    if (row) {\n        return row.Variable;\n    }\n    return null;\n}\n\nmsg.topic = getVariable(namespaceIdentifier);\nmsg.payload = msg.value;\n\n// Debug: log the result\n// node.warn(`Variable: ${msg.variable}`);\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 940,
+        "wires": [
+            [
+                "1e4e105185a94f21"
+            ]
+        ]
+    },
+    {
+        "id": "2e8978b5f5d7275d",
+        "type": "s7 in",
+        "z": "1e5ebb110790523d",
+        "endpoint": "2b61e0d36e46f648",
+        "mode": "all-split",
+        "variable": "",
+        "diff": true,
+        "name": "",
+        "x": 710,
+        "y": 100,
+        "wires": [
+            [
+                "0cee4c85ce726938",
+                "9e1281936d70e2d8"
+            ]
+        ]
+    },
+    {
+        "id": "0cee4c85ce726938",
+        "type": "function",
+        "z": "1e5ebb110790523d",
+        "name": "Filter for Distribution [80] ",
+        "func": "// Obter o payload original\nlet payload = msg.payload;\nlet topic = msg.topic;\n\nif (topic.match(/_8[0-9]_/)) return msg;\nelse return null;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 100,
+        "wires": [
+            [
+                "a2a144c7e65f07de"
+            ]
+        ]
+    },
+    {
+        "id": "415cb390239f70a9",
+        "type": "function",
+        "z": "1e5ebb110790523d",
+        "name": "Change Variable Value",
+        "func": "// Create a new payload object\nmsg.payload = msg.value;\nmsg.topic = msg.id;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 340,
+        "wires": [
+            [
+                "09dcc4d8b4e7f976",
+                "4d6076bf4bfe81a7"
+            ]
+        ]
+    },
+    {
+        "id": "09dcc4d8b4e7f976",
+        "type": "OpcUa-Client",
+        "z": "1e5ebb110790523d",
+        "endpoint": "bdc48601.ebf958",
+        "action": "write",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "name": "",
+        "x": 1260,
+        "y": 340,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a2a144c7e65f07de",
+        "type": "link out",
+        "z": "1e5ebb110790523d",
+        "name": "Dist_AAS_Read",
+        "mode": "link",
+        "links": [
+            "3cba4fe6c69a9316",
+            "76877e36284e3dcb",
+            "8abe3a3aa81060df"
+        ],
+        "x": 1085,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "9e1281936d70e2d8",
+        "type": "function",
+        "z": "1e5ebb110790523d",
+        "name": "Msg Adjustment",
+        "func": "let variable = msg.topic;\nlet value = msg.payload;\n\nmsg = {};\n\nmsg = {variable: variable, value: value, datatype: \"Boolean\"};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 220,
+        "wires": [
+            [
+                "1d8bbd285d2ad11a"
+            ]
+        ]
+    },
+    {
+        "id": "a0177aed3e6b4b63",
+        "type": "link in",
+        "z": "1e5ebb110790523d",
+        "name": "AAS_Write",
+        "links": [
+            "2002e01a35a0d223",
+            "294712f66a90352d"
+        ],
+        "x": 765,
+        "y": 220,
+        "wires": [
+            [
+                "9e1281936d70e2d8"
+            ]
+        ]
+    },
+    {
+        "id": "bf63672385e758df",
+        "type": "function",
+        "z": "1e5ebb110790523d",
+        "name": "Translate 1",
+        "func": "msg.identifier = msg.payload.variableName;\nmsg.value = msg.payload.variableValue;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 940,
+        "wires": [
+            [
+                "8e2c0b76797875ca"
+            ]
+        ]
+    },
+    {
+        "id": "d92a79125c5a69fd",
+        "type": "link out",
+        "z": "1e5ebb110790523d",
+        "name": "Server-Out",
+        "mode": "link",
+        "links": [
+            "4019d759e936c584"
+        ],
+        "x": 285,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "4019d759e936c584",
+        "type": "link in",
+        "z": "1e5ebb110790523d",
+        "name": "AAS_Translation_In",
+        "links": [
+            "d92a79125c5a69fd"
+        ],
+        "x": 85,
+        "y": 940,
+        "wires": [
+            [
+                "bf63672385e758df"
+            ]
+        ]
+    },
+    {
+        "id": "1e4e105185a94f21",
+        "type": "link out",
+        "z": "1e5ebb110790523d",
+        "name": "AAS_Translate_Out",
+        "mode": "link",
+        "links": [],
+        "x": 615,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "f758b773b30c21f9",
+        "type": "comment",
+        "z": "1e5ebb110790523d",
+        "name": "CSV File",
+        "info": "",
+        "x": 220,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "8d530e43d5aa2da7",
+        "type": "comment",
+        "z": "1e5ebb110790523d",
+        "name": "Reading PLC Variables",
+        "info": "",
+        "x": 880,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "4284285a6706ca73",
+        "type": "comment",
+        "z": "1e5ebb110790523d",
+        "name": "Writing on PLC variables",
+        "info": "",
+        "x": 930,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "99103b0f327a4ed1",
+        "type": "comment",
+        "z": "1e5ebb110790523d",
+        "name": "OPC-UA Variables Translation",
+        "info": "",
+        "x": 400,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "4ccccfde26c15438",
+        "type": "comment",
+        "z": "1e5ebb110790523d",
+        "name": "OPC-UA Server",
+        "info": "",
+        "x": 180,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "4d6076bf4bfe81a7",
+        "type": "debug",
+        "z": "1e5ebb110790523d",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "8af4c128df730ef0",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 1,
+        "group": "276ea77ae2469a38",
+        "width": 0,
+        "height": 0,
+        "label": "Magazine Full",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_80_Mag_Full",
+        "x": 360,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "7e9f26c9711e0821",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 2,
+        "group": "276ea77ae2469a38",
+        "width": 0,
+        "height": 0,
+        "label": "Piston Back",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_80_Pist_Back",
+        "x": 370,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "1ff50773f327ed91",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 4,
+        "group": "276ea77ae2469a38",
+        "width": 0,
+        "height": 0,
+        "label": "Part Stuck",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_80_Part_Stuck",
+        "x": 370,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "ebfbafab3a45ac7b",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 5,
+        "group": "276ea77ae2469a38",
+        "width": 0,
+        "height": 0,
+        "label": "Arm Magazine",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_80_Arm_Mag",
+        "x": 360,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "87ed84db86b7e144",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 6,
+        "group": "276ea77ae2469a38",
+        "width": 0,
+        "height": 0,
+        "label": "Arm Delivery",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_80_Arm_Del",
+        "x": 360,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "0dfb06e567c6b2b8",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 7,
+        "group": "276ea77ae2469a38",
+        "width": 0,
+        "height": 0,
+        "label": "Magazine Empty",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_80_Mag_Empty",
+        "x": 370,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "d4c1b2c5d3a5fb63",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 1,
+        "group": "9755ca8b2f7d867b",
+        "width": 0,
+        "height": 0,
+        "label": "Start",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_81_Start",
+        "x": 350,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "3e3d23b1b5f6d45e",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 2,
+        "group": "9755ca8b2f7d867b",
+        "width": 0,
+        "height": 0,
+        "label": "Stop",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_81_Stop",
+        "x": 350,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "84895779e46013bb",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 3,
+        "group": "9755ca8b2f7d867b",
+        "width": 0,
+        "height": 0,
+        "label": "Key Position",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_81_Key_Pos",
+        "x": 360,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "5f6a12b6f3e8e6b5",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 4,
+        "group": "9755ca8b2f7d867b",
+        "width": 0,
+        "height": 0,
+        "label": "Reset",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_81_Reset",
+        "x": 350,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "f83816c28486e55e",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 5,
+        "group": "9755ca8b2f7d867b",
+        "width": 0,
+        "height": 0,
+        "label": "Panel I4",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_81_Panel_I4",
+        "x": 360,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "0ac1117c21057acf",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 6,
+        "group": "9755ca8b2f7d867b",
+        "width": 0,
+        "height": 0,
+        "label": "Panel I5",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_81_Panel_I5",
+        "x": 360,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "10d72c4a5c229699",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 7,
+        "group": "9755ca8b2f7d867b",
+        "width": 0,
+        "height": 0,
+        "label": "Panel I6",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_81_Panel_I6",
+        "x": 360,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "7d0201f5feafd879",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 8,
+        "group": "9755ca8b2f7d867b",
+        "width": 0,
+        "height": 0,
+        "label": "Panel I7",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_81_Panel_I7",
+        "x": 360,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "c01b8fc2771e4135",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 3,
+        "group": "276ea77ae2469a38",
+        "width": 0,
+        "height": 0,
+        "label": "Piston Fwd",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "O_80_Pist_Fwd",
+        "x": 360,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "887fb562550d217b",
+        "type": "comment",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Input Signals",
+        "info": "",
+        "x": 350,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "04f70c0cbae88774",
+        "type": "switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "O_80_Mag_Full",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_80_Pist_Back",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_80_Pist_Fwd",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_80_Part_Stuck",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_80_Arm_Mag",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_80_Arm_Del",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_80_Mag_Empty",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_81_Start",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_81_Stop",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_81_Key_Pos",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_81_Reset",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_81_Panel_I4",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_81_Panel_I5",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_81_Panel_I6",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "O_81_Panel_I7",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 15,
+        "x": 150,
+        "y": 360,
+        "wires": [
+            [
+                "8af4c128df730ef0"
+            ],
+            [
+                "7e9f26c9711e0821"
+            ],
+            [
+                "c01b8fc2771e4135"
+            ],
+            [
+                "1ff50773f327ed91"
+            ],
+            [
+                "ebfbafab3a45ac7b"
+            ],
+            [
+                "87ed84db86b7e144"
+            ],
+            [
+                "0dfb06e567c6b2b8"
+            ],
+            [
+                "d4c1b2c5d3a5fb63"
+            ],
+            [
+                "3e3d23b1b5f6d45e"
+            ],
+            [
+                "84895779e46013bb"
+            ],
+            [
+                "5f6a12b6f3e8e6b5"
+            ],
+            [
+                "f83816c28486e55e"
+            ],
+            [
+                "0ac1117c21057acf"
+            ],
+            [
+                "10d72c4a5c229699"
+            ],
+            [
+                "7d0201f5feafd879"
+            ]
+        ]
+    },
+    {
+        "id": "8abe3a3aa81060df",
+        "type": "link in",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Dist_AAS_LED",
+        "links": [
+            "a2a144c7e65f07de"
+        ],
+        "x": 35,
+        "y": 360,
+        "wires": [
+            [
+                "04f70c0cbae88774"
+            ]
+        ]
+    },
+    {
+        "id": "d911ace441d962cc",
+        "type": "comment",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Feedback Signals",
+        "info": "",
+        "x": 850,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "82eb4b3e0e3b2985",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 1,
+        "group": "51236a1b7334e2a1",
+        "width": 0,
+        "height": 0,
+        "label": "Piston Adv",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_82_Pist_Adv",
+        "x": 840,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "1eab4f2f15b90237",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 3,
+        "group": "51236a1b7334e2a1",
+        "width": 0,
+        "height": 0,
+        "label": "Suction On",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_82_Suction_On",
+        "x": 850,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "b6bfcf6fc3361ebb",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 4,
+        "group": "51236a1b7334e2a1",
+        "width": 0,
+        "height": 0,
+        "label": "Suction Off",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_82_Suction_Off",
+        "x": 850,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "24218ee07500ad08",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 5,
+        "group": "51236a1b7334e2a1",
+        "width": 0,
+        "height": 0,
+        "label": "Arm to Delivery",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_82_Arm_2_Del",
+        "x": 850,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "8fde353e99cc2302",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 6,
+        "group": "51236a1b7334e2a1",
+        "width": 0,
+        "height": 0,
+        "label": "Arm to Magazine",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_82_Arm_2_Mag",
+        "x": 850,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "678460e239d3fd5c",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 1,
+        "group": "65087ea1b393b39f",
+        "width": 0,
+        "height": 0,
+        "label": "Led Start",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_83_Led_Start",
+        "x": 840,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "9a1ec5e0c1c93d6e",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 2,
+        "group": "65087ea1b393b39f",
+        "width": 0,
+        "height": 0,
+        "label": "Led Reset",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_83_Led_Reset",
+        "x": 850,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "3e3e4fc566d28014",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 3,
+        "group": "65087ea1b393b39f",
+        "width": 0,
+        "height": 0,
+        "label": "Led Extra 1",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_83_Led_Extra1",
+        "x": 850,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "6f915e8813a4f42c",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 4,
+        "group": "65087ea1b393b39f",
+        "width": 0,
+        "height": 0,
+        "label": "Led Extra 2",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_83_Led_Extra2",
+        "x": 850,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "1c50a7aa8d7481a6",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 5,
+        "group": "65087ea1b393b39f",
+        "width": 0,
+        "height": 0,
+        "label": "Panel O4",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_83_Panel_O4",
+        "x": 840,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "a3d4d70ddff28f28",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 6,
+        "group": "65087ea1b393b39f",
+        "width": 0,
+        "height": 0,
+        "label": "Panel O5",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_83_Panel_O5",
+        "x": 840,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "d564ccd6e54420d3",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 7,
+        "group": "65087ea1b393b39f",
+        "width": 0,
+        "height": 0,
+        "label": "Panel O6",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_83_Panel_O6",
+        "x": 840,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "87d40a80fee0222d",
+        "type": "ui_led",
+        "z": "8a210b1b2d6fb8e6",
+        "order": 8,
+        "group": "65087ea1b393b39f",
+        "width": 0,
+        "height": 0,
+        "label": "Panel O7",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "F_83_Panel_O7",
+        "x": 840,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "10998918563ad793",
+        "type": "switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "F_82_Pist_Adv",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_82_Suction_On",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_82_Suction_Off",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_82_Arm_2_Del",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_82_Arm_2_Mag",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_83_Led_Start",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_83_Led_Reset",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_83_Led_Extra1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_83_Led_Extra2",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_83_Panel_O4",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_83_Panel_O5",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_83_Panel_O6",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "F_83_Panel_O7",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 13,
+        "x": 630,
+        "y": 320,
+        "wires": [
+            [
+                "82eb4b3e0e3b2985"
+            ],
+            [
+                "1eab4f2f15b90237"
+            ],
+            [
+                "b6bfcf6fc3361ebb"
+            ],
+            [
+                "24218ee07500ad08"
+            ],
+            [
+                "8fde353e99cc2302"
+            ],
+            [
+                "678460e239d3fd5c"
+            ],
+            [
+                "9a1ec5e0c1c93d6e"
+            ],
+            [
+                "3e3e4fc566d28014"
+            ],
+            [
+                "6f915e8813a4f42c"
+            ],
+            [
+                "1c50a7aa8d7481a6"
+            ],
+            [
+                "a3d4d70ddff28f28"
+            ],
+            [
+                "d564ccd6e54420d3"
+            ],
+            [
+                "87d40a80fee0222d"
+            ]
+        ]
+    },
+    {
+        "id": "3cba4fe6c69a9316",
+        "type": "link in",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Dist_AAS_Read",
+        "links": [
+            "a2a144c7e65f07de"
+        ],
+        "x": 515,
+        "y": 320,
+        "wires": [
+            [
+                "10998918563ad793"
+            ]
+        ]
+    },
+    {
+        "id": "696d9cdd4023124d",
+        "type": "comment",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Output Commands",
+        "info": "",
+        "x": 170,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "80ed06e9977e3b91",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_80_Pist_Adv",
+        "label": "Piston Adv",
+        "tooltip": "",
+        "group": "7208759de347726c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_80_Pist_Adv",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 180,
+        "y": 740,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "cf4fdf85974a8408",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_80_Suction_On",
+        "label": "Suction On",
+        "tooltip": "",
+        "group": "7208759de347726c",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_80_Suction_On",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 170,
+        "y": 780,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "77f84178e9b09ee3",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_80_Suction_Off",
+        "label": "Suction Off",
+        "tooltip": "",
+        "group": "7208759de347726c",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_80_Suction_Off",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 170,
+        "y": 820,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "e25df38926f740f9",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_80_Arm_2_Del",
+        "label": "Arm to Delivery",
+        "tooltip": "",
+        "group": "7208759de347726c",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_80_Arm_2_Del",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 170,
+        "y": 860,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "540ab91b591727af",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_80_Arm_2_Mag",
+        "label": "Arm to Magazine",
+        "tooltip": "",
+        "group": "7208759de347726c",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_80_Arm_2_Mag",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 170,
+        "y": 900,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "8ad7824cb1760d7f",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_81_Led_Start",
+        "label": "Led Start",
+        "tooltip": "",
+        "group": "2d534c1b223b558f",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_81_Led_Start",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 180,
+        "y": 940,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "ad20209ed25fbfbc",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_81_Led_Reset",
+        "label": "Led Reset",
+        "tooltip": "",
+        "group": "2d534c1b223b558f",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_81_Led_Reset",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 180,
+        "y": 980,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "cfd5cc00ec6dac69",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_81_Led_Extra1",
+        "label": "Led Extra1",
+        "tooltip": "",
+        "group": "2d534c1b223b558f",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_81_Led_Extra1",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 170,
+        "y": 1020,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "47464b9ac331fd5a",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_81_Led_Extra2",
+        "label": "Led Extra2",
+        "tooltip": "",
+        "group": "2d534c1b223b558f",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_81_Led_Extra2",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 170,
+        "y": 1060,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "1ca6936d5ac3be48",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_81_Panel_O4",
+        "label": "Panel O4",
+        "tooltip": "",
+        "group": "2d534c1b223b558f",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_81_Panel_O4",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 180,
+        "y": 1100,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "bb646780977ebe99",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_81_Panel_O5",
+        "label": "Panel O5",
+        "tooltip": "",
+        "group": "2d534c1b223b558f",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_81_Panel_O5",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 180,
+        "y": 1140,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "f12b6c129207a70a",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_81_Panel_O6",
+        "label": "Panel O6",
+        "tooltip": "",
+        "group": "2d534c1b223b558f",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_81_Panel_O6",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 180,
+        "y": 1180,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "437b69b8b969fafe",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "I_81_Panel_O7",
+        "label": "Panel O7",
+        "tooltip": "",
+        "group": "2d534c1b223b558f",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "I_81_Panel_O7",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 180,
+        "y": 1220,
+        "wires": [
+            [
+                "294712f66a90352d"
+            ]
+        ]
+    },
+    {
+        "id": "294712f66a90352d",
+        "type": "link out",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Dist_AAS_Actuators",
+        "mode": "link",
+        "links": [
+            "088ebc25b29ac183",
+            "a0177aed3e6b4b63"
+        ],
+        "x": 345,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "a0db062ab7ea8087",
+        "type": "ui_dropdown",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Operating Mode",
+        "label": "Mode",
+        "tooltip": "Choose Operating Mode",
+        "place": "Mode",
+        "group": "60ad85555e2ca764",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Manual Mode",
+                "value": "C_85_Manual",
+                "type": "str"
+            },
+            {
+                "label": "Automatic Mode",
+                "value": "C_85_Automatic",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 140,
+        "y": 1380,
+        "wires": [
+            [
+                "e9a292b9cb07fd2f",
+                "18c51b32e182bdb3"
+            ]
+        ]
+    },
+    {
+        "id": "e9a292b9cb07fd2f",
+        "type": "function",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Função C_85_Manual",
+        "func": "if (msg.payload === \"C_85_Manual\") return { payload: true, topic: \"C_85_Manual\"};\nelse return { payload: false, topic: \"C_85_Manual\"};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1380,
+        "wires": [
+            [
+                "2002e01a35a0d223"
+            ]
+        ]
+    },
+    {
+        "id": "18c51b32e182bdb3",
+        "type": "function",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Função C_85_Automatic",
+        "func": "if (msg.payload === \"C_85_Automatic\") return { payload: true, topic: \"C_85_Automatic\"};\nelse return { payload: false, topic: \"C_85_Automatic\"};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1420,
+        "wires": [
+            [
+                "2002e01a35a0d223"
+            ]
+        ]
+    },
+    {
+        "id": "511f0fe41da79248",
+        "type": "inject",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "IC",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "30",
+        "topic": "",
+        "payload": "C_85_Manual",
+        "payloadType": "str",
+        "x": 110,
+        "y": 1420,
+        "wires": [
+            [
+                "a0db062ab7ea8087"
+            ]
+        ]
+    },
+    {
+        "id": "315e618206ce1be6",
+        "type": "comment",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Control Variables",
+        "info": "",
+        "x": 400,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "e9bbe141a8aa180b",
+        "type": "ui_switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "C_85_Start",
+        "label": "Start",
+        "tooltip": "Start Production",
+        "group": "60ad85555e2ca764",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "C_85_Start",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 410,
+        "y": 1340,
+        "wires": [
+            [
+                "2002e01a35a0d223"
+            ]
+        ]
+    },
+    {
+        "id": "2002e01a35a0d223",
+        "type": "link out",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Dist_AAS_Control",
+        "mode": "link",
+        "links": [
+            "a0177aed3e6b4b63",
+            "76877e36284e3dcb"
+        ],
+        "x": 555,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "088ebc25b29ac183",
+        "type": "link in",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Dist_AAS_PLC",
+        "links": [
+            "294712f66a90352d"
+        ],
+        "x": 435,
+        "y": 980,
+        "wires": [
+            [
+                "7e2ca4a4264db969"
+            ]
+        ]
+    },
+    {
+        "id": "7e2ca4a4264db969",
+        "type": "switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "I_80_Pist_Adv",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_80_Suction_On",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_80_Suction_Off",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_80_Arm_2_Del",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_80_Arm_2_Mag",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_81_Led_Start",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_81_Led_Reset",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_81_Led_Extra1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_81_Led_Extra2",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_81_Panel_O4",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_81_Panel_O5",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_81_Panel_O6",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "I_81_Panel_O7",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 13,
+        "x": 560,
+        "y": 980,
+        "wires": [
+            [
+                "6eaeb350186f692f"
+            ],
+            [
+                "e2a0fdfde51b7bdd"
+            ],
+            [
+                "362bf5c3058f0609"
+            ],
+            [
+                "15324d2201b49bcb"
+            ],
+            [
+                "bda44bdd8595be17"
+            ],
+            [
+                "e8d73d4ff4c62a34"
+            ],
+            [
+                "678e08a933829682"
+            ],
+            [
+                "9b936bf9d12951ce"
+            ],
+            [
+                "1bfa0ae52d3fa20f"
+            ],
+            [
+                "eb31dd2fb7fd2405"
+            ],
+            [
+                "d6b8a87821ceaf67"
+            ],
+            [
+                "26c0530c2a8df533"
+            ],
+            [
+                "370e3fafa12871fb"
+            ]
+        ]
+    },
+    {
+        "id": "c9ec6f817a693d69",
+        "type": "comment",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Output Signals",
+        "info": "",
+        "x": 780,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "6eaeb350186f692f",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_80_Pist_Adv",
+        "name": "I_80_Pist_Adv",
+        "x": 780,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "e2a0fdfde51b7bdd",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_80_Suction_On",
+        "name": "I_80_Suction_On",
+        "x": 790,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "362bf5c3058f0609",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_80_Suction_Off",
+        "name": "I_80_Suction_Off",
+        "x": 790,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "15324d2201b49bcb",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_80_Arm_2_Del",
+        "name": "I_80_Arm_2_Del",
+        "x": 790,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "bda44bdd8595be17",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_80_Arm_2_Mag",
+        "name": "I_80_Arm_2_Mag",
+        "x": 790,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "e8d73d4ff4c62a34",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_81_Led_Start",
+        "name": "I_81_Led_Start",
+        "x": 780,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "678e08a933829682",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_81_Led_Reset",
+        "name": "I_81_Led_Reset",
+        "x": 780,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "9b936bf9d12951ce",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_81_Led_Extra1",
+        "name": "I_81_Led_Extra1",
+        "x": 790,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "1bfa0ae52d3fa20f",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_81_Led_Extra2",
+        "name": "I_81_Led_Extra2",
+        "x": 790,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "eb31dd2fb7fd2405",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_81_Panel_O4",
+        "name": "I_81_Panel_O4",
+        "x": 780,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "d6b8a87821ceaf67",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_81_Panel_O5",
+        "name": "I_81_Panel_O5",
+        "x": 780,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "26c0530c2a8df533",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_81_Panel_O6",
+        "name": "I_81_Panel_O6",
+        "x": 780,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "370e3fafa12871fb",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "I_81_Panel_O7",
+        "name": "I_81_Panel_O7",
+        "x": 780,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "d6aa162ae13777a2",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "C_85_Manual",
+        "name": "C_85_Manual",
+        "x": 1000,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "f4542f8dc414d60b",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "C_85_Automatic",
+        "name": "C_85_Automatic",
+        "x": 1010,
+        "y": 1420,
+        "wires": []
+    },
+    {
+        "id": "b679296c35e3ac3a",
+        "type": "s7 out",
+        "z": "8a210b1b2d6fb8e6",
+        "endpoint": "2b61e0d36e46f648",
+        "variable": "C_85_Start",
+        "name": "C_85_Start",
+        "x": 990,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "f106b81fb7ee3f74",
+        "type": "switch",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "C_85_Start",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "C_85_Manual",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "C_85_Automatic",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 3,
+        "x": 810,
+        "y": 1380,
+        "wires": [
+            [
+                "b679296c35e3ac3a"
+            ],
+            [
+                "d6aa162ae13777a2"
+            ],
+            [
+                "f4542f8dc414d60b"
+            ]
+        ]
+    },
+    {
+        "id": "76877e36284e3dcb",
+        "type": "link in",
+        "z": "8a210b1b2d6fb8e6",
+        "name": "Dist_AAS_Read",
+        "links": [
+            "2002e01a35a0d223",
+            "a2a144c7e65f07de"
+        ],
+        "x": 705,
+        "y": 1380,
+        "wires": [
+            [
+                "f106b81fb7ee3f74"
+            ]
+        ]
+    }
+]
