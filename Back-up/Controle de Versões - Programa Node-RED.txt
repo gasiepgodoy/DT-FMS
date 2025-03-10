@@ -1,0 +1,80 @@
+Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
+
+v6.2.2 - 12/02/2025
+
+Pequenos acertos para versão 1.2 do AAS
+
+V6.2.1 - 04/02/2025
+
+Incluído leitura e criação do arquivo de conversão e da subscrição das variáveis a partir do Status das conexões dos clientes.
+O novo modo solucionou o problema de leitura da 1ª leitura pois força uma escrita quando existe a inscrição.
+
+V6.2 - 03/02/2025
+
+Atualização do arquivo s7endpoint_CLP Mestre para conter todas as variáveis da estação Testing [70]
+Criação da Aba Testing [70] e seus respectivos sinais
+
+V6.1.1 - 31/01/2025
+
+Criada programação para garantir a 1ª leitura das variáveis, com trigger e delay de 10 segundos.
+Testes de leitura e escrita. Ok.
+
+V6.1 - 30/01/2025
+
+Resolvido problema de leitura e escrita do AAS com tradução Variável para NameSpace e Identifier
+Refeita a programação para a estação Distribution [80] 
+
+V6.0.1 - 4/12/2024
+
+Inseridas as novas variáveis de controle no AAS
+Acertado o nome das classes para "Sensors" e "Actuators"
+Problema na criação da variável tipo Byte C_83_RQ_Parts
+
+V5.7.8 - 28/11/2024
+
+Criadas Variáveis de controle da estação Testing [70]
+
+V5.7.2 - 26/11/2024
+
+Invertidas das posições I90.1 e I90.2 devido à alteração física
+Criada variável (QB83) para número de peças requisitadas
+
+V5.7.1 - 14/11/2024
+
+Atualização da estação Distributing [80] para os novos modos de produção e acertado o nome das variáveis
+Incluído a possibilidade de entrega "contada" de peças.
+
+V6.0 - 24/09/2024 - AAS
+	
+	Implementação da 1ª versão do AAS, somente para a unidade Distribution [80]
+	P.S.: A versão 5.7 permanecerá rodando e sendo desenvolvida visto que o AAS ainda precisa ser terminado para poder ser implantado por completo.
+
+V5.7 - 19/09/2024
+
+Corrigido acionamento da variável I_20_Led_On
+Retirado os acionamentos individuias das estação via "Controls and Information"
+Adicionado o Botão via "Controls and Information" para a produção de uma peça.
+
+V5.6 - 08/08/2024
+
+Inclusão das variáveis de controle da estação Sorting [60]
+Implementação dos controles via Dasboard na aba "Controls and Information" para a estação Sorting [60] 
+
+V5.5 - 05/08/2024
+
+Atualização dos nomes das variáveis de On/Off para Start/Stop e do sinal 80_O_Mag_Empty.
+Atualização das descrições de todas as variáveispara inglês
+Adequação dos nomes das variáveis para o AAS (com letras iniciando)
+Acertado o NameSpace das estações para que as variáveis do RFID fiquem junto com as demais do Conveyor [30] (ns=12) e corrigido as demais estações.
+
+V5.4 - 31/07/2024
+Implementação dos controles via Dasboard na aba "Controls and Information" para a estação Distribution [80] - Start e Modo (Automatico ou Manual).
+Implementação dos controles via Dasboard na aba "Controls and Information" para a estação Handling 1 [90] - Start e Modo (Cart2Del e Del2Cart).
+Implementação dos controles via Dasboard na aba "Controls and Information" para a estação Processing [100] - Modo (Rotate, Test e Test+Drill).
+Atualizado arquivos config.csv e s7endpoint_CLP Mestre.csv
+
+
+V5.3 - 30/07/2024
+
+Implementação dos controles via Dasboard na aba "Controls and Information" para a estação [70] Testing.
+Atualizado arquivos config.csv e s7endpoint_CLP Mestre.csv
