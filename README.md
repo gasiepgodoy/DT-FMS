@@ -1,5 +1,5 @@
 # DT-FMS
-Repository of the project for the Digital Twin of Flexible Manufactring Systems.
+Repository of the project "Production Control of Legacy Flexible Manufacturing Systems using Asset Administration Shell and Digital Twin".
 This repository is organized as follows:
   The main branch contains files that are common to all projects. Folders in the main branch are of publications related to the project. 
   Codes are setup on Branches, to have individual contributions if necessary.
