@@ -1,5 +1,30 @@
 Controle de Versões e Atualizações do Siemens - Softwaresdas estações do FMS
 
+03/02/2025 - V3.0.4
+
+Incluídos OB82 e OB121 na estação Distribution [80]
+Inserido o sinal de C_75_Initialization e corrigido as Tags para a estação Testing [70]
+Adequação dos novos endereços do Profibus nas estações Testing [70] e Distribution [80]
+
+04/12/2024 - V3.0.3
+
+Programação estação Testing [70] : FB5 (Requested)
+Integração da função Requested com as programações da estação Distributing [80], tanto no FB4 (Single) como no FB6 (Counted). 
+Foi necessário substituir a programação de FB6 [80] devido à necessidade de não se ter peça no braço na última movimentação. Agora FB6 [80] está similar a FB4 [80]
+
+28/11/2024 - V3.0.2
+
+Programada estação Testing [70]: OB1 (Main), FB1 (Initialization), FB4 (Identified). Ainda faltando FB5 (Requested)
+
+26/11/2024 - V3.0.1
+
+Concluída Programação da estação distributing [80]: OB1 (Main), FB1 (Initialization), FB4 (Single), FB5 (Continuous) e FB6 (Counted Mode) com controle via Node-RED e OPC UA
+
+13/11/2024 - V3.0
+
+Início da reprogramação das estações, para funcionamento junto ao FMS e Softwares de supervisão
+Programada estação distributing [80]: OB1 (Main), FB1 (Initialization), FB4 (Single) e FB5 (Continuous). Ainda faltando FB6 (Counted Mode)
+
 01/10/2024 - V2.7
 
 Adicionado Remota Robot no CLP Mestre com o endereço Profibus 3. Variáries serão I30.0 a I32.7 e Q30.0 a Q30.7
