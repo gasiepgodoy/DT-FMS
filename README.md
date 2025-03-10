@@ -1,13 +1,15 @@
 # DT-FMS
-Repository of the project for the Digital Twin of Flexible Manufactring Systems
-
+Repository of the project for the Digital Twin of Flexible Manufactring Systems.
 This repository is organized as follows:
+  The main branch contains files that are common to all projects. Folders in the main branch are of publications related to the project. 
+  Codes are setup on Branches, to have individual contributions if necessary.
 
-The main branch contains files that are common to all projects. Folders in the main branch are of publications and results of the project.
+This repository contains several separete codes and informations regarding the project. There are four main codes: 
 
-Codes are setup on Branches, to have individual contributions if necessary. Below are listed the active branches and thir links.
+1. Node-RED - Responsible for the integration layer of the Legacy System and the technologies of Industry 4.0. There are 2 current version being used, one that uses AAS (V 6.1.2) and on that uses the old structure without AAS (V5.7.8) - (https://github.com/gasiepgodoy/DT-FMS/tree/Node-Red-Software)
 
+2. Siemens S7 - Responsible for the programming of the individual stations and the conveyor. It includes the PROFIBUS and AS-i necessary codes to integrate all signals at the "Master PLC" that is resposible for communication with Node-RED. Current Version is V3.0.4 - (https://github.com/gasiepgodoy/DT-FMS/tree/Siemens-S7-300-Software)
 
-Branch Node-Red contains all updates on the Node-RED and OPC-UA software (https://github.com/gasiepgodoy/DT-FMS/tree/Node-Red-Software)
+3. AAS - the Asset administration Shell files resposible for the standardization of information structure. It contains the main .aasx file being used. Curent Version is V1.2. (https://github.com/gasiepgodoy/DT-FMS/tree/Asset-Administration-Shell)
 
-Branch SIEMENS S7-300 contains all updates and software for all FMS stations. (https://github.com/gasiepgodoy/DT-FMS/tree/Siemens-S7-300-Software)
+4. State Transition Table Model - The digital model, made in State Transition Table, of the FMS stations. (https://github.com/gasiepgodoy/DT-FMS/tree/Digital-Model---State-Transtion-Table)
