@@ -1,5 +1,12 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
+V6.3 - 25/03/2025
+
+Divisão dos servidores para trabalhar com unidades de forma individual, resolvendo o problema de 10 subscrições por cliente.
+Serivodr 53887 - [70] Testing
+Servidor 53888 - [80] Distribution
+Servidor 53889 - [90] Handling 2
+
 v6.2.2 - 12/02/2025
 
 Pequenos acertos para versão 1.2 do AAS
