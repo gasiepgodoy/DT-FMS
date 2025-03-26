@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do Siemens - Softwaresdas estações do FMS
 
+26/03/2025 - V3.0.5
+
+Acertado valores das variáveis das estações Handling 2 [90] e Processing [100] para o AAS.
+
 03/02/2025 - V3.0.4
 
 Incluídos OB82 e OB121 na estação Distribution [80]
