@@ -1,5 +1,14 @@
 Controle de Versões e Atualizações do Siemens - Softwaresdas estações do FMS
 
+15/04/2025 - V3.0.7
+
+Programação básica da estação Handling 2 [90] para versão AAS Ok. Programados OB1, FB1, FB3, FB4 e FB5.
+
+31/03/2025 - V3.0.6
+
+Resolvido problema de conexão estação [100] Processing. 
+Foi necessário apagar e recolocar o Hardware, reconfigurando a rede PROFIBUS e os compartilhamentos.
+
 26/03/2025 - V3.0.5
 
 Acertado valores das variáveis das estações Handling 2 [90] e Processing [100] para o AAS.
