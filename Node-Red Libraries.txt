@@ -1,6 +1,7 @@
 Extensões Necessárias para o Node-RED
+Instalar via Prompt de Comando
 
-opc-ua: npm install node-red-contrib-opcua
-S7: npm install node-red-contrib-s7
-dasboard: npm install @flowfuse/node-red-dashboard
-led: npm install node-red-contrib-ui-led
+opc-ua: 	npm install -g node-red-contrib-opcua@0.2.331
+S7: 		npm install -g node-red-contrib-s7@3.1.0
+dasboard: 	npm install -g @flowfuse/node-red-dashboard@1.22.1
+led: 		npm install -g node-red-contrib-ui-led@0.4.11
