@@ -1,5 +1,17 @@
 Controle de Versões e Atualizações do Node-RED - arquivo de criação das variáveis
 
+V6.6 - 25/04/2025
+
+Acertado as variáveis da estação [60] e Master [20] Sorting para o AAS
+
+V6.5 - 24/04/2025
+
+Acertado as variáveis da estação [50] Handling1 para o AAS
+
+V6.4 - 27/03/2025
+
+Acertado as variáveis da estação [100] Processing para o AAS
+
 V6.3 - 25/03/2025
 
 Acertado as variáveis da estação [90] Handling 2, [80] Distribution e [70] Testing para o AAS

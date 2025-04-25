@@ -1,5 +1,21 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
+V6.6 - 25/04/2025
+
+Inclusão da estação Sorting [60] e Master [20]
+Serivodr 53892 - [20] Master
+Serivodr 53896 - [60] Sorting
+
+V6.5 - 24/04/2025
+
+Inclusão da estação Handling 1 [50]
+Serivodr 53895 - [50] Handling 1
+
+V6.4 - 27/03/2025
+
+Inclusão da estação Processing [100]
+Serivodr 53890 - [100] Processing
+
 V6.3 - 25/03/2025
 
 Divisão dos servidores para trabalhar com unidades de forma individual, resolvendo o problema de 10 subscrições por cliente.
