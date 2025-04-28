@@ -1,5 +1,14 @@
 Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
 
+V2.1 - 28/04/2025
+
+Incluído as variáveis de simulação (SimulatedData) para todas as estações.
+
+V2.0 - 14/03/2025
+
+Dividido os Assets por estação devido à limitação do Node-RED de 100 subscriptions.
+Cada estação agora terá a sua própria versão do arquivo, todos partindo da V2.0 em conjunto.
+
 V1.2 - 12/02/2025
 
 Incluído submodelos para o FMS (Documentation)
