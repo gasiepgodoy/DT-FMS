@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do Node-RED - arquivo de criação das variáveis
 
+V5.8 - 29/04/2025
+
+Acertado as variáveis que foram atualizadas para o AAS para a versão sem o AAS, deixando assim somente a V6.6 para o s7endpoint
+
 V6.6 - 25/04/2025
 
 Acertado as variáveis da estação [60] e Master [20] Sorting para o AAS

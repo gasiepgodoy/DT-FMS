@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
+V5.8 - 29/04/2025
+
+Atualização da versão anterior para as novas variáveis conforme a V6.6, inlcuindo principalmente a mudança do endereço PROFIBUS da Esteira para [20]
+
 V6.6 - 25/04/2025
 
 Inclusão da estação Sorting [60] e Master [20]
