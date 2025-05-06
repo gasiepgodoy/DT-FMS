@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
+V5.9 - 2025-05-05
+
+Criação de conexão única para a leitura de variáveis no CLP e funções para cada variável nos blocos individuais.
+
 V6.7 - 2025-05-02
 
 Criação de conexão única para a leitura de variáveis no CLP e funções para cada variável nos blocos individuais.
