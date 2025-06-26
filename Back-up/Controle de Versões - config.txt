@@ -1,50 +1,48 @@
 Controle de Versões e Atualizações do Node-RED - arquivo de criação das variáveis
 
-V5.8 - 29/04/2025
+V5.12 - 18/06/2025
+Corrigida o nome das TAGs das variáveis dos AS-i
 
+v5.11 - 10/06/2025
+Incluído as variáveis dos atuadores e feedback da Remota do Robot [30], pareando com a V6.6.2 do S7endpoint
+
+V5.10 - 05/06/2025
+Incluído as variáveis dos sensores do Remota do Robot [30], pareando com a V6.6.1 do s7endpoint
+
+V5.8 - 29/04/2025
 Acertado as variáveis que foram atualizadas para o AAS para a versão sem o AAS, deixando assim somente a V6.6 para o s7endpoint
 
 V6.6 - 25/04/2025
-
 Acertado as variáveis da estação [60] e Master [20] Sorting para o AAS
 
 V6.5 - 24/04/2025
-
 Acertado as variáveis da estação [50] Handling1 para o AAS
 
 V6.4 - 27/03/2025
-
 Acertado as variáveis da estação [100] Processing para o AAS
 
 V6.3 - 25/03/2025
-
 Acertado as variáveis da estação [90] Handling 2, [80] Distribution e [70] Testing para o AAS
 Corrigido posição das variáveis I90.1 a I90.3 após mudança física
 
 V5.7.3 - 28/11/2024
-
 Criadas Variáveis de controle da estação Testing [70]
 
 V5.7.2 - 26/11/2024
-
 Invertidas das posições I90.1 e I90.2 devido à alteração física
 Criada variável (QB83) para número de peças requisitadas
 
 V5.7.1 - 14/11/2024
-
 Acertadas as variáveis de controle para a estação Distribution [80]
 
 V5.7 - 14/08/2024
-
 Inclusão das variáveis de simulação da estação Master [20]
 Criação das variáveis de controle para o Master [20] - Produção início ao fim.
 
 V5.6 - 08/08/2024
-
 Inclusão das variáveis de controle da estação Sorting [60]
 
 V5.5 - 05/08/2024
-
 Atualização dos nomes das variáveis de On/Off para Start/Stop e do sinal O_80_Mag_Empty.
 Atualização das descrições de todas as variáveispara inglês
 Implementação das variáveis de simulação para as estações Conveyor [30], Handling 1 [50] e Sorting [60]
@@ -52,18 +50,14 @@ Adequação dos nomes das variáveis para o AAS (com letras iniciando)
 Acertado o NameSpace para que as variáveis do RFID fiquem junto com as demais do Conveyor [30] (ns=12) e corrigido as demais estações.
 
 V5.4 - 31/07/2024
-
 Implementação de variáveis de controle para a estação Handling 2 [90] para o sentido de movimento do braço além de botão de Start
 Implementação de variáveis de controle para a estação Processing [100] para o modo de produção
 Implementação das variáveis de simulação para a estação Handling 2 [90] e Processing [100]
 
-
 V5.3 - 30/07/2024
-
 Implementação de variáveis de controle para a estação Testing [70] para o modo de funcionamento (Identified e Requested)
 Implementação de variáveis de controle para a estação Distribution [80] para o modo de funcionamento (Manual e Automatic) além de botão de Start
 Implementação das variáveis de simulação para a estação Testing [70] e Distribution [80]
 
 17/07/2024
-
 Correção de problemas na estação Handling [90] que estava criando os sinais dos sensores (outputs) pois estavam duplicados com os Inputs.

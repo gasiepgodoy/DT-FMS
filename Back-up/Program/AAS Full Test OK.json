@@ -1,0 +1,56 @@
+[
+    {
+        "id": "6927188d382ad7e2",
+        "type": "ui_switch",
+        "z": "36562aaf891b17c1",
+        "name": "C_85_Start",
+        "label": "Start",
+        "tooltip": "Start Production",
+        "group": "a43875c58a650d04",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "C_85_Start",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 110,
+        "y": 700,
+        "wires": [
+            [
+                "292f95dad5f956f6"
+            ]
+        ]
+    },
+    {
+        "id": "a43875c58a650d04",
+        "type": "ui_group",
+        "name": "Distribution [80]",
+        "tab": "e461993fb78eebad",
+        "order": 1,
+        "disp": true,
+        "width": "4",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e461993fb78eebad",
+        "type": "ui_tab",
+        "name": "Controls and Information",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
