@@ -1,56 +1,52 @@
 Controle de Versões e Atualizações do Siemens - Softwaresdas estações do FMS
 
-15/04/2025 - V3.0.7
+10/06/2025 - V3.0.9
+Programação dos Sensores e Atuadores para a Remota do Braço Robótico [30] em FB3
 
+25/04/2025 - V3.0.8
+Programação das estação Master [20] para que os sesnores do AS-i estivessem corretamente dentro da estação (e não separados) devido ao AAS.
+Correção de TAGs diversas de variáveis
+
+15/04/2025 - V3.0.7
 Programação básica da estação Handling 2 [90] para versão AAS Ok. Programados OB1, FB1, FB3, FB4 e FB5.
 
 31/03/2025 - V3.0.6
-
 Resolvido problema de conexão estação [100] Processing. 
 Foi necessário apagar e recolocar o Hardware, reconfigurando a rede PROFIBUS e os compartilhamentos.
 
 26/03/2025 - V3.0.5
-
 Acertado valores das variáveis das estações Handling 2 [90] e Processing [100] para o AAS.
 
 03/02/2025 - V3.0.4
-
 Incluídos OB82 e OB121 na estação Distribution [80]
 Inserido o sinal de C_75_Initialization e corrigido as Tags para a estação Testing [70]
 Adequação dos novos endereços do Profibus nas estações Testing [70] e Distribution [80]
 
 04/12/2024 - V3.0.3
-
 Programação estação Testing [70] : FB5 (Requested)
 Integração da função Requested com as programações da estação Distributing [80], tanto no FB4 (Single) como no FB6 (Counted). 
 Foi necessário substituir a programação de FB6 [80] devido à necessidade de não se ter peça no braço na última movimentação. Agora FB6 [80] está similar a FB4 [80]
 
 28/11/2024 - V3.0.2
-
 Programada estação Testing [70]: OB1 (Main), FB1 (Initialization), FB4 (Identified). Ainda faltando FB5 (Requested)
 
 26/11/2024 - V3.0.1
-
 Concluída Programação da estação distributing [80]: OB1 (Main), FB1 (Initialization), FB4 (Single), FB5 (Continuous) e FB6 (Counted Mode) com controle via Node-RED e OPC UA
 
 13/11/2024 - V3.0
-
 Início da reprogramação das estações, para funcionamento junto ao FMS e Softwares de supervisão
 Programada estação distributing [80]: OB1 (Main), FB1 (Initialization), FB4 (Single) e FB5 (Continuous). Ainda faltando FB6 (Counted Mode)
 
 01/10/2024 - V2.7
-
 Adicionado Remota Robot no CLP Mestre com o endereço Profibus 3. Variáries serão I30.0 a I32.7 e Q30.0 a Q30.7
 Adicionado OB121 e OB82 para resolver problema de inicialização.
 Implementação de posição de Manutenção (Key-Pos I125.2 = 0) e posição de produção (Key_Pos I125.2 = 1) para todas as estações.
 
 20/08/2024 - V2.6
-
 Programação da estação Sorting [60] com os seis modos de produção
 Acerto da programação do Bloco FB11 (Produção de uma peça início ao fim) e dos blocos dos CLP´s que estavam em conflito
 
 02/08/2024 - V2.5
-
 Alteração e padronização da nomenclatura das variávies do OPC para atender as necessidades do AAS
 
 31/07/2024 - V2.4
@@ -102,7 +98,3 @@ FB5 - Automatic Delivery (Continuous)
 [90] HANDLING 2
 FB4 - Cart 2 Delivery
 FB5 - Delivery 2 Cart
-
-
-
-
