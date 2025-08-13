@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<UANodeSet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LastModified="2025-08-12T20:06:46.4368147Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+<UANodeSet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LastModified="2025-08-13T20:18:24.2496446Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
   <NamespaceUris>
     <Uri>http://opcfoundation.org/UA/i4aas/</Uri>
     <Uri>http://admin-shell.io/samples/i4aas/instance/</Uri>
@@ -1124,8 +1124,8 @@
       <Reference ReferenceType="i=47" IsForward="false">i=85</Reference>
     </References>
   </UAObject>
-  <UAObject NodeId="ns=2;i=97" BrowseName="Auxiliary_Systems" ParentNodeId="ns=2;i=93">
-    <DisplayName>AssetAdministrationShell:Auxiliary_Systems</DisplayName>
+  <UAObject NodeId="ns=2;i=97" BrowseName="Robot_Station" ParentNodeId="ns=2;i=93">
+    <DisplayName>AssetAdministrationShell:Robot_Station</DisplayName>
     <Description Locale="en">Auxiliary Systems installed at the FMS</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=99</Reference>
@@ -3712,8 +3712,8 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=334" BrowseName="F_30_Led_Start" ParentNodeId="ns=2;i=328">
-    <DisplayName>F_30_Led_Start</DisplayName>
+  <UAObject NodeId="ns=2;i=334" BrowseName="F_33_Led_Start" ParentNodeId="ns=2;i=328">
+    <DisplayName>F_33_Led_Start</DisplayName>
     <Description Locale="en">Start LED</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=336</Reference>
@@ -3820,8 +3820,8 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=344" BrowseName="F_30_Led_Reset" ParentNodeId="ns=2;i=328">
-    <DisplayName>F_30_Led_Reset</DisplayName>
+  <UAObject NodeId="ns=2;i=344" BrowseName="F_33_Led_Reset" ParentNodeId="ns=2;i=328">
+    <DisplayName>F_33_Led_Reset</DisplayName>
     <Description Locale="en">Reset LED</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=346</Reference>
@@ -3928,8 +3928,8 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=354" BrowseName="F_30_Led_Extra1" ParentNodeId="ns=2;i=328">
-    <DisplayName>F_30_Led_Extra1</DisplayName>
+  <UAObject NodeId="ns=2;i=354" BrowseName="F_33_Led_Extra1" ParentNodeId="ns=2;i=328">
+    <DisplayName>F_33_Led_Extra1</DisplayName>
     <Description Locale="en">LED Extra1</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=356</Reference>
@@ -4036,8 +4036,8 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=364" BrowseName="F_30_Led_Extra2" ParentNodeId="ns=2;i=328">
-    <DisplayName>F_30_Led_Extra2</DisplayName>
+  <UAObject NodeId="ns=2;i=364" BrowseName="F_33_Led_Extra2" ParentNodeId="ns=2;i=328">
+    <DisplayName>F_33_Led_Extra2</DisplayName>
     <Description Locale="en">LED Extra2</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=366</Reference>
@@ -4144,8 +4144,8 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=374" BrowseName="F_30_Spring_Cyl" ParentNodeId="ns=2;i=328">
-    <DisplayName>F_30_Spring_Cyl</DisplayName>
+  <UAObject NodeId="ns=2;i=374" BrowseName="F_33_Spring_Cyl" ParentNodeId="ns=2;i=328">
+    <DisplayName>F_33_Spring_Cyl</DisplayName>
     <Description Locale="en">Spring Cylinder</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=376</Reference>
@@ -4252,8 +4252,8 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=384" BrowseName="F_30_Cover_Cyl" ParentNodeId="ns=2;i=328">
-    <DisplayName>F_30_Cover_Cyl</DisplayName>
+  <UAObject NodeId="ns=2;i=384" BrowseName="F_33_Cover_Cyl" ParentNodeId="ns=2;i=328">
+    <DisplayName>F_33_Cover_Cyl</DisplayName>
     <Description Locale="en">Cover Cylinder</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=386</Reference>

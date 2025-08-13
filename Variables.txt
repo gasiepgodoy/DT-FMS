@@ -83,7 +83,7 @@ Variables - Robot [30]
 	"A_34_Release_FB" : false,
 	"C_30_Robot1" : false,
 	"C_30_Robot2" : false,
-	"F_33_LED_Start" : false,
+	"F_33_Led_Start" : false,
 	"F_33_Led_Reset" : false,
 	"F_33_Led_Extra1" : false,
 	"F_33_Led_Extra2" : false,
@@ -100,7 +100,7 @@ Variables - Robot [30]
 	"O_32_Co_Cyl_Fwd" : true,
 	"O_32_Sp_PickUp" : false,
 	"O_32_Co_PickUp" : false,
-	"O_32_Co_Mag_Empty" : false,
+	"O_32_CoMag_Empty" : false,
 
 Variables - RFID [30]
 
@@ -154,7 +154,7 @@ Variables - Handling1 [50]
     "C_55_PD_Cart" : false,
     "C_52_Profibus" : false,
     "C_55_Start" : false,
-    "C_55_Cart2Del" : false,
+    "C_55_Cart2Del" : true,
     "C_55_Del2Cart" : false,
     "F_52_Claw_2_Del" : false,
     "F_52_Claw_2_Cart" : false,

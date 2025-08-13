@@ -76,7 +76,7 @@ Variables - Robot [30]
 	"SS_32_Co_Cyl_Fwd" : true,
 	"SS_32_Sp_PickUp" : false,
 	"SS_32_Co_PickUp" : false,
-	"SS_32_Co_Mag_Empty" : false,
+	"SS_32_CoMag_Empty" : false,
 
 Variables - RFID [30]
 
@@ -121,7 +121,7 @@ Variables - Handling1 [50]
     "SC_55_PD_Cart" : false,
     "SC_52_Profibus" : true,
     "SC_55_Start" : false,
-    "SC_55_Cart2Del" : false,
+    "SC_55_Cart2Del" : true,
     "SC_55_Del2Cart" : false,
     "SS_50_Part_Reserve" : false,
     "SS_50_Claw_Cart" : true,
