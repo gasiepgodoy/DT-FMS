@@ -1,5 +1,23 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
+V6.12 - 05/08/2025
+Incluído tradutor para criar tabela das variáveis de simulação
+Acertado variáveis de configuração do RFID
+
+V6.11 - 23/07/2025
+Incluído as abas para RFID (tanto de configuração como de roteamento)
+Alterado o endereço dos servidores OPC para que todos tenham o endereço 53880 devido à necessidade da rede interna da UNESP
+Pequenas correções nos fluxos de erros de links
+
+V6.10 - 07/07/2025
+Incluído usuário e senha para todos os servidores OPC UA 
+Adicionado estação Robot para os arquivos Variables.csv e users.json
+
+V6.9 - 26/06/2025
+Implementado servidor MQTT direto na versão com AAS
+Trazido o flow do RFID para a versão do AAS para implementação e ajustes futuros
+Obs.: A partir deste ponto a versão sem o AAS (V5.12) não será mais atualizada.
+
 V5.12 - 2025-06-17
 Implementado servidor MQTT para distribuição das variáveis do CLP, permitindo uma única conexão ao CLP.
 Corrigido parcialmente (somente variáveis do Master [20]) problema de acionamento via MQTT sem usar as saídas nas abas.
