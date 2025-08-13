@@ -7,6 +7,6 @@ Instructions for intallation:
    
 2. Configuration of the PLC I/O is listed on the file "s7endpoint_CLP Mestre.csv". The file contains all variables and logical PROFIBUS addresses that match the S7 Programming. For every update on the code a new version of this file may exist, in the case of addition of variables. In that case, delete all the entries on the PLC I/O Configuration and Import the new file;
 
-3. Choose the version you want to use: V5.12 is without AAS (no longer under development) or V6.9 is with ASS (still under development)
+3. Choose the version you want to use: V5.12 is without AAS (no longer under development) or V6.12 is with ASS (still under development)
 
 4. For AAS Version, make sure to create the necessary folders at C:\ProjetoGemeo\AAS\"Station Name" to put the nodeset flies or the system won´t load them correctly.
