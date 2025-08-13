@@ -1,23 +1,28 @@
 Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
 
-V2.1 - 28/04/2025
+V2.2 - 12/08/2025
+Acertado ordem das variáveis para ficarem compatíveis com o MatLab (Actuators, AS-I, Control, Feedback e Sensors)
+Acertado ordem das variáveis simuladas para ficarem compatíveis com o MatLab (Actuators, Control e Sensors)
+Acertado os valores iniciais das variáveis dentro do AAS 
 
+V2.1.1 - 26/06/2025
+
+Corrigido nome do SMC "AS-i" para "ASi" para evitar erro de nomenclatura
+Tornado todos os SMC em "VARIABLE" ao invés de "PARAMETER" para verificar erro do servidor OPC UA
+
+V2.1 - 28/04/2025
 Incluído as variáveis de simulação (SimulatedData) para todas as estações.
 
 V2.0 - 14/03/2025
-
 Dividido os Assets por estação devido à limitação do Node-RED de 100 subscriptions.
 Cada estação agora terá a sua própria versão do arquivo, todos partindo da V2.0 em conjunto.
 
 V1.2 - 12/02/2025
-
 Incluído submodelos para o FMS (Documentation)
 Incluído submodelos para o Distribution (Identification, TechincalData, Documentation e SimulationData)
 
 V1.1 - 03/02/2025
-
 Incluído as variávies de Operational Data para a estação Testing [70]
 
 V1.0 - 30/01/2025
-
 Incluído as variáveis de Operational Data para a estação Distribution [80]
