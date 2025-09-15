@@ -1,5 +1,15 @@
 Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
 
+V2.3 - 12/09/2025
+Acertado os arquivos para a versão 3.2 do SIEMENS e variávies de controle
+Acertado os arquivos para a versão 7.0 do Variables Endpoint.
+Acertado os arquivos para a versão 7.0 do Node-RED
+Criada a estação Storage [40] devido ao roteamento de carrinhos.
+Adicionadas variáveis de Rotemando reais e simuladas nas estações necessárias [30, 40, 50, 70 e 90].
+
+V2.2.1 - 26/08/2025
+Acertado os programas das estações para estarem de acordo com a versão 3.1 do SIEMENS
+
 V2.2 - 12/08/2025
 Acertado ordem das variáveis para ficarem compatíveis com o MatLab (Actuators, AS-I, Control, Feedback e Sensors)
 Acertado ordem das variáveis simuladas para ficarem compatíveis com o MatLab (Actuators, Control e Sensors)
