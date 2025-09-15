@@ -1,5 +1,11 @@
 Controle de Versões e Atualizações do Node-RED - arquivo de criação das variáveis
 
+V7.0 - 12/09/2028
+Ajuste para as novas variáveis da Storage [40] e demais mudanças feitas na V3.2 do SIEMENS e na versão 2.3 do AAS
+
+V6.12 - 13/08/2025
+Corrigidas variáveis da estação Robot [30]
+
 V5.12 - 18/06/2025
 Corrigida o nome das TAGs das variáveis dos AS-i
 

@@ -1,8 +1,16 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
-V6.12 - 05/08/2025
+V7.0 - 12/09/2025
+Refeita a escrita das variáveis para direta ao servidor. Removido o "subscribe" das variáveis pois as mensagem são replicadas pelo servidor.
+Com a retirada do subscribe as modificações diretas na memória do OPC UA via outros clientes não acarretaão mais mudanças no sistema físico.
+Introduzido o sistema de roteamento de carrinhos com rotas customizadas com arquivo CSV e suas variáveis
+Ajuste das variáveis reais e de simulação para a versão 3.2 do SIEMENS e 2.3 do AAS
+Incluído o servidor para a estação Storage [40] que rodará inicalmente dentro do servidor da Robot [30]
+
+V6.12 - 13/08/2025
 Incluído tradutor para criar tabela das variáveis de simulação
 Acertado variáveis de configuração do RFID
+Acertado sequência de criação das tabelas de tradução para variáveis normais e simuladas
 
 V6.11 - 23/07/2025
 Incluído as abas para RFID (tanto de configuração como de roteamento)
