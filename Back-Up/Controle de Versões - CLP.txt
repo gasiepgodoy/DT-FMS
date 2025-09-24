@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do Siemens - Softwaresdas estações do FMS
 
+V3.2.1 - 24/09/2025
+Correção da programação do bloco FB5 da Testing [70]
+Implementação de inicialização das variáveis de controle (o que fazer em cada ponto de parada) para todos as estações
+
 V3.2 - 12/09/2025
 Criação de programação básica para a estação [Storage [40] devido ao roteamento dos carinhos.
 Criação das variáveis de controle para o roteamento dos carrinhos.
