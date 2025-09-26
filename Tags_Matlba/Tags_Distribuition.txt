@@ -1,0 +1,41 @@
+=================Controls===============================
+C_85_Initialization = Control_80(1);
+C_85_Part_Del = Control_80(2);
+C_82_Profibus = Control_80(3);
+C_83_RQ_Parts = Control_80(4);
+C_85_Start = Control_80(5);
+C_85_Single = Control_80(6);
+C_85_Continuous = Control_80(7);
+C_85_Counted = Control_80(8);
+
+=================Feedback===============================
+F_82_Pist_Adv = Actuators_80(1);
+F_82_Suction_On = Actuators_80(2);
+F_82_Suction_Off = Actuators_80(3);
+F_82_Arm_2_Del = Actuators_80(4);
+F_82_Arm_2_Mag = Actuators_80(5);
+F_83_Led_Start = Actuators_80(6);
+F_83_Led_Reset = Actuators_80(7);
+F_83_Led_Extra1 = Actuators_80(8);
+F_83_Led_Extra2 = Actuators_80(9);
+F_83_Panel_O4 = Actuators_80(10);
+F_83_Panel_O5 = Actuators_80(11);
+F_83_Panel_O6 = Actuators_80(12);
+F_83_Panel_O7 = Actuators_80(13);
+
+==================Sensors===============================
+O_80_Mag_Full = Sensors_80(1);
+O_80_Pist_Back = Sensors_80(2);
+O_80_Pist_Fwd = Sensors_80(3);
+O_80_Part_Stuck = Sensors_80(4);
+O_80_Arm_Mag = Sensors_80(5);
+O_80_Arm_Del = Sensors_80(6);
+O_80_Mag_Empty = Sensors_80(7);
+O_81_Start = Sensors_80(8);
+O_81_Stop = Sensors_80(9);
+O_81_Key_Pos = Sensors_80(10);
+O_81_Reset = Sensors_80(11);
+O_81_Panel_I4 = Sensors_80(12);
+O_81_Panel_I5 = Sensors_80(13);
+O_81_Panel_I6 = Sensors_80(14);
+O_81_Panel_I7 = Sensors_80(15);

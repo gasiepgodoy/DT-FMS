@@ -1,0 +1,60 @@
+=================AS_i_70===============================
+A_74_Request = AS_i_70(1);
+A_74_No_Cart = AS_i_70(2);
+A_74_Cart_Full = AS_i_70(3);
+A_74_CRoute_Out = AS_i_70(4);
+A_74_CRoute_In80 = AS_i_70(5);
+A_73_TestCartID = AS_i_70(6);
+A_74_Cart_Stat = AS_i_70(7);
+A_74_Cart_Next = AS_i_70(8);
+A_74_Optic = AS_i_70(9);
+A_74_Count = AS_i_70(10);
+A_74_Pist_Bck = AS_i_70(11);
+A_74_Release_FB = AS_i_70(12);
+A_74_CRoute_In = AS_i_70(13);
+
+=================Control_70===============================
+C_75_Initialization = Control_70(1);
+C_75_ID_Delivery1 = Control_70(2);
+C_75_ID_Delivery2 = Control_70(3);
+C_75_Part_Del = Control_70(4);
+C_75_RQ_Part_Del = Control_70(5);
+C_75_RQ_Wrong = Control_70(6);
+C_75_Identified80 = Control_70(7);
+C_75_Requested80 = Control_70(8);
+C_72_Profibus = Control_70(9);
+C_75_RQ_Delivery1 = Control_70(10);
+C_75_RQ_Delivery2 = Control_70(11);
+C_75_Identified = Control_70(12);
+C_75_Requested = Control_70(13);
+
+=================Actuators_70===============================
+F_72_Elev_Down = Actuators_70(1);
+F_72_Elev_Up = Actuators_70(2);
+F_72_Eject_Part = Actuators_70(3);
+F_72_Air_On = Actuators_70(4);
+F_73_Led_Start = Actuators_70(5);
+F_73_Led_Reset = Actuators_70(6);
+F_73_Led_Extra1 = Actuators_70(7);
+F_73_Led_Extra2 = Actuators_70(8);
+F_73_Panel_O4 = Actuators_70(9);
+F_73_Panel_O5 = Actuators_70(10);
+F_73_Panel_O6 = Actuators_70(11);
+F_73_Panel_O7 = Actuators_70(12);
+
+=================Sensors_70===============================
+O_70_SInductive = Sensors_70(1);
+O_70_SPart = Sensors_70(2);
+O_70_SStation = Sensors_70(3);
+O_70_SPart_Height = Sensors_70(4);
+O_70_Elev_High = Sensors_70(5);
+O_70_Elev_Low = Sensors_70(6);
+O_70_Pist_Back = Sensors_70(7);
+O_71_Start = Sensors_70(8);
+O_71_Stop = Sensors_70(9);
+O_71_Key_Pos = Sensors_70(10);
+O_71_Reset = Sensors_70(11);
+O_71_Panel_I4 = Sensors_70(12);
+O_71_Panel_I5 = Sensors_70(13);
+O_71_Panel_I6 = Sensors_70(14);
+O_71_Panel_I7 = Sensors_70(15);
