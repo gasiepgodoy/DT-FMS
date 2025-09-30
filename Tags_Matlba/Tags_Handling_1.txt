@@ -6,13 +6,13 @@ A_54_CRoute_Out = AS_i_50(4);
 A_53_SortCartID = AS_i_50(5);
 A_54_Cart_Stat  = AS_i_50(6);
 A_54_Cart_Next  = AS_i_50(7);
-A_54_Optic      = S_i_50(8);
-A_54_Count      = S_i_50(9);
-A_54_Pist_Bck   = S_i_50(10);
-A_54_Release_FB = S_i_50(11);
-A_54_CRoute_In  = S_i_50(12);
-C_55_Start      = S_i_50(13);
-C_55_Cart2Del   = S_i_50(14);
+A_54_Optic      = AS_i_50(8);
+A_54_Count      = AS_i_50(9);
+A_54_Pist_Bck   = AS_i_50(10);
+A_54_Release_FB = AS_i_50(11);
+A_54_CRoute_In  = AS_i_50(12);
+C_55_Start      = AS_i_50(13);
+C_55_Cart2Del   = AS_i_50(14);
 
 =================Control_50===============================
 C_55_Initialization = Control_50(1);
