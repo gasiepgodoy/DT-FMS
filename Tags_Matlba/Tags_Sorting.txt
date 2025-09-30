@@ -1,0 +1,43 @@
+=================Control_60===============================
+C_65_Initialization = Control_60(1);
+C_65_ID_1           = Control_60(2);
+C_65_ID_2           = Control_60(3);
+C_62_Profibus       = Control_60(4);
+C_65_RBS_Output     = Control_60(5);
+C_65_RSB_Output     = Control_60(6);
+C_65_BRS_Output     = Control_60(7);
+C_65_BSR_Output     = Control_60(8);
+C_65_SRB_Output     = Control_60(9);
+C_65_SBR_Output     = Control_60(10);
+
+=================Actuators_60===============================
+F_62_Conveyor   = Actuators_60(1);
+F_62_P1         = Actuators_60(2);
+F_62_P2         = Actuators_60(3);
+F_62_Identify   = Actuators_60(4);
+F_63_Led_Start  = Actuators_60(5);
+F_63_Led_Reset  = Actuators_60(6);
+F_63_Led_Extra1 = Actuators_60(7);
+F_63_Led_Extra2 = Actuators_60(8);
+F_63_Panel_O4   = Actuators_60(9);
+F_63_Panel_O5   = Actuators_60(10);
+F_63_Panel_O6   = Actuators_60(11);
+F_63_Panel_O7   = Actuators_60(12);
+
+=================Sensors_60===============================
+O_60_SPart      = Sensors_60(1);
+O_60_Slnd       = Sensors_60(2);
+O_60_SPhoto     = Sensors_60(3);
+O_60_Part_Pass  = Sensors_60(4);
+O_60_SL1_Bck    = Sensors_60(5);
+O_60_SL1_Fwd    = Sensors_60(6);
+O_60_SL2_Bck    = Sensors_60(7);
+O_60_SL2_Fwd    = Sensors_60(8);
+O_61_Start      = Sensors_60(9);
+O_61_Stop       = Sensors_60(10);
+O_61_Key_Pos    = Sensors_60(11);
+O_61_Reset      = Sensors_60(12);
+O_61_Panel_I4   = Sensors_60(13);
+O_61_Panel_I5   = Sensors_60(14);
+O_61_Panel_I6   = Sensors_60(15);
+O_61_Panel_I7   = Sensors_60(16);

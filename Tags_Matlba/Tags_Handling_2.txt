@@ -1,0 +1,53 @@
+=================AS_i_90===============================
+A_94_Request    = AS_i_90(1);
+A_94_No_Cart    = AS_i_90(2);
+A_94_Cart_Full  = AS_i_90(3);
+A_94_CRoute_Out = AS_i_90(4);
+A_93_ProcCartID = AS_i_90(5);
+A_94_Cart_Stat  = AS_i_90(6);
+A_94_Cart_Next  = AS_i_90(7);
+A_94_Optic      = AS_i_90(8);
+A_94_Count      = AS_i_90(9);
+A_94_Pist_Bck   = AS_i_90(10);
+A_94_Release_FB = AS_i_90(11);
+A_94_CRoute_In  = AS_i_90(12);
+
+=================Control_90===============================
+C_95_Initialization = Control_90(1);
+C_95_PD_Proc        = Control_90(2);
+C_95_PD_Cart        = Control_90(3);
+C_92_Profibus       = Control_90(4);
+C_95_Start          = Control_90(5);
+C_95_Cart2Del       = Control_90(6);
+C_95_Del2Cart       = Control_90(7);
+
+=================Actuators_90===============================
+F_92_Claw_2_Cart = Actuators_90(1);
+F_92_Claw_2_Del  = Actuators_90(2);
+F_92_Claw_Down   = Actuators_90(3);
+F_92_Close_Claw  = Actuators_90(4);
+F_93_Led_Start   = Actuators_90(5);
+F_93_Led_Reset   = Actuators_90(6);
+F_93_Led_Extra1  = Actuators_90(7);
+F_93_Led_Extra2  = Actuators_90(8);
+F_93_Panel_O4    = Actuators_90(9);
+F_93_Panel_O5    = Actuators_90(10);
+F_93_Panel_O6    = Actuators_90(11);
+F_93_Panel_O7    = Actuators_90(12);
+
+=================Sensors_90===============================
+O_90_Part_Reserve = Sensors_90(1);
+O_90_Claw_Del     = Sensors_90(2);
+O_90_Claw_Cart    = Sensors_90(3);
+O_90_Claw_Reserve = Sensors_90(4);
+O_90_Claw_Low     = Sensors_90(5);
+O_90_Claw_High    = Sensors_90(6);
+O_90_Part_in_Claw = Sensors_90(7);
+O_91_Start        = Sensors_90(8);
+O_91_Stop         = Sensors_90(9);
+O_91_Key_Pos      = Sensors_90(10);
+O_91_Reset        = Sensors_90(11);
+O_91_Panel_I4     = Sensors_90(12);
+O_91_Panel_I5     = Sensors_90(13);
+O_91_Panel_I6     = Sensors_90(14);
+O_91_Panel_I7     = Sensors_90(15);

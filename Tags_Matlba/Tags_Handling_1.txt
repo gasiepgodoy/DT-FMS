@@ -1,0 +1,53 @@
+=================AS_i_50===============================
+A_54_Request    = AS_i_50(1);
+A_54_No_Cart    = AS_i_50(2);
+A_54_Cart_Full  = AS_i_50(3);
+A_54_CRoute_Out = AS_i_50(4);
+A_53_SortCartID = AS_i_50(5);
+A_54_Cart_Stat  = AS_i_50(6);
+A_54_Cart_Next  = AS_i_50(7);
+A_54_Optic      = S_i_50(8);
+A_54_Count      = S_i_50(9);
+A_54_Pist_Bck   = S_i_50(10);
+A_54_Release_FB = S_i_50(11);
+A_54_CRoute_In  = S_i_50(12);
+C_55_Start      = S_i_50(13);
+C_55_Cart2Del   = S_i_50(14);
+
+=================Control_50===============================
+C_55_Initialization = Control_50(1);
+C_55_PD_Sort        = Control_50(2);
+C_52_Profibus       = Control_50(3);
+C_55_Start          = Control_50(4);
+C_55_Cart2Del       = Control_50(5);
+
+=================Actuators_50===============================
+F_52_Claw_2_Del  = Actuators_50(1);
+F_52_Claw_2_Cart = Actuators_50(2);
+F_52_Claw_Down   = Actuators_50(3);
+F_52_Close_Claw  = Actuators_50(4);
+F_53_Led_Start   = Actuators_50(5);
+F_53_Led_Reset   = Actuators_50(6);
+F_53_Led_Extra1  = Actuators_50(7);
+F_53_Led_Extra2  = Actuators_50(8);
+F_53_Panel_O4    = Actuators_50(9);
+F_53_Panel_O5    = Actuators_50(10);
+F_53_Panel_O6    = Actuators_50(11);
+F_53_Panel_O7    = Actuators_50(12);
+
+=================Sensors_50===============================
+O_50_Part_Reserve = Sensors_50(1);
+O_50_Claw_Cart    = Sensors_50(2);
+O_50_Claw_Del     = Sensors_50(3);
+O_50_Claw_Reserve = Sensors_50(4);
+O_50_Claw_Low     = Sensors_50(5);
+O_50_Claw_High    = Sensors_50(6);
+O_50_Part_in_Claw = Sensors_50(7);
+O_51_Start        = Sensors_50(8);
+O_51_Stop         = Sensors_50(9);
+O_51_Key_Pos      = Sensors_50(10);
+O_51_Reset        = Sensors_50(11);
+O_51_Panel_I4     = Sensors_50(12);
+O_51_Panel_I5     = Sensors_50(13);
+O_51_Panel_I6     = Sensors_50(14);
+O_51_Panel_I7     = Sensors_50(15);
