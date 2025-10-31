@@ -1,5 +1,11 @@
 Controle de Versões e Atualizações do Siemens - Softwaresdas estações do FMS
 
+V3.2.3 - 29/10/2025
+Correção da programação do bloco FB2 do Master [20] para incluir os sinais de Route_In e Route_Out das estações [30], [40], [50], [70] e [90]
+
+V3.2.2 - 14/10/2025
+Correção da programação do bloco FB6 do Master [20] para incluir os sinais C_65_ID_2 e C_65_Part_Sorted
+
 V3.2.1 - 24/09/2025
 Correção da programação do bloco FB5 da Testing [70]
 Implementação de inicialização das variáveis de controle (o que fazer em cada ponto de parada) para todos as estações
