@@ -1,5 +1,8 @@
 Controle de Versões e Atualizações do Node-RED - arquivo de criação das variáveis
 
+V7.0.1 - 13/10/2025
+Corrigida variável I55.1 para C_55_PD_Sort e excluída variável I55.2
+
 V7.0 - 12/09/2028
 Ajuste para as novas variáveis da Storage [40] e demais mudanças feitas na V3.2 do SIEMENS e na versão 2.3 do AAS
 

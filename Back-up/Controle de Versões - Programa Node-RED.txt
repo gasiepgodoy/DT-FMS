@@ -1,5 +1,14 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
+V7.0.2 - 14/10/2025
+Implementado Historiador simples via arquivo CSV.
+Adicionado sinais na Handling 1 [50] de controle que não estavam mapeados
+
+
+V7.0.1 - 17/09/2025
+Atualização do sistema de Roteamento de carrinho para permitir múltiplas ocorrências com a mesma rota (mesmo com um único carrinho)
+Pequenas correções nos demais fluxos onde necessário.
+
 V7.0 - 12/09/2025
 Refeita a escrita das variáveis para direta ao servidor. Removido o "subscribe" das variáveis pois as mensagem são replicadas pelo servidor.
 Com a retirada do subscribe as modificações diretas na memória do OPC UA via outros clientes não acarretaão mais mudanças no sistema físico.
