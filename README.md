@@ -1,13 +1,6 @@
 # DT-FMS
-Repository of the project for the Digital Twin of Flexible Manufactring Systems
+Repository of the project for the Digital Twin of Flexible Manufactring Systems. This branch has all the necessary code for the MATLAB / Simulink Models.
 
-This repository is organized as follows:
+Instructions for intallation:
 
-The main branch contains files that are common to all projects. Folders in the main branch are of publications and results of the project.
-
-Codes are setup on Branches, to have individual contributions if necessary. Below are listed the active branches and thir links.
-
-
-Branch Node-Red contains all updates on the Node-RED and OPC-UA software (https://github.com/gasiepgodoy/DT-FMS/tree/Node-Red-Software)
-
-Branch SIEMENS S7-300 contains all updates and software for all FMS stations. (https://github.com/gasiepgodoy/DT-FMS/tree/Siemens-S7-300-Software)
+Install basic MATLAB (Version R2025b), than the add Indsutrial Communication Toolbox.
