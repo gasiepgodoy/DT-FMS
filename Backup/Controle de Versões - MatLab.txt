@@ -1,5 +1,8 @@
 Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
 
+V0.2 - 06/11/2026
+Criada a transição de estados dos módulos para o processo CartToTesting para testes do modo completo.
+
 V0.1 - 24/09/2025
 Criadas as entradas para as estações Testing [70] e Distribution [80]
 Será criada tabela de tradução para as variáveis de todas as estações que será necessária para que elas entrem no sequenciamento.
