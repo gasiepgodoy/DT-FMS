@@ -1,5 +1,10 @@
 Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
 
+V2.4 - 13/11/2025
+Criadas variáveis de simulação para a estação Distribution [80]
+Inserido os submodelos Documentation, Indentification e TechnicalData
+Inseridos Manuais e Memory Allocation como documentos em todos os arquivos.
+
 V2.3 - 12/09/2025
 Acertado os arquivos para a versão 3.2 do SIEMENS e variávies de controle
 Acertado os arquivos para a versão 7.0 do Variables Endpoint.
