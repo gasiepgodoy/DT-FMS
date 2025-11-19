@@ -11,7 +11,7 @@
         "id": "789bbace3c2df385",
         "type": "tab",
         "label": "MQTT Broker",
-        "disabled": false,
+        "disabled": true,
         "info": "",
         "env": []
     },
@@ -19,7 +19,7 @@
         "id": "6010213ae7706cfb",
         "type": "tab",
         "label": "Master [20]",
-        "disabled": false,
+        "disabled": true,
         "info": "",
         "env": []
     },
@@ -27,7 +27,7 @@
         "id": "d4d059fc5f301c77",
         "type": "tab",
         "label": "Cart Routing",
-        "disabled": false,
+        "disabled": true,
         "info": "",
         "env": []
     },
@@ -6272,6 +6272,7 @@
     {
         "id": "a287d70eab823998",
         "type": "s7 endpoint",
+        "d": true,
         "transport": "iso-on-tcp",
         "address": "200.145.26.35",
         "port": "102",
@@ -15459,7 +15460,7 @@
         "z": "789bbace3c2df385",
         "g": "bfbf4c9db2b8522c",
         "name": "Station Divider",
-        "property": "payload",
+        "property": "topic",
         "propertyType": "msg",
         "rules": [
             {
@@ -71249,7 +71250,7 @@
         "autoAcceptUnknownCertificate": true,
         "registerToDiscovery": true,
         "constructDefaultAddressSpace": true,
-        "allowAnonymous": false,
+        "allowAnonymous": true,
         "endpointNone": true,
         "endpointSign": true,
         "endpointSignEncrypt": true,
