@@ -1,9 +1,12 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
+V7.0.3 - 11/11/2025
+Incluídas variáveis para a Distribution [80] para simulação (C_85_Part_Mag, C_86_Mag_Parts, C_87_RQ_MParts)
+Incluído teste para divisão dos tópicos das variáveis do MQTT.
+
 V7.0.2 - 14/10/2025
 Implementado Historiador simples via arquivo CSV.
 Adicionado sinais na Handling 1 [50] de controle que não estavam mapeados
-
 
 V7.0.1 - 17/09/2025
 Atualização do sistema de Roteamento de carrinho para permitir múltiplas ocorrências com a mesma rota (mesmo com um único carrinho)

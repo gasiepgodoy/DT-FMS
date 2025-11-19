@@ -1,5 +1,11 @@
 Controle de Versões e Atualizações do Node-RED - arquivo de criação das variáveis
 
+V7.0.3 - 19/11/2025
+Criadas Variáveis de CRoute_In e CRoute_Out para a estação [20]
+
+V7.0.2 - 11/11/2025
+Incluídas variáveis de Controle da estação [80] para simulação.
+
 V7.0.1 - 13/10/2025
 Corrigida variável I55.1 para C_55_PD_Sort e excluída variável I55.2
 

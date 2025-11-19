@@ -9,18 +9,30 @@ Varaibles - Master [20]
     "I_27_Cart_Robo" : false,
     "I_28_Cart_Stor" : false,
     "I_29_Cart_Sort" : false,
+    "C_24_CRoute_In" : false;
     "C_24_Request" : false,
     "C_24_CartDel" : false,
-    "C_25_Request" : false,
+	"C_24_CRoute_Out" : false;
+    "C_25_CRoute_In" : false;
+	"C_25_Request" : false,
     "C_25_CartDel" : false,
+	"C_25_CRoute_Out" : false;
+    "C_26_CRoute_In" : false;
     "C_26_Request" : false,
     "C_26_CartDel" : false,
+	"C_26_CRoute_Out" : false;
+    "C_27_CRoute_In" : false;
     "C_27_Request" : false,
     "C_27_CartDel" : false,
+	"C_27_CRoute_Out" : false;
+    "C_28_CRoute_In" : false;
     "C_28_Request" : false,
     "C_28_CartDel" : false,
+	"C_28_CRoute_Out" : false;
+    "C_29_CRoute_In" : false;
     "C_29_Request" : false,
     "C_29_CartDel" : false,
+	"C_29_CRoute_Out" : false;
     "F_22_Led_On" : false,
     "F_22_Led_Off" : false,
     "F_22_Conveyor" : false,
@@ -371,6 +383,9 @@ Varaibles - Distribution [80]
     "I_81_Panel_O7": false,
     "C_85_Initialization": false,
 	"C_85_Part_Del": false,
+    "C_85_Part_Mag": false,
+    "C_86_Mag_Parts": 0,
+    "C_87_RQ_MParts": 0,	
     "C_82_Profibus": true,
     "C_83_RQ_Parts": 0,
     "C_85_Start": false,
