@@ -1,12 +1,15 @@
 =================Controls_80===============================
 C_85_Initialization = Control_80(1);
-C_85_Part_Del       = Control_80(2);
-C_82_Profibus       = Control_80(3);
-C_83_RQ_Parts       = Control_80(4);
-C_85_Start          = Control_80(5);
-C_85_Single         = Control_80(6);
-C_85_Continuous     = Control_80(7);
-C_85_Counted        = Control_80(8);
+C_85_Part_Del 	    = Control_80(2);
+C_85_Part_Mag       = Control_80(3);
+C_86_Mag_Parts      = Control_80(4);
+C_87_RQ_MParts      = Control_80(5);
+C_82_Profibus       = Control_80(6);
+C_83_RQ_Parts       = Control_80(7);
+C_85_Start          = Control_80(8);
+C_85_Single         = Control_80(9);
+C_85_Continuous     = Control_80(10);
+C_85_Counted        = Control_80(11);
 
 =================Actuators_80===============================
 F_82_Pist_Adv    = Actuators_80(1);

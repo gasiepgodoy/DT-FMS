@@ -11,8 +11,6 @@ A_54_Count      = AS_i_50(9);
 A_54_Pist_Bck   = AS_i_50(10);
 A_54_Release_FB = AS_i_50(11);
 A_54_CRoute_In  = AS_i_50(12);
-C_55_Start      = AS_i_50(13);
-C_55_Cart2Del   = AS_i_50(14);
 
 =================Control_50===============================
 C_55_Initialization = Control_50(1);
