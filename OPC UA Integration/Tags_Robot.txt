@@ -1,40 +1,40 @@
 =================AS_i_30===============================
-A_34_Request    = AS_i_30(1);
-A_34_No_Cart    = AS_i_30(2);
-A_34_Cart_Full  = AS_i_30(3);
-A_34_CRoute_Out = AS_i_30(4);
-A_32_RoboCartID = AS_i_30(5);
-A_34_Cart_Stat  = AS_i_30(6);
-A_34_Cart_Next  = AS_i_30(7);
-A_34_Optic      = AS_i_30(8);
-A_34_Count      = AS_i_30(9);
-A_34_Pist_Bck   = AS_i_30(10);
-A_34_Release_FB = AS_i_30(11);
-A_34_CRoute_In  = AS_i_30(12);
+A_34_Request    = AS_i_30.A_34_Request;
+A_34_No_Cart    = AS_i_30.A_34_No_Cart;
+A_34_Cart_Full  = AS_i_30.A_34_Cart_Full;
+A_34_CRoute_Out = AS_i_30.A_34_CRoute_Out;
+A_32_RoboCartID = AS_i_30.A_32_RoboCartID;
+A_34_Cart_Stat  = AS_i_30.A_34_Cart_Stat;
+A_34_Cart_Next  = AS_i_30.A_34_Cart_Next;
+A_34_Optic      = AS_i_30.A_34_Optic;
+A_34_Count      = AS_i_30.A_34_Count;
+A_34_Pist_Bck   = AS_i_30.A_34_Pist_Bck;
+A_34_Release_FB = AS_i_30.A_34_Release_FB;
+A_34_CRoute_In  = AS_i_30.A_34_CRoute_in;
 
 =================Control_30===============================
-C_30_Robot1   = Control_30(1);
-C_30_Robot2   = Control_30(2);
-C_35_Part_Del = Control_30(3);
+C_35_Part_Del = Control_30.C_35_Part_Del;
+C_30_Robot1   = Control_30.C_30_Robot1;
+C_30_Robot2   = Control_30.C_30_Robot2;
 
 =================Actuators_30===============================
-F_33_Led_Start  = Actuators_30(1);
-F_33_Led_Reset  = Actuators_30(2);
-F_33_Led_Extra1 = Actuators_30(3);
-F_33_Led_Extra2 = Actuators_30(4);
-F_33_Spring_Cyl = Actuators_30(5);
-F_33_Cover_Cyl  = Actuators_30(6);
+F_33_Led_Start  = Actuators_30.F_33_Led_Start;
+F_33_Led_Reset  = Actuators_30.F_33_Led_Reset;
+F_33_Led_Extra1 = Actuators_30.F_33_Led_Extra1;
+F_33_Led_Extra2 = Actuators_30.F_33_Led_Extra2;
+F_33_Spring_Cyl = Actuators_30.F_33_Spring_Cyl;
+F_33_Cover_Cyl  = Actuators_30.F_33_Cover_Cyl;
 
 =================Sensors_30===============================
-O_31_Start        = Sensors_30(1);
-O_31_Stop         = Sensors_30(2);
-O_31_Reset        = Sensors_30(3);
-O_31_Part_in_Claw = Sensors_30(4);
-O_31_Orientation  = Sensors_30(5);
-O_32_Sp_Cyl_Bck   = Sensors_30(6);
-O_32_Sp_Cyl_Fwd   = Sensors_30(7);
-O_32_Co_Cyl_Bck   = Sensors_30(8);
-O_32_Co_Cyl_Fwd   = Sensors_30(9);
-O_32_Sp_PickUp    = Sensors_30(10);
-O_32_Co_PickUp    = Sensors_30(11);
-O_32_CoMag_Empty  = Sensors_30(12);
+O_31_Start        = Sensors_30.O_31_Start;
+O_31_Stop         = Sensors_30.O_31_Stop;
+O_31_Reset        = Sensors_30.O_31_Reset;
+O_31_Part_in_Claw = Sensors_30.O_31_Part_in_Claw;
+O_31_Orientation  = Sensors_30.O_31_Orientation;
+O_32_Sp_Cyl_Bck   = Sensors_30.O_32_Sp_Cyl_Bck;
+O_32_Sp_Cyl_Fwd   = Sensors_30.O_32_Sp_Cyl_Fwd;
+O_32_Co_Cyl_Bck   = Sensors_30.O_32_Co_Cyl_Bck;
+O_32_Co_Cyl_Fwd   = Sensors_30.O_32_Co_Cyl_Fwd;
+O_32_Sp_PickUp    = Sensors_30.O_32_Sp_PickUp;
+O_32_Co_PickUp    = Sensors_30.O_32_Co_PickUp;
+O_32_CoMag_Empty  = Sensors_30.O_32_CoMag_Empty;
