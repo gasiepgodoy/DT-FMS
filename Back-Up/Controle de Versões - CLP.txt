@@ -1,5 +1,12 @@
 Controle de Versões e Atualizações do Siemens - Softwaresdas estações do FMS
 
+V3.2.5 - 18/11/2025
+Implementação de Variávies do OPC para permitir Simulação via Modelo MatbLAB na Processing [100].
+
+V3.2.4 - 10/11/2025
+Implementação de Variávies do OPC para permitir Simulação via Modelo MatbLAB na Distribution [80].
+Verificação e acerto dos blocos FB4, FB5 e FB6 da Distributing [80] para baterem com a simulação.
+
 V3.2.3 - 29/10/2025
 Correção da programação do bloco FB2 do Master [20] para incluir os sinais de Route_In e Route_Out das estações [30], [40], [50], [70] e [90]
 
