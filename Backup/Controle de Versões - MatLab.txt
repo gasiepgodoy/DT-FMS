@@ -1,6 +1,12 @@
 Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
 
-V0.2.2 - 11/11/2026
+V0.2.4 - 19/11/2025
+Adicionado Distribution - Counted
+
+V0.2.3 - 11/11/2025
+Adicionado Distribution - Continuous
+
+V0.2.2 - 11/11/2025
 Adicionado Distribution - Single
 
 V0.2.1 - 11/11/2026
