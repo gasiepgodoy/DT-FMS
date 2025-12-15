@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
 
+V0.3.6 - 15/12/2025
+Adicionado Programação Interna para Distribution - Counted
+Adicionado os blocos iniciais dos modos de funcoanmento da estação Testing [70] - Identified e Requested
+
 V0.2.4 - 19/11/2025
 Adicionado Distribution - Counted
 
