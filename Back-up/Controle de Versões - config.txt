@@ -1,5 +1,8 @@
 Controle de Versões e Atualizações do Node-RED - arquivo de criação das variáveis
 
+7.0.4 - 11/12/2025
+Corrigido endereçamento das variáveis C_xx_CRoute_In e C_xx_CRoute_Out
+
 V7.0.3 - 19/11/2025
 Criadas Variáveis de CRoute_In e CRoute_Out para a estação [20]
 

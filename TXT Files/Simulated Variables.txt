@@ -9,30 +9,30 @@ Varaibles - Master [20]
     "SA_27_Cart_Robo" : false,
     "SA_28_Cart_Stor" : false,
     "SA_29_Cart_Sort" : false,
-    "SC_24_CRoute_In" : false;
-    "SC_24_Request" : false,
     "SC_24_CartDel" : false,
-	"SC_24_CRoute_Out" : false;
-    "SC_25_CRoute_In" : false;
-	"SC_25_Request" : false,
+	"SC_24_CRoute_Out" : false,
+    "SC_24_Request" : false,
+    "SC_24_CRoute_In" : false,
     "SC_25_CartDel" : false,
-	"SC_25_CRoute_Out" : false;
-    "SC_26_CRoute_In" : false;
-    "SC_26_Request" : false,
+	"SC_25_CRoute_Out" : false,
+	"SC_25_Request" : false,
+    "SC_25_CRoute_In" : false,
     "SC_26_CartDel" : false,
-	"SC_26_CRoute_Out" : false;
-    "SC_27_CRoute_In" : false;
-    "SC_27_Request" : false,
+	"SC_26_CRoute_Out" : false,
+    "SC_26_Request" : false,
+    "SC_26_CRoute_In" : false,
     "SC_27_CartDel" : false,
-	"SC_27_CRoute_Out" : false;
-    "SC_28_CRoute_In" : false;
-    "SC_28_Request" : false,
+	"SC_27_CRoute_Out" : false,
+    "SC_27_Request" : false,
+    "SC_27_CRoute_In" : false,
     "SC_28_CartDel" : false,
-	"SC_28_CRoute_Out" : false;
-    "SC_29_CRoute_In" : false;
-    "SC_29_Request" : false,
+	"SC_28_CRoute_Out" : false,
+    "SC_28_Request" : false,
+    "SC_28_CRoute_In" : false,
     "SC_29_CartDel" : false,
-	"SC_29_CRoute_Out" : false;   
+	"SC_29_CRoute_Out" : false,
+    "SC_29_Request" : false,
+    "SC_29_CRoute_In" : false,
 	"SS_20_On" : false,
     "SS_20_Off" : false,
     "SS_20_Controler_On" : false,

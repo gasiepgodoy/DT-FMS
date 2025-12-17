@@ -1,9 +1,11 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
 V7.0.4 - 11/12/2025
+Criado aba para sinais de Roteamento separada
 Corrigido Links do Cart Routing
 Corrigido caminho na escrita das variáveis do Handling 1
-Separado Leitura do S7 para o MQTT por Estação. (Diminuir o tráfico de dados)
+Separado Leitura do S7 para o MQTT por Estação (Diminuir o tráfico de dados e faciliatar inscrição externa por estação)
+Corrigido endereçamento das variáveis C_xx_CRoute_In e C_xx_CRoute_Out
 
 V7.0.3 - 11/11/2025
 Incluídas variáveis para a Distribution [80] para simulação (C_85_Part_Mag, C_86_Mag_Parts, C_87_RQ_MParts)
