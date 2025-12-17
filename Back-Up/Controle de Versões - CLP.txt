@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do Siemens - Softwaresdas estações do FMS
 
+V3.2.6 - 17/12/2025
+Implementação dos sinais de C_xx_CRoute_In e C_xx_CRoute_Out em FB2 e suas correlações com o sinal do A_xx_CRoute_In e A_xx_CRoute_Out
+Corrigido endereçamento das variáveis C_xx_CRoute_In e C_xx_CRoute_Out
+
 V3.2.5 - 18/11/2025
 Implementação de Variávies do OPC para permitir Simulação via Modelo MatbLAB na Processing [100].
 
