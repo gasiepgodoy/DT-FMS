@@ -1,3 +1,4 @@
+run('Tags.m');
 load('Tags_OPCUA.mat');
 chave = 'C:/ssh_keys/MatOFI_lab_id_rsa';
 %==========================================================================
