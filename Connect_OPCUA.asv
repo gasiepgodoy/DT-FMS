@@ -24,16 +24,16 @@ name1 = modelo_name + "/OPC UA Read-";
 name2 = ["MASTER", "NODE", "HD1", "SORT", "TEST", "DIST", "HD2", "PROC"];
 blk = name1 + name2;
 %==========================================================================
-for i=1:numel(ip)
-    cmd = sprintf('scp -i "%s" %s@%s:"%s" "%s"', chave, usuario, ip(i), arquivo_remoto(i), arquivo_local(i));
-    [status, cmdout] = system(cmd);
-    if status == 0
-        disp('Download concluído via SCP externo!');
-    else
-        disp('Erro ao executar SCP:');
-        disp(cmdout);
-    end
- end
+% for i=1:numel(ip)
+%     cmd = sprintf('scp -i "%s" %s@%s:"%s" "%s"', chave, usuario, ip(i), arquivo_remoto(i), arquivo_local(i));
+%     [status, cmdout] = system(cmd);
+%     if status == 0
+%         disp('Download concluído via SCP externo!');
+%     else
+%         disp('Erro ao executar SCP:');
+%         disp(cmdout);
+%     end
+%  end
 %==========================================================================
 BUS_SLC = ["BUS_MASTER", "BUS_NODE", "BUS_HD1", "BUS_SORT", "BUS_TEST",...
     "BUS_DIST", "BUS_HD2", "BUS_PROC"];
@@ -81,6 +81,7 @@ for i = 1:numel(AllVariables)
     disp(IdentRows);
     disp("==========================================");
     set_param(blk(i),'NodeList',NodeListStr);
-    set_param(BUS_IN(i), 'OutputSignals', strjoin(IdentRows, ','));
+    set_param(BUS_IN(i), 'Out')
+    set_param(BUS_IN(i), 'OutputSignals')
 end
 %==========================================================================
