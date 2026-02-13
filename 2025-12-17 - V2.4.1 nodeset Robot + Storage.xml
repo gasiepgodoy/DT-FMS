@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<UANodeSet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LastModified="2025-11-19T10:57:00.086476Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+<UANodeSet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LastModified="2026-02-13T15:38:29.6765382Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
   <NamespaceUris>
     <Uri>http://opcfoundation.org/UA/i4aas/</Uri>
     <Uri>http://admin-shell.io/samples/i4aas/instance/</Uri>
@@ -31403,7 +31403,7 @@
       <Reference ReferenceType="i=47">ns=2;i=2922</Reference>
       <Reference ReferenceType="i=47">ns=2;i=2984</Reference>
       <Reference ReferenceType="i=47">ns=2;i=3025</Reference>
-      <Reference ReferenceType="i=47">ns=2;i=3087</Reference>
+      <Reference ReferenceType="i=47">ns=2;i=3073</Reference>
       <Reference ReferenceType="i=47" IsForward="false">ns=2;i=2267</Reference>
       <Reference ReferenceType="i=46">ns=2;i=2915</Reference>
       <Reference ReferenceType="i=46">ns=2;i=2921</Reference>
@@ -32596,9 +32596,9 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3025" BrowseName="Simulated_Sensors" ParentNodeId="ns=2;i=2914">
-    <DisplayName>Simulated_Sensors</DisplayName>
-    <Description Locale="en">Simulated Sesnors fitted on the Distribution Staiton</Description>
+  <UAObject NodeId="ns=2;i=3025" BrowseName="Simulated_Routing" ParentNodeId="ns=2;i=2914">
+    <DisplayName>Simulated_Routing</DisplayName>
+    <Description Locale="en">Routing Variables</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3027</Reference>
       <Reference ReferenceType="i=47">ns=2;i=3031</Reference>
@@ -32607,8 +32607,6 @@
       <Reference ReferenceType="i=47">ns=2;i=3052</Reference>
       <Reference ReferenceType="i=47">ns=2;i=3059</Reference>
       <Reference ReferenceType="i=47">ns=2;i=3066</Reference>
-      <Reference ReferenceType="i=47">ns=2;i=3073</Reference>
-      <Reference ReferenceType="i=47">ns=2;i=3080</Reference>
       <Reference ReferenceType="i=47" IsForward="false">ns=2;i=2914</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3026</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3029</Reference>
@@ -32667,9 +32665,9 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3031" BrowseName="SS_41_Start" ParentNodeId="ns=2;i=3025">
-    <DisplayName>SS_41_Start</DisplayName>
-    <Description Locale="en">Start Button</Description>
+  <UAObject NodeId="ns=2;i=3031" BrowseName="SR_44_Request" ParentNodeId="ns=2;i=3025">
+    <DisplayName>SR_44_Request</DisplayName>
+    <Description Locale="en">Request cart</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3033</Reference>
       <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3025</Reference>
@@ -32742,9 +32740,9 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3038" BrowseName="SS_41_Stop" ParentNodeId="ns=2;i=3025">
-    <DisplayName>SS_41_Stop</DisplayName>
-    <Description Locale="en">Stop Button</Description>
+  <UAObject NodeId="ns=2;i=3038" BrowseName="SR_44_No_Cart" ParentNodeId="ns=2;i=3025">
+    <DisplayName>SR_44_No_Cart</DisplayName>
+    <Description Locale="en">No Cart at Station</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3040</Reference>
       <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3025</Reference>
@@ -32814,12 +32812,12 @@
       <Reference ReferenceType="i=40">i=68</Reference>
     </References>
     <Value>
-      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">true</Boolean>
+      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3045" BrowseName="SS_41_Key_Pos" ParentNodeId="ns=2;i=3025">
-    <DisplayName>SS_41_Key_Pos</DisplayName>
-    <Description Locale="en">Key position</Description>
+  <UAObject NodeId="ns=2;i=3045" BrowseName="SR_44_Cart_Full" ParentNodeId="ns=2;i=3025">
+    <DisplayName>SR_44_Cart_Full</DisplayName>
+    <Description Locale="en">Cart Full at Station</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3047</Reference>
       <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3025</Reference>
@@ -32892,9 +32890,9 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3052" BrowseName="SS_41_Reset" ParentNodeId="ns=2;i=3025">
-    <DisplayName>SS_41_Reset</DisplayName>
-    <Description Locale="en">Reset Button</Description>
+  <UAObject NodeId="ns=2;i=3052" BrowseName="SR_44_CRoute_Out" ParentNodeId="ns=2;i=3025">
+    <DisplayName>SR_44_CRoute_Out</DisplayName>
+    <Description Locale="en">Process Finished - Routing</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3054</Reference>
       <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3025</Reference>
@@ -32967,9 +32965,9 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3059" BrowseName="SS_41_Panel_I4" ParentNodeId="ns=2;i=3025">
-    <DisplayName>SS_41_Panel_I4</DisplayName>
-    <Description Locale="en">Panel I4 (Outside connection)</Description>
+  <UAObject NodeId="ns=2;i=3059" BrowseName="SR_43_StorCartID" ParentNodeId="ns=2;i=3025">
+    <DisplayName>SR_43_StorCartID</DisplayName>
+    <Description Locale="en">Cart Number ID</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3061</Reference>
       <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3025</Reference>
@@ -33028,10 +33026,10 @@
       <Reference ReferenceType="i=40">i=68</Reference>
     </References>
     <Value>
-      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">boolean</String>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">double</String>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=2;i=3065" BrowseName="Value" ParentNodeId="ns=2;i=3059" DataType="i=1" AccessLevel="3">
+  <UAVariable NodeId="ns=2;i=3065" BrowseName="Value" ParentNodeId="ns=2;i=3059" DataType="i=11" AccessLevel="3">
     <DisplayName>Value</DisplayName>
     <Description Locale="en">Value</Description>
     <References>
@@ -33039,12 +33037,12 @@
       <Reference ReferenceType="i=40">i=68</Reference>
     </References>
     <Value>
-      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
+      <Double xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">0</Double>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3066" BrowseName="SS_41_Panel_I5" ParentNodeId="ns=2;i=3025">
-    <DisplayName>SS_41_Panel_I5</DisplayName>
-    <Description Locale="en">Panel I5 (Outside connection)</Description>
+  <UAObject NodeId="ns=2;i=3066" BrowseName="SR_44_CRoute_In" ParentNodeId="ns=2;i=3025">
+    <DisplayName>SR_44_CRoute_In</DisplayName>
+    <Description Locale="en">Cart Arrived - Routing</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3068</Reference>
       <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3025</Reference>
@@ -33114,20 +33112,27 @@
       <Reference ReferenceType="i=40">i=68</Reference>
     </References>
     <Value>
-      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">true</Boolean>
+      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3073" BrowseName="SS_41_Panel_I6" ParentNodeId="ns=2;i=3025">
-    <DisplayName>SS_41_Panel_I6</DisplayName>
-    <Description Locale="en">Panel I6 (Outside connection)</Description>
+  <UAObject NodeId="ns=2;i=3073" BrowseName="Simulated_Sensors" ParentNodeId="ns=2;i=2914">
+    <DisplayName>Simulated_Sensors</DisplayName>
+    <Description Locale="en">Simulated Sesnors fitted on the Distribution Staiton</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3075</Reference>
-      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3025</Reference>
+      <Reference ReferenceType="i=47">ns=2;i=3079</Reference>
+      <Reference ReferenceType="i=47">ns=2;i=3086</Reference>
+      <Reference ReferenceType="i=47">ns=2;i=3093</Reference>
+      <Reference ReferenceType="i=47">ns=2;i=3100</Reference>
+      <Reference ReferenceType="i=47">ns=2;i=3107</Reference>
+      <Reference ReferenceType="i=47">ns=2;i=3114</Reference>
+      <Reference ReferenceType="i=47">ns=2;i=3121</Reference>
+      <Reference ReferenceType="i=47">ns=2;i=3128</Reference>
+      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=2914</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3074</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3077</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3078</Reference>
-      <Reference ReferenceType="i=46">ns=2;i=3079</Reference>
-      <Reference ReferenceType="i=40">ns=1;i=1009</Reference>
+      <Reference ReferenceType="i=40">ns=1;i=1010</Reference>
     </References>
   </UAObject>
   <UAVariable NodeId="ns=2;i=3074" BrowseName="Category" ParentNodeId="ns=2;i=3073" DataType="i=12" AccessLevel="3">
@@ -33170,178 +33175,173 @@
       <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">Instance</String>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=2;i=3078" BrowseName="ValueType" ParentNodeId="ns=2;i=3073" DataType="i=12" AccessLevel="3">
-    <DisplayName>ValueType</DisplayName>
-    <Description Locale="en">ValueType</Description>
-    <References>
-      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3073</Reference>
-      <Reference ReferenceType="i=40">i=68</Reference>
-    </References>
-    <Value>
-      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">boolean</String>
-    </Value>
-  </UAVariable>
-  <UAVariable NodeId="ns=2;i=3079" BrowseName="Value" ParentNodeId="ns=2;i=3073" DataType="i=1" AccessLevel="3">
-    <DisplayName>Value</DisplayName>
-    <Description Locale="en">Value</Description>
-    <References>
-      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3073</Reference>
-      <Reference ReferenceType="i=40">i=68</Reference>
-    </References>
-    <Value>
-      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
-    </Value>
-  </UAVariable>
-  <UAObject NodeId="ns=2;i=3080" BrowseName="SS_41_Panel_I7" ParentNodeId="ns=2;i=3025">
-    <DisplayName>SS_41_Panel_I7</DisplayName>
-    <Description Locale="en">Panel I7 (Outside connection)</Description>
-    <References>
-      <Reference ReferenceType="i=47">ns=2;i=3082</Reference>
-      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3025</Reference>
-      <Reference ReferenceType="i=46">ns=2;i=3081</Reference>
-      <Reference ReferenceType="i=46">ns=2;i=3084</Reference>
-      <Reference ReferenceType="i=46">ns=2;i=3085</Reference>
-      <Reference ReferenceType="i=46">ns=2;i=3086</Reference>
-      <Reference ReferenceType="i=40">ns=1;i=1009</Reference>
-    </References>
-  </UAObject>
-  <UAVariable NodeId="ns=2;i=3081" BrowseName="Category" ParentNodeId="ns=2;i=3080" DataType="i=12" AccessLevel="3">
-    <DisplayName>Category</DisplayName>
-    <Description Locale="en">Category</Description>
-    <References>
-      <Reference ReferenceType="i=37">i=80</Reference>
-      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3080</Reference>
-      <Reference ReferenceType="i=40">i=68</Reference>
-    </References>
-    <Value>
-      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">VARIABLE</String>
-    </Value>
-  </UAVariable>
-  <UAObject NodeId="ns=2;i=3082" BrowseName="SemanticId" ParentNodeId="ns=2;i=3080">
-    <DisplayName>SemanticId</DisplayName>
-    <Description Locale="en">SemanticId</Description>
-    <References>
-      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3080</Reference>
-      <Reference ReferenceType="i=46">ns=2;i=3083</Reference>
-      <Reference ReferenceType="i=40">ns=1;i=1005</Reference>
-    </References>
-  </UAObject>
-  <UAVariable NodeId="ns=2;i=3083" BrowseName="Keys" ParentNodeId="ns=2;i=3082" DataType="i=12" AccessLevel="3">
-    <DisplayName>Keys</DisplayName>
-    <Description Locale="en">Keys</Description>
-    <References>
-      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3082</Reference>
-      <Reference ReferenceType="i=40">i=68</Reference>
-    </References>
-  </UAVariable>
-  <UAVariable NodeId="ns=2;i=3084" BrowseName="Kind" ParentNodeId="ns=2;i=3080" DataType="i=12" AccessLevel="3">
-    <DisplayName>Kind</DisplayName>
-    <Description Locale="en">Kind</Description>
-    <References>
-      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3080</Reference>
-      <Reference ReferenceType="i=40">i=68</Reference>
-    </References>
-    <Value>
-      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">Instance</String>
-    </Value>
-  </UAVariable>
-  <UAVariable NodeId="ns=2;i=3085" BrowseName="ValueType" ParentNodeId="ns=2;i=3080" DataType="i=12" AccessLevel="3">
-    <DisplayName>ValueType</DisplayName>
-    <Description Locale="en">ValueType</Description>
-    <References>
-      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3080</Reference>
-      <Reference ReferenceType="i=40">i=68</Reference>
-    </References>
-    <Value>
-      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">boolean</String>
-    </Value>
-  </UAVariable>
-  <UAVariable NodeId="ns=2;i=3086" BrowseName="Value" ParentNodeId="ns=2;i=3080" DataType="i=1" AccessLevel="3">
-    <DisplayName>Value</DisplayName>
-    <Description Locale="en">Value</Description>
-    <References>
-      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3080</Reference>
-      <Reference ReferenceType="i=40">i=68</Reference>
-    </References>
-    <Value>
-      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
-    </Value>
-  </UAVariable>
-  <UAObject NodeId="ns=2;i=3087" BrowseName="Simulated_Routing" ParentNodeId="ns=2;i=2914">
-    <DisplayName>Simulated_Routing</DisplayName>
-    <Description Locale="en">Routing Variables</Description>
-    <References>
-      <Reference ReferenceType="i=47">ns=2;i=3089</Reference>
-      <Reference ReferenceType="i=47">ns=2;i=3093</Reference>
-      <Reference ReferenceType="i=47">ns=2;i=3100</Reference>
-      <Reference ReferenceType="i=47">ns=2;i=3107</Reference>
-      <Reference ReferenceType="i=47">ns=2;i=3114</Reference>
-      <Reference ReferenceType="i=47">ns=2;i=3121</Reference>
-      <Reference ReferenceType="i=47">ns=2;i=3128</Reference>
-      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=2914</Reference>
-      <Reference ReferenceType="i=46">ns=2;i=3088</Reference>
-      <Reference ReferenceType="i=46">ns=2;i=3091</Reference>
-      <Reference ReferenceType="i=46">ns=2;i=3092</Reference>
-      <Reference ReferenceType="i=40">ns=1;i=1010</Reference>
-    </References>
-  </UAObject>
-  <UAVariable NodeId="ns=2;i=3088" BrowseName="Category" ParentNodeId="ns=2;i=3087" DataType="i=12" AccessLevel="3">
-    <DisplayName>Category</DisplayName>
-    <Description Locale="en">Category</Description>
-    <References>
-      <Reference ReferenceType="i=37">i=80</Reference>
-      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3087</Reference>
-      <Reference ReferenceType="i=40">i=68</Reference>
-    </References>
-    <Value>
-      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">VARIABLE</String>
-    </Value>
-  </UAVariable>
-  <UAObject NodeId="ns=2;i=3089" BrowseName="SemanticId" ParentNodeId="ns=2;i=3087">
-    <DisplayName>SemanticId</DisplayName>
-    <Description Locale="en">SemanticId</Description>
-    <References>
-      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3087</Reference>
-      <Reference ReferenceType="i=46">ns=2;i=3090</Reference>
-      <Reference ReferenceType="i=40">ns=1;i=1005</Reference>
-    </References>
-  </UAObject>
-  <UAVariable NodeId="ns=2;i=3090" BrowseName="Keys" ParentNodeId="ns=2;i=3089" DataType="i=12" AccessLevel="3">
-    <DisplayName>Keys</DisplayName>
-    <Description Locale="en">Keys</Description>
-    <References>
-      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3089</Reference>
-      <Reference ReferenceType="i=40">i=68</Reference>
-    </References>
-  </UAVariable>
-  <UAVariable NodeId="ns=2;i=3091" BrowseName="Kind" ParentNodeId="ns=2;i=3087" DataType="i=12" AccessLevel="3">
-    <DisplayName>Kind</DisplayName>
-    <Description Locale="en">Kind</Description>
-    <References>
-      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3087</Reference>
-      <Reference ReferenceType="i=40">i=68</Reference>
-    </References>
-    <Value>
-      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">Instance</String>
-    </Value>
-  </UAVariable>
-  <UAVariable NodeId="ns=2;i=3092" BrowseName="AllowDuplicates" ParentNodeId="ns=2;i=3087" DataType="i=1" AccessLevel="3">
+  <UAVariable NodeId="ns=2;i=3078" BrowseName="AllowDuplicates" ParentNodeId="ns=2;i=3073" DataType="i=1" AccessLevel="3">
     <DisplayName>AllowDuplicates</DisplayName>
     <Description Locale="en">AllowDuplicates</Description>
     <References>
-      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3087</Reference>
+      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3073</Reference>
       <Reference ReferenceType="i=40">i=68</Reference>
     </References>
     <Value>
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3093" BrowseName="SR_44_Request" ParentNodeId="ns=2;i=3087">
-    <DisplayName>SR_44_Request</DisplayName>
-    <Description Locale="en">Request cart</Description>
+  <UAObject NodeId="ns=2;i=3079" BrowseName="SS_41_Start" ParentNodeId="ns=2;i=3073">
+    <DisplayName>SS_41_Start</DisplayName>
+    <Description Locale="en">Start Button</Description>
+    <References>
+      <Reference ReferenceType="i=47">ns=2;i=3081</Reference>
+      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3073</Reference>
+      <Reference ReferenceType="i=46">ns=2;i=3080</Reference>
+      <Reference ReferenceType="i=46">ns=2;i=3083</Reference>
+      <Reference ReferenceType="i=46">ns=2;i=3084</Reference>
+      <Reference ReferenceType="i=46">ns=2;i=3085</Reference>
+      <Reference ReferenceType="i=40">ns=1;i=1009</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=2;i=3080" BrowseName="Category" ParentNodeId="ns=2;i=3079" DataType="i=12" AccessLevel="3">
+    <DisplayName>Category</DisplayName>
+    <Description Locale="en">Category</Description>
+    <References>
+      <Reference ReferenceType="i=37">i=80</Reference>
+      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3079</Reference>
+      <Reference ReferenceType="i=40">i=68</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">VARIABLE</String>
+    </Value>
+  </UAVariable>
+  <UAObject NodeId="ns=2;i=3081" BrowseName="SemanticId" ParentNodeId="ns=2;i=3079">
+    <DisplayName>SemanticId</DisplayName>
+    <Description Locale="en">SemanticId</Description>
+    <References>
+      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3079</Reference>
+      <Reference ReferenceType="i=46">ns=2;i=3082</Reference>
+      <Reference ReferenceType="i=40">ns=1;i=1005</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=2;i=3082" BrowseName="Keys" ParentNodeId="ns=2;i=3081" DataType="i=12" AccessLevel="3">
+    <DisplayName>Keys</DisplayName>
+    <Description Locale="en">Keys</Description>
+    <References>
+      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3081</Reference>
+      <Reference ReferenceType="i=40">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=2;i=3083" BrowseName="Kind" ParentNodeId="ns=2;i=3079" DataType="i=12" AccessLevel="3">
+    <DisplayName>Kind</DisplayName>
+    <Description Locale="en">Kind</Description>
+    <References>
+      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3079</Reference>
+      <Reference ReferenceType="i=40">i=68</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">Instance</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=2;i=3084" BrowseName="ValueType" ParentNodeId="ns=2;i=3079" DataType="i=12" AccessLevel="3">
+    <DisplayName>ValueType</DisplayName>
+    <Description Locale="en">ValueType</Description>
+    <References>
+      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3079</Reference>
+      <Reference ReferenceType="i=40">i=68</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">boolean</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=2;i=3085" BrowseName="Value" ParentNodeId="ns=2;i=3079" DataType="i=1" AccessLevel="3">
+    <DisplayName>Value</DisplayName>
+    <Description Locale="en">Value</Description>
+    <References>
+      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3079</Reference>
+      <Reference ReferenceType="i=40">i=68</Reference>
+    </References>
+    <Value>
+      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
+    </Value>
+  </UAVariable>
+  <UAObject NodeId="ns=2;i=3086" BrowseName="SS_41_Stop" ParentNodeId="ns=2;i=3073">
+    <DisplayName>SS_41_Stop</DisplayName>
+    <Description Locale="en">Stop Button</Description>
+    <References>
+      <Reference ReferenceType="i=47">ns=2;i=3088</Reference>
+      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3073</Reference>
+      <Reference ReferenceType="i=46">ns=2;i=3087</Reference>
+      <Reference ReferenceType="i=46">ns=2;i=3090</Reference>
+      <Reference ReferenceType="i=46">ns=2;i=3091</Reference>
+      <Reference ReferenceType="i=46">ns=2;i=3092</Reference>
+      <Reference ReferenceType="i=40">ns=1;i=1009</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=2;i=3087" BrowseName="Category" ParentNodeId="ns=2;i=3086" DataType="i=12" AccessLevel="3">
+    <DisplayName>Category</DisplayName>
+    <Description Locale="en">Category</Description>
+    <References>
+      <Reference ReferenceType="i=37">i=80</Reference>
+      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3086</Reference>
+      <Reference ReferenceType="i=40">i=68</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">VARIABLE</String>
+    </Value>
+  </UAVariable>
+  <UAObject NodeId="ns=2;i=3088" BrowseName="SemanticId" ParentNodeId="ns=2;i=3086">
+    <DisplayName>SemanticId</DisplayName>
+    <Description Locale="en">SemanticId</Description>
+    <References>
+      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3086</Reference>
+      <Reference ReferenceType="i=46">ns=2;i=3089</Reference>
+      <Reference ReferenceType="i=40">ns=1;i=1005</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=2;i=3089" BrowseName="Keys" ParentNodeId="ns=2;i=3088" DataType="i=12" AccessLevel="3">
+    <DisplayName>Keys</DisplayName>
+    <Description Locale="en">Keys</Description>
+    <References>
+      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3088</Reference>
+      <Reference ReferenceType="i=40">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=2;i=3090" BrowseName="Kind" ParentNodeId="ns=2;i=3086" DataType="i=12" AccessLevel="3">
+    <DisplayName>Kind</DisplayName>
+    <Description Locale="en">Kind</Description>
+    <References>
+      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3086</Reference>
+      <Reference ReferenceType="i=40">i=68</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">Instance</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=2;i=3091" BrowseName="ValueType" ParentNodeId="ns=2;i=3086" DataType="i=12" AccessLevel="3">
+    <DisplayName>ValueType</DisplayName>
+    <Description Locale="en">ValueType</Description>
+    <References>
+      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3086</Reference>
+      <Reference ReferenceType="i=40">i=68</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">boolean</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=2;i=3092" BrowseName="Value" ParentNodeId="ns=2;i=3086" DataType="i=1" AccessLevel="3">
+    <DisplayName>Value</DisplayName>
+    <Description Locale="en">Value</Description>
+    <References>
+      <Reference ReferenceType="i=46" IsForward="false">ns=2;i=3086</Reference>
+      <Reference ReferenceType="i=40">i=68</Reference>
+    </References>
+    <Value>
+      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">true</Boolean>
+    </Value>
+  </UAVariable>
+  <UAObject NodeId="ns=2;i=3093" BrowseName="SS_41_Key_Pos" ParentNodeId="ns=2;i=3073">
+    <DisplayName>SS_41_Key_Pos</DisplayName>
+    <Description Locale="en">Key position</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3095</Reference>
-      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3087</Reference>
+      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3073</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3094</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3097</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3098</Reference>
@@ -33411,12 +33411,12 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3100" BrowseName="SR_44_No_Cart" ParentNodeId="ns=2;i=3087">
-    <DisplayName>SR_44_No_Cart</DisplayName>
-    <Description Locale="en">No Cart at Station</Description>
+  <UAObject NodeId="ns=2;i=3100" BrowseName="SS_41_Reset" ParentNodeId="ns=2;i=3073">
+    <DisplayName>SS_41_Reset</DisplayName>
+    <Description Locale="en">Reset Button</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3102</Reference>
-      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3087</Reference>
+      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3073</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3101</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3104</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3105</Reference>
@@ -33486,12 +33486,12 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3107" BrowseName="SR_44_Cart_Full" ParentNodeId="ns=2;i=3087">
-    <DisplayName>SR_44_Cart_Full</DisplayName>
-    <Description Locale="en">Cart Full at Station</Description>
+  <UAObject NodeId="ns=2;i=3107" BrowseName="SS_41_Panel_I4" ParentNodeId="ns=2;i=3073">
+    <DisplayName>SS_41_Panel_I4</DisplayName>
+    <Description Locale="en">Panel I4 (Outside connection)</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3109</Reference>
-      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3087</Reference>
+      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3073</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3108</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3111</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3112</Reference>
@@ -33561,12 +33561,12 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3114" BrowseName="SR_44_CRoute_Out" ParentNodeId="ns=2;i=3087">
-    <DisplayName>SR_44_CRoute_Out</DisplayName>
-    <Description Locale="en">Process Finished - Routing</Description>
+  <UAObject NodeId="ns=2;i=3114" BrowseName="SS_41_Panel_I5" ParentNodeId="ns=2;i=3073">
+    <DisplayName>SS_41_Panel_I5</DisplayName>
+    <Description Locale="en">Panel I5 (Outside connection)</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3116</Reference>
-      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3087</Reference>
+      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3073</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3115</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3118</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3119</Reference>
@@ -33633,15 +33633,15 @@
       <Reference ReferenceType="i=40">i=68</Reference>
     </References>
     <Value>
-      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
+      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">true</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3121" BrowseName="SR_43_StorCartID" ParentNodeId="ns=2;i=3087">
-    <DisplayName>SR_43_StorCartID</DisplayName>
-    <Description Locale="en">Cart Number ID</Description>
+  <UAObject NodeId="ns=2;i=3121" BrowseName="SS_41_Panel_I6" ParentNodeId="ns=2;i=3073">
+    <DisplayName>SS_41_Panel_I6</DisplayName>
+    <Description Locale="en">Panel I6 (Outside connection)</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3123</Reference>
-      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3087</Reference>
+      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3073</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3122</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3125</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3126</Reference>
@@ -33697,10 +33697,10 @@
       <Reference ReferenceType="i=40">i=68</Reference>
     </References>
     <Value>
-      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">double</String>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">boolean</String>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=2;i=3127" BrowseName="Value" ParentNodeId="ns=2;i=3121" DataType="i=11" AccessLevel="3">
+  <UAVariable NodeId="ns=2;i=3127" BrowseName="Value" ParentNodeId="ns=2;i=3121" DataType="i=1" AccessLevel="3">
     <DisplayName>Value</DisplayName>
     <Description Locale="en">Value</Description>
     <References>
@@ -33708,15 +33708,15 @@
       <Reference ReferenceType="i=40">i=68</Reference>
     </References>
     <Value>
-      <Double xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">0</Double>
+      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=3128" BrowseName="SR_44_CRoute_In" ParentNodeId="ns=2;i=3087">
-    <DisplayName>SR_44_CRoute_In</DisplayName>
-    <Description Locale="en">Cart Arrived - Routing</Description>
+  <UAObject NodeId="ns=2;i=3128" BrowseName="SS_41_Panel_I7" ParentNodeId="ns=2;i=3073">
+    <DisplayName>SS_41_Panel_I7</DisplayName>
+    <Description Locale="en">Panel I7 (Outside connection)</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=3130</Reference>
-      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3087</Reference>
+      <Reference ReferenceType="i=47" IsForward="false">ns=2;i=3073</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3129</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3132</Reference>
       <Reference ReferenceType="i=46">ns=2;i=3133</Reference>
