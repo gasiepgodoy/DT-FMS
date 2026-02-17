@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
 
+V0.3.8
+Corrigida erros de sintaxe e de nome de variáveis
+Reorganização e renomeação dos blocos na tela principal.
+
 V0.3.7 - 16/02/2026
 Adicionado Programação Interna da estação Testing [70] para Identified_Delivery e Requested_Delivery
 
