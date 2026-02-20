@@ -1,7 +1,7 @@
 Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
 
 V0.3.9
-Corrigido erros de conectividade dos blocos OPC UA, corrigido os erros nos data-types dos BUSES e modificado a ordem de variáveis no script Connect_OPCUA.
+Corrigido erros de conectividade dos blocos OPC UA, corrigido os erros nos data-types dos BUSES, modificado a ordem de variáveis no script Connect_OPCUA e também reconstruído os blocos de variáveis de entradas do simulink para o chart, adicionando apenas um único bloco geral para cada estação
 
 V0.3.8
 Corrigida erros de sintaxe e de nome de variáveis
