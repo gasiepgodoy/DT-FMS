@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do Node-RED - arquivo de criação das variáveis
 
+7.0.5 - 21/02/2026
+Acertado nome variável  I70.6, I80.1
+Criado IB106
+
 7.0.4 - 11/12/2025
 Corrigido endereçamento das variáveis C_xx_CRoute_In e C_xx_CRoute_Out
 Acertado nome da variávei I41.5para O_41_Panel_I5

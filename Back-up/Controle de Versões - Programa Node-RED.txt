@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
+V7.0.5
+Verificados TAGs de variáveis reais e simuladas.
+Pequenas correções.
+
 V7.0.4 - 11/12/2025
 Criado aba para sinais de Roteamento separada
 Corrigido Links do Cart Routing
