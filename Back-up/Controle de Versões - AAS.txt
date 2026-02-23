@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
 
+V2.5 - 21/02/2026
+Corrigidos erros de nomenclatura e posicionamento das variáveis normais e simuladas nas estações necessárias.
+P.S.: Versão para uso final até adição dos sub-modelos do MES.
+
 V2.4.1 - 17/12/2025
 Corrigido endereçamento das variáveis C_xx_CRoute_In e C_xx_CRoute_Out
 

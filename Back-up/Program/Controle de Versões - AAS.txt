@@ -1,0 +1,51 @@
+Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
+
+V2.5 - 21/02/2026
+Corrigidos erros de nomenclatura e posicionamento das variáveis normais e simuladas nas estações necessárias.
+P.S.: Versão para uso final até adição dos sub-modelos do MES.
+
+V2.4.1 - 17/12/2025
+Corrigido endereçamento das variáveis C_xx_CRoute_In e C_xx_CRoute_Out
+
+V2.4 - 13/11/2025
+Criadas variáveis de simulação para a estação Distribution [80]
+Criadas Variáveis de CRoute_In e CRoute_Out para a estação [20]
+Inserido os submodelos Documentation, Indentification e TechnicalData
+Inseridos Manuais e Memory Allocation como documentos em todos os arquivos.
+
+V2.3 - 12/09/2025
+Acertado os arquivos para a versão 3.2 do SIEMENS e variávies de controle
+Acertado os arquivos para a versão 7.0 do Variables Endpoint.
+Acertado os arquivos para a versão 7.0 do Node-RED
+Criada a estação Storage [40] devido ao roteamento de carrinhos.
+Adicionadas variáveis de Rotemando reais e simuladas nas estações necessárias [30, 40, 50, 70 e 90].
+
+V2.2.1 - 26/08/2025
+Acertado os programas das estações para estarem de acordo com a versão 3.1 do SIEMENS
+
+V2.2 - 12/08/2025
+Acertado ordem das variáveis para ficarem compatíveis com o MatLab (Actuators, AS-I, Control, Feedback e Sensors)
+Acertado ordem das variáveis simuladas para ficarem compatíveis com o MatLab (Actuators, Control e Sensors)
+Acertado os valores iniciais das variáveis dentro do AAS 
+
+V2.1.1 - 26/06/2025
+
+Corrigido nome do SMC "AS-i" para "ASi" para evitar erro de nomenclatura
+Tornado todos os SMC em "VARIABLE" ao invés de "PARAMETER" para verificar erro do servidor OPC UA
+
+V2.1 - 28/04/2025
+Incluído as variáveis de simulação (SimulatedData) para todas as estações.
+
+V2.0 - 14/03/2025
+Dividido os Assets por estação devido à limitação do Node-RED de 100 subscriptions.
+Cada estação agora terá a sua própria versão do arquivo, todos partindo da V2.0 em conjunto.
+
+V1.2 - 12/02/2025
+Incluído submodelos para o FMS (Documentation)
+Incluído submodelos para o Distribution (Identification, TechincalData, Documentation e SimulationData)
+
+V1.1 - 03/02/2025
+Incluído as variávies de Operational Data para a estação Testing [70]
+
+V1.0 - 30/01/2025
+Incluído as variáveis de Operational Data para a estação Distribution [80]
