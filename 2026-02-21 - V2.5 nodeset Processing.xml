@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<UANodeSet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LastModified="2026-02-21T19:09:45.0361086Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+<UANodeSet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LastModified="2026-02-24T17:35:02.3373431Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
   <NamespaceUris>
     <Uri>http://opcfoundation.org/UA/i4aas/</Uri>
     <Uri>http://admin-shell.io/samples/i4aas/instance/</Uri>
@@ -11736,8 +11736,8 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=1235" BrowseName="C_106_RT_Turns" ParentNodeId="ns=2;i=1189">
-    <DisplayName>C_106_RT_Turns</DisplayName>
+  <UAObject NodeId="ns=2;i=1235" BrowseName="C_106_RT_Counter" ParentNodeId="ns=2;i=1189">
+    <DisplayName>C_106_RT_Counter</DisplayName>
     <Description Locale="en">Number of Requested Turns to be usedin Rotation Only Mode</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=1237</Reference>
