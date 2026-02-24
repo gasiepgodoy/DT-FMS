@@ -10557,7 +10557,7 @@
         "type": "comment",
         "z": "f6d07cedc827abbb",
         "name": "Após UPGRADE",
-        "info": "Após upgrade é necessário habilitar\nas conexões externas.\n\nHabilitar o S7 (S7 Mastrer)\nHabilitar o MQTTT (S7HOST)",
+        "info": "Após upgrade é necessário habilitar\nas conexões externas.\n\nHabilitar o S7 (S7 Mastrer) - Somente no Master\nHabilitar o MQTTT (S7HOST) - Em todas as estações",
         "x": 780,
         "y": 40,
         "wires": []
@@ -22332,7 +22332,7 @@
         "z": "d4d059fc5f301c77",
         "g": "1bc75be5852bb346",
         "name": "CSV Content",
-        "func": "// A variável 'csvContent' armazena o conteúdo completo da sua tabela CSV\nvar csvContent =\n`ID;Distribution;Processing;Vision;Robot;Storage;Sorting\nA;Sim;Sim;Sim;Sim;Sim;Sim\nB;Sim;Não;Não;Não;Não;Sim\nC;Sim;Sim;Não;Não;Não;Sim\nD;Sim;Não;Sim;Não;Não;Sim\nE;Sim;Não;Não;Sim;Não;Sim\nF;Sim;Não;Não;Não;Sim;Sim\n`;\n\n// Atribui o conteúdo à propriedade 'payload' da mensagem\nmsg.payload = csvContent;\n\n// Opcional: define um nome de arquivo no payload, caso o nó 'file out' precise dele\nmsg.filename = 'Routing.csv';\n\n// Retorna a mensagem para o próximo nó do fluxo\nreturn msg;",
+        "func": "// A variável 'csvContent' armazena o conteúdo completo da sua tabela CSV\nvar csvContent =\n`ID;Distribution;Processing;Vision;Robot;Storage;Sorting\nA;Sim;Sim;Sim;Sim;Sim;Sim\nB;Sim;Não;Não;Não;Não;Sim\nC;Sim;Sim;Sim;Não;Não;Sim\nD;Sim;Sim;Não;Sim;Não;Sim\nE;Sim;Sim;Não;Sim;Não;Sim\n`;\n\n// Atribui o conteúdo à propriedade 'payload' da mensagem\nmsg.payload = csvContent;\n\n// Opcional: define um nome de arquivo no payload, caso o nó 'file out' precise dele\nmsg.filename = 'Routing.csv';\n\n// Retorna a mensagem para o próximo nó do fluxo\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -22499,23 +22499,18 @@
                 "type": "str"
             },
             {
-                "label": "Processing",
+                "label": "Peça Preta",
                 "value": "C",
                 "type": "str"
             },
             {
-                "label": "Vision",
+                "label": "Peça Vermelha",
                 "value": "D",
                 "type": "str"
             },
             {
-                "label": "Robot",
+                "label": "Peça Prata",
                 "value": "E",
-                "type": "str"
-            },
-            {
-                "label": "Storage",
-                "value": "F",
                 "type": "str"
             }
         ],
@@ -75187,7 +75182,7 @@
         "z": "7b3114de0a2b4bca",
         "g": "aaff29da7b613f4d",
         "item": "C_105_Initialization",
-        "datatype": "Double",
+        "datatype": "Boolean",
         "value": "",
         "name": "C_105_Initialization",
         "x": 490,
@@ -76417,7 +76412,7 @@
         ]
     },
     {
-        "id": "718241fdd7829aa1",
+        "id": "d40ec6ee9a9943bf",
         "type": "global-config",
         "env": [],
         "modules": {
