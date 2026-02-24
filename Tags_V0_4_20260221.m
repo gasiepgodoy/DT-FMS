@@ -1,7 +1,6 @@
 %
 % Tags of the Station Master [20]
 %
-
 Actuators_20 = {
     "F_22_Led_On","F_22_Led_Off","F_22_Conveyor","F_24_Release_FB","F_25_Release_FB","F_26_Release_FB","F_27_Release_FB","F_28_Release_FB","F_29_Release_FB",...
 };
@@ -43,7 +42,7 @@ Control_40 = {
 	"C_45_Initialization","C_42_Profibus","C_45_Start",	"C_45_StorePart","C_45_RetrievePart",
 };
 Sensors_40 = {
-	"O_41_Start","O_41_Stop","O_41_Key_Pos","O_41_Reset","O_41_Panel_I4","O_41_Panel_I4","O_41_Panel_I6","O_41_Panel_I7"
+	"O_41_Start","O_41_Stop","O_41_Key_Pos","O_41_Reset","O_41_Panel_I4","O_41_Panel_I5","O_41_Panel_I6","O_41_Panel_I7"
 };
 
 Var_NODE = {Actuators_30,ASi_30,Control_30,Sensors_30,Actuators_40,ASi_40,Control_40,Sensors_40};
@@ -87,7 +86,7 @@ Actuators_70 = {
     "F_72_Elev_Down","F_72_Elev_Up","F_72_Eject_Part","F_72_Air_On","F_73_Led_Start","F_73_Led_Reset","F_73_Led_Extra1","F_73_Led_Extra2","F_73_Panel_O4","F_73_Panel_O5","F_73_Panel_O6","F_73_Panel_O7"	
 };
 ASi_70 = {
-    "A_74_Request","A_74_No_Cart","A_74_Cart_Full","A_74_CRoute_Out","A_74_Croute_In80","A_73_TestCartID","A_74_Cart_Stat","A_74_Cart_Next","A_74_Optic","A_74_Count","A_74_Pist_Bck","A_74_Release_FB","A_74_CRoute_In",
+    "A_74_Request","A_74_No_Cart","A_74_Cart_Full","A_74_CRoute_Out","A_74_CRoute_In80","A_73_TestCartID","A_74_Cart_Stat","A_74_Cart_Next","A_74_Optic","A_74_Count","A_74_Pist_Bck","A_74_Release_FB","A_74_CRoute_In",
 };
 Control_70 = {
     "C_75_Initialization","C_75_ID_Delivery1","C_75_ID_Delivery2","C_75_Part_Del","C_75_RQ_Part_Del","C_75_RQ_Wrong","C_75_Identified80","C_75_Requested80","C_72_Profibus","C_75_RQ_Delivery1","C_75_RQ_Delivery2","C_75_Identified","C_75_Requested"
@@ -144,9 +143,9 @@ Sensors_100 = {
 Var_PROC = {Actuators_100,Control_100,Sensors_100};
 
 
-*
-* Creates the Matriz with all variables
-*
+%
+% Creates the Matriz with all variables
+%
 
 AllVariables = { ...
     Var_MAST, ...
