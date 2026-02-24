@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<UANodeSet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LastModified="2026-02-21T19:12:39.1335372Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+<UANodeSet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LastModified="2026-02-24T18:20:25.5499752Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
   <NamespaceUris>
     <Uri>http://opcfoundation.org/UA/i4aas/</Uri>
     <Uri>http://admin-shell.io/samples/i4aas/instance/</Uri>
@@ -14141,8 +14141,8 @@
       <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=2;i=1459" BrowseName="O_80_Pist_Back" ParentNodeId="ns=2;i=1438">
-    <DisplayName>O_80_Pist_Back</DisplayName>
+  <UAObject NodeId="ns=2;i=1459" BrowseName="O_80_Pist_Bck" ParentNodeId="ns=2;i=1438">
+    <DisplayName>O_80_Pist_Bck</DisplayName>
     <Description Locale="en">Piston in back position</Description>
     <References>
       <Reference ReferenceType="i=47">ns=2;i=1461</Reference>
