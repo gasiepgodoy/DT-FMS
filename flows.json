@@ -1,0 +1,99 @@
+[
+    {
+        "id": "8d441b1e1f9e38da",
+        "type": "tab",
+        "label": "Flux 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7d6e607a0e416a67",
+        "type": "MySQLdatabase",
+        "name": "test",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "test",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "960cf71e5790e620",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "  db",
+        "port": "3306",
+        "db": "test",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "8fe1b8c2b9d8069a",
+        "type": "MySQLdatabase",
+        "name": "test",
+        "host": "db",
+        "port": "3306",
+        "db": "test",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "33a9a85674a04849",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "test",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT 1 AS test_connexion;",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 300,
+        "wires": [
+            [
+                "a6020951f516d4fa"
+            ]
+        ]
+    },
+    {
+        "id": "1b98d5b8becee432",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "a6020951f516d4fa",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "",
+        "x": 430,
+        "y": 300,
+        "wires": [
+            [
+                "1b98d5b8becee432"
+            ]
+        ]
+    }
+]
