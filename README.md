@@ -7,6 +7,6 @@ Run : docker compose up -d
 
 ### Update Database Initialization
 
-docker compose down -v
+docker compose down 
 
 docker compose up -d 
