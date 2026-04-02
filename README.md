@@ -7,6 +7,8 @@ Run : docker compose up -d
 
 ### Update Database Initialization
 
-docker compose down 
+docker rm -f production-db
 
-docker compose up -d 
+docker volume rm mes_mysql_data
+
+docker compose up -d db

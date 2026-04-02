@@ -32,3 +32,7 @@ CREATE TABLE Production (
 
 INSERT INTO Products (product_type, Station1Stop, Station1Op, Station2Stop, Station2Op, Station3Stop, Station3Op,Station4Stop, Station4Op,Station5Stop, Station5Op,Station6Stop, Station6Op)
 VALUES ('A', TRUE, "Move Cart", TRUE, "Drop Front Cover", TRUE, "Drill Both Holes", FALSE, NULL, TRUE, "Drop Back Cover", FALSE, NULL );
+INSERT INTO Products (product_type, Station1Stop, Station1Op, Station2Stop, Station2Op, Station3Stop, Station3Op,Station4Stop, Station4Op,Station5Stop, Station5Op,Station6Stop, Station6Op)
+VALUES ('B', TRUE, "Move Cart", TRUE, "Drop Front Cover", TRUE, "Drill Left Hole", TRUE, "Camera Inspection", TRUE, "Drop Back Cover", TRUE, "Press Assembly" );
+INSERT INTO Products (product_type, Station1Stop, Station1Op, Station2Stop, Station2Op, Station3Stop, Station3Op,Station4Stop, Station4Op,Station5Stop, Station5Op,Station6Stop, Station6Op)
+VALUES ('C', TRUE, "Move Cart", TRUE, "Drop Front Cover", TRUE, "Drill Right Hole", FALSE, NULL, TRUE, "Drop Back Cover", FALSE, NULL );
