@@ -1,0 +1,36 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: production-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: test
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    container_name: production-ui
+    restart: always
+    ports:
+      - "8080:8080"
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: production-nodered
+    restart: always
+    ports:
+      - "1880:1880"
+    environment:
+      - NODE_OPTIONS=--max-old-space-size=256
+      - TZ=Europe/Paris
+    volumes:
+      - node_red_data:/data
+
+volumes:
+  mysql_data:
+  node_red_data:
