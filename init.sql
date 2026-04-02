@@ -29,3 +29,6 @@ CREATE TABLE Production (
     visited_stations VARCHAR(255),
     FOREIGN KEY (order_id) REFERENCES Orders(order_id)
 );
+
+INSERT INTO Products (product_type, Station1Stop, Station1Op, Station2Stop, Station2Op, Station3Stop, Station3Op,Station4Stop, Station4Op,Station5Stop, Station5Op,Station6Stop, Station6Op)
+VALUES ('A', TRUE, "Move Cart", TRUE, "Drop Front Cover", TRUE, "Drill Both Holes", FALSE, NULL, TRUE, "Drop Back Cover", FALSE, NULL );
