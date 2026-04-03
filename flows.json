@@ -38,6 +38,121 @@
         "charset": "UTF8"
     },
     {
+        "id": "264f4d45e89c5368",
+        "type": "ui_tab",
+        "name": "Form",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "5cacd462fa2224f8",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "5d5982fc91e21a2a",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "264f4d45e89c5368",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "33a9a85674a04849",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
@@ -95,5 +210,627 @@
                 "1b98d5b8becee432"
             ]
         ]
+    },
+    {
+        "id": "c0c553571229ca52",
+        "type": "ui_form",
+        "z": "8d441b1e1f9e38da",
+        "name": "Form",
+        "label": "Form",
+        "group": "5d5982fc91e21a2a",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Number of Products",
+                "value": "nb_product",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Type of Product",
+                "value": "product_type",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "nb_product": "",
+            "product_type": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 110,
+        "y": 460,
+        "wires": [
+            [
+                "de14ef11e7dc4d56"
+            ]
+        ]
+    },
+    {
+        "id": "de14ef11e7dc4d56",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "function 1",
+        "func": "let formData = msg.payload;\n\nmsg.topic = \"INSERT INTO Orders (order_id, nb_product, product_type, status) VALUES (1,?, ?, 'WAITING');\";\n\nmsg.payload = [formData.nb_product, formData.product_type];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 460,
+        "wires": [
+            [
+                "dcc222f6d322e31f"
+            ]
+        ]
+    },
+    {
+        "id": "dcc222f6d322e31f",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Insert",
+        "x": 410,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3ec829bf960a6578",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "IsOrderPending",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 540,
+        "wires": [
+            [
+                "fb4f05289bb65830"
+            ]
+        ]
+    },
+    {
+        "id": "fb4f05289bb65830",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "AskForOrder",
+        "func": "msg.topic = \"SELECT order_id,product_type, nb_product  FROM Orders;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 540,
+        "wires": [
+            [
+                "1736855e08701448"
+            ]
+        ]
+    },
+    {
+        "id": "c1be6e0d2108100f",
+        "type": "switch",
+        "z": "8d441b1e1f9e38da",
+        "name": "AreAnyOrderPending?",
+        "property": "payload.length",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 740,
+        "y": 540,
+        "wires": [
+            [
+                "9046f2eef15932af"
+            ]
+        ]
+    },
+    {
+        "id": "9046f2eef15932af",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "Output1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "1736855e08701448",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Insert",
+        "x": 530,
+        "y": 540,
+        "wires": [
+            [
+                "c1be6e0d2108100f"
+            ]
+        ]
+    },
+    {
+        "id": "4c3d7e3ebfa46c58",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "DeleteOrders",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 90,
+        "y": 780,
+        "wires": [
+            [
+                "321ef8b9ec4432a6"
+            ]
+        ]
+    },
+    {
+        "id": "24b0fb91cf54c062",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "DeleteOrder",
+        "func": "msg.topic = \"DELETE FROM Orders;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 780,
+        "wires": [
+            [
+                "8b3ece46f344d351"
+            ]
+        ]
+    },
+    {
+        "id": "8b3ece46f344d351",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Insert",
+        "x": 830,
+        "y": 780,
+        "wires": [
+            [
+                "cec95615ef423c17"
+            ]
+        ]
+    },
+    {
+        "id": "cec95615ef423c17",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "7c1723890b99af02",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "IsOrderPending",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 920,
+        "wires": [
+            [
+                "64738984acc84a83"
+            ]
+        ]
+    },
+    {
+        "id": "2859e31c5d17413b",
+        "type": "switch",
+        "z": "8d441b1e1f9e38da",
+        "name": "AreAnyOrderPending?",
+        "property": "payload.length",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 720,
+        "y": 920,
+        "wires": [
+            [
+                "61f936dc33c0d0e9"
+            ]
+        ]
+    },
+    {
+        "id": "e3a57c9eb541a5b7",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "GetOrders",
+        "x": 530,
+        "y": 920,
+        "wires": [
+            [
+                "2859e31c5d17413b"
+            ]
+        ]
+    },
+    {
+        "id": "1556ae4b033cfb81",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "InsertProduction",
+        "x": 400,
+        "y": 1180,
+        "wires": [
+            [
+                "c8a9bb372268af14"
+            ]
+        ]
+    },
+    {
+        "id": "64738984acc84a83",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "AskForOrder",
+        "func": "msg.topic = `\n    SELECT o.order_id, o.product_type, p.* FROM Orders o \n    JOIN Products p ON o.product_type = p.product_type \n    WHERE o.status = 'WAITING' \n    LIMIT 1;\n`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 920,
+        "wires": [
+            [
+                "e3a57c9eb541a5b7"
+            ]
+        ]
+    },
+    {
+        "id": "947dd5e1ce858a94",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "AddProduction",
+        "func": "let data = msg.productData;\n\nlet sn = data.order_id; \n\nmsg.numSerie = sn;\n\nmsg.topic = \"INSERT INTO Production (productSN, order_id, cart_id, current_station, status) VALUES (?, ?, 1, 'Station1', 'IN_PROGRESS');\";\n\nmsg.payload = [sn, data.order_id];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 180,
+        "y": 1180,
+        "wires": [
+            [
+                "1556ae4b033cfb81"
+            ]
+        ]
+    },
+    {
+        "id": "61f936dc33c0d0e9",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "ChangeStatusOrder",
+        "func": "let data = msg.payload[0]; \n\nmsg.productData = data;\nmsg.topic = \"UPDATE Orders SET status = 'IN_PROGRESS' WHERE order_id = ?;\";\n\nmsg.payload = [data.order_id]; \n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 180,
+        "y": 1060,
+        "wires": [
+            [
+                "b8cdd283d08a4233"
+            ]
+        ]
+    },
+    {
+        "id": "b8cdd283d08a4233",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "UpdateOrder",
+        "x": 390,
+        "y": 1060,
+        "wires": [
+            [
+                "947dd5e1ce858a94"
+            ]
+        ]
+    },
+    {
+        "id": "c8a9bb372268af14",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "InitializeCart",
+        "func": "let data = msg.productData;\n\nlet sn = msg.numSerie; \n\nlet stateCart = {\n    sn: sn,\n    order_id: data.order_id,\n    productData: data,\n    currentStation: 1,\n    state: 'EVALUATION' \n};\n\nflow.set('cart_' + sn, stateCart);\n\nmsg.payload = { action: 'DECISION', sn: sn };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 1280,
+        "wires": [
+            [
+                "b43f5c1e5b80e7df"
+            ]
+        ]
+    },
+    {
+        "id": "321ef8b9ec4432a6",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "DeleteOrder",
+        "func": "msg.topic = \"DELETE FROM Production;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 780,
+        "wires": [
+            [
+                "b0e67ffc26d4cb76"
+            ]
+        ]
+    },
+    {
+        "id": "b0e67ffc26d4cb76",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Insert",
+        "x": 470,
+        "y": 780,
+        "wires": [
+            [
+                "24b0fb91cf54c062"
+            ]
+        ]
+    },
+    {
+        "id": "b43f5c1e5b80e7df",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "TakeDecision",
+        "func": "let sn = msg.payload.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null; \n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = `UPDATE Production SET status = 'FINISHED' WHERE productSN = ${sn};`;\n    flow.set('cart_' + sn, undefined); \n    return [msg, { payload: `[Product ${sn}] Production finished !` }];\n}\n\nlet dbUpdateMsg = {\n    topic: `UPDATE Production SET current_station = 'Station${numStation}' WHERE productSN = ${sn};`\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n    cart.state = 'ACK_WAIT';\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n} else {\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] Bypassed. MOVE CART`;\n    cart.currentStation++;\n    cart.state = 'EVALUATION';\n}\n\nflow.set('cart_' + sn, cart);\n\nreturn [dbUpdateMsg, commandMsg];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 1280,
+        "wires": [
+            [
+                "310a8d7d2754bad1"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "310a8d7d2754bad1",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "InsertFinishedProduct",
+        "x": 740,
+        "y": 1200,
+        "wires": [
+            [
+                "decc9303957efc79"
+            ]
+        ]
+    },
+    {
+        "id": "ebc4145927af70fe",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "AcknowledgePhysicalAnswer",
+        "func": "let machineAnswer = msg.payload; \nlet sn = machineAnswer.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    cart.state = 'DONE_WAIT';\n    flow.set('cart_' + sn, cart);\n    return { payload: `[Product ${sn}] ACK received. Operation in progress...` };\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    cart.state = 'EVALUATION';\n    cart.currentStation++;\n    flow.set('cart_' + sn, cart);\n    \n    return [\n        { payload: `[Product ${sn}] MOVE CART` }, \n        { payload: { action: 'DECISION', sn: sn } } \n    ];\n}\n\nreturn null;",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 1420,
+        "wires": [
+            [
+                "085afebbe848cfdd"
+            ],
+            [
+                "b43f5c1e5b80e7df"
+            ]
+        ]
+    },
+    {
+        "id": "643b35af03a1d06f",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "DONE",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{     \"sn\": 1,     \"response\": \"DONE\" }",
+        "payloadType": "json",
+        "x": 150,
+        "y": 1380,
+        "wires": [
+            [
+                "ebc4145927af70fe"
+            ]
+        ]
+    },
+    {
+        "id": "998a0880cbc23823",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "ACK",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{     \"sn\": 1,     \"response\": \"ACK\" }",
+        "payloadType": "json",
+        "x": 150,
+        "y": 1440,
+        "wires": [
+            [
+                "ebc4145927af70fe"
+            ]
+        ]
+    },
+    {
+        "id": "085afebbe848cfdd",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "PhysicalStation",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "decc9303957efc79",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "OutputProductFinished",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 1200,
+        "wires": []
     }
 ]
