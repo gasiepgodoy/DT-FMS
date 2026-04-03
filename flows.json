@@ -487,14 +487,14 @@
                 "vt": "str"
             }
         ],
-        "repeat": "10",
+        "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 110,
+        "x": 100,
         "y": 920,
         "wires": [
             [
@@ -688,8 +688,8 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "TakeDecision",
-        "func": "let sn = msg.payload.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null; \n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = `UPDATE Production SET status = 'FINISHED' WHERE productSN = ${sn};`;\n    flow.set('cart_' + sn, undefined); \n    return [msg, { payload: `[Product ${sn}] Production finished !` }];\n}\n\nlet dbUpdateMsg = {\n    topic: `UPDATE Production SET current_station = 'Station${numStation}' WHERE productSN = ${sn};`\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n    cart.state = 'ACK_WAIT';\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n} else {\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] Bypassed. MOVE CART`;\n    cart.currentStation++;\n    cart.state = 'EVALUATION';\n}\n\nflow.set('cart_' + sn, cart);\n\nreturn [dbUpdateMsg, commandMsg];",
-        "outputs": 2,
+        "func": "let sn = msg.payload.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null;\n\nif (cart.state !== 'EVALUATION') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = `UPDATE Production SET status = 'FINISHED' WHERE productSN = ${sn};`;\n    flow.set('cart_' + sn, undefined);\n    return [msg, { payload: `[Product ${sn}] Production finished !` }, null];\n}\n\nlet dbUpdateMsg = {\n    topic: `UPDATE Production SET current_station = 'Station${numStation}' WHERE productSN = ${sn};`\n};\n\nlet commandMsg = { payload: {} };\nlet loopMsg = null; \n\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n\n    cart.state = 'ACK_WAIT';\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n\n} else {\n\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] Bypassed. MOVE CART`;\n    cart.currentStation++;\n    cart.state = 'EVALUATION';\n\n    loopMsg = { payload: { action: 'DECISION', sn: sn } };\n}\n\nflow.set('cart_' + sn, cart);\n\nreturn [dbUpdateMsg, commandMsg, loopMsg];",
+        "outputs": 3,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
@@ -700,6 +700,9 @@
         "wires": [
             [
                 "310a8d7d2754bad1"
+            ],
+            [
+                "7be39002b5515f1e"
             ],
             []
         ]
@@ -737,7 +740,8 @@
                 "085afebbe848cfdd"
             ],
             [
-                "b43f5c1e5b80e7df"
+                "b43f5c1e5b80e7df",
+                "cfcda398729ca08e"
             ]
         ]
     },
@@ -831,6 +835,40 @@
         "statusType": "auto",
         "x": 980,
         "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "7be39002b5515f1e",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "OutputDecision",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "cfcda398729ca08e",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "OutputAction",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 1460,
         "wires": []
     }
 ]
