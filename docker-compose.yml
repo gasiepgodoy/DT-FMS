@@ -30,6 +30,7 @@ services:
       - TZ=Europe/Paris
     volumes:
       - node_red_data:/data
+      - ./settings.js:/data/settings.js
 
 volumes:
   mysql_data:
