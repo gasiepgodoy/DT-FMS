@@ -634,7 +634,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "InitializeCart",
-        "func": "let data = msg.productData;\n\nlet sn = msg.numSerie; \n\nlet stateCart = {\n    sn: sn,\n    order_id: data.order_id,\n    productData: data,\n    currentStation: 1,\n    state: 'EVALUATION' \n};\n\nflow.set('cart_' + sn, stateCart);\n\nmsg.payload = { action: 'DECISION', sn: sn };\nreturn msg;",
+        "func": "let data = msg.productData;\n\nlet sn = msg.numSerie; \n\nlet stateCart = {\n    sn: sn,\n    order_id: data.order_id,\n    productData: data,\n    currentStation: 1,\n    state: 'EVALUATION',\n    isBypassed: false\n};\n\nflow.set('cart_' + sn, stateCart);\n\nmsg.payload = { action: 'DECISION', sn: sn };\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -688,8 +688,8 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "TakeDecision",
-        "func": "let sn = msg.payload.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null;\n\nif (cart.state !== 'EVALUATION') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = `UPDATE Production SET status = 'FINISHED' WHERE productSN = ${sn};`;\n    flow.set('cart_' + sn, undefined);\n    return [msg, { payload: `[Product ${sn}] Production finished !` }, null];\n}\n\nlet dbUpdateMsg = {\n    topic: `UPDATE Production SET current_station = 'Station${numStation}' WHERE productSN = ${sn};`\n};\n\nlet commandMsg = { payload: {} };\nlet loopMsg = null; \n\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n\n    cart.state = 'ACK_WAIT';\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n\n} else {\n\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] Bypassed. MOVE CART`;\n    cart.currentStation++;\n    cart.state = 'EVALUATION';\n\n    loopMsg = { payload: { action: 'DECISION', sn: sn } };\n}\n\nflow.set('cart_' + sn, cart);\n\nreturn [dbUpdateMsg, commandMsg, loopMsg];",
-        "outputs": 3,
+        "func": "let sn = msg.payload.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null; \nif (cart.state !== 'EVALUATION') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = `UPDATE Production SET status = 'FINISHED' WHERE productSN = ${sn};`;\n    flow.set('cart_' + sn, undefined);\n    return [msg, { payload: `[Product ${sn}] Production finished !` }];\n}\n\nlet dbUpdateMsg = {\n    topic: `UPDATE Production SET current_station = 'Station${numStation}' WHERE productSN = ${sn};`\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'ACK_WAIT';\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n    cart.isBypassed = false;\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n} else {\n    cart.isBypassed = true;\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] CHECK-IN ONLY (Bypass)`;\n}\n\nflow.set('cart_' + sn, cart);\n\nreturn [dbUpdateMsg, commandMsg];",
+        "outputs": 2,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
@@ -703,8 +703,7 @@
             ],
             [
                 "7be39002b5515f1e"
-            ],
-            []
+            ]
         ]
     },
     {
@@ -726,7 +725,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "AcknowledgePhysicalAnswer",
-        "func": "let machineAnswer = msg.payload; \nlet sn = machineAnswer.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    cart.state = 'DONE_WAIT';\n    flow.set('cart_' + sn, cart);\n    return { payload: `[Product ${sn}] ACK received. Operation in progress...` };\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    cart.state = 'EVALUATION';\n    cart.currentStation++;\n    flow.set('cart_' + sn, cart);\n    \n    return [\n        { payload: `[Product ${sn}] MOVE CART` }, \n        { payload: { action: 'DECISION', sn: sn } } \n    ];\n}\n\nreturn null;",
+        "func": "let machineAnswer = msg.payload; \nlet sn = machineAnswer.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    \n    if (cart.isBypassed === true) {\n        cart.state = 'EVALUATION';\n        cart.currentStation++;\n        flow.set('cart_' + sn, cart);\n        \n        return [\n            { payload: `[Product ${sn} -> Station ${cart.currentStation - 1}] ACK received. BYPASSING... MOVE CART !` }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n    } else {\n        cart.state = 'DONE_WAIT';\n        flow.set('cart_' + sn, cart);\n        \n        return { payload: `[Product ${sn} -> Station ${cart.currentStation}] ACK received. Operation in progress...` };\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    cart.state = 'EVALUATION';\n    cart.currentStation++;\n    flow.set('cart_' + sn, cart);\n    \n    return [\n        { payload: `[Product ${sn} -> Station ${cart.currentStation - 1}] DONE received. MOVE CART !` }, \n        { payload: { action: 'DECISION', sn: sn } }     ];\n}\n\nreturn null;",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -767,7 +766,7 @@
         "payload": "{     \"sn\": 1,     \"response\": \"DONE\" }",
         "payloadType": "json",
         "x": 150,
-        "y": 1380,
+        "y": 1440,
         "wires": [
             [
                 "ebc4145927af70fe"
@@ -796,7 +795,7 @@
         "payload": "{     \"sn\": 1,     \"response\": \"ACK\" }",
         "payloadType": "json",
         "x": 150,
-        "y": 1440,
+        "y": 1380,
         "wires": [
             [
                 "ebc4145927af70fe"
