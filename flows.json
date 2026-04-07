@@ -30,10 +30,10 @@
     {
         "id": "8fe1b8c2b9d8069a",
         "type": "MySQLdatabase",
-        "name": "test",
+        "name": "MES",
         "host": "db",
         "port": "3306",
-        "db": "test",
+        "db": "MES",
         "tz": "",
         "charset": "UTF8"
     },
@@ -54,7 +54,8 @@
                 "default": "#0094CE",
                 "baseColor": "#0094CE",
                 "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
-                "edited": false
+                "edited": true,
+                "reset": false
             },
             "darkTheme": {
                 "default": "#097479",
@@ -144,7 +145,7 @@
     {
         "id": "5d5982fc91e21a2a",
         "type": "ui_group",
-        "name": "Default",
+        "name": "Order Setup",
         "tab": "264f4d45e89c5368",
         "order": 1,
         "disp": true,
@@ -153,123 +154,19 @@
         "className": ""
     },
     {
-        "id": "33a9a85674a04849",
-        "type": "inject",
-        "z": "8d441b1e1f9e38da",
-        "name": "test",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "SELECT 1 AS test_connexion;",
-        "payload": "",
-        "payloadType": "date",
-        "x": 110,
-        "y": 300,
-        "wires": [
-            [
-                "a6020951f516d4fa"
-            ]
-        ]
-    },
-    {
-        "id": "1b98d5b8becee432",
-        "type": "debug",
-        "z": "8d441b1e1f9e38da",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 780,
-        "y": 300,
-        "wires": []
-    },
-    {
-        "id": "a6020951f516d4fa",
-        "type": "mysql",
-        "z": "8d441b1e1f9e38da",
-        "mydb": "8fe1b8c2b9d8069a",
-        "name": "",
-        "x": 430,
-        "y": 300,
-        "wires": [
-            [
-                "1b98d5b8becee432"
-            ]
-        ]
-    },
-    {
-        "id": "c0c553571229ca52",
-        "type": "ui_form",
-        "z": "8d441b1e1f9e38da",
-        "name": "Form",
-        "label": "Form",
-        "group": "5d5982fc91e21a2a",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "options": [
-            {
-                "label": "Number of Products",
-                "value": "nb_product",
-                "type": "number",
-                "required": true,
-                "rows": null
-            },
-            {
-                "label": "Type of Product",
-                "value": "product_type",
-                "type": "text",
-                "required": true,
-                "rows": null
-            }
-        ],
-        "formValue": {
-            "nb_product": "",
-            "product_type": ""
-        },
-        "payload": "",
-        "submit": "submit",
-        "cancel": "cancel",
-        "topic": "topic",
-        "topicType": "msg",
-        "splitLayout": "",
-        "className": "",
-        "x": 110,
-        "y": 460,
-        "wires": [
-            [
-                "de14ef11e7dc4d56"
-            ]
-        ]
-    },
-    {
         "id": "de14ef11e7dc4d56",
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "function 1",
-        "func": "let formData = msg.payload;\n\nmsg.topic = \"INSERT INTO Orders (order_id, nb_product, product_type, status) VALUES (1,?, ?, 'WAITING');\";\n\nmsg.payload = [formData.nb_product, formData.product_type];\n\nreturn msg;",
+        "func": "let type = flow.get('product_type');\nlet quantite = flow.get('nb_product');\n\nif (!type || !quantite) {\n    node.warn(\"Champs incomplets, insertion annulée.\");\n    return null; \n}\n\nmsg.topic = \"INSERT INTO Orders (order_id, nb_product, product_type, status) VALUES (1, ?, ?, 'WAITING');\";\nmsg.payload = [quantite, type];\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 260,
-        "y": 460,
+        "x": 280,
+        "y": 440,
         "wires": [
             [
                 "dcc222f6d322e31f"
@@ -283,114 +180,9 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Insert",
         "x": 410,
-        "y": 460,
+        "y": 440,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "3ec829bf960a6578",
-        "type": "inject",
-        "z": "8d441b1e1f9e38da",
-        "name": "IsOrderPending",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 100,
-        "y": 540,
-        "wires": [
-            [
-                "fb4f05289bb65830"
-            ]
-        ]
-    },
-    {
-        "id": "fb4f05289bb65830",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "AskForOrder",
-        "func": "msg.topic = \"SELECT order_id,product_type, nb_product  FROM Orders;\";\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 330,
-        "y": 540,
-        "wires": [
-            [
-                "1736855e08701448"
-            ]
-        ]
-    },
-    {
-        "id": "c1be6e0d2108100f",
-        "type": "switch",
-        "z": "8d441b1e1f9e38da",
-        "name": "AreAnyOrderPending?",
-        "property": "payload.length",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "gt",
-                "v": "0",
-                "vt": "num"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 740,
-        "y": 540,
-        "wires": [
-            [
-                "9046f2eef15932af"
-            ]
-        ]
-    },
-    {
-        "id": "9046f2eef15932af",
-        "type": "debug",
-        "z": "8d441b1e1f9e38da",
-        "name": "Output1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 980,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "1736855e08701448",
-        "type": "mysql",
-        "z": "8d441b1e1f9e38da",
-        "mydb": "8fe1b8c2b9d8069a",
-        "name": "Insert",
-        "x": 530,
-        "y": 540,
-        "wires": [
-            [
-                "c1be6e0d2108100f"
-            ]
         ]
     },
     {
@@ -869,5 +661,221 @@
         "x": 800,
         "y": 1460,
         "wires": []
+    },
+    {
+        "id": "48d0a54e54817425",
+        "type": "ui_dropdown",
+        "z": "8d441b1e1f9e38da",
+        "name": "TypeOfProduct",
+        "label": "Type Of Product",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "5d5982fc91e21a2a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "multiple": false,
+        "options": [],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 800,
+        "y": 240,
+        "wires": [
+            [
+                "b64d50c7e2d97fb6"
+            ]
+        ]
+    },
+    {
+        "id": "611bf8d5bdf9debe",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "SelectTypeOfProduct",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 240,
+        "wires": [
+            [
+                "2134d8a2a817cc33"
+            ]
+        ]
+    },
+    {
+        "id": "2134d8a2a817cc33",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "SelectTypeOfProduct",
+        "func": "msg.topic = \"SELECT product_type FROM Products;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 240,
+        "wires": [
+            [
+                "c99229d43f862c66"
+            ]
+        ]
+    },
+    {
+        "id": "c99229d43f862c66",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "",
+        "x": 510,
+        "y": 240,
+        "wires": [
+            [
+                "d29457d843a1b481"
+            ]
+        ]
+    },
+    {
+        "id": "d29457d843a1b481",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "function 2",
+        "func": "// 1. On vérifie que c'est bien un tableau\nif (!Array.isArray(msg.payload)) {\n    return null;\n}\n\n// 2. On crée un tableau simple contenant uniquement les textes\n// Cela va générer : [\"Produit A\", \"Produit B\", \"Produit C\"]\nmsg.options = msg.payload.map(row => row.product_type);\n\n// 3. On vide le payload pour que la case soit vide au départ\nmsg.payload = \"\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 240,
+        "wires": [
+            [
+                "48d0a54e54817425"
+            ]
+        ]
+    },
+    {
+        "id": "9ff79a563ba72fdc",
+        "type": "ui_numeric",
+        "z": "8d441b1e1f9e38da",
+        "name": "NumberOfProduct",
+        "label": "Number of Product",
+        "tooltip": "",
+        "group": "5d5982fc91e21a2a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "99",
+        "step": 1,
+        "className": "",
+        "x": 110,
+        "y": 300,
+        "wires": [
+            [
+                "13b16cbfaae17ea4"
+            ]
+        ]
+    },
+    {
+        "id": "dd14154524c0955d",
+        "type": "ui_button",
+        "z": "8d441b1e1f9e38da",
+        "name": "SubmitOrder",
+        "group": "5d5982fc91e21a2a",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Sumbit",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 130,
+        "y": 440,
+        "wires": [
+            [
+                "de14ef11e7dc4d56"
+            ]
+        ]
+    },
+    {
+        "id": "13b16cbfaae17ea4",
+        "type": "change",
+        "z": "8d441b1e1f9e38da",
+        "name": "SetNumberOfProduct",
+        "rules": [
+            {
+                "t": "set",
+                "p": "nb_product",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b64d50c7e2d97fb6",
+        "type": "change",
+        "z": "8d441b1e1f9e38da",
+        "name": "SetTypeOfProduct",
+        "rules": [
+            {
+                "t": "set",
+                "p": "product_type",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1010,
+        "y": 240,
+        "wires": [
+            []
+        ]
     }
 ]
