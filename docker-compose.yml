@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: MES
+      MYSQL_DATABASE: MES_POLIMI
     ports:
       - "3306:3306"
     volumes:

@@ -1,7 +1,7 @@
-CREATE DATABASE IF NOT EXISTS MES;
-CREATE DATABASE IF NOT EXISTS DT;
+CREATE DATABASE IF NOT EXISTS MES_POLIMI;
+CREATE DATABASE IF NOT EXISTS MES_UNESP;
 
-USE MES;
+USE MES_POLIMI;
 
 CREATE TABLE Products (
     product_type CHAR(1) PRIMARY KEY,
@@ -44,7 +44,7 @@ VALUES ('B', TRUE, "Move Cart", TRUE, "Drop Front Cover", TRUE, "Drill Left Hole
 INSERT INTO Products (product_type, Station1Stop, Station1Op, Station2Stop, Station2Op, Station3Stop, Station3Op,Station4Stop, Station4Op,Station5Stop, Station5Op,Station6Stop, Station6Op)
 VALUES ('C', TRUE, "Move Cart", TRUE, "Drop Front Cover", TRUE, "Drill Right Hole", FALSE, NULL, TRUE, "Drop Back Cover", FALSE, NULL );
 
-USE DT;
+USE MES_UNESP;
 
 CREATE TABLE Products (
     product_type CHAR(1) PRIMARY KEY,
