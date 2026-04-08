@@ -28,7 +28,7 @@ CREATE TABLE Orders (
 );
 
 CREATE TABLE Production (
-    productSN INT PRIMARY KEY,
+    productSN VARCHAR(50) PRIMARY KEY,
     order_id INT,
     cart_id INT,
     current_station ENUM('Station1', 'Station2', 'Station3', 'Station4', 'Station5', 'Station6'),
@@ -71,7 +71,7 @@ CREATE TABLE Orders (
 );
 
 CREATE TABLE Production (
-    productSN INT PRIMARY KEY,
+    productSN VARCHAR(50) PRIMARY KEY,
     order_id INT,
     cart_id INT,
     current_station ENUM('Station1', 'Station2', 'Station3', 'Station4', 'Station5', 'Station6'),
