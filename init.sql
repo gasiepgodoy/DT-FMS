@@ -20,7 +20,7 @@ CREATE TABLE Products (
 );
 
 CREATE TABLE Orders (
-    order_id INT  PRIMARY KEY,
+    order_id INT AUTO_INCREMENT  PRIMARY KEY,
     nb_product INT NOT NULL,
     product_type CHAR(1),
     FOREIGN KEY (product_type) REFERENCES Products(product_type),
