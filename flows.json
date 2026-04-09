@@ -326,10 +326,10 @@
         "payload": "",
         "payloadType": "date",
         "x": 120,
-        "y": 580,
+        "y": 560,
         "wires": [
             [
-                "64738984acc84a83"
+                "a23c4fb65811150e"
             ]
         ]
     },
@@ -351,7 +351,7 @@
         "repair": false,
         "outputs": 1,
         "x": 720,
-        "y": 580,
+        "y": 640,
         "wires": [
             [
                 "61f936dc33c0d0e9"
@@ -365,7 +365,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Orders",
         "x": 530,
-        "y": 580,
+        "y": 640,
         "wires": [
             [
                 "2859e31c5d17413b"
@@ -379,7 +379,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Insert Production",
         "x": 550,
-        "y": 760,
+        "y": 820,
         "wires": [
             [
                 "c8a9bb372268af14"
@@ -399,7 +399,7 @@
         "finalize": "",
         "libs": [],
         "x": 340,
-        "y": 580,
+        "y": 640,
         "wires": [
             [
                 "e3a57c9eb541a5b7"
@@ -419,7 +419,7 @@
         "finalize": "",
         "libs": [],
         "x": 340,
-        "y": 760,
+        "y": 820,
         "wires": [
             [
                 "1556ae4b033cfb81"
@@ -439,7 +439,7 @@
         "finalize": "",
         "libs": [],
         "x": 360,
-        "y": 660,
+        "y": 720,
         "wires": [
             [
                 "b8cdd283d08a4233"
@@ -453,7 +453,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Order",
         "x": 580,
-        "y": 660,
+        "y": 720,
         "wires": [
             [
                 "947dd5e1ce858a94"
@@ -464,8 +464,8 @@
         "id": "c8a9bb372268af14",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "Initialize Cart",
-        "func": "let data = msg.productData;\n\nlet sn = msg.numSerie; \n\nlet stateCart = {\n    sn: sn,\n    order_id: data.order_id,\n    productData: data,\n    currentStation: 1,\n    state: 'EVALUATION',\n    isBypassed: false\n};\n\nflow.set('cart_' + sn, stateCart);\n\nmsg.payload = { action: 'DECISION', sn: sn };\nreturn msg;",
+        "name": "Assign Cart",
+        "func": "let fleet = global.get('factory_fleet');\nlet priorityType = global.get('production_priority');\nlet order = msg.payload;\n\nlet data = msg.productData;\n\nlet sn = msg.numSerie; \n\n\n// if (order.product_type !== priorityType) {\n// }\n\nlet freeCart = fleet.find(c => c.sn === null);\n\nif (freeCart) {\n    freeCart.sn = msg.numSerie; \n    freeCart.state = 'EVALUATION';\n    freeCart.currentStation = 1;\n    freeCart.productData = msg.productData;\n    freeCart.isBypassed = false;\n    freeCart.order_id = data.order_id,\n    global.set('factory_fleet', fleet);\n\n    msg.payload = { action: 'DECISION', sn: freeCart.sn };\n    return msg;\n} else {\n    node.warn(\"No free carts available\");\n    return null;\n}\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -473,7 +473,7 @@
         "finalize": "",
         "libs": [],
         "x": 170,
-        "y": 860,
+        "y": 920,
         "wires": [
             [
                 "b43f5c1e5b80e7df"
@@ -519,7 +519,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Take Decision",
-        "func": "let sn = msg.payload.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null; \nif (cart.state !== 'EVALUATION') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id\n    msg.productSN = sn;\n    msg.next_product = true;\n    flow.set('cart_' + sn, undefined);\n\n    return [msg, { payload: `[Product ${sn}] Production finished !` }];\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn]\n};\n\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'ACK_WAIT';\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n    cart.isBypassed = false;\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n} else {\n    cart.isBypassed = true;\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] CHECK-IN ONLY (Bypass)`;\n}\n\nflow.set('cart_' + sn, cart);\n\nreturn [dbUpdateMsg, commandMsg];",
+        "func": "let sn = msg.payload.sn;\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations');\n\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart) return null;\nif (cart.state !== 'EVALUATION') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id;\n    msg.productSN = sn;\n    msg.next_product = true;\n\n    stations[6] = null;\n\n    let cartId = cart.cart_id; \n    cart.sn = null;\n    cart.order_id = null;\n    cart.productData = null;\n    cart.currentStation = 0;\n    cart.state = 'IDLE';\n    cart.isBypassed = false;\n\n    global.set('factory_fleet', fleet);\n    global.set('factory_stations', stations);\n\n    return [msg, { payload: `[Product ${sn}] Production finished ! Cart ${cartId} is now FREE.` }];\n}\n\nstations[numStation] = cart.sn;\nif (numStation > 1) {\n    stations[numStation - 1] = null;\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn]\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'ACK_WAIT';\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n    cart.isBypassed = false;\n    commandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n} else {\n    cart.isBypassed = true;\n    commandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}] CHECK-IN ONLY (Bypass)`;\n}\n\nglobal.set('factory_fleet', fleet);\nglobal.set('factory_stations', stations);\n\nreturn [dbUpdateMsg, commandMsg];",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -527,7 +527,7 @@
         "finalize": "",
         "libs": [],
         "x": 400,
-        "y": 860,
+        "y": 920,
         "wires": [
             [
                 "310a8d7d2754bad1"
@@ -544,7 +544,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Insert Finished Product",
         "x": 610,
-        "y": 840,
+        "y": 900,
         "wires": [
             [
                 "decc9303957efc79",
@@ -557,7 +557,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "AcknowledgePhysicalAnswer",
-        "func": "let machineAnswer = msg.payload; \nlet sn = machineAnswer.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    \n    if (cart.isBypassed === true) {\n        cart.state = 'EVALUATION';\n        cart.currentStation++;\n        flow.set('cart_' + sn, cart);\n        \n        return [\n            { payload: `[Product ${sn} -> Station ${cart.currentStation - 1}] ACK received. BYPASSING... MOVE CART !` }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n    } else {\n        cart.state = 'DONE_WAIT';\n        flow.set('cart_' + sn, cart);\n        \n        return { payload: `[Product ${sn} -> Station ${cart.currentStation}] ACK received. Operation in progress...` };\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    cart.state = 'EVALUATION';\n    cart.currentStation++;\n    flow.set('cart_' + sn, cart);\n    \n    return [\n        { payload: `[Product ${sn} -> Station ${cart.currentStation - 1}] DONE received. MOVE CART !` }, \n        { payload: { action: 'DECISION', sn: sn } }     ];\n}\n\nreturn null;",
+        "func": "let machineAnswer = msg.payload; \nlet sn = machineAnswer.sn;\n\nlet fleet = global.get('factory_fleet');\nif (!fleet) return null; \n\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart || cart.state === 'IDLE') return null;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    \n    if (cart.isBypassed === true) {\n        cart.state = 'EVALUATION';\n        cart.currentStation++;\n        \n        global.set('factory_fleet', fleet);\n        \n        return [\n            { payload: `[Cart ${cart.cart_id} | Product ${sn} -> Station ${cart.currentStation - 1}] ACK received. BYPASSING... MOVE CART !` }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n    } else {\n        cart.state = 'DONE_WAIT';\n        \n        global.set('factory_fleet', fleet);\n        \n        return { payload: `[Cart ${cart.cart_id} | Product ${sn} -> Station ${cart.currentStation}] ACK received. Operation in progress...` };\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    cart.state = 'EVALUATION';\n    cart.currentStation++;\n    \n    global.set('factory_fleet', fleet);\n    \n    return [\n        { payload: `[Cart ${cart.cart_id} | Product ${sn} -> Station ${cart.currentStation - 1}] DONE received. MOVE CART !` }, \n        { payload: { action: 'DECISION', sn: sn } } \n    ];\n}\n\nreturn null;",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -565,7 +565,7 @@
         "finalize": "",
         "libs": [],
         "x": 340,
-        "y": 960,
+        "y": 1020,
         "wires": [
             [
                 "085afebbe848cfdd"
@@ -595,10 +595,10 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{     \"sn\": \"5_1775727295796\",     \"response\": \"DONE\" }",
+        "payload": "{     \"sn\": \"6_1775730168407\",     \"response\": \"DONE\" }",
         "payloadType": "json",
         "x": 130,
-        "y": 1000,
+        "y": 1060,
         "wires": [
             [
                 "ebc4145927af70fe"
@@ -624,10 +624,10 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{     \"sn\": \"5_1775727295796\" ,     \"response\": \"ACK\" }",
+        "payload": "{     \"sn\": \"6_1775730168407\" ,     \"response\": \"ACK\" }",
         "payloadType": "json",
         "x": 130,
-        "y": 920,
+        "y": 980,
         "wires": [
             [
                 "ebc4145927af70fe"
@@ -648,7 +648,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 600,
-        "y": 940,
+        "y": 1000,
         "wires": []
     },
     {
@@ -665,7 +665,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 860,
-        "y": 900,
+        "y": 960,
         "wires": []
     },
     {
@@ -682,7 +682,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 580,
-        "y": 900,
+        "y": 960,
         "wires": []
     },
     {
@@ -699,7 +699,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 590,
-        "y": 980,
+        "y": 1040,
         "wires": []
     },
     {
@@ -925,7 +925,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "GetProduction",
         "x": 1080,
-        "y": 840,
+        "y": 900,
         "wires": [
             [
                 "8d085d44ed72ad0c",
@@ -946,7 +946,7 @@
         "finalize": "",
         "libs": [],
         "x": 860,
-        "y": 840,
+        "y": 900,
         "wires": [
             [
                 "4615304a7c339a8b"
@@ -966,7 +966,7 @@
         "finalize": "",
         "libs": [],
         "x": 850,
-        "y": 680,
+        "y": 740,
         "wires": [
             [
                 "e64e58cc6b222b8f",
@@ -992,7 +992,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1170,
-        "y": 640,
+        "y": 700,
         "wires": []
     },
     {
@@ -1009,7 +1009,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1240,
-        "y": 900,
+        "y": 960,
         "wires": []
     },
     {
@@ -1026,7 +1026,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1160,
-        "y": 720,
+        "y": 780,
         "wires": []
     },
     {
@@ -1187,7 +1187,7 @@
         "finalize": "",
         "libs": [],
         "x": 1040,
-        "y": 580,
+        "y": 640,
         "wires": [
             [
                 "5b8099f0491d684d"
@@ -1201,7 +1201,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Finish Order",
         "x": 1230,
-        "y": 580,
+        "y": 640,
         "wires": [
             [
                 "64738984acc84a83"
@@ -1214,9 +1214,29 @@
         "z": "8d441b1e1f9e38da",
         "name": "DELETE THIS LINK WHEN MULTIPLE PALET",
         "info": "",
-        "x": 1370,
-        "y": 520,
+        "x": 1330,
+        "y": 600,
         "wires": []
+    },
+    {
+        "id": "a23c4fb65811150e",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Initialize Line",
+        "func": "let carts = [];\nfor (let i = 1; i <= 7; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null, \n        productData: null,          \n        currentStation: 0, \n        state: 'IDLE'\n    });\n}\n\nlet stations = {\n    1: null, 2: null, 3: null, 4: null, 5: null, 6: null\n};\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', null); \n\nreturn { payload: \"Factory Initialized\" };\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 150,
+        "y": 640,
+        "wires": [
+            [
+                "64738984acc84a83"
+            ]
+        ]
     },
     {
         "id": "64300a9a705f2b0d",
