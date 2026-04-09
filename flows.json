@@ -2,7 +2,7 @@
     {
         "id": "8d441b1e1f9e38da",
         "type": "tab",
-        "label": "Flux 2",
+        "label": "MES POLIMI",
         "disabled": false,
         "info": "",
         "env": []
@@ -11,7 +11,7 @@
         "id": "3816a5498bd282cb",
         "type": "tab",
         "label": "MES Dispatching",
-        "disabled": false,
+        "disabled": true,
         "info": "",
         "env": []
     },
@@ -197,7 +197,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Order Input",
-        "func": "let type = flow.get('product_type');\nlet quantite = flow.get('nb_product');\n\nif (!type || !quantite) {\n    node.warn(\"Champs incomplets, insertion annulée.\");\n    return null; \n}\n\nmsg.topic = \"INSERT INTO Orders (order_id, nb_product, product_type, status) VALUES (1, ?, ?, 'WAITING');\";\nmsg.payload = [quantite, type];\n\nreturn msg;",
+        "func": "let type = flow.get('product_type');\nlet quantite = flow.get('nb_product');\n\nif (!type || !quantite) {\n    node.warn(\"Incomplete input\");\n    return null; \n}\n\nmsg.topic = \"INSERT INTO Orders (nb_product, product_type, status) VALUES (?, ?, 'WAITING');\";\nmsg.payload = [quantite, type];\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -595,7 +595,7 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{     \"sn\": \"1_1775645543448\",     \"response\": \"DONE\" }",
+        "payload": "{     \"sn\": \"5_1775727295796\",     \"response\": \"DONE\" }",
         "payloadType": "json",
         "x": 130,
         "y": 1000,
@@ -624,7 +624,7 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{     \"sn\": \"1_1775645543448\" ,     \"response\": \"ACK\" }",
+        "payload": "{     \"sn\": \"5_1775727295796\" ,     \"response\": \"ACK\" }",
         "payloadType": "json",
         "x": 130,
         "y": 920,
@@ -937,7 +937,7 @@
         "id": "7f793375b40450fb",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "Is Order Finished?",
+        "name": "Get Order Info",
         "func": "if (!msg.next_product) {\n    return null;\n}\n\nmsg.payload = [msg.order_id];\n\nmsg.topic = `\n    SELECT\n        p.productSN, p.order_id, p.cart_id, p.status,\n        o.nb_product,\n        pr.*\n    FROM Production p\n    JOIN Orders o ON p.order_id = o.order_id\n    JOIN Products pr ON pr.product_type = o.product_type\n    WHERE p.status = 'FINISHED' AND p.order_id = ?;\n`;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -945,7 +945,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 870,
+        "x": 860,
         "y": 840,
         "wires": [
             [
@@ -957,7 +957,7 @@
         "id": "8d085d44ed72ad0c",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": " More Order Pending ?",
+        "name": "Is Order Finished?",
         "func": "let totalProducts = msg.payload[0].nb_product;\nlet finishedProducts = msg.payload.length;\n\nlet remainingProducts = totalProducts - finishedProducts;\nmsg.remainingProducts = remainingProducts;\n\nif (remainingProducts > 0) {\n    msg.productData = msg.payload[0];\n    msg.order_id = msg.payload[0].order_id;\n    msg.production_status = \"PENDING\";\n    return [msg, null]; \n} else {\n    msg.production_status = \"FINISHED\";\n    return [null, msg]; \n}",
         "outputs": 2,
         "timeout": 0,
@@ -965,7 +965,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 860,
+        "x": 850,
         "y": 680,
         "wires": [
             [
@@ -974,7 +974,7 @@
             ],
             [
                 "34d9317ec08052a2",
-                "64738984acc84a83"
+                "577822512f86621c"
             ]
         ]
     },
@@ -1173,6 +1173,50 @@
                 "9a44244dea3cb636"
             ]
         ]
+    },
+    {
+        "id": "577822512f86621c",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Complete Order",
+        "func": "let order_id = msg.order_id;\n\nmsg.order_id = order_id;\nmsg.topic = \"UPDATE Orders SET status = 'FINISHED' WHERE order_id = ?;\";\n\nmsg.payload = [order_id];\n\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 580,
+        "wires": [
+            [
+                "5b8099f0491d684d"
+            ]
+        ]
+    },
+    {
+        "id": "5b8099f0491d684d",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Finish Order",
+        "x": 1230,
+        "y": 580,
+        "wires": [
+            [
+                "64738984acc84a83"
+            ]
+        ]
+    },
+    {
+        "id": "e83349443db1a938",
+        "type": "comment",
+        "z": "8d441b1e1f9e38da",
+        "name": "DELETE THIS LINK WHEN MULTIPLE PALET",
+        "info": "",
+        "x": 1370,
+        "y": 520,
+        "wires": []
     },
     {
         "id": "64300a9a705f2b0d",
