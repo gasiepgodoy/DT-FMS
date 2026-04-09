@@ -8,6 +8,14 @@
         "env": []
     },
     {
+        "id": "3816a5498bd282cb",
+        "type": "tab",
+        "label": "MES Dispatching",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "7d6e607a0e416a67",
         "type": "MySQLdatabase",
         "name": "test",
@@ -154,10 +162,41 @@
         "className": ""
     },
     {
+        "id": "0374e6d057e88ee9",
+        "type": "mqtt-broker",
+        "name": "MES Server",
+        "broker": "localhost",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
         "id": "de14ef11e7dc4d56",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "InsertOrder",
+        "name": "Order Input",
         "func": "let type = flow.get('product_type');\nlet quantite = flow.get('nb_product');\n\nif (!type || !quantite) {\n    node.warn(\"Champs incomplets, insertion annulée.\");\n    return null; \n}\n\nmsg.topic = \"INSERT INTO Orders (order_id, nb_product, product_type, status) VALUES (1, ?, ?, 'WAITING');\";\nmsg.payload = [quantite, type];\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -165,8 +204,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 270,
-        "y": 320,
+        "x": 250,
+        "y": 280,
         "wires": [
             [
                 "dcc222f6d322e31f"
@@ -178,9 +217,9 @@
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
-        "name": "Insert",
-        "x": 410,
-        "y": 320,
+        "name": "Order Insert",
+        "x": 430,
+        "y": 280,
         "wires": [
             []
         ]
@@ -189,7 +228,7 @@
         "id": "4c3d7e3ebfa46c58",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
-        "name": "DeleteOrders",
+        "name": "Delete Orders and Productions",
         "props": [
             {
                 "p": "payload"
@@ -206,8 +245,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 130,
-        "y": 500,
+        "x": 170,
+        "y": 440,
         "wires": [
             [
                 "321ef8b9ec4432a6"
@@ -218,7 +257,7 @@
         "id": "24b0fb91cf54c062",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "DeleteOrder",
+        "name": "Delete Productions",
         "func": "msg.topic = \"DELETE FROM Orders;\";\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -226,7 +265,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 690,
+        "x": 410,
         "y": 500,
         "wires": [
             [
@@ -239,8 +278,8 @@
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
-        "name": "Insert",
-        "x": 870,
+        "name": "Delete Productions",
+        "x": 630,
         "y": 500,
         "wires": [
             [
@@ -252,7 +291,7 @@
         "id": "cec95615ef423c17",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
-        "name": "Output",
+        "name": "Delete Orders and Productions",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -261,7 +300,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1030,
+        "x": 890,
         "y": 500,
         "wires": []
     },
@@ -269,7 +308,7 @@
         "id": "7c1723890b99af02",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
-        "name": "IsOrderPending",
+        "name": "Begin Produce",
         "props": [
             {
                 "p": "payload"
@@ -286,7 +325,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 100,
+        "x": 120,
         "y": 580,
         "wires": [
             [
@@ -298,7 +337,7 @@
         "id": "2859e31c5d17413b",
         "type": "switch",
         "z": "8d441b1e1f9e38da",
-        "name": "AreAnyOrderPending?",
+        "name": "Order Pending?",
         "property": "payload.length",
         "propertyType": "msg",
         "rules": [
@@ -311,7 +350,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 620,
+        "x": 720,
         "y": 580,
         "wires": [
             [
@@ -324,8 +363,8 @@
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
-        "name": "GetOrders",
-        "x": 430,
+        "name": "RQ Orders",
+        "x": 530,
         "y": 580,
         "wires": [
             [
@@ -338,8 +377,8 @@
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
-        "name": "InsertProduction",
-        "x": 420,
+        "name": "Insert Production",
+        "x": 550,
         "y": 760,
         "wires": [
             [
@@ -351,7 +390,7 @@
         "id": "64738984acc84a83",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "AskForOrder",
+        "name": "Pending Order",
         "func": "msg.topic = `\n    SELECT o.order_id, o.product_type, p.* FROM Orders o \n    JOIN Products p ON o.product_type = p.product_type \n    WHERE o.status = 'WAITING' \n    LIMIT 1;\n`;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -359,7 +398,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 270,
+        "x": 340,
         "y": 580,
         "wires": [
             [
@@ -371,7 +410,7 @@
         "id": "947dd5e1ce858a94",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "AddProduction",
+        "name": "Add Production",
         "func": "let order_id = msg.order_id;\n\nlet sn = order_id + \"_\" + Date.now();\n\nmsg.numSerie = sn;\n\nmsg.topic = \"INSERT INTO Production (productSN, order_id, cart_id, current_station, status) VALUES (?, ?, 1, 'Station1', 'IN_PROGRESS');\";\n\nmsg.payload = [sn, order_id];\n\nreturn msg;\n\n\n",
         "outputs": 1,
         "timeout": 0,
@@ -379,7 +418,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 180,
+        "x": 340,
         "y": 760,
         "wires": [
             [
@@ -391,7 +430,7 @@
         "id": "61f936dc33c0d0e9",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "ChangeStatusOrder",
+        "name": "Change Order Status",
         "func": "let data = msg.payload[0]; \n\nmsg.order_id = data.order_id;\nmsg.productData = data;\nmsg.topic = \"UPDATE Orders SET status = 'IN_PROGRESS' WHERE order_id = ?;\";\n\nmsg.payload = [data.order_id];\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -399,7 +438,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 200,
+        "x": 360,
         "y": 660,
         "wires": [
             [
@@ -412,8 +451,8 @@
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
-        "name": "UpdateOrder",
-        "x": 390,
+        "name": "Update Order",
+        "x": 580,
         "y": 660,
         "wires": [
             [
@@ -425,7 +464,7 @@
         "id": "c8a9bb372268af14",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "InitializeCart",
+        "name": "Initialize Cart",
         "func": "let data = msg.productData;\n\nlet sn = msg.numSerie; \n\nlet stateCart = {\n    sn: sn,\n    order_id: data.order_id,\n    productData: data,\n    currentStation: 1,\n    state: 'EVALUATION',\n    isBypassed: false\n};\n\nflow.set('cart_' + sn, stateCart);\n\nmsg.payload = { action: 'DECISION', sn: sn };\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -433,7 +472,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 130,
+        "x": 170,
         "y": 860,
         "wires": [
             [
@@ -445,7 +484,7 @@
         "id": "321ef8b9ec4432a6",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "DeleteOrder",
+        "name": "Delete Orders",
         "func": "msg.topic = \"DELETE FROM Production;\";\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -453,8 +492,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 330,
-        "y": 500,
+        "x": 420,
+        "y": 440,
         "wires": [
             [
                 "b0e67ffc26d4cb76"
@@ -466,9 +505,9 @@
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
-        "name": "Insert",
-        "x": 510,
-        "y": 500,
+        "name": "Delete Orders",
+        "x": 620,
+        "y": 440,
         "wires": [
             [
                 "24b0fb91cf54c062"
@@ -479,7 +518,7 @@
         "id": "b43f5c1e5b80e7df",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "TakeDecision",
+        "name": "Take Decision",
         "func": "let sn = msg.payload.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null; \nif (cart.state !== 'EVALUATION') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id\n    msg.productSN = sn;\n    msg.next_product = true;\n    flow.set('cart_' + sn, undefined);\n\n    return [msg, { payload: `[Product ${sn}] Production finished !` }];\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn]\n};\n\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'ACK_WAIT';\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n    cart.isBypassed = false;\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n} else {\n    cart.isBypassed = true;\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] CHECK-IN ONLY (Bypass)`;\n}\n\nflow.set('cart_' + sn, cart);\n\nreturn [dbUpdateMsg, commandMsg];",
         "outputs": 2,
         "timeout": 0,
@@ -487,7 +526,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 350,
+        "x": 400,
         "y": 860,
         "wires": [
             [
@@ -503,8 +542,8 @@
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
-        "name": "InsertFinishedProduct",
-        "x": 560,
+        "name": "Insert Finished Product",
+        "x": 610,
         "y": 840,
         "wires": [
             [
@@ -525,7 +564,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 300,
+        "x": 340,
         "y": 960,
         "wires": [
             [
@@ -541,7 +580,7 @@
         "id": "643b35af03a1d06f",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
-        "name": "DONE",
+        "name": "Station Done",
         "props": [
             {
                 "p": "payload"
@@ -558,7 +597,7 @@
         "topic": "",
         "payload": "{     \"sn\": \"1_1775645543448\",     \"response\": \"DONE\" }",
         "payloadType": "json",
-        "x": 90,
+        "x": 130,
         "y": 1000,
         "wires": [
             [
@@ -570,7 +609,7 @@
         "id": "998a0880cbc23823",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
-        "name": "ACK",
+        "name": "Cart Arrives",
         "props": [
             {
                 "p": "payload"
@@ -587,7 +626,7 @@
         "topic": "",
         "payload": "{     \"sn\": \"1_1775645543448\" ,     \"response\": \"ACK\" }",
         "payloadType": "json",
-        "x": 90,
+        "x": 130,
         "y": 920,
         "wires": [
             [
@@ -608,7 +647,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 560,
+        "x": 600,
         "y": 940,
         "wires": []
     },
@@ -625,7 +664,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 780,
+        "x": 860,
         "y": 900,
         "wires": []
     },
@@ -642,7 +681,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 540,
+        "x": 580,
         "y": 900,
         "wires": []
     },
@@ -659,7 +698,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 550,
+        "x": 590,
         "y": 980,
         "wires": []
     },
@@ -667,7 +706,7 @@
         "id": "48d0a54e54817425",
         "type": "ui_dropdown",
         "z": "8d441b1e1f9e38da",
-        "name": "TypeOfProduct",
+        "name": "Select Type Of Product",
         "label": "Type Of Product",
         "tooltip": "",
         "place": "Select option",
@@ -682,8 +721,8 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 880,
-        "y": 240,
+        "x": 350,
+        "y": 160,
         "wires": [
             [
                 "b64d50c7e2d97fb6"
@@ -694,7 +733,7 @@
         "id": "611bf8d5bdf9debe",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
-        "name": "SelectTypeOfProduct",
+        "name": "Request Type Of Product",
         "props": [
             {
                 "p": "payload"
@@ -711,8 +750,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 120,
-        "y": 240,
+        "x": 110,
+        "y": 100,
         "wires": [
             [
                 "2134d8a2a817cc33"
@@ -723,7 +762,7 @@
         "id": "2134d8a2a817cc33",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "SelectTypeOfProduct",
+        "name": "Request Type Of Product",
         "func": "msg.topic = \"SELECT product_type FROM Products;\";\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -731,8 +770,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 240,
+        "x": 370,
+        "y": 100,
         "wires": [
             [
                 "c99229d43f862c66"
@@ -744,9 +783,9 @@
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
-        "name": "",
-        "x": 510,
-        "y": 240,
+        "name": "Request Type Of Product",
+        "x": 630,
+        "y": 100,
         "wires": [
             [
                 "d29457d843a1b481"
@@ -757,7 +796,7 @@
         "id": "d29457d843a1b481",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "InsertIntoDropDown",
+        "name": "Insert Into DropDown",
         "func": "if (!Array.isArray(msg.payload)) {\n    return null;\n}\n\nmsg.options = msg.payload.map(row => row.product_type);\n\nmsg.payload = \"\";\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -765,8 +804,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 680,
-        "y": 240,
+        "x": 100,
+        "y": 160,
         "wires": [
             [
                 "48d0a54e54817425"
@@ -777,7 +816,7 @@
         "id": "9ff79a563ba72fdc",
         "type": "ui_numeric",
         "z": "8d441b1e1f9e38da",
-        "name": "NumberOfProduct",
+        "name": "Number Of Product Input",
         "label": "Number of Product",
         "tooltip": "",
         "group": "5d5982fc91e21a2a",
@@ -794,7 +833,7 @@
         "step": 1,
         "className": "",
         "x": 110,
-        "y": 280,
+        "y": 220,
         "wires": [
             [
                 "13b16cbfaae17ea4"
@@ -805,7 +844,7 @@
         "id": "dd14154524c0955d",
         "type": "ui_button",
         "z": "8d441b1e1f9e38da",
-        "name": "SubmitOrder",
+        "name": "Submit Order",
         "group": "5d5982fc91e21a2a",
         "order": 2,
         "width": 0,
@@ -821,8 +860,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 90,
-        "y": 320,
+        "x": 70,
+        "y": 280,
         "wires": [
             [
                 "de14ef11e7dc4d56"
@@ -833,7 +872,7 @@
         "id": "13b16cbfaae17ea4",
         "type": "change",
         "z": "8d441b1e1f9e38da",
-        "name": "SetNumberOfProduct",
+        "name": "Number Of Product Input",
         "rules": [
             {
                 "t": "set",
@@ -848,8 +887,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 340,
-        "y": 280,
+        "x": 370,
+        "y": 220,
         "wires": [
             []
         ]
@@ -858,7 +897,7 @@
         "id": "b64d50c7e2d97fb6",
         "type": "change",
         "z": "8d441b1e1f9e38da",
-        "name": "SetTypeOfProduct",
+        "name": "Select Type Of Product",
         "rules": [
             {
                 "t": "set",
@@ -873,8 +912,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1070,
-        "y": 240,
+        "x": 610,
+        "y": 160,
         "wires": [
             []
         ]
@@ -885,7 +924,7 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "GetProduction",
-        "x": 1020,
+        "x": 1080,
         "y": 840,
         "wires": [
             [
@@ -898,7 +937,7 @@
         "id": "7f793375b40450fb",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "SelectToSeeIfOrderFinished",
+        "name": "Is Order Finished?",
         "func": "if (!msg.next_product) {\n    return null;\n}\n\nmsg.payload = [msg.order_id];\n\nmsg.topic = `\n    SELECT\n        p.productSN, p.order_id, p.cart_id, p.status,\n        o.nb_product,\n        pr.*\n    FROM Production p\n    JOIN Orders o ON p.order_id = o.order_id\n    JOIN Products pr ON pr.product_type = o.product_type\n    WHERE p.status = 'FINISHED' AND p.order_id = ?;\n`;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -906,7 +945,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 800,
+        "x": 870,
         "y": 840,
         "wires": [
             [
@@ -918,7 +957,7 @@
         "id": "8d085d44ed72ad0c",
         "type": "function",
         "z": "8d441b1e1f9e38da",
-        "name": "AreAnyOrderPending?",
+        "name": " More Order Pending ?",
         "func": "let totalProducts = msg.payload[0].nb_product;\nlet finishedProducts = msg.payload.length;\n\nlet remainingProducts = totalProducts - finishedProducts;\nmsg.remainingProducts = remainingProducts;\n\nif (remainingProducts > 0) {\n    msg.productData = msg.payload[0];\n    msg.order_id = msg.payload[0].order_id;\n    msg.production_status = \"PENDING\";\n    return [msg, null]; \n} else {\n    msg.production_status = \"FINISHED\";\n    return [null, msg]; \n}",
         "outputs": 2,
         "timeout": 0,
@@ -926,15 +965,16 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 700,
-        "y": 700,
+        "x": 860,
+        "y": 680,
         "wires": [
             [
                 "e64e58cc6b222b8f",
                 "947dd5e1ce858a94"
             ],
             [
-                "34d9317ec08052a2"
+                "34d9317ec08052a2",
+                "64738984acc84a83"
             ]
         ]
     },
@@ -951,8 +991,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1010,
-        "y": 660,
+        "x": 1170,
+        "y": 640,
         "wires": []
     },
     {
@@ -985,8 +1025,929 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1030,
-        "y": 740,
+        "x": 1160,
+        "y": 720,
         "wires": []
+    },
+    {
+        "id": "d0174d1415712577",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "",
+        "x": 290,
+        "y": 40,
+        "wires": [
+            [
+                "257abc6cc0bf5605"
+            ]
+        ]
+    },
+    {
+        "id": "a216d8f65d9994d0",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "Test DB Connection",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT 1 AS test_connexion;",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 40,
+        "wires": [
+            [
+                "d0174d1415712577"
+            ]
+        ]
+    },
+    {
+        "id": "257abc6cc0bf5605",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "Connection OK",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "0ee4da4c80425284",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "Delete Order",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "ea74bcdf73234576",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Insert",
+        "x": 810,
+        "y": 340,
+        "wires": [
+            [
+                "0ee4da4c80425284"
+            ]
+        ]
+    },
+    {
+        "id": "ae420591212b9497",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "DeleteOrder",
+        "func": "msg.topic = \"DELETE FROM Orders;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 340,
+        "wires": [
+            [
+                "ea74bcdf73234576"
+            ]
+        ]
+    },
+    {
+        "id": "9a44244dea3cb636",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Insert",
+        "x": 270,
+        "y": 340,
+        "wires": [
+            [
+                "ae420591212b9497"
+            ]
+        ]
+    },
+    {
+        "id": "f79a37f9c5995765",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "DeleteOrder",
+        "func": "msg.topic = \"DELETE FROM Production;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 90,
+        "y": 340,
+        "wires": [
+            [
+                "9a44244dea3cb636"
+            ]
+        ]
+    },
+    {
+        "id": "64300a9a705f2b0d",
+        "type": "inject",
+        "z": "3816a5498bd282cb",
+        "name": "Test DB Connection",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT 1 AS test_connexion;",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 40,
+        "wires": [
+            [
+                "1dfe85b2170f9f0c"
+            ]
+        ]
+    },
+    {
+        "id": "cbef2752aff279ba",
+        "type": "debug",
+        "z": "3816a5498bd282cb",
+        "name": "Connection OK",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "1dfe85b2170f9f0c",
+        "type": "mysql",
+        "z": "3816a5498bd282cb",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "",
+        "x": 330,
+        "y": 40,
+        "wires": [
+            [
+                "cbef2752aff279ba"
+            ]
+        ]
+    },
+    {
+        "id": "2bf07a92f434c46d",
+        "type": "ui_form",
+        "z": "3816a5498bd282cb",
+        "d": true,
+        "name": "Form",
+        "label": "Form",
+        "group": "5d5982fc91e21a2a",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Number of Products",
+                "value": "nb_product",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Type of Product",
+                "value": "product_type",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "nb_product": "",
+            "product_type": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 730,
+        "y": 40,
+        "wires": [
+            [
+                "286a33ad59c541f6"
+            ]
+        ]
+    },
+    {
+        "id": "286a33ad59c541f6",
+        "type": "function",
+        "z": "3816a5498bd282cb",
+        "name": "Order Input",
+        "func": "let formData = msg.payload;\n\nmsg.topic = \"INSERT INTO Orders (order_id, nb_product, product_type, status) VALUES (1,?, ?, 'WAITING');\";\n\nmsg.payload = [formData.nb_product, formData.product_type];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 40,
+        "wires": [
+            [
+                "735e7f14f0b365ac"
+            ]
+        ]
+    },
+    {
+        "id": "735e7f14f0b365ac",
+        "type": "mysql",
+        "z": "3816a5498bd282cb",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Order Input",
+        "x": 1070,
+        "y": 40,
+        "wires": [
+            [
+                "2f533f35eb3570f6"
+            ]
+        ]
+    },
+    {
+        "id": "de5534568d34570d",
+        "type": "inject",
+        "z": "3816a5498bd282cb",
+        "name": "Order Pending",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "fd30e5b3ab519e04"
+            ]
+        ]
+    },
+    {
+        "id": "fd30e5b3ab519e04",
+        "type": "function",
+        "z": "3816a5498bd282cb",
+        "name": "Order Pending",
+        "func": "msg.topic = \"SELECT order_id,product_type, nb_product  FROM Orders;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 160,
+        "wires": [
+            [
+                "131cb7ebe9b49c92"
+            ]
+        ]
+    },
+    {
+        "id": "238961963b35b4e1",
+        "type": "switch",
+        "z": "3816a5498bd282cb",
+        "name": "Order Pending?",
+        "property": "payload.length",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 780,
+        "y": 160,
+        "wires": [
+            [
+                "7f2c037d333e53bc"
+            ]
+        ]
+    },
+    {
+        "id": "7f2c037d333e53bc",
+        "type": "debug",
+        "z": "3816a5498bd282cb",
+        "name": "Order Pending",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "131cb7ebe9b49c92",
+        "type": "mysql",
+        "z": "3816a5498bd282cb",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ Order Pending",
+        "x": 550,
+        "y": 160,
+        "wires": [
+            [
+                "238961963b35b4e1"
+            ]
+        ]
+    },
+    {
+        "id": "9f922816ba69f08b",
+        "type": "inject",
+        "z": "3816a5498bd282cb",
+        "name": "DeleteOrders",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "3f53af9628b3399f"
+            ]
+        ]
+    },
+    {
+        "id": "90fdb18dd2c720a3",
+        "type": "function",
+        "z": "3816a5498bd282cb",
+        "name": "DeleteOrder",
+        "func": "msg.topic = \"DELETE FROM Orders;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 200,
+        "wires": [
+            [
+                "37222e351fad54cd"
+            ]
+        ]
+    },
+    {
+        "id": "37222e351fad54cd",
+        "type": "mysql",
+        "z": "3816a5498bd282cb",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Insert",
+        "x": 1050,
+        "y": 200,
+        "wires": [
+            [
+                "88b06910207165ac"
+            ]
+        ]
+    },
+    {
+        "id": "88b06910207165ac",
+        "type": "debug",
+        "z": "3816a5498bd282cb",
+        "name": "Delete Order",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1250,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "e15364d8b3c88af6",
+        "type": "inject",
+        "z": "3816a5498bd282cb",
+        "name": "Begin Produce",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 340,
+        "wires": [
+            [
+                "96d8136c2fa388d8"
+            ]
+        ]
+    },
+    {
+        "id": "a078a11bf8cce4e2",
+        "type": "switch",
+        "z": "3816a5498bd282cb",
+        "name": "Order Pending?",
+        "property": "payload.length",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 800,
+        "y": 340,
+        "wires": [
+            [
+                "b28753ef0dfec75a",
+                "eff7b1d55caa7d1e"
+            ]
+        ]
+    },
+    {
+        "id": "57d0edad24f8466e",
+        "type": "mysql",
+        "z": "3816a5498bd282cb",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ Orders",
+        "x": 550,
+        "y": 340,
+        "wires": [
+            [
+                "a078a11bf8cce4e2"
+            ]
+        ]
+    },
+    {
+        "id": "161cacd32b0f8c9d",
+        "type": "mysql",
+        "z": "3816a5498bd282cb",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "InsertProduction",
+        "x": 760,
+        "y": 460,
+        "wires": [
+            [
+                "378b7f19deb29b1b"
+            ]
+        ]
+    },
+    {
+        "id": "96d8136c2fa388d8",
+        "type": "function",
+        "z": "3816a5498bd282cb",
+        "name": "Pending Order",
+        "func": "msg.topic = `\n    SELECT o.order_id, o.product_type, p.* FROM Orders o \n    JOIN Products p ON o.product_type = p.product_type \n    WHERE o.status = 'WAITING' \n    LIMIT 1;\n`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 340,
+        "wires": [
+            [
+                "57d0edad24f8466e"
+            ]
+        ]
+    },
+    {
+        "id": "d4d9a394e7518970",
+        "type": "function",
+        "z": "3816a5498bd282cb",
+        "name": "AddProduction",
+        "func": "let data = msg.productData;\n\nlet sn = data.order_id; \n\nmsg.numSerie = sn;\n\nmsg.topic = \"INSERT INTO Production (productSN, order_id, cart_id, current_station, status) VALUES (?, ?, 1, 'Station1', 'IN_PROGRESS');\";\n\nmsg.payload = [sn, data.order_id];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 460,
+        "wires": [
+            [
+                "161cacd32b0f8c9d"
+            ]
+        ]
+    },
+    {
+        "id": "b28753ef0dfec75a",
+        "type": "function",
+        "z": "3816a5498bd282cb",
+        "name": "ChangeStatusOrder",
+        "func": "let data = msg.payload[0]; \n\nmsg.productData = data;\nmsg.topic = \"UPDATE Orders SET status = 'IN_PROGRESS' WHERE order_id = ?;\";\n\nmsg.payload = [data.order_id]; \n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 400,
+        "wires": [
+            [
+                "bdd9748dab0380a2"
+            ]
+        ]
+    },
+    {
+        "id": "bdd9748dab0380a2",
+        "type": "mysql",
+        "z": "3816a5498bd282cb",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "UpdateOrder",
+        "x": 750,
+        "y": 400,
+        "wires": [
+            [
+                "d4d9a394e7518970"
+            ]
+        ]
+    },
+    {
+        "id": "378b7f19deb29b1b",
+        "type": "function",
+        "z": "3816a5498bd282cb",
+        "name": "InitializeCart",
+        "func": "let data = msg.productData;\n\nlet sn = msg.numSerie; \n\nlet stateCart = {\n    sn: sn,\n    order_id: data.order_id,\n    productData: data,\n    currentStation: 1,\n    state: 'EVALUATION',\n    isBypassed: false\n};\n\nflow.set('cart_' + sn, stateCart);\n\nmsg.payload = { action: 'DECISION', sn: sn };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 520,
+        "wires": [
+            [
+                "51daf7c5fcfce0d9"
+            ]
+        ]
+    },
+    {
+        "id": "3f53af9628b3399f",
+        "type": "function",
+        "z": "3816a5498bd282cb",
+        "name": "DeleteOrder",
+        "func": "msg.topic = \"DELETE FROM Production;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 200,
+        "wires": [
+            [
+                "8ed6427d56020b5b"
+            ]
+        ]
+    },
+    {
+        "id": "8ed6427d56020b5b",
+        "type": "mysql",
+        "z": "3816a5498bd282cb",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Insert",
+        "x": 510,
+        "y": 200,
+        "wires": [
+            [
+                "90fdb18dd2c720a3"
+            ]
+        ]
+    },
+    {
+        "id": "51daf7c5fcfce0d9",
+        "type": "function",
+        "z": "3816a5498bd282cb",
+        "name": "TakeDecision",
+        "func": "let sn = msg.payload.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null; \nif (cart.state !== 'EVALUATION') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = `UPDATE Production SET status = 'FINISHED' WHERE productSN = ${sn};`;\n    flow.set('cart_' + sn, undefined);\n    return [msg, { payload: `[Product ${sn}] Production finished !` }];\n}\n\nlet dbUpdateMsg = {\n    topic: `UPDATE Production SET current_station = 'Station${numStation}' WHERE productSN = ${sn};`\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'ACK_WAIT';\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n    cart.isBypassed = false;\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n} else {\n    cart.isBypassed = true;\n    commandMsg.payload = `[Product ${sn} -> Station ${numStation}] CHECK-IN ONLY (Bypass)`;\n}\n\nflow.set('cart_' + sn, cart);\n\nreturn [dbUpdateMsg, commandMsg];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 520,
+        "wires": [
+            [
+                "534e15bf3784a8cd"
+            ],
+            [
+                "4d692678ce5ad47c"
+            ]
+        ]
+    },
+    {
+        "id": "534e15bf3784a8cd",
+        "type": "mysql",
+        "z": "3816a5498bd282cb",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "InsertFinishedProduct",
+        "x": 780,
+        "y": 520,
+        "wires": [
+            [
+                "0333bc02a1590c00"
+            ]
+        ]
+    },
+    {
+        "id": "e97d6bf971e81cfe",
+        "type": "function",
+        "z": "3816a5498bd282cb",
+        "name": "AcknowledgePhysicalAnswer",
+        "func": "let machineAnswer = msg.payload; \nlet sn = machineAnswer.sn;\nlet cart = flow.get('cart_' + sn);\n\nif (!cart) return null;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    \n    if (cart.isBypassed === true) {\n        cart.state = 'EVALUATION';\n        cart.currentStation++;\n        flow.set('cart_' + sn, cart);\n        \n        return [\n            { payload: `[Product ${sn} -> Station ${cart.currentStation - 1}] ACK received. BYPASSING... MOVE CART !` }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n    } else {\n        cart.state = 'DONE_WAIT';\n        flow.set('cart_' + sn, cart);\n        \n        return { payload: `[Product ${sn} -> Station ${cart.currentStation}] ACK received. Operation in progress...` };\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    cart.state = 'EVALUATION';\n    cart.currentStation++;\n    flow.set('cart_' + sn, cart);\n    \n    return [\n        { payload: `[Product ${sn} -> Station ${cart.currentStation - 1}] DONE received. MOVE CART !` }, \n        { payload: { action: 'DECISION', sn: sn } }     ];\n}\n\nreturn null;",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 640,
+        "wires": [
+            [
+                "c5699fcf360059c6"
+            ],
+            [
+                "51daf7c5fcfce0d9",
+                "09886031219b6049"
+            ]
+        ]
+    },
+    {
+        "id": "f94544de1f984fc0",
+        "type": "inject",
+        "z": "3816a5498bd282cb",
+        "name": "Station Done",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{     \"sn\": 1,     \"response\": \"DONE\" }",
+        "payloadType": "json",
+        "x": 130,
+        "y": 700,
+        "wires": [
+            [
+                "e97d6bf971e81cfe"
+            ]
+        ]
+    },
+    {
+        "id": "17574d453fb50ddf",
+        "type": "inject",
+        "z": "3816a5498bd282cb",
+        "name": "Cart Arrives",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{     \"sn\": 1,     \"response\": \"ACK\" }",
+        "payloadType": "json",
+        "x": 130,
+        "y": 580,
+        "wires": [
+            [
+                "e97d6bf971e81cfe"
+            ]
+        ]
+    },
+    {
+        "id": "c5699fcf360059c6",
+        "type": "debug",
+        "z": "3816a5498bd282cb",
+        "name": "Physical Station",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "0333bc02a1590c00",
+        "type": "debug",
+        "z": "3816a5498bd282cb",
+        "name": "Product Finished",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1030,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "4d692678ce5ad47c",
+        "type": "debug",
+        "z": "3816a5498bd282cb",
+        "name": "Decision",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "09886031219b6049",
+        "type": "debug",
+        "z": "3816a5498bd282cb",
+        "name": "Output Action",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "2f533f35eb3570f6",
+        "type": "debug",
+        "z": "3816a5498bd282cb",
+        "name": "Ordem Input",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1250,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "eff7b1d55caa7d1e",
+        "type": "debug",
+        "z": "3816a5498bd282cb",
+        "name": "Produce",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "81d8078b0139bbaf",
+        "type": "mqtt in",
+        "z": "3816a5498bd282cb",
+        "name": "MES Input",
+        "topic": "",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "0374e6d057e88ee9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 1,
+        "x": 100,
+        "y": 780,
+        "wires": [
+            []
+        ]
     }
 ]
