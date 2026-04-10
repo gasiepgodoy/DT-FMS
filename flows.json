@@ -465,7 +465,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Assign Cart",
-        "func": "let fleet = global.get('factory_fleet');\nlet priorityType = global.get('production_priority');\nlet order = msg.payload;\n\nlet data = msg.productData;\n\nlet sn = msg.numSerie; \n\n\n// if (order.product_type !== priorityType) {\n// }\n\nlet freeCart = fleet.find(c => c.sn === null);\n\nif (freeCart) {\n    freeCart.sn = msg.numSerie; \n    freeCart.state = 'EVALUATION';\n    freeCart.currentStation = 1;\n    freeCart.productData = msg.productData;\n    freeCart.isBypassed = false;\n    freeCart.order_id = data.order_id,\n    global.set('factory_fleet', fleet);\n\n    msg.payload = { action: 'DECISION', sn: freeCart.sn };\n    return msg;\n} else {\n    node.warn(\"No free carts available\");\n    return null;\n}\n",
+        "func": "let fleet = global.get('factory_fleet');\nlet priorityType = global.get('production_priority');\nlet order = msg.payload;\n\nlet data = msg.productData;\n\nlet sn = msg.numSerie; \n\nlet freeCart = fleet.find(c => c.sn === null);\n\nif (freeCart) {\n    freeCart.sn = msg.numSerie; \n    freeCart.state = 'EVALUATION';\n    freeCart.currentStation = 1;\n    freeCart.productData = msg.productData;\n    freeCart.isBypassed = false;\n    freeCart.order_id = data.order_id,\n    global.set('factory_fleet', fleet);\n\n    msg.payload = { action: 'DECISION', sn: freeCart.sn };\n    return msg;\n} else {\n    node.warn(\"No free carts available\");\n    return null;\n}\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -557,15 +557,15 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "AcknowledgePhysicalAnswer",
-        "func": "let machineAnswer = msg.payload; \nlet sn = machineAnswer.sn;\n\nlet fleet = global.get('factory_fleet');\nif (!fleet) return null; \n\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart || cart.state === 'IDLE') return null;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    \n    if (cart.isBypassed === true) {\n        cart.state = 'EVALUATION';\n        cart.currentStation++;\n        \n        global.set('factory_fleet', fleet);\n        \n        return [\n            { payload: `[Cart ${cart.cart_id} | Product ${sn} -> Station ${cart.currentStation - 1}] ACK received. BYPASSING... MOVE CART !` }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n    } else {\n        cart.state = 'DONE_WAIT';\n        \n        global.set('factory_fleet', fleet);\n        \n        return { payload: `[Cart ${cart.cart_id} | Product ${sn} -> Station ${cart.currentStation}] ACK received. Operation in progress...` };\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    cart.state = 'EVALUATION';\n    cart.currentStation++;\n    \n    global.set('factory_fleet', fleet);\n    \n    return [\n        { payload: `[Cart ${cart.cart_id} | Product ${sn} -> Station ${cart.currentStation - 1}] DONE received. MOVE CART !` }, \n        { payload: { action: 'DECISION', sn: sn } } \n    ];\n}\n\nreturn null;",
+        "func": "let machineAnswer = msg.payload; \nlet sn = machineAnswer.sn;\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations'); \n\nif (!fleet || !stations) return null; \n\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart || cart.state === 'IDLE') return null;\n\nlet nextStation = cart.currentStation + 1;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    \n    if (cart.isBypassed === true) {\n        if (stations[nextStation] === null || nextStation > 6) {\n            cart.state = 'EVALUATION';\n            cart.currentStation++;\n            \n            global.set('factory_fleet', fleet);\n            \n            return [\n                { payload: `[Cart ${cart.cart_id}] ACK received. BYPASSING... MOVE CART !` }, \n                { payload: { action: 'DECISION', sn: sn } } \n            ];\n        } else {\n            cart.state = 'BLOCKED';\n            global.set('factory_fleet', fleet);\n            return { payload: `[Cart ${cart.cart_id}] BYPASSED but PATH BLOCKED at Station ${nextStation}. Waiting...` };\n        }\n    } else {\n        cart.state = 'DONE_WAIT';\n        global.set('factory_fleet', fleet);\n        return { payload: `[Cart ${cart.cart_id}] ACK received. Operation in progress...` };\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    \n    if (stations[nextStation] === null || nextStation > 6) {\n        cart.state = 'EVALUATION';\n        cart.currentStation++;\n        \n        global.set('factory_fleet', fleet);\n        \n        return [\n            { payload: `[Cart ${cart.cart_id}] DONE received. MOVE CART !` }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n\n    } else {\n        cart.state = 'BLOCKED';\n        global.set('factory_fleet', fleet);\n        return { payload: `[Cart ${cart.cart_id}] DONE received but PATH BLOCKED at Station ${nextStation}. Waiting...` };\n    }\n}\n\nreturn null;",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 1020,
+        "x": 320,
+        "y": 980,
         "wires": [
             [
                 "085afebbe848cfdd"
@@ -595,13 +595,13 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{     \"sn\": \"6_1775730168407\",     \"response\": \"DONE\" }",
+        "payload": "{     \"sn\": \"15_1775832547181\",     \"response\": \"DONE\" }",
         "payloadType": "json",
-        "x": 130,
-        "y": 1060,
+        "x": 90,
+        "y": 1140,
         "wires": [
             [
-                "ebc4145927af70fe"
+                "932d1207d203e972"
             ]
         ]
     },
@@ -624,13 +624,13 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{     \"sn\": \"6_1775730168407\" ,     \"response\": \"ACK\" }",
+        "payload": "{     \"sn\": \"15_1775832547181\" ,     \"response\": \"ACK\" }",
         "payloadType": "json",
-        "x": 130,
-        "y": 980,
+        "x": 90,
+        "y": 1080,
         "wires": [
             [
-                "ebc4145927af70fe"
+                "932d1207d203e972"
             ]
         ]
     },
@@ -1223,7 +1223,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Initialize Line",
-        "func": "let carts = [];\nfor (let i = 1; i <= 7; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null, \n        productData: null,          \n        currentStation: 0, \n        state: 'IDLE'\n    });\n}\n\nlet stations = {\n    1: null, 2: null, 3: null, 4: null, 5: null, 6: null\n};\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', null); \n\nreturn { payload: \"Factory Initialized\" };\n",
+        "func": "let carts = [];\nfor (let i = 1; i <= 7; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null, \n        productData: null,          \n        currentStation: 0, \n        state: 'IDLE'\n    });\n}\n\nlet stations = {\n    1: null, 2: null, 3: null, 4: null, 5: null, 6: null\n};\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', \"A\"); \n\nreturn { payload: \"Factory Initialized\" };\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1237,6 +1237,134 @@
                 "64738984acc84a83"
             ]
         ]
+    },
+    {
+        "id": "932d1207d203e972",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Station 1 Priority Filter",
+        "func": "let machineAnswer = msg.payload; \nlet sn = machineAnswer.sn;\n\nlet fleet = global.get('factory_fleet');\nlet priorityType = global.get('production_priority');\n\nif (!fleet || !priorityType) return [msg, null, null]; \n\nlet cart = fleet.find(c => c.sn === sn);\nif (!cart || cart.state === 'IDLE') return [msg, null, null];\n\n\nif (cart.currentStation === 1 && machineAnswer.response === \"ACK\") {\n    \n    let currentType = cart.productData.product_type; \n    let order_id = cart.order_id;\n\n    if (currentType !== priorityType) {\n        let dbUpdateMsg = {\n            topic: \"UPDATE Orders SET product_type = ? WHERE order_id = ?;\",\n            payload: [priorityType, order_id],\n            order_id: order_id,\n            sn: sn,\n            newType: priorityType\n        };\n\n        let newAction = \"NEW PRIORITY\";\n        let commandMsg = {\n            payload: `[Cart ${cart.cart_id}] OVERRIDE PRIORITY ! Abort previous action. NEW TYPE: ${priorityType} | NEW ACTION: ${newAction}`\n        };\n\n        cart.productData.product_type = priorityType;\n        global.set('factory_fleet', fleet);\n\n        return [null, dbUpdateMsg, commandMsg];\n    }\n}\n\nreturn [msg, null, null];",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 1100,
+        "wires": [
+            [
+                "ebc4145927af70fe"
+            ],
+            [
+                "dbb2a792c9dedb70"
+            ],
+            [
+                "27cf20efa57da21e"
+            ]
+        ]
+    },
+    {
+        "id": "27cf20efa57da21e",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "Send New action to Station",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "dbb2a792c9dedb70",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Update Order Type",
+        "x": 550,
+        "y": 1100,
+        "wires": [
+            [
+                "8cbaf8e5a30c6ec0"
+            ]
+        ]
+    },
+    {
+        "id": "5db297f4edeb65fb",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Actualize product data",
+        "func": "let sn = msg.sn;\nlet productData = msg.payload[0];\n\nif (!sn || !productData) return null;\n\nlet fleet = global.get('factory_fleet');\nif (!fleet) return null;\n\nlet cart = fleet.find(c => c.sn === sn);\nif (!cart) return null;\n\nproductData.order_id = cart.order_id;\ncart.productData = productData;\n\nglobal.set('factory_fleet', fleet);\n\nglobal.set('factory_fleet', fleet);\n\nreturn { payload: `[Cart ${cart.cart_id}] Cart Update for product : ${productData.product_type} !` };",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1280,
+        "y": 1100,
+        "wires": [
+            [
+                "8c0249c268cd4caf"
+            ]
+        ]
+    },
+    {
+        "id": "8cbaf8e5a30c6ec0",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "RQ Product Data",
+        "func": "\nlet newType = msg.newType;\nlet sn = msg.sn;\nlet order_id = msg.order_id;\n\nlet dbUpdateMsg = {\n            topic: \"SELECT o.order_id, o.product_type, p.* FROM Orders o JOIN Products p ON o.product_type = p.product_type JOIN Production pr ON o.order_id = ?;\",\n            payload: [order_id],\n            sn: sn,\n            newType: newType\n        };\n\nreturn dbUpdateMsg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 1100,
+        "wires": [
+            [
+                "4253fdfca6e1343c"
+            ]
+        ]
+    },
+    {
+        "id": "4253fdfca6e1343c",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Update Order Type",
+        "x": 1030,
+        "y": 1100,
+        "wires": [
+            [
+                "5db297f4edeb65fb"
+            ]
+        ]
+    },
+    {
+        "id": "8c0249c268cd4caf",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "OutputActualizeProduct",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1550,
+        "y": 1100,
+        "wires": []
     },
     {
         "id": "64300a9a705f2b0d",
