@@ -166,7 +166,7 @@
         "type": "mqtt-broker",
         "name": "MES Server",
         "broker": "localhost",
-        "port": 1883,
+        "port": "1884",
         "clientid": "",
         "autoConnect": true,
         "usetls": false,
@@ -1364,6 +1364,106 @@
         "statusType": "auto",
         "x": 1550,
         "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "43b08b133d4d6d3f",
+        "type": "mqtt in",
+        "z": "8d441b1e1f9e38da",
+        "name": "",
+        "topic": "test",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "0374e6d057e88ee9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 1240,
+        "wires": [
+            [
+                "f96498d0c77e9ace",
+                "932d1207d203e972"
+            ]
+        ]
+    },
+    {
+        "id": "f96498d0c77e9ace",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "Output MQTT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 510,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "f6ae6b94abf18389",
+        "type": "aedes broker",
+        "z": "8d441b1e1f9e38da",
+        "name": "",
+        "mqtt_port": "1884",
+        "mqtt_ws_bind": "port",
+        "mqtt_ws_port": "",
+        "mqtt_ws_path": "",
+        "cert": "",
+        "key": "",
+        "certname": "",
+        "keyname": "",
+        "persistence_bind": "memory",
+        "dburl": "",
+        "usetls": false,
+        "x": 170,
+        "y": 1420,
+        "wires": [
+            [
+                "e1633402dccd24a6"
+            ],
+            [
+                "526ac301c70fbb68"
+            ]
+        ]
+    },
+    {
+        "id": "e1633402dccd24a6",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "Connection Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "526ac301c70fbb68",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "Message Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 1440,
         "wires": []
     },
     {
