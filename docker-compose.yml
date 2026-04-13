@@ -25,9 +25,11 @@ services:
     restart: always
     ports:
       - "1880:1880"
+      - "1884:1884"
     environment:
-      - NODE_OPTIONS=--max-old-space-size=256
+      - NODE_OPTIONS=--max-old-space-size=512
       - TZ=Europe/Paris
+      - NODE_RED_EXTRA_PACKAGES=node-red-contrib-aedes@0.13.0
     volumes:
       - node_red_data:/data
       - ./settings.js:/data/settings.js
