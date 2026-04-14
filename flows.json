@@ -519,7 +519,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Take Decision",
-        "func": "let sn = msg.payload.sn;\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations');\n\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart) return null;\nif (cart.state !== 'EVALUATION') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id;\n    msg.productSN = sn;\n    msg.next_product = true;\n\n    stations[6] = null;\n\n    let cartId = cart.cart_id; \n    cart.sn = null;\n    cart.order_id = null;\n    cart.productData = null;\n    cart.currentStation = 0;\n    cart.state = 'IDLE';\n    cart.isBypassed = false;\n\n    global.set('factory_fleet', fleet);\n    global.set('factory_stations', stations);\n\n    return [msg, { payload: `[Product ${sn}] Production finished ! Cart ${cartId} is now FREE.` }];\n}\n\nstations[numStation] = cart.sn;\nif (numStation > 1) {\n    stations[numStation - 1] = null;\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn]\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'ACK_WAIT';\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n    cart.isBypassed = false;\n    commandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n} else {\n    cart.isBypassed = true;\n    commandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}] CHECK-IN ONLY (Bypass)`;\n}\n\nglobal.set('factory_fleet', fleet);\nglobal.set('factory_stations', stations);\n\nreturn [dbUpdateMsg, commandMsg];",
+        "func": "let sn = msg.payload.sn;\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations');\n\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart) return null;\nif (cart.state !== 'EVALUATION') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id;\n    msg.productSN = sn;\n    msg.next_product = true;\n\n    stations[6] = null;\n\n    let cartId = cart.cart_id; \n    cart.sn = null;\n    cart.order_id = null;\n    cart.productData = null;\n    cart.currentStation = 0;\n    cart.state = 'IDLE';\n    cart.isBypassed = false;\n\n    global.set('factory_fleet', fleet);\n    global.set('factory_stations', stations);\n\n    return [msg, { payload: `[Product ${sn}] Production finished ! Cart ${cartId} is now FREE.` }];\n}\n\nstations[numStation] = cart.cart_id;\nif (numStation > 1) {\n    stations[numStation - 1] = null;\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn]\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'ACK_WAIT';\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n    cart.isBypassed = false;\n    commandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n} else {\n    cart.isBypassed = true;\n    commandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}] CHECK-IN ONLY (Bypass)`;\n}\n\nglobal.set('factory_fleet', fleet);\nglobal.set('factory_stations', stations);\n\nreturn [dbUpdateMsg, commandMsg];",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -557,7 +557,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "AcknowledgePhysicalAnswer",
-        "func": "let machineAnswer = msg.payload; \nlet sn = machineAnswer.sn;\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations'); \n\nif (!fleet || !stations) return null; \n\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart || cart.state === 'IDLE') return null;\n\nlet nextStation = cart.currentStation + 1;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    \n    if (cart.isBypassed === true) {\n        if (stations[nextStation] === null || nextStation > 6) {\n            cart.state = 'EVALUATION';\n            cart.currentStation++;\n            \n            global.set('factory_fleet', fleet);\n            \n            return [\n                { payload: `[Cart ${cart.cart_id}] ACK received. BYPASSING... MOVE CART !` }, \n                { payload: { action: 'DECISION', sn: sn } } \n            ];\n        } else {\n            cart.state = 'BLOCKED';\n            global.set('factory_fleet', fleet);\n            return { payload: `[Cart ${cart.cart_id}] BYPASSED but PATH BLOCKED at Station ${nextStation}. Waiting...` };\n        }\n    } else {\n        cart.state = 'DONE_WAIT';\n        global.set('factory_fleet', fleet);\n        return { payload: `[Cart ${cart.cart_id}] ACK received. Operation in progress...` };\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    \n    if (stations[nextStation] === null || nextStation > 6) {\n        cart.state = 'EVALUATION';\n        cart.currentStation++;\n        \n        global.set('factory_fleet', fleet);\n        \n        return [\n            { payload: `[Cart ${cart.cart_id}] DONE received. MOVE CART !` }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n\n    } else {\n        cart.state = 'BLOCKED';\n        global.set('factory_fleet', fleet);\n        return { payload: `[Cart ${cart.cart_id}] DONE received but PATH BLOCKED at Station ${nextStation}. Waiting...` };\n    }\n}\n\nreturn null;",
+        "func": "let machineAnswer = msg.payload; \nlet station_number = machineAnswer.station\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations'); \n\nif (!fleet || !stations) return null;  \n\nlet cart_id = stations[station_number];\n\n// if (cartId !== undefined) {\n// } else {\n// }\n\nlet cart = fleet.find(c => c.cart_id === cart_id);\nlet sn = cart.sn;\n\nif (!cart || cart.state === 'IDLE') return null;\n\nlet nextStation = cart.currentStation + 1;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    \n    if (cart.isBypassed === true) {\n        if (stations[nextStation] === null || nextStation > 6) {\n            cart.state = 'EVALUATION';\n            cart.currentStation++;\n            \n            global.set('factory_fleet', fleet);\n            \n            return [\n                { payload: `[Cart ${cart.cart_id}] ACK received. BYPASSING... MOVE CART !` }, \n                { payload: { action: 'DECISION', sn: sn } } \n            ];\n        } else {\n            cart.state = 'BLOCKED';\n            global.set('factory_fleet', fleet);\n            return { payload: `[Cart ${cart.cart_id}] BYPASSED but PATH BLOCKED at Station ${nextStation}. Waiting...` };\n        }\n    } else {\n        cart.state = 'DONE_WAIT';\n        global.set('factory_fleet', fleet);\n        return { payload: `[Cart ${cart.cart_id}] ACK received. Operation in progress...` };\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    \n    if (stations[nextStation] === null || nextStation > 6) {\n        cart.state = 'EVALUATION';\n        cart.currentStation++;\n        \n        global.set('factory_fleet', fleet);\n        \n        return [\n            { payload: `[Cart ${cart.cart_id}] DONE received. MOVE CART !` }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n\n    } else {\n        cart.state = 'BLOCKED';\n        global.set('factory_fleet', fleet);\n        return { payload: `[Cart ${cart.cart_id}] DONE received but PATH BLOCKED at Station ${nextStation}. Waiting...` };\n    }\n}\n\nreturn null;",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -1243,7 +1243,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Station 1 Priority Filter",
-        "func": "let machineAnswer = msg.payload; \nlet sn = machineAnswer.sn;\n\nlet fleet = global.get('factory_fleet');\nlet priorityType = global.get('production_priority');\n\nif (!fleet || !priorityType) return [msg, null, null]; \n\nlet cart = fleet.find(c => c.sn === sn);\nif (!cart || cart.state === 'IDLE') return [msg, null, null];\n\n\nif (cart.currentStation === 1 && machineAnswer.response === \"ACK\") {\n    \n    let currentType = cart.productData.product_type; \n    let order_id = cart.order_id;\n\n    if (currentType !== priorityType) {\n        let dbUpdateMsg = {\n            topic: \"UPDATE Orders SET product_type = ? WHERE order_id = ?;\",\n            payload: [priorityType, order_id],\n            order_id: order_id,\n            sn: sn,\n            newType: priorityType\n        };\n\n        let newAction = \"NEW PRIORITY\";\n        let commandMsg = {\n            payload: `[Cart ${cart.cart_id}] OVERRIDE PRIORITY ! Abort previous action. NEW TYPE: ${priorityType} | NEW ACTION: ${newAction}`\n        };\n\n        cart.productData.product_type = priorityType;\n        global.set('factory_fleet', fleet);\n\n        return [null, dbUpdateMsg, commandMsg];\n    }\n}\n\nreturn [msg, null, null];",
+        "func": "let machineAnswer = msg.payload; \nlet station_number = machineAnswer.station\n\n//let sn = machineAnswer.sn;\n\nlet fleet = global.get('factory_fleet');\nlet priorityType = global.get('production_priority');\nlet stations = global.get('factory_stations');\n\n\nif (!fleet || !priorityType) return [msg, null, null]; \n\nlet cart_id = stations[station_number];\n\n// if (cartId !== undefined) {\n// } else {\n// }\n\nlet cart = fleet.find(c => c.cart_id === cart_id);\nif (!cart || cart.state === 'IDLE') return [msg, null, null];\n\n\nif (cart.currentStation === 1 && machineAnswer.response === \"ACK\") {\n    \n    let currentType = cart.productData.product_type; \n    let order_id = cart.order_id;\n\n    if (currentType !== priorityType) {\n        let dbUpdateMsg = {\n            topic: \"UPDATE Orders SET product_type = ? WHERE order_id = ?;\",\n            payload: [priorityType, order_id],\n            order_id: order_id,\n            sn: cart.sn,\n            newType: priorityType\n        };\n\n        let newAction = \"NEW PRIORITY\";\n        let commandMsg = {\n            payload: `[Cart ${cart.cart_id}] OVERRIDE PRIORITY ! Abort previous action. NEW TYPE: ${priorityType} | NEW ACTION: ${newAction}`\n        };\n\n        cart.productData.product_type = priorityType;\n        global.set('factory_fleet', fleet);\n\n        return [null, dbUpdateMsg, commandMsg];\n    }\n}\n\nreturn [msg, null, null];",
         "outputs": 3,
         "timeout": 0,
         "noerr": 0,
@@ -1379,12 +1379,12 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 150,
-        "y": 1240,
+        "x": 70,
+        "y": 1280,
         "wires": [
             [
                 "f96498d0c77e9ace",
-                "932d1207d203e972"
+                "17eb2d1fe87e2315"
             ]
         ]
     },
@@ -1401,8 +1401,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 510,
-        "y": 1300,
+        "x": 260,
+        "y": 1280,
         "wires": []
     },
     {
@@ -1436,6 +1436,7 @@
         "id": "e1633402dccd24a6",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "d": true,
         "name": "Connection Output",
         "active": true,
         "tosidebar": true,
@@ -1453,6 +1454,7 @@
         "id": "526ac301c70fbb68",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "d": true,
         "name": "Message Output",
         "active": true,
         "tosidebar": true,
@@ -1465,6 +1467,22 @@
         "x": 430,
         "y": 1440,
         "wires": []
+    },
+    {
+        "id": "17eb2d1fe87e2315",
+        "type": "json",
+        "z": "8d441b1e1f9e38da",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 150,
+        "y": 1200,
+        "wires": [
+            [
+                "932d1207d203e972"
+            ]
+        ]
     },
     {
         "id": "64300a9a705f2b0d",
