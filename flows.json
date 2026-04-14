@@ -378,11 +378,11 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Insert Production",
-        "x": 550,
-        "y": 820,
+        "x": 490,
+        "y": 840,
         "wires": [
             [
-                "c8a9bb372268af14"
+                "b43f5c1e5b80e7df"
             ]
         ]
     },
@@ -391,7 +391,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Pending Order",
-        "func": "msg.topic = `\n    SELECT o.order_id, o.product_type, p.* FROM Orders o \n    JOIN Products p ON o.product_type = p.product_type \n    WHERE o.status = 'WAITING' \n    LIMIT 1;\n`;\nreturn msg;",
+        "func": "msg.topic = `\n    SELECT o.order_id, o.product_type, o.nb_product, p.* FROM Orders o \n    JOIN Products p ON o.product_type = p.product_type \n    WHERE o.status = 'WAITING' \n    LIMIT 1;\n`;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -411,15 +411,15 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Add Production",
-        "func": "let order_id = msg.order_id;\n\nlet sn = order_id + \"_\" + Date.now();\n\nmsg.numSerie = sn;\n\nmsg.topic = \"INSERT INTO Production (productSN, order_id, cart_id, current_station, status) VALUES (?, ?, 1, 'Station1', 'IN_PROGRESS');\";\n\nmsg.payload = [sn, order_id];\n\nreturn msg;\n\n\n",
+        "func": "let sn = msg.sn;\nlet order_id = msg.order_id;\nlet cart_id = msg.cart_id; \n\nmsg.topic = \"INSERT INTO Production (productSN, order_id, cart_id, current_station, status) VALUES (?, ?, ?, 'Station1', 'IN_PROGRESS');\";\n\nmsg.payload = [sn, order_id, cart_id];\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 820,
+        "x": 260,
+        "y": 840,
         "wires": [
             [
                 "1556ae4b033cfb81"
@@ -431,7 +431,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Change Order Status",
-        "func": "let data = msg.payload[0]; \n\nmsg.order_id = data.order_id;\nmsg.productData = data;\nmsg.topic = \"UPDATE Orders SET status = 'IN_PROGRESS' WHERE order_id = ?;\";\n\nmsg.payload = [data.order_id];\n\nreturn msg;",
+        "func": "let data = msg.payload[0]; \n\nmsg.order_id = data.order_id;\nmsg.productData = data;\nmsg.topic = \"UPDATE Orders SET status = 'IN_PROGRESS' WHERE order_id = ?;\";\nmsg.remainingProducts = data.nb_product;\n\nmsg.payload = [data.order_id];\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -456,7 +456,7 @@
         "y": 720,
         "wires": [
             [
-                "947dd5e1ce858a94"
+                "c8a9bb372268af14"
             ]
         ]
     },
@@ -465,18 +465,18 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Assign Cart",
-        "func": "let fleet = global.get('factory_fleet');\nlet priorityType = global.get('production_priority');\nlet order = msg.payload;\n\nlet data = msg.productData;\n\nlet sn = msg.numSerie; \n\nlet freeCart = fleet.find(c => c.sn === null);\n\nif (freeCart) {\n    freeCart.sn = msg.numSerie; \n    freeCart.state = 'EVALUATION';\n    freeCart.currentStation = 1;\n    freeCart.productData = msg.productData;\n    freeCart.isBypassed = false;\n    freeCart.order_id = data.order_id,\n    global.set('factory_fleet', fleet);\n\n    msg.payload = { action: 'DECISION', sn: freeCart.sn };\n    return msg;\n} else {\n    node.warn(\"No free carts available\");\n    return null;\n}\n",
+        "func": "let fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations'); \nlet priorityType = global.get('production_priority');\nlet data = msg.productData;\n\nlet order_id = msg.order_id;\nlet remainingProducts = msg.remainingProducts;\n\nif (remainingProducts > 0) {\n    if (stations[1] !== null) {\n        node.warn(`BLOCKED : Station 1 occupied by cart : ${stations[1]}`);\n        return null; \n    }\n\n    let freeCart = fleet.find(c => c.sn === null);\n    if (!freeCart) {\n        node.warn(\"No free carts available\");\n        return null;\n    }\n\n    let sn = order_id + \"_\" + Date.now();\n\n    freeCart.sn = sn;\n    freeCart.state = 'EVALUATION';\n    freeCart.currentStation = 1;\n    freeCart.productData = data;\n    freeCart.isBypassed = false;\n    freeCart.order_id = order_id; \n\n    global.set('factory_fleet', fleet);\n\n    msg.sn = sn;\n    msg.order_id = order_id;\n\n    msg.cart_id = freeCart.cart_id; \n\n    node.warn(`Cart ${freeCart.cart_id} processing to Station 1`);\n    msg.machineCommand = { action: 'DECISION', sn: sn };\n\n    return msg;\n} else {\n    node.warn(\"No Order Processing\");\n    return null;\n}\n    ",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 170,
-        "y": 920,
+        "x": 470,
+        "y": 780,
         "wires": [
             [
-                "b43f5c1e5b80e7df"
+                "947dd5e1ce858a94"
             ]
         ]
     },
@@ -519,7 +519,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Take Decision",
-        "func": "let sn = msg.payload.sn;\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations');\n\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart) return null;\nif (cart.state !== 'EVALUATION') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id;\n    msg.productSN = sn;\n    msg.next_product = true;\n\n    stations[6] = null;\n\n    let cartId = cart.cart_id; \n    cart.sn = null;\n    cart.order_id = null;\n    cart.productData = null;\n    cart.currentStation = 0;\n    cart.state = 'IDLE';\n    cart.isBypassed = false;\n\n    global.set('factory_fleet', fleet);\n    global.set('factory_stations', stations);\n\n    return [msg, { payload: `[Product ${sn}] Production finished ! Cart ${cartId} is now FREE.` }];\n}\n\nstations[numStation] = cart.cart_id;\nif (numStation > 1) {\n    stations[numStation - 1] = null;\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn]\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'ACK_WAIT';\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n    cart.isBypassed = false;\n    commandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n} else {\n    cart.isBypassed = true;\n    commandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}] CHECK-IN ONLY (Bypass)`;\n}\n\nglobal.set('factory_fleet', fleet);\nglobal.set('factory_stations', stations);\n\nreturn [dbUpdateMsg, commandMsg];",
+        "func": "let fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations');\n\nlet sn = msg.payload.sn || msg.sn;\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart) return null;\nif (cart.state !== 'EVALUATION') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id;\n    msg.productSN = sn;\n\n    stations[6] = null;\n\n    let cartId = cart.cart_id; \n    cart.sn = null;\n    cart.order_id = null;\n    cart.productData = null;\n    cart.currentStation = 0;\n    cart.state = 'IDLE';\n    cart.isBypassed = false;\n\n    global.set('factory_fleet', fleet);\n    global.set('factory_stations', stations);\n\n    return [msg, { payload: `[Product ${sn}] Production finished ! Cart ${cartId} is now FREE.` }];\n}\n\nstations[numStation] = cart.cart_id;\nif (numStation > 1) {\n    stations[numStation - 1] = null;\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn],\n    order_id: cart.order_id,\n    productSN: sn\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'ACK_WAIT';\n\nif (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n    cart.isBypassed = false;\n    commandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}] INSTRUCTION : ${cart.productData[opCol]}`;\n} else {\n    cart.isBypassed = true;\n    commandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}] CHECK-IN ONLY (Bypass)`;\n}\n\nglobal.set('factory_fleet', fleet);\nglobal.set('factory_stations', stations);\n\nreturn [dbUpdateMsg, commandMsg];",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -542,8 +542,8 @@
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
-        "name": "Insert Finished Product",
-        "x": 610,
+        "name": "Update Production",
+        "x": 590,
         "y": 900,
         "wires": [
             [
@@ -557,7 +557,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "AcknowledgePhysicalAnswer",
-        "func": "let machineAnswer = msg.payload; \nlet station_number = machineAnswer.station\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations'); \n\nif (!fleet || !stations) return null;  \n\nlet cart_id = stations[station_number];\n\n// if (cartId !== undefined) {\n// } else {\n// }\n\nlet cart = fleet.find(c => c.cart_id === cart_id);\nlet sn = cart.sn;\n\nif (!cart || cart.state === 'IDLE') return null;\n\nlet nextStation = cart.currentStation + 1;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    \n    if (cart.isBypassed === true) {\n        if (stations[nextStation] === null || nextStation > 6) {\n            cart.state = 'EVALUATION';\n            cart.currentStation++;\n            \n            global.set('factory_fleet', fleet);\n            \n            return [\n                { payload: `[Cart ${cart.cart_id}] ACK received. BYPASSING... MOVE CART !` }, \n                { payload: { action: 'DECISION', sn: sn } } \n            ];\n        } else {\n            cart.state = 'BLOCKED';\n            global.set('factory_fleet', fleet);\n            return { payload: `[Cart ${cart.cart_id}] BYPASSED but PATH BLOCKED at Station ${nextStation}. Waiting...` };\n        }\n    } else {\n        cart.state = 'DONE_WAIT';\n        global.set('factory_fleet', fleet);\n        return { payload: `[Cart ${cart.cart_id}] ACK received. Operation in progress...` };\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    \n    if (stations[nextStation] === null || nextStation > 6) {\n        cart.state = 'EVALUATION';\n        cart.currentStation++;\n        \n        global.set('factory_fleet', fleet);\n        \n        return [\n            { payload: `[Cart ${cart.cart_id}] DONE received. MOVE CART !` }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n\n    } else {\n        cart.state = 'BLOCKED';\n        global.set('factory_fleet', fleet);\n        return { payload: `[Cart ${cart.cart_id}] DONE received but PATH BLOCKED at Station ${nextStation}. Waiting...` };\n    }\n}\n\nreturn null;",
+        "func": "let machineAnswer = msg.payload; \nlet station_number = machineAnswer.station\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations'); \n\nif (!fleet || !stations) return null;  \n\nlet cart_id = stations[station_number];\n\n// if (cartId !== undefined) {\n// } else {\n// }\n\nlet cart = fleet.find(c => c.cart_id === cart_id);\n\nif (!cart || cart.state === 'IDLE') return null;\n\nlet sn = cart.sn;\n\nlet nextStation = cart.currentStation + 1;\n\nif (machineAnswer.response === \"ACK\" && cart.state === 'ACK_WAIT') {\n    \n    if (cart.isBypassed === true) {\n        if (stations[nextStation] === null || nextStation > 6) {\n            cart.state = 'EVALUATION';\n            cart.currentStation++;\n            \n            global.set('factory_fleet', fleet);\n            \n            return [\n                { payload: `[Cart ${cart.cart_id}] ACK received. BYPASSING... MOVE CART !` }, \n                { payload: { action: 'DECISION', sn: sn } } \n            ];\n        } else {\n            cart.state = 'BLOCKED';\n            global.set('factory_fleet', fleet);\n            return { payload: `[Cart ${cart.cart_id}] BYPASSED but PATH BLOCKED at Station ${nextStation}. Waiting...` };\n        }\n    } else {\n        cart.state = 'DONE_WAIT';\n        global.set('factory_fleet', fleet);\n        return { payload: `[Cart ${cart.cart_id}] ACK received. Operation in progress...` };\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    \n    if (stations[nextStation] === null || nextStation > 6) {\n        cart.state = 'EVALUATION';\n        cart.currentStation++;\n        \n        global.set('factory_fleet', fleet);\n        \n        return [\n            { \n                payload: `[Cart ${cart.cart_id}] DONE received. MOVE CART !` ,\n                sn: sn\n            }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n\n    } else {\n        cart.state = 'BLOCKED';\n        global.set('factory_fleet', fleet);\n        return { payload: `[Cart ${cart.cart_id}] DONE received but PATH BLOCKED at Station ${nextStation}. Waiting...` };\n    }\n}\n\nif (cart.state === 'BLOCKED') {\n    if (stations[nextStation] === null || nextStation > 6) {\n\n        cart.state = 'EVALUATION';\n\n        cart.currentStation++;\n\n        global.set('factory_fleet', fleet);\n\n        return [\n            {\n                payload: `[Cart ${cart.cart_id}] PATH CLEARED for Station ${nextStation}. MOVE CART !`,\n                sn: sn\n            },\n            { payload: { action: 'DECISION', sn: sn } }\n        ];\n\n    } else {\n        return { payload: `[Cart ${cart.cart_id}] Still BLOCKED. Waiting for Station ${nextStation} to clear...` };\n    }\n\n\n}\n\nreturn null;",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -655,7 +655,7 @@
         "id": "decc9303957efc79",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
-        "name": "OutputProductFinished",
+        "name": "OutputUpdateProduction",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -664,7 +664,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 860,
+        "x": 870,
         "y": 960,
         "wires": []
     },
@@ -938,7 +938,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Get Order Info",
-        "func": "if (!msg.next_product) {\n    return null;\n}\n\nmsg.payload = [msg.order_id];\n\nmsg.topic = `\n    SELECT\n        p.productSN, p.order_id, p.cart_id, p.status,\n        o.nb_product,\n        pr.*\n    FROM Production p\n    JOIN Orders o ON p.order_id = o.order_id\n    JOIN Products pr ON pr.product_type = o.product_type\n    WHERE p.status = 'FINISHED' AND p.order_id = ?;\n`;\n\nreturn msg;",
+        "func": "msg.payload = [msg.order_id];\n\nmsg.topic = `\n    SELECT \n        o.order_id, \n        o.nb_product, \n        pr.*,\n        COUNT(p.productSN) AS processed_count\n    FROM Orders o\n    JOIN Products pr ON pr.product_type = o.product_type\n    LEFT JOIN Production p ON p.order_id = o.order_id AND p.status IN ('FINISHED', 'IN_PROGRESS')\n    WHERE o.order_id = ?\n    GROUP BY o.order_id;\n`;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -958,7 +958,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Is Order Finished?",
-        "func": "let totalProducts = msg.payload[0].nb_product;\nlet finishedProducts = msg.payload.length;\n\nlet remainingProducts = totalProducts - finishedProducts;\nmsg.remainingProducts = remainingProducts;\n\nif (remainingProducts > 0) {\n    msg.productData = msg.payload[0];\n    msg.order_id = msg.payload[0].order_id;\n    msg.production_status = \"PENDING\";\n    return [msg, null]; \n} else {\n    msg.production_status = \"FINISHED\";\n    return [null, msg]; \n}",
+        "func": "if (!msg.payload || msg.payload.length === 0) {\n    node.warn(\"Error : No command found\");\n    return null;\n}\n\nlet totalProducts = msg.payload[0].nb_product;\nlet processedProducts = msg.payload[0].processed_count; \n\nlet remainingProducts = totalProducts - processedProducts;\nmsg.remainingProducts = remainingProducts;\n\nif (remainingProducts > 0) {\n    msg.productData = msg.payload[0];\n    msg.order_id = msg.payload[0].order_id;\n    msg.production_status = \"PENDING\";\n    return [msg, null]; \n} else {\n    msg.production_status = \"FINISHED\";\n    return [null, msg]; \n}",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -970,7 +970,7 @@
         "wires": [
             [
                 "e64e58cc6b222b8f",
-                "947dd5e1ce858a94"
+                "11510b592a108d30"
             ],
             [
                 "34d9317ec08052a2",
@@ -991,8 +991,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1170,
-        "y": 700,
+        "x": 1230,
+        "y": 720,
         "wires": []
     },
     {
@@ -1025,8 +1025,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1160,
-        "y": 780,
+        "x": 1020,
+        "y": 560,
         "wires": []
     },
     {
@@ -1187,7 +1187,7 @@
         "finalize": "",
         "libs": [],
         "x": 1040,
-        "y": 640,
+        "y": 620,
         "wires": [
             [
                 "5b8099f0491d684d"
@@ -1201,22 +1201,10 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Finish Order",
         "x": 1230,
-        "y": 640,
+        "y": 620,
         "wires": [
-            [
-                "64738984acc84a83"
-            ]
+            []
         ]
-    },
-    {
-        "id": "e83349443db1a938",
-        "type": "comment",
-        "z": "8d441b1e1f9e38da",
-        "name": "DELETE THIS LINK WHEN MULTIPLE PALET",
-        "info": "",
-        "x": 1330,
-        "y": 600,
-        "wires": []
     },
     {
         "id": "a23c4fb65811150e",
@@ -1370,7 +1358,7 @@
         "id": "43b08b133d4d6d3f",
         "type": "mqtt in",
         "z": "8d441b1e1f9e38da",
-        "name": "",
+        "name": "Message from the stations",
         "topic": "test",
         "qos": "2",
         "datatype": "auto-detect",
@@ -1379,7 +1367,7 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 70,
+        "x": 130,
         "y": 1280,
         "wires": [
             [
@@ -1401,7 +1389,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 260,
+        "x": 420,
         "y": 1280,
         "wires": []
     },
@@ -1481,6 +1469,31 @@
         "wires": [
             [
                 "932d1207d203e972"
+            ]
+        ]
+    },
+    {
+        "id": "11510b592a108d30",
+        "type": "delay",
+        "z": "8d441b1e1f9e38da",
+        "name": "Delay 10 seconds",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1190,
+        "y": 780,
+        "wires": [
+            [
+                "c8a9bb372268af14"
             ]
         ]
     },
