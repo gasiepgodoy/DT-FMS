@@ -1,0 +1,39 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: production-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: MES_POLIMI
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    container_name: production-ui
+    restart: always
+    ports:
+      - "8080:8080"
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: production-nodered
+    restart: always
+    ports:
+      - "1880:1880"
+      - "1884:1884"
+    environment:
+      - NODE_OPTIONS=--max-old-space-size=512
+      - TZ=Europe/Paris
+      - NODE_RED_EXTRA_PACKAGES=node-red-contrib-aedes@0.13.0
+    volumes:
+      - node_red_data:/data
+      - ./settings.js:/data/settings.js
+
+volumes:
+  mysql_data:
+  node_red_data:
