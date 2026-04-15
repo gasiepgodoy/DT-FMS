@@ -750,7 +750,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 110,
+        "x": 190,
         "y": 100,
         "wires": [
             [
@@ -770,7 +770,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 370,
+        "x": 450,
         "y": 100,
         "wires": [
             [
@@ -784,7 +784,7 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Request Type Of Product",
-        "x": 630,
+        "x": 710,
         "y": 100,
         "wires": [
             [
