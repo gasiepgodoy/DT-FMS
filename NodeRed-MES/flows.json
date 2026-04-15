@@ -39,7 +39,7 @@
         "id": "8fe1b8c2b9d8069a",
         "type": "MySQLdatabase",
         "name": "MES",
-        "host": "db",
+        "host": "127.0.0.1",
         "port": "3306",
         "db": "MES_POLIMI",
         "tz": "",
@@ -938,7 +938,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Get Order Info",
-        "func": "msg.payload = [msg.order_id];\n\nmsg.topic = `\n    SELECT \n        o.order_id, \n        o.nb_product, \n        pr.*,\n        COUNT(p.productSN) AS processed_count\n    FROM Orders o\n    JOIN Products pr ON pr.product_type = o.product_type\n    LEFT JOIN Production p ON p.order_id = o.order_id AND p.status IN ('FINISHED', 'IN_PROGRESS')\n    WHERE o.order_id = ?\n    GROUP BY o.order_id;\n`;\n\nreturn msg;",
+        "func": "msg.payload = [msg.order_id];\n\nmsg.topic = `\n   SELECT\n        o.order_id,\n        o.nb_product,\n        pr.*,\n        COUNT(p.productSN) AS total_processed,\n        SUM(CASE WHEN p.status = 'FINISHED' THEN 1 ELSE 0 END) AS count_finished,\n        SUM(CASE WHEN p.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS count_in_progress\n    FROM Orders o\n    JOIN Products pr ON pr.product_type = o.product_type\n    LEFT JOIN Production p ON p.order_id = o.order_id AND p.status IN ('FINISHED', 'IN_PROGRESS')\n    WHERE o.order_id = ?\n    GROUP BY o.order_id;\n`;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -958,8 +958,8 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Is Order Finished?",
-        "func": "if (!msg.payload || msg.payload.length === 0) {\n    node.warn(\"Error : No command found\");\n    return null;\n}\n\nlet totalProducts = msg.payload[0].nb_product;\nlet processedProducts = msg.payload[0].processed_count; \n\nlet remainingProducts = totalProducts - processedProducts;\nmsg.remainingProducts = remainingProducts;\n\nif (remainingProducts > 0) {\n    msg.productData = msg.payload[0];\n    msg.order_id = msg.payload[0].order_id;\n    msg.production_status = \"PENDING\";\n    return [msg, null]; \n} else {\n    msg.production_status = \"FINISHED\";\n    return [null, msg]; \n}",
-        "outputs": 2,
+        "func": "if (!msg.payload || msg.payload.length === 0) {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Error : No command\" });\n    node.warn(\"Error : No command found\");\n    return null;\n}\n\nlet totalProducts = msg.payload[0].nb_product;\nlet processedProducts = msg.payload[0].total_processed;\nlet finishedProducts = msg.payload[0].count_finished;\n\nlet remainingProducts = totalProducts - processedProducts;\nmsg.remainingProducts = remainingProducts;\n\nif (remainingProducts > 0) {\n    msg.productData = msg.payload[0];\n    msg.order_id = msg.payload[0].order_id;\n    msg.production_status = \"PENDING_PRODUCTS\";\n\n    node.status({ fill: \"blue\", shape: \"dot\", text: `Remaining ${remainingProducts}/${totalProducts} products` });\n    return [msg, null, null];\n\n} else if (totalProducts === finishedProducts) {\n    msg.production_status = \"FINISHED\";\n\n    node.status({ fill: \"green\", shape: \"dot\", text: `Order ${msg.payload[0].order_id} Finished !` });\n    return [null, msg, null];\n\n} else {\n    msg.production_status = \"NEXT ORDER\";\n\n    node.status({ fill: \"yellow\", shape: \"ring\", text: \"Transition to next order\" });\n    return [null, null, msg];\n}",
+        "outputs": 3,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
@@ -975,6 +975,9 @@
             [
                 "34d9317ec08052a2",
                 "577822512f86621c"
+            ],
+            [
+                "64738984acc84a83"
             ]
         ]
     },
@@ -991,8 +994,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1230,
-        "y": 720,
+        "x": 1310,
+        "y": 700,
         "wires": []
     },
     {
@@ -1186,8 +1189,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1040,
-        "y": 620,
+        "x": 1020,
+        "y": 660,
         "wires": [
             [
                 "5b8099f0491d684d"
@@ -1200,10 +1203,12 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Finish Order",
-        "x": 1230,
-        "y": 620,
+        "x": 1290,
+        "y": 580,
         "wires": [
-            []
+            [
+                "64738984acc84a83"
+            ]
         ]
     },
     {
@@ -1231,7 +1236,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Station 1 Priority Filter",
-        "func": "let machineAnswer = msg.payload; \nlet station_number = machineAnswer.station\n\n//let sn = machineAnswer.sn;\n\nlet fleet = global.get('factory_fleet');\nlet priorityType = global.get('production_priority');\nlet stations = global.get('factory_stations');\n\n\nif (!fleet || !priorityType) return [msg, null, null]; \n\nlet cart_id = stations[station_number];\n\n// if (cartId !== undefined) {\n// } else {\n// }\n\nlet cart = fleet.find(c => c.cart_id === cart_id);\nif (!cart || cart.state === 'IDLE') return [msg, null, null];\n\n\nif (cart.currentStation === 1 && machineAnswer.response === \"ACK\") {\n    \n    let currentType = cart.productData.product_type; \n    let order_id = cart.order_id;\n\n    if (currentType !== priorityType) {\n        let dbUpdateMsg = {\n            topic: \"UPDATE Orders SET product_type = ? WHERE order_id = ?;\",\n            payload: [priorityType, order_id],\n            order_id: order_id,\n            sn: cart.sn,\n            newType: priorityType\n        };\n\n        let newAction = \"NEW PRIORITY\";\n        let commandMsg = {\n            payload: `[Cart ${cart.cart_id}] OVERRIDE PRIORITY ! Abort previous action. NEW TYPE: ${priorityType} | NEW ACTION: ${newAction}`\n        };\n\n        cart.productData.product_type = priorityType;\n        global.set('factory_fleet', fleet);\n\n        return [null, dbUpdateMsg, commandMsg];\n    }\n}\n\nreturn [msg, null, null];",
+        "func": "let machineAnswer = msg.payload; \nlet station_number = machineAnswer.station\n\n//let sn = machineAnswer.sn;\n\nlet fleet = global.get('factory_fleet');\nlet priorityType = global.get('production_priority');\nlet stations = global.get('factory_stations');\n\n\nif (!fleet || !priorityType) return [msg, null, null]; \n\nlet cart_id = stations[station_number];\n\n// if (cartId !== undefined) {\n// } else {\n// }\n\nlet cart = fleet.find(c => c.cart_id === cart_id);\nif (!cart || cart.state === 'IDLE') return [msg, null, null];\n\n\nif (cart.currentStation === 99 && machineAnswer.response === \"ACK\") { //Adapt Filter to change product while on production\n    \n    let currentType = cart.productData.product_type; \n    let order_id = cart.order_id;\n\n    if (currentType !== priorityType) {\n        let dbUpdateMsg = {\n            topic: \"UPDATE Orders SET product_type = ? WHERE order_id = ?;\",\n            payload: [priorityType, order_id],\n            order_id: order_id,\n            sn: cart.sn,\n            newType: priorityType\n        };\n\n        let newAction = \"NEW PRIORITY\";\n        let commandMsg = {\n            payload: `[Cart ${cart.cart_id}] OVERRIDE PRIORITY ! Abort previous action. NEW TYPE: ${priorityType} | NEW ACTION: ${newAction}`\n        };\n\n        cart.productData.product_type = priorityType;\n        global.set('factory_fleet', fleet);\n\n        return [null, dbUpdateMsg, commandMsg];\n    }\n}\n\nreturn [msg, null, null];",
         "outputs": 3,
         "timeout": 0,
         "noerr": 0,
@@ -1489,7 +1494,7 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1190,
+        "x": 1210,
         "y": 780,
         "wires": [
             [
