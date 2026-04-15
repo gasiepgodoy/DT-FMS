@@ -12,6 +12,6 @@ This repository contains several separete codes and informations regarding the p
 
 3. AAS - the Asset administration Shell files resposible for the standardization of information structure. It contains the main .aasx file being used. Curent Version is V2.3
 
-4. State Transition Table Model - The digital model, made in State Transition Table of MATLAB/Simulink, of the FMS stations. Current Version is V0.4
+4. Digital Model - STF - The digital model, made in State Transition Table of MATLAB/Simulink, of the FMS stations. Current Version is V0.4
 
 5. Unity - Responsible for the 3D Visualization Model of the FMS and the necessary connections to the AAS Verison of Node-RED (V7 onwards)
