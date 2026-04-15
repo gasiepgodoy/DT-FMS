@@ -1,0 +1,110 @@
+[
+    {
+        "id": "36562aaf891b17c1",
+        "type": "tab",
+        "label": "AAS Server",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3d3a7316eeabb826",
+        "type": "group",
+        "z": "36562aaf891b17c1",
+        "name": "Servidor",
+        "style": {
+            "fill": "#ffbfbf",
+            "label": true
+        },
+        "nodes": [
+            "f37c65723a7f1a0a",
+            "0c11b6069b5a928b"
+        ],
+        "x": 14,
+        "y": 19,
+        "w": 392,
+        "h": 82
+    },
+    {
+        "id": "f37c65723a7f1a0a",
+        "type": "OpcUa-Server",
+        "z": "36562aaf891b17c1",
+        "g": "3d3a7316eeabb826",
+        "port": "53882",
+        "name": "OPC AAS Server",
+        "endpoint": "",
+        "users": "",
+        "nodesetDir": "C:\\ProjetoGemeo",
+        "autoAcceptUnknownCertificate": true,
+        "registerToDiscovery": true,
+        "constructDefaultAddressSpace": true,
+        "allowAnonymous": true,
+        "endpointNone": true,
+        "endpointSign": true,
+        "endpointSignEncrypt": true,
+        "endpointBasic128Rsa15": true,
+        "endpointBasic256": true,
+        "endpointBasic256Sha256": true,
+        "maxNodesPerBrowse": "1000",
+        "maxNodesPerHistoryReadData": "1000",
+        "maxNodesPerHistoryReadEvents": "1000",
+        "maxNodesPerHistoryUpdateData": "1000",
+        "maxNodesPerRead": "1000",
+        "maxNodesPerWrite": "1000",
+        "maxNodesPerMethodCall": "1000",
+        "maxNodesPerRegisterNodes": "1000",
+        "maxNodesPerNodeManagement": "1000",
+        "maxMonitoredItemsPerCall": "1000",
+        "maxNodesPerHistoryUpdateEvents": "1000",
+        "maxNodesPerTranslateBrowsePathsToNodeIds": "1000",
+        "maxConnectionsPerEndpoint": "1000",
+        "maxMessageSize": 4096,
+        "maxBufferSize": 4096,
+        "maxSessions": "1000",
+        "x": 130,
+        "y": 60,
+        "wires": [
+            [
+                "0c11b6069b5a928b"
+            ]
+        ]
+    },
+    {
+        "id": "0c11b6069b5a928b",
+        "type": "debug",
+        "z": "36562aaf891b17c1",
+        "g": "3d3a7316eeabb826",
+        "name": "Server",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 310,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "474996ac7c9246c3",
+        "type": "comment",
+        "z": "36562aaf891b17c1",
+        "name": "Versão Node-Red: V6.2.1",
+        "info": "",
+        "x": 650,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "e8ba3e6e9a68fe55",
+        "type": "comment",
+        "z": "36562aaf891b17c1",
+        "name": "Versão AAS: V1.1",
+        "info": "",
+        "x": 630,
+        "y": 80,
+        "wires": []
+    }
+]

@@ -1,0 +1,37 @@
+Procedure to Download and configure  TV BOx Linux 
+
+In Linux Terminal:
+
+For each station, create a folder in main root directory (using the commands below) and Download the raw files from GitHub, renaming them
+
+mkdir ProjetoGemeo			//Creates project Directory
+cd ProjetoGemeo
+mkdir AAS					//Creates AAS folder to hold files
+cd AAS
+mkdir "Station"				//Creates the folder for each Station (Distribution, Handling1, Handling2, Master, Processing, Sorting, Testing)
+cd Station
+curl -O "raw File"			//Take the raw file path from GitHub. Current V2.1 version below:
+
+Distribution: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Distribution.xml
+Handling1: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Handling%201.xml
+Handling2: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Handling%202.xml
+Master: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Master.xml
+Processing: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Processing.xml
+Sorting: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Sorting.xml
+Testing: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Testing.xml
+
+mv "finename" nodeset.xml	//Makes the name of the file correct for the system. The file name is listed on the folder and can be seen with the "ls" command.
+
+after the file is downloaded and renamed, check if file is ok with the command below, that should return the header of the file.
+
+head nodeset.xml
+
+In Node-red:
+
+On each Server node, insert the correct path to the nodeset file:
+
+/root/ProjetoGemeo/AAS/"Station"
+
+On each CSV node, insert the correct path and file name (the file is created and updated by the flow)
+
+/root/ProjetoGemeo/AAS/"Station"/Variables.csv
