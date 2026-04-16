@@ -1,7 +1,7 @@
 brokerAddress = "tcp://127.0.0.1";
 port = 1884; 
 
-response = "ACK";
+response = "CART_IN";
 station_number = 3;
 
 mqClient = mqttclient(brokerAddress, Port=port);
