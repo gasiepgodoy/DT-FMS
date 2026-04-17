@@ -1,1 +1,13 @@
+node_modules/
+
+.config.*
+.sessions.json
+
 *.backup
+
+*flows_cred.json
+
+context/
+NodeRed-MES/.npm/*
+NodeRed-MES/projects/.sshkeys/__default_GitHub-cle
+NodeRed-MES/projects/.sshkeys/__default_GitHub-cle.pub

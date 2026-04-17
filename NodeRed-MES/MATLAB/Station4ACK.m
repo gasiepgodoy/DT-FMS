@@ -1,7 +1,8 @@
 brokerAddress = "tcp://127.0.0.1";
 port = 1884; 
 
-response = "DONE";
+response = "CART_IN";
+station_number = 4;
 
 mqClient = mqttclient(brokerAddress, Port=port);
 fprintf("Successfully connected to broker\n")
@@ -9,7 +10,7 @@ fprintf("Successfully connected to broker\n")
 topic  = "test";
         
 payloadReady = struct( ...
-    "sn",  "16_1776083060292", ...
+    "station",  station_number, ...
     "response", response ...
 );
         

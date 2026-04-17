@@ -2,7 +2,11 @@
     "name": "MESLab4_0",
     "description": "A Node-RED Project",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+        "node-red-contrib-aedes": "^0.13.0",
+        "node-red-dashboard": "~3.6.6",
+        "node-red-node-mysql": "~3.0.0"
+    },
     "node-red": {
         "settings": {
             "flowFile": "flows.json",

@@ -1,8 +1,8 @@
 brokerAddress = "tcp://127.0.0.1";
 port = 1884; 
 
-response = "ACK";
-station_number = 5;
+response = "CART_IN";
+station_number = 6;
 
 mqClient = mqttclient(brokerAddress, Port=port);
 fprintf("Successfully connected to broker\n")
