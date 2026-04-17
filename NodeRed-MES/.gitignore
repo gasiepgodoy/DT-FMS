@@ -1,0 +1,12 @@
+node_modules/
+.npm/
+
+*.backup
+.config.*.json
+
+mqtt_data/
+
+projects/
+
+flows_cred.json
+*flows_cred.json
