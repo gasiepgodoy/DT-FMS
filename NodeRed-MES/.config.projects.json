@@ -1,0 +1,8 @@
+{
+    "projects": {
+        "MESLab4_0": {
+            "credentialSecret": false
+        }
+    },
+    "activeProject": "MESLab4_0"
+}
