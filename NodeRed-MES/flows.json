@@ -283,7 +283,8 @@
         "y": 480,
         "wires": [
             [
-                "cec95615ef423c17"
+                "cec95615ef423c17",
+                "a23c4fb65811150e"
             ]
         ]
     },
@@ -325,11 +326,11 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 100,
-        "y": 560,
+        "x": 120,
+        "y": 500,
         "wires": [
             [
-                "a23c4fb65811150e"
+                "321ef8b9ec4432a6"
             ]
         ]
     },
@@ -382,8 +383,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Insert Production",
-        "x": 510,
-        "y": 1180,
+        "x": 590,
+        "y": 920,
         "wires": [
             [
                 "b43f5c1e5b80e7df"
@@ -422,8 +423,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 290,
-        "y": 1180,
+        "x": 370,
+        "y": 920,
         "wires": [
             [
                 "1556ae4b033cfb81"
@@ -530,8 +531,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 680,
-        "y": 1260,
+        "x": 760,
+        "y": 1000,
         "wires": [
             [
                 "310a8d7d2754bad1"
@@ -547,12 +548,11 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Production",
-        "x": 910,
-        "y": 1240,
+        "x": 990,
+        "y": 980,
         "wires": [
             [
-                "decc9303957efc79",
-                "7f793375b40450fb"
+                "decc9303957efc79"
             ]
         ]
     },
@@ -568,15 +568,15 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 260,
-        "y": 1500,
+        "x": 340,
+        "y": 1240,
         "wires": [
             [
                 "085afebbe848cfdd"
             ],
             [
                 "cfcda398729ca08e",
-                "d5d516f94b76d85a"
+                "b43f5c1e5b80e7df"
             ]
         ]
     },
@@ -601,8 +601,8 @@
         "topic": "",
         "payload": "{     \"sn\": \"15_1775832547181\",     \"response\": \"DONE\" }",
         "payloadType": "json",
-        "x": 110,
-        "y": 1720,
+        "x": 190,
+        "y": 1460,
         "wires": [
             [
                 "932d1207d203e972"
@@ -630,8 +630,8 @@
         "topic": "",
         "payload": "{     \"sn\": \"15_1775832547181\" ,     \"response\": \"CART_IN\" }",
         "payloadType": "json",
-        "x": 110,
-        "y": 1640,
+        "x": 190,
+        "y": 1380,
         "wires": [
             [
                 "932d1207d203e972"
@@ -651,8 +651,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 480,
-        "y": 1380,
+        "x": 560,
+        "y": 1120,
         "wires": []
     },
     {
@@ -668,8 +668,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 750,
-        "y": 1320,
+        "x": 830,
+        "y": 1060,
         "wires": []
     },
     {
@@ -685,8 +685,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 500,
-        "y": 1560,
+        "x": 580,
+        "y": 1300,
         "wires": []
     },
     {
@@ -911,8 +911,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "GetProduction",
-        "x": 1380,
-        "y": 1240,
+        "x": 1360,
+        "y": 560,
         "wires": [
             [
                 "8d085d44ed72ad0c",
@@ -925,15 +925,15 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Get Order Info",
-        "func": "msg.payload = [msg.order_id];\n\nmsg.topic = `\n   SELECT\n        o.order_id,\n        o.nb_product,\n        pr.*,\n        COUNT(p.productSN) AS total_processed,\n        SUM(CASE WHEN p.status = 'FINISHED' THEN 1 ELSE 0 END) AS count_finished,\n        SUM(CASE WHEN p.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS count_in_progress\n    FROM Orders o\n    JOIN Products pr ON pr.product_type = o.product_type\n    LEFT JOIN Production p ON p.order_id = o.order_id AND p.status IN ('FINISHED', 'IN_PROGRESS')\n    WHERE o.order_id = ?\n    GROUP BY o.order_id;\n`;\n\nreturn msg;",
+        "func": "msg.payload = [msg.payload[0].order_id];\n\nmsg.topic = `\n   SELECT\n        o.order_id,\n        o.nb_product,\n        pr.*,\n        COUNT(p.productSN) AS total_processed,\n        SUM(CASE WHEN p.status = 'FINISHED' THEN 1 ELSE 0 END) AS count_finished,\n        SUM(CASE WHEN p.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS count_in_progress\n    FROM Orders o\n    JOIN Products pr ON pr.product_type = o.product_type\n    LEFT JOIN Production p ON p.order_id = o.order_id AND p.status IN ('FINISHED', 'IN_PROGRESS')\n    WHERE o.order_id = ?\n    GROUP BY o.order_id;\n`;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1120,
-        "y": 1240,
+        "x": 1160,
+        "y": 560,
         "wires": [
             [
                 "4615304a7c339a8b"
@@ -945,19 +945,19 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Is Order Finished?",
-        "func": "if (!msg.payload || msg.payload.length === 0) {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Error : No command\" });\n    node.warn(\"Error : No command found\");\n    return null;\n}\n\nlet totalProducts = msg.payload[0].nb_product;\nlet processedProducts = msg.payload[0].total_processed;\nlet finishedProducts = msg.payload[0].count_finished;\n\nlet remainingProducts = totalProducts - processedProducts;\nmsg.remainingProducts = remainingProducts;\n\nif (remainingProducts > 0) {\n    msg.productData = msg.payload[0];\n    msg.order_id = msg.payload[0].order_id;\n    msg.production_status = \"PENDING_PRODUCTS\";\n\n    node.status({ fill: \"blue\", shape: \"dot\", text: `Remaining ${remainingProducts}/${totalProducts} products` });\n    return [msg, null, null];\n\n} else if (totalProducts === finishedProducts) {\n    msg.production_status = \"FINISHED\";\n\n    node.status({ fill: \"green\", shape: \"dot\", text: `Order ${msg.payload[0].order_id} Finished !` });\n    return [null, msg, null];\n\n} else {\n    msg.production_status = \"NEXT ORDER\";\n\n    node.status({ fill: \"yellow\", shape: \"ring\", text: \"Transition to next order\" });\n    return [null, null, msg];\n}",
+        "func": "if (!msg.payload || msg.payload.length === 0) {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Error : No command\" });\n    node.warn(\"Error : No command found\");\n    return null;\n}\n\nlet totalProducts = msg.payload[0].nb_product;\nlet processedProducts = msg.payload[0].total_processed;\nlet finishedProducts = msg.payload[0].count_finished;\n\nlet remainingProducts = totalProducts - processedProducts;\nmsg.remainingProducts = remainingProducts;\n\nif (remainingProducts > 0) {\n    msg.productData = msg.payload[0];\n    msg.order_id = msg.payload[0].order_id;\n    msg.production_status = \"PENDING_PRODUCTS\";\n\n    node.status({ fill: \"blue\", shape: \"dot\", text: `Remaining ${remainingProducts}/${totalProducts} products` });\n    return [msg, null, null];\n\n} else if (totalProducts === finishedProducts) {\n    msg.production_status = \"FINISHED\";\n    msg.order_id = msg.payload[0].order_id;\n    node.status({ fill: \"green\", shape: \"dot\", text: `Order ${msg.payload[0].order_id} Finished !` });\n    return [null, msg, null];\n\n} else {\n    msg.production_status = \"NEXT ORDER\";\n\n    node.status({ fill: \"yellow\", shape: \"ring\", text: \"Transition to next order\" });\n    return [null, null, msg];\n}",
         "outputs": 3,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1970,
-        "y": 1000,
+        "x": 1570,
+        "y": 560,
         "wires": [
             [
                 "e64e58cc6b222b8f",
-                "11510b592a108d30"
+                "c8a9bb372268af14"
             ],
             [
                 "34d9317ec08052a2",
@@ -981,8 +981,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2370,
-        "y": 940,
+        "x": 2070,
+        "y": 440,
         "wires": []
     },
     {
@@ -999,8 +999,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1440,
-        "y": 1340,
+        "x": 1500,
+        "y": 480,
         "wires": []
     },
     {
@@ -1016,8 +1016,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2320,
-        "y": 1000,
+        "x": 2080,
+        "y": 500,
         "wires": []
     },
     {
@@ -1177,8 +1177,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1740,
-        "y": 1260,
+        "x": 2040,
+        "y": 560,
         "wires": [
             [
                 "5b8099f0491d684d"
@@ -1191,11 +1191,12 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Finish Order",
-        "x": 1950,
-        "y": 1260,
+        "x": 2310,
+        "y": 560,
         "wires": [
             [
-                "64738984acc84a83"
+                "64738984acc84a83",
+                "0f8c16b6f8e02dd9"
             ]
         ]
     },
@@ -1211,11 +1212,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 310,
+        "x": 110,
         "y": 560,
         "wires": [
             [
-                "64738984acc84a83"
+                "63ed270b76f1a8a4"
             ]
         ]
     },
@@ -1231,8 +1232,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 1680,
+        "x": 420,
+        "y": 1420,
         "wires": [
             [
                 "ebc4145927af70fe"
@@ -1258,8 +1259,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 640,
-        "y": 1800,
+        "x": 720,
+        "y": 1540,
         "wires": []
     },
     {
@@ -1268,8 +1269,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Order Type",
-        "x": 630,
-        "y": 1680,
+        "x": 710,
+        "y": 1420,
         "wires": [
             [
                 "8cbaf8e5a30c6ec0"
@@ -1288,8 +1289,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1320,
-        "y": 1680,
+        "x": 1400,
+        "y": 1420,
         "wires": [
             [
                 "8c0249c268cd4caf"
@@ -1308,8 +1309,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 870,
-        "y": 1680,
+        "x": 950,
+        "y": 1420,
         "wires": [
             [
                 "4253fdfca6e1343c"
@@ -1322,8 +1323,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Order Type",
-        "x": 1090,
-        "y": 1680,
+        "x": 1170,
+        "y": 1420,
         "wires": [
             [
                 "5db297f4edeb65fb"
@@ -1343,8 +1344,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1570,
-        "y": 1680,
+        "x": 1650,
+        "y": 1420,
         "wires": []
     },
     {
@@ -1360,8 +1361,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 130,
-        "y": 1880,
+        "x": 210,
+        "y": 1620,
         "wires": [
             [
                 "f96498d0c77e9ace",
@@ -1382,8 +1383,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 380,
-        "y": 1880,
+        "x": 460,
+        "y": 1620,
         "wires": []
     },
     {
@@ -1402,8 +1403,8 @@
         "persistence_bind": "memory",
         "dburl": "",
         "usetls": false,
-        "x": 970,
-        "y": 1900,
+        "x": 1050,
+        "y": 1640,
         "wires": [
             [
                 "e1633402dccd24a6"
@@ -1427,8 +1428,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1240,
-        "y": 1880,
+        "x": 1320,
+        "y": 1620,
         "wires": []
     },
     {
@@ -1445,8 +1446,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1230,
-        "y": 1920,
+        "x": 1310,
+        "y": 1660,
         "wires": []
     },
     {
@@ -1457,70 +1458,11 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 230,
-        "y": 1800,
+        "x": 310,
+        "y": 1540,
         "wires": [
             [
                 "932d1207d203e972"
-            ]
-        ]
-    },
-    {
-        "id": "11510b592a108d30",
-        "type": "delay",
-        "z": "8d441b1e1f9e38da",
-        "name": "Delay 10 seconds",
-        "pauseType": "delay",
-        "timeout": "10",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 1810,
-        "y": 900,
-        "wires": [
-            [
-                "c8a9bb372268af14"
-            ]
-        ]
-    },
-    {
-        "id": "d5d516f94b76d85a",
-        "type": "switch",
-        "z": "8d441b1e1f9e38da",
-        "name": "Commute Action",
-        "property": "payload.action",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "DECISION",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "CHECK_NEXT_PRODUCT",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 2,
-        "x": 620,
-        "y": 1440,
-        "wires": [
-            [
-                "b43f5c1e5b80e7df"
-            ],
-            [
-                "2db295df1cc4fd0d",
-                "7f793375b40450fb"
             ]
         ]
     },
@@ -1538,8 +1480,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 820,
-        "y": 1480,
+        "x": 900,
+        "y": 1220,
         "wires": []
     },
     {
@@ -1556,8 +1498,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1110,
-        "y": 1300,
+        "x": 1190,
+        "y": 1040,
         "wires": []
     },
     {
@@ -1651,22 +1593,12 @@
         "payload": "",
         "payloadType": "date",
         "x": 110,
-        "y": 860,
+        "y": 620,
         "wires": [
             [
-                "64738984acc84a83"
+                "63ed270b76f1a8a4"
             ]
         ]
-    },
-    {
-        "id": "3abbde6bfaa1613c",
-        "type": "comment",
-        "z": "8d441b1e1f9e38da",
-        "name": "Partie passage à la production suivante",
-        "info": "",
-        "x": 1190,
-        "y": 640,
-        "wires": []
     },
     {
         "id": "4c21d0d0d9558a01",
@@ -1808,6 +1740,106 @@
         "statusType": "auto",
         "x": 1970,
         "y": 280,
+        "wires": []
+    },
+    {
+        "id": "0c6f096a8d4df0af",
+        "type": "switch",
+        "z": "8d441b1e1f9e38da",
+        "name": "Any Order IN_PROGRESS ?",
+        "property": "payload.length",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 920,
+        "y": 560,
+        "wires": [
+            [
+                "7f793375b40450fb"
+            ],
+            [
+                "64738984acc84a83"
+            ]
+        ]
+    },
+    {
+        "id": "63ed270b76f1a8a4",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "RQ  Number IN_PROGRESS Production",
+        "func": "msg.topic = `\n    SELECT order_id, product_type, nb_product\n    FROM Orders\n    WHERE status = 'IN_PROGRESS'\n    LIMIT 1;\n`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 560,
+        "wires": [
+            [
+                "44982cd264357834"
+            ]
+        ]
+    },
+    {
+        "id": "44982cd264357834",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ Orders",
+        "x": 690,
+        "y": 560,
+        "wires": [
+            [
+                "0c6f096a8d4df0af",
+                "cd87d15993ba468d"
+            ]
+        ]
+    },
+    {
+        "id": "cd87d15993ba468d",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "d": true,
+        "name": "RQ Orders IN_PROGRESS",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "0f8c16b6f8e02dd9",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2410,
+        "y": 440,
         "wires": []
     },
     {
