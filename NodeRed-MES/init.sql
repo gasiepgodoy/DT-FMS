@@ -24,7 +24,8 @@ CREATE TABLE Orders (
     nb_product INT NOT NULL,
     product_type CHAR(1),
     FOREIGN KEY (product_type) REFERENCES Products(product_type),
-    status ENUM('WAITING', 'IN_PROGRESS', 'PAUSED', 'FINISHED')
+    status ENUM('WAITING', 'QUEUED', 'IN_PROGRESS', 'PAUSED', 'FINISHED'),
+    priority BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE Production (
@@ -66,8 +67,8 @@ CREATE TABLE Orders (
     order_id INT  PRIMARY KEY,
     nb_product INT NOT NULL,
     product_type CHAR(1),
-    FOREIGN KEY (product_type) REFERENCES Products(product_type),
-    status ENUM('WAITING', 'IN_PROGRESS', 'PAUSED', 'FINISHED')
+    status ENUM('WAITING', 'IN_PROGRESS', 'PAUSED', 'FINISHED'),
+    FOREIGN KEY (product_type) REFERENCES Products(product_type)
 );
 
 CREATE TABLE Production (
@@ -77,7 +78,8 @@ CREATE TABLE Production (
     current_station ENUM('Station1', 'Station2', 'Station3', 'Station4', 'Station5', 'Station6'),
     visited_stations VARCHAR(255),
     FOREIGN KEY (order_id) REFERENCES Orders(order_id),
-    status ENUM('WAITING', 'IN_PROGRESS', 'PAUSED', 'FINISHED')
+    status ENUM('WAITING', 'QUEUED', 'IN_PROGRESS', 'PAUSED', 'FINISHED'),
+    priority BOOLEAN DEFAULT FALSE
 );
 
 INSERT INTO Products (product_type, Station1Stop, Station1Op, Station2Stop, Station2Op, Station3Stop, Station3Op,Station4Stop, Station4Op,Station5Stop, Station5Op,Station6Stop, Station6Op)
