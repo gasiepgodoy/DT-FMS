@@ -1,0 +1,44 @@
+Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
+
+V0.4.2 - 03/03/2026
+Reorientação dos blocos internos do STF para resolver o problema de erro durante a simulação.
+Acertado as variáveis de controle do MASTER_20 para bater com a tabela de criação das variávveis no Node-RED.
+Ajustado Sampling Time do OPC UA de entrada para 0.01 em todos os blocos.
+
+V0.4.1 - 25/02/2026
+Refeitas os blocos internos, considerando a nova nomenclatura.
+Criado Sub-chart para a declaração das variáveis.
+
+V0.4 - 21/02/2026
+Acerto das funções e configurações para bater com a nomenclatura do AAS
+
+V0.3.8
+Corrigida erros de sintaxe e de nome de variáveis
+Reorganização e renomeação dos blocos na tela principal.
+
+V0.3.7 - 16/02/2026
+Adicionado Programação Interna da estação Testing [70] para Identified_Delivery e Requested_Delivery
+
+V0.3.6 - 15/12/2025
+Adicionado Programação Interna para Distribution - Counted
+Adicionado os blocos iniciais dos modos de funcoanmento da estação Testing [70] - Identified e Requested
+Acertado a busca automática das variáveis através de Script
+
+V0.2.4 - 19/11/2025
+Adicionado Distribution - Counted
+
+V0.2.3 - 11/11/2025
+Adicionado Distribution - Continuous
+
+V0.2.2 - 11/11/2025
+Adicionado Distribution - Single
+
+V0.2.1 - 11/11/2026
+Corrigida CartToTesting com codificação correta
+
+V0.2 - 06/11/2026
+Criada a transição de estados dos módulos para o processo CartToTesting para testes do modo completo.
+
+V0.1 - 24/09/2025
+Criadas as entradas para as estações Testing [70] e Distribution [80]
+Será criada tabela de tradução para as variáveis de todas as estações que será necessária para que elas entrem no sequenciamento.

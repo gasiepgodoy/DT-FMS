@@ -1,0 +1,613 @@
+[
+    {
+        "id": "36562aaf891b17c1",
+        "type": "tab",
+        "label": "AAS Server",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3d3a7316eeabb826",
+        "type": "group",
+        "z": "36562aaf891b17c1",
+        "name": "Servidor",
+        "style": {
+            "fill": "#ffbfbf",
+            "label": true
+        },
+        "nodes": [
+            "f37c65723a7f1a0a",
+            "0c11b6069b5a928b"
+        ],
+        "x": 14,
+        "y": 19,
+        "w": 392,
+        "h": 82
+    },
+    {
+        "id": "e6c02a1f3b888c77",
+        "type": "group",
+        "z": "36562aaf891b17c1",
+        "name": "Arquivo CSV para fazer as traduções",
+        "style": {
+            "fill": "#e3f3d3",
+            "label": true
+        },
+        "nodes": [
+            "82abb90e44090855",
+            "308e7eb7faba951c",
+            "ee82a5447ee63c2f",
+            "9bbef29d38ce3d94",
+            "3bbaf37fa0b13092",
+            "d5b93e0fdce69cc9",
+            "bd2833cf3427c5e9",
+            "7123173cb8c84ff6",
+            "b3b7e1ee593f3c2f",
+            "3e2f11d9214fa921",
+            "64104a9ec47ec591",
+            "d2b46af51005a2f9",
+            "a743925ed6fa7df3"
+        ],
+        "x": 14,
+        "y": 119,
+        "w": 1352,
+        "h": 282
+    },
+    {
+        "id": "8ad16ab5bc3cd377",
+        "type": "group",
+        "z": "36562aaf891b17c1",
+        "name": "Escrita via Client",
+        "style": {
+            "fill": "#ffffbf",
+            "label": true
+        },
+        "nodes": [
+            "7b7be9322956ac9f",
+            "130537c9dcd5fca6",
+            "e42d73e9bafafbe9",
+            "32ee2a8b8bff1b0d",
+            "4dfa37df83e31222",
+            "9f9e4028b7314cee",
+            "e9588ff0671c2e32",
+            "a85aa8c7a0adaef4"
+        ],
+        "x": 14,
+        "y": 419,
+        "w": 992,
+        "h": 122
+    },
+    {
+        "id": "f37c65723a7f1a0a",
+        "type": "OpcUa-Server",
+        "z": "36562aaf891b17c1",
+        "g": "3d3a7316eeabb826",
+        "port": "53882",
+        "name": "OPC AAS Server",
+        "endpoint": "",
+        "users": "",
+        "nodesetDir": "C:\\ProjetoGemeo",
+        "autoAcceptUnknownCertificate": true,
+        "registerToDiscovery": true,
+        "constructDefaultAddressSpace": true,
+        "allowAnonymous": true,
+        "endpointNone": true,
+        "endpointSign": true,
+        "endpointSignEncrypt": true,
+        "endpointBasic128Rsa15": true,
+        "endpointBasic256": true,
+        "endpointBasic256Sha256": true,
+        "maxNodesPerBrowse": "100",
+        "maxNodesPerHistoryReadData": "100",
+        "maxNodesPerHistoryReadEvents": "100",
+        "maxNodesPerHistoryUpdateData": "100",
+        "maxNodesPerRead": "100",
+        "maxNodesPerWrite": "100",
+        "maxNodesPerMethodCall": "100",
+        "maxNodesPerRegisterNodes": "100",
+        "maxNodesPerNodeManagement": "100",
+        "maxMonitoredItemsPerCall": "100",
+        "maxNodesPerHistoryUpdateEvents": "100",
+        "maxNodesPerTranslateBrowsePathsToNodeIds": "100",
+        "maxConnectionsPerEndpoint": "100",
+        "maxMessageSize": 4096,
+        "maxBufferSize": 4096,
+        "maxSessions": "100",
+        "x": 130,
+        "y": 60,
+        "wires": [
+            [
+                "0c11b6069b5a928b"
+            ]
+        ]
+    },
+    {
+        "id": "7b7be9322956ac9f",
+        "type": "OpcUa-Client",
+        "z": "36562aaf891b17c1",
+        "g": "8ad16ab5bc3cd377",
+        "endpoint": "1c771243b0cf6ba3",
+        "action": "write",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": "10",
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "name": "AAS Write",
+        "x": 750,
+        "y": 500,
+        "wires": [
+            [
+                "e42d73e9bafafbe9"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "130537c9dcd5fca6",
+        "type": "comment",
+        "z": "36562aaf891b17c1",
+        "g": "8ad16ab5bc3cd377",
+        "name": "Escrita de Variável",
+        "info": "",
+        "x": 130,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "0c11b6069b5a928b",
+        "type": "debug",
+        "z": "36562aaf891b17c1",
+        "g": "3d3a7316eeabb826",
+        "name": "Server",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 310,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "e42d73e9bafafbe9",
+        "type": "debug",
+        "z": "36562aaf891b17c1",
+        "g": "8ad16ab5bc3cd377",
+        "name": "Write",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "82abb90e44090855",
+        "type": "comment",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "Cria Lista de Variáveis a serem lidas",
+        "info": "",
+        "x": 180,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "308e7eb7faba951c",
+        "type": "inject",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 110,
+        "y": 300,
+        "wires": [
+            [
+                "ee82a5447ee63c2f"
+            ]
+        ]
+    },
+    {
+        "id": "ee82a5447ee63c2f",
+        "type": "function",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "Variable List",
+        "func": "msg.payload = {\n    \"O_80_Mag_Full\" : false,\n    \"O_80_Pist_Back\" : false,\n    \"O_80_Pist_Fwd\" : false,\n    \"O_80_Part_Stuck\" : false,\n    \"O_80_Arm_Mag\": false,\n    \"O_80_Arm_Del\": false,\n    \"O_80_Mag_Empty\": false,\n    \"O_81_Start\": false,\n    \"O_81_Stop\": false,\n    \"O_81_Key_Pos\": false,\n    \"O_81_Reset\": false,\n    \"O_81_Panel_I4\": false,\n    \"O_81_Panel_I5\": false,\n    \"O_81_Panel_I6\": false,\n    \"O_81_Panel_I7\": false,\n    \"F_82_Pist_Adv\": false,\n    \"F_82_Suction_On\": false,\n    \"F_82_Suction_Off\": false,\n    \"F_82_Arm_2_Del\": false,\n    \"F_82_Arm_2_Mag\": false,\n    \"F_83_Led_Start\": false,\n    \"F_83_Led_Reset\": false,\n    \"F_83_Led_Extra1\": false,\n    \"F_83_Led_Extra2\": false,\n    \"F_83_Panel_O4\": false,\n    \"F_83_Panel_O5\": false,\n    \"F_83_Panel_O6\": false,\n    \"F_83_Panel_O7\": false,\n    \"I_80_Pist_Adv\": false,\n    \"I_80_Suction_On\": false,\n    \"I_80_Suction_Off\": false,\n    \"I_80_Arm_2_Del\": false,\n    \"I_80_Arm_2_Mag\": false,\n    \"I_81_Led_Start\": false,\n    \"I_81_Led_Reset\": false,\n    \"I_81_Led_Extra1\": false,\n    \"I_81_Led_Extra2\": false,\n    \"I_81_Panel_O4\": false,\n    \"I_81_Panel_O5\": false,\n    \"I_81_Panel_O6\": false,\n    \"I_81_Panel_O7\": false,\n    \"C_82_Profibus\": false,\n    \"C_83_RQ_Parts\": 0,\n    \"C_85_Initialization\": false,\n    \"C_85_Start\": false,\n    \"C_85_Single\": false,\n    \"C_85_Continuous\": false,\n    \"C_85_Counted\": false,\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 300,
+        "wires": [
+            [
+                "9bbef29d38ce3d94"
+            ]
+        ]
+    },
+    {
+        "id": "9bbef29d38ce3d94",
+        "type": "function",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "Creates Classes",
+        "func": "let variables = msg.payload;  // Assumindo que msg.payload é um array de variáveis\nvar variableClass = \"\";\n\nfor (let key in variables) {\n    if (variables.hasOwnProperty(key)) {\n        if (key.includes(\"I_\")) variableClass = \"Actuators\";\n        if (key.includes(\"O_\")) variableClass = \"Sensors\";\n        if (key.includes(\"F_\")) variableClass = \"Feedback\";\n        if (key.includes(\"C_\")) variableClass = \"Control\";\n        if (variableClass != \"\") node.send({ variable: key, variableClass: variableClass });  // Envia uma mensagem com a linha atual\n    }\n}\n\nreturn null;  // Finaliza o nó principal (não precisa enviar mais mensagens depois do loop)\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 300,
+        "wires": [
+            [
+                "3bbaf37fa0b13092"
+            ]
+        ]
+    },
+    {
+        "id": "3bbaf37fa0b13092",
+        "type": "function",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "Finds Variable",
+        "func": "var variableClass = msg.variableClass;\nvar variable = msg.variable;\nvar topic = \"br=/Objects/AASROOT/Distribution_Station/OperationalData/\" + variableClass + \"/\" + variable + \"/Value\";\nmsg = {\n    variable: msg.variable,\n    topic: topic,\n}\nreturn msg;\n\n// topic: \"br=/Objects/AASROOT/myStation1/Handling2/Feedback/Q_94_Claw_2_Cart/Value\"",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 300,
+        "wires": [
+            [
+                "3e2f11d9214fa921"
+            ]
+        ]
+    },
+    {
+        "id": "d5b93e0fdce69cc9",
+        "type": "inject",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "Start",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "bd2833cf3427c5e9"
+            ]
+        ]
+    },
+    {
+        "id": "bd2833cf3427c5e9",
+        "type": "function",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "Header",
+        "func": "let csvHeader = \"Variable;Namespace;Identifier\\n\";  // Define o cabeçalho do CSV\nmsg.payload = csvHeader;  // Coloca o cabeçalho como a carga útil\nmsg.append = false;  // Sobrescreve o arquivo\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 200,
+        "wires": [
+            [
+                "7123173cb8c84ff6"
+            ]
+        ]
+    },
+    {
+        "id": "7123173cb8c84ff6",
+        "type": "file",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "Creates CSV Header",
+        "filename": "C:\\ProjetoGemeo\\variable.csv",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "utf8",
+        "x": 420,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b3b7e1ee593f3c2f",
+        "type": "comment",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "Cria o Cabeçalho da tabela de Conversão",
+        "info": "",
+        "x": 200,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "3e2f11d9214fa921",
+        "type": "OpcUa-Client",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "endpoint": "1c771243b0cf6ba3",
+        "action": "read",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": "100",
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "name": "AAS Read",
+        "x": 850,
+        "y": 300,
+        "wires": [
+            [
+                "64104a9ec47ec591"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "64104a9ec47ec591",
+        "type": "function",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "Return of query",
+        "func": "let csvLine = `${msg.variable};${msg.topic}\\n`;  // Cria uma nova linha com os valores\nmsg.payload = csvLine;  // Coloca a linha CSV como a carga útil\nmsg.append = true;  // Adiciona ao final do arquivo, sem sobrescrever\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 300,
+        "wires": [
+            [
+                "d2b46af51005a2f9",
+                "a743925ed6fa7df3"
+            ]
+        ]
+    },
+    {
+        "id": "d2b46af51005a2f9",
+        "type": "file",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "Creates CSV List",
+        "filename": "C:\\ProjetoGemeo\\variable.csv",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "utf8",
+        "x": 1250,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a743925ed6fa7df3",
+        "type": "debug",
+        "z": "36562aaf891b17c1",
+        "g": "e6c02a1f3b888c77",
+        "name": "Variable List",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1230,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "32ee2a8b8bff1b0d",
+        "type": "link in",
+        "z": "36562aaf891b17c1",
+        "g": "8ad16ab5bc3cd377",
+        "name": "Write",
+        "links": [
+            "ad0a776d347e580c",
+            "d9d811c73b753b12",
+            "2465eb632ec2abcf",
+            "4ec05914ed89cf03",
+            "a0a1d21467232eb7",
+            "c479876936960d7a",
+            "91c6ae3252c5efcd",
+            "6283f344eb58e991",
+            "5a86080afe117c0b"
+        ],
+        "x": 55,
+        "y": 500,
+        "wires": [
+            [
+                "4dfa37df83e31222"
+            ]
+        ]
+    },
+    {
+        "id": "4dfa37df83e31222",
+        "type": "function",
+        "z": "36562aaf891b17c1",
+        "g": "8ad16ab5bc3cd377",
+        "name": "Adj1",
+        "func": "let variable = msg.topic;\nlet value = msg.payload;\nlet datatype = msg.datatype;\n\nmsg = {variable: variable, value: value, datatype: datatype};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 150,
+        "y": 500,
+        "wires": [
+            [
+                "9f9e4028b7314cee"
+            ]
+        ]
+    },
+    {
+        "id": "9f9e4028b7314cee",
+        "type": "file in",
+        "z": "36562aaf891b17c1",
+        "g": "8ad16ab5bc3cd377",
+        "name": "CSV File",
+        "filename": "C:\\ProjetoGemeo\\variable.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "utf8",
+        "allProps": false,
+        "x": 280,
+        "y": 500,
+        "wires": [
+            [
+                "e9588ff0671c2e32"
+            ]
+        ]
+    },
+    {
+        "id": "e9588ff0671c2e32",
+        "type": "function",
+        "z": "36562aaf891b17c1",
+        "g": "8ad16ab5bc3cd377",
+        "name": "Variable => ns;i",
+        "func": "const csv = msg.payload;  // O conteúdo do CSV como string\nconst variable = msg.variable;  // A variável para buscar\n\nmsg.payload = {};\n\nconst lines = csv.trim().split('\\n');  // Divide o conteúdo em linhas e remove espaços extras\nconst header = lines.shift().split(';');  // Remove e divide o cabeçalho pelo delimitador ';'\n\nconst data = lines.map(line => {\n    const [Variable, Namespace, Identifier] = line.split(';').map(value => value.trim());\n    return { Variable, Namespace, Identifier };\n});\n\n// Debug: log the data and variable to check correctness\n// node.warn(`Data: ${JSON.stringify(data)}`);\n// node.warn(`Variable: ${variable}`);\n\nfunction getNamespaceIdentifier(variable) {\n    const row = data.find(r => r.Variable === variable);\n    if (row) {\n        return `${row.Namespace};${row.Identifier}`;\n    }\n    return null;\n}\n\nmsg.id = getNamespaceIdentifier(variable);\n\n// Debug: log the result\n// node.warn(`Identifier: ${msg.identifier}`);\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 500,
+        "wires": [
+            [
+                "a85aa8c7a0adaef4"
+            ]
+        ]
+    },
+    {
+        "id": "a85aa8c7a0adaef4",
+        "type": "function",
+        "z": "36562aaf891b17c1",
+        "g": "8ad16ab5bc3cd377",
+        "name": "Adj2",
+        "func": "// Create a new payload object\nmsg.payload = msg.value;\nmsg.topic = msg.id;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 500,
+        "wires": [
+            [
+                "7b7be9322956ac9f"
+            ]
+        ]
+    },
+    {
+        "id": "474996ac7c9246c3",
+        "type": "comment",
+        "z": "36562aaf891b17c1",
+        "name": "Versão Node-Red: V6.1",
+        "info": "",
+        "x": 640,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "e8ba3e6e9a68fe55",
+        "type": "comment",
+        "z": "36562aaf891b17c1",
+        "name": "Versão AAS: V1.0",
+        "info": "",
+        "x": 630,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "1c771243b0cf6ba3",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://localhost:53882/UA/nodeset",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    }
+]
