@@ -1,0 +1,15 @@
+%Cpu(s):  0.4 us,  0.4 sy,  0.0 ni, 99.2 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :   1823.5 total,   1232.1 free,    386.9 used,    278.4 buff/cache     
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1436.6 avail Mem 
+%Cpu(s):  0.2 us,  0.2 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :   1823.5 total,   1232.0 free,    386.9 used,    278.4 buff/cache     
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1436.6 avail Mem 
+%Cpu(s):  0.2 us,  0.2 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :   1823.5 total,   1232.0 free,    386.9 used,    278.4 buff/cache     
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1436.6 avail Mem 
+%Cpu(s):  0.0 us,  0.5 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :   1823.5 total,   1232.0 free,    386.9 used,    278.4 buff/cache     
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1436.6 avail Mem 
+%Cpu(s):  0.5 us,  0.0 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :   1823.5 total,   1233.3 free,    385.7 used,    278.4 buff/cache     
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1437.9 avail Mem 
