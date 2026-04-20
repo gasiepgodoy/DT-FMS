@@ -1164,7 +1164,7 @@
         "y": 860,
         "wires": [
             [
-                "63ed270b76f1a8a4"
+                "099e43275746a44a"
             ]
         ]
     },
@@ -1526,11 +1526,11 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 110,
-        "y": 920,
+        "x": 130,
+        "y": 1080,
         "wires": [
             [
-                "63ed270b76f1a8a4"
+                "099e43275746a44a"
             ]
         ]
     },
@@ -1659,7 +1659,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 420,
+        "x": 540,
         "y": 860,
         "wires": [
             [
@@ -1673,7 +1673,7 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Orders",
-        "x": 690,
+        "x": 810,
         "y": 860,
         "wires": [
             [
@@ -1696,8 +1696,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 560,
-        "y": 920,
+        "x": 1040,
+        "y": 900,
         "wires": []
     },
     {
@@ -1757,6 +1757,74 @@
         "y": 280,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "099e43275746a44a",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "RQ  Priority Production",
+        "func": "msg.topic = `\n    SELECT o.order_id\n    FROM Orders o\n    LEFT JOIN Production p ON o.order_id = p.order_id\n    WHERE o.priority = TRUE AND o.status IN ('QUEUED', 'IN_PROGRESS')\n    GROUP BY o.order_id, o.nb_product\n    HAVING COUNT(p.productSN) < o.nb_product\n    LIMIT 1;\n`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 960,
+        "wires": [
+            [
+                "fb0c76d3d366eb1e"
+            ]
+        ]
+    },
+    {
+        "id": "fb0c76d3d366eb1e",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ Priority Orders",
+        "x": 490,
+        "y": 960,
+        "wires": [
+            [
+                "2d23a486c3a3805c"
+            ]
+        ]
+    },
+    {
+        "id": "2d23a486c3a3805c",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Priority Manager",
+        "func": "if (msg.payload && msg.payload.length > 0) {\n    msg.topic = \"UPDATE Orders SET status = 'PAUSED' WHERE priority = FALSE AND status IN ('QUEUED', 'IN_PROGRESS');\";\n    \n    node.status({fill:\"red\", shape:\"dot\", text:\"Active Priority\"});\n} else {\n    msg.topic = \"UPDATE Orders SET status = 'QUEUED' WHERE priority = FALSE AND status = 'PAUSED';\";\n    \n    node.status({fill:\"green\", shape:\"dot\", text:\"No Priority\"});\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 960,
+        "wires": [
+            [
+                "a70c88e8c1ac1862"
+            ]
+        ]
+    },
+    {
+        "id": "a70c88e8c1ac1862",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Update Priority Orders",
+        "x": 900,
+        "y": 960,
+        "wires": [
+            [
+                "63ed270b76f1a8a4"
+            ]
         ]
     },
     {
