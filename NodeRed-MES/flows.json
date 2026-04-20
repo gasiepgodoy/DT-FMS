@@ -197,7 +197,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Order Input",
-        "func": "let type = flow.get('product_type');\nlet quantite = flow.get('nb_product');\n\nif (!type || !quantite) {\n    node.warn(\"Incomplete input\");\n    return null; \n}\n\nmsg.topic = \"INSERT INTO Orders (nb_product, product_type, status) VALUES (?, ?, 'QUEUED');\";\nmsg.payload = [quantite, type];\n\nreturn msg;",
+        "func": "let type = flow.get('product_type');\nlet quantite = flow.get('nb_product');\nlet priority =  flow.get('priority');\n\nif (!type || !quantite) {\n    node.warn(\"Incomplete input\");\n    return null; \n}\n\nmsg.topic = \"INSERT INTO Orders (nb_product, product_type, status, priority) VALUES (?, ?, 'QUEUED', ?);\";\nmsg.payload = [quantite, type, priority];\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -205,7 +205,7 @@
         "finalize": "",
         "libs": [],
         "x": 250,
-        "y": 280,
+        "y": 340,
         "wires": [
             [
                 "dcc222f6d322e31f"
@@ -219,7 +219,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Order Insert",
         "x": 430,
-        "y": 280,
+        "y": 340,
         "wires": [
             []
         ]
@@ -246,7 +246,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 170,
-        "y": 420,
+        "y": 720,
         "wires": [
             [
                 "321ef8b9ec4432a6"
@@ -266,7 +266,7 @@
         "finalize": "",
         "libs": [],
         "x": 410,
-        "y": 480,
+        "y": 780,
         "wires": [
             [
                 "8b3ece46f344d351"
@@ -280,7 +280,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Delete Productions",
         "x": 630,
-        "y": 480,
+        "y": 780,
         "wires": [
             [
                 "cec95615ef423c17",
@@ -302,7 +302,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 890,
-        "y": 480,
+        "y": 780,
         "wires": []
     },
     {
@@ -327,7 +327,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 120,
-        "y": 500,
+        "y": 800,
         "wires": [
             [
                 "321ef8b9ec4432a6"
@@ -341,7 +341,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Count Production",
         "x": 2100,
-        "y": 640,
+        "y": 940,
         "wires": [
             [
                 "6342795f167f4bd2"
@@ -355,7 +355,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Insert Production",
         "x": 590,
-        "y": 900,
+        "y": 1200,
         "wires": [
             [
                 "b43f5c1e5b80e7df"
@@ -375,7 +375,7 @@
         "finalize": "",
         "libs": [],
         "x": 1800,
-        "y": 640,
+        "y": 940,
         "wires": [
             [
                 "e3a57c9eb541a5b7"
@@ -395,7 +395,7 @@
         "finalize": "",
         "libs": [],
         "x": 370,
-        "y": 900,
+        "y": 1200,
         "wires": [
             [
                 "1556ae4b033cfb81"
@@ -409,7 +409,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Order",
         "x": 2020,
-        "y": 720,
+        "y": 1020,
         "wires": [
             [
                 "c8a9bb372268af14"
@@ -429,7 +429,7 @@
         "finalize": "",
         "libs": [],
         "x": 1830,
-        "y": 820,
+        "y": 1120,
         "wires": [
             [
                 "947dd5e1ce858a94"
@@ -449,7 +449,7 @@
         "finalize": "",
         "libs": [],
         "x": 420,
-        "y": 420,
+        "y": 720,
         "wires": [
             [
                 "b0e67ffc26d4cb76"
@@ -463,7 +463,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Delete Orders",
         "x": 620,
-        "y": 420,
+        "y": 720,
         "wires": [
             [
                 "24b0fb91cf54c062"
@@ -483,7 +483,7 @@
         "finalize": "",
         "libs": [],
         "x": 760,
-        "y": 980,
+        "y": 1280,
         "wires": [
             [
                 "310a8d7d2754bad1"
@@ -500,7 +500,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Production",
         "x": 990,
-        "y": 960,
+        "y": 1260,
         "wires": [
             [
                 "decc9303957efc79"
@@ -758,7 +758,7 @@
         "label": "Number of Product",
         "tooltip": "",
         "group": "5d5982fc91e21a2a",
-        "order": 1,
+        "order": 2,
         "width": 0,
         "height": 0,
         "wrap": false,
@@ -784,7 +784,7 @@
         "z": "8d441b1e1f9e38da",
         "name": "Submit Order",
         "group": "5d5982fc91e21a2a",
-        "order": 2,
+        "order": 4,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -799,7 +799,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 70,
-        "y": 280,
+        "y": 340,
         "wires": [
             [
                 "de14ef11e7dc4d56"
@@ -862,8 +862,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "GetProduction",
-        "x": 1360,
-        "y": 560,
+        "x": 1280,
+        "y": 860,
         "wires": [
             [
                 "8d085d44ed72ad0c",
@@ -883,8 +883,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1160,
-        "y": 560,
+        "x": 1040,
+        "y": 860,
         "wires": [
             [
                 "4615304a7c339a8b"
@@ -904,7 +904,7 @@
         "finalize": "",
         "libs": [],
         "x": 1570,
-        "y": 560,
+        "y": 860,
         "wires": [
             [
                 "e64e58cc6b222b8f",
@@ -933,7 +933,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1830,
-        "y": 460,
+        "y": 760,
         "wires": []
     },
     {
@@ -951,7 +951,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1500,
-        "y": 480,
+        "y": 780,
         "wires": []
     },
     {
@@ -968,7 +968,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 2020,
-        "y": 520,
+        "y": 820,
         "wires": []
     },
     {
@@ -1045,7 +1045,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1010,
-        "y": 340,
+        "y": 440,
         "wires": []
     },
     {
@@ -1055,7 +1055,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Insert",
         "x": 810,
-        "y": 340,
+        "y": 440,
         "wires": [
             [
                 "0ee4da4c80425284"
@@ -1075,7 +1075,7 @@
         "finalize": "",
         "libs": [],
         "x": 530,
-        "y": 340,
+        "y": 440,
         "wires": [
             [
                 "ea74bcdf73234576"
@@ -1089,7 +1089,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Insert",
         "x": 270,
-        "y": 340,
+        "y": 440,
         "wires": [
             [
                 "ae420591212b9497"
@@ -1109,7 +1109,7 @@
         "finalize": "",
         "libs": [],
         "x": 90,
-        "y": 340,
+        "y": 440,
         "wires": [
             [
                 "9a44244dea3cb636"
@@ -1129,7 +1129,7 @@
         "finalize": "",
         "libs": [],
         "x": 1820,
-        "y": 560,
+        "y": 860,
         "wires": [
             [
                 "5b8099f0491d684d"
@@ -1143,7 +1143,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Finish Order",
         "x": 2010,
-        "y": 560,
+        "y": 860,
         "wires": [
             []
         ]
@@ -1161,7 +1161,7 @@
         "finalize": "",
         "libs": [],
         "x": 110,
-        "y": 560,
+        "y": 860,
         "wires": [
             [
                 "63ed270b76f1a8a4"
@@ -1447,7 +1447,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1190,
-        "y": 1020,
+        "y": 1320,
         "wires": []
     },
     {
@@ -1498,7 +1498,7 @@
         "finalize": "",
         "libs": [],
         "x": 1760,
-        "y": 720,
+        "y": 1020,
         "wires": [
             [
                 "b8cdd283d08a4233"
@@ -1527,7 +1527,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 110,
-        "y": 620,
+        "y": 920,
         "wires": [
             [
                 "63ed270b76f1a8a4"
@@ -1660,7 +1660,7 @@
         "finalize": "",
         "libs": [],
         "x": 420,
-        "y": 560,
+        "y": 860,
         "wires": [
             [
                 "44982cd264357834"
@@ -1674,7 +1674,7 @@
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Orders",
         "x": 690,
-        "y": 560,
+        "y": 860,
         "wires": [
             [
                 "cd87d15993ba468d",
@@ -1697,8 +1697,67 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 560,
-        "y": 620,
+        "y": 920,
         "wires": []
+    },
+    {
+        "id": "3fb50263282f6dd8",
+        "type": "ui_switch",
+        "z": "8d441b1e1f9e38da",
+        "name": "Priority ?",
+        "label": "Prioritized",
+        "tooltip": "",
+        "group": "5d5982fc91e21a2a",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 160,
+        "y": 280,
+        "wires": [
+            [
+                "816aea9c14353a0b"
+            ]
+        ]
+    },
+    {
+        "id": "816aea9c14353a0b",
+        "type": "change",
+        "z": "8d441b1e1f9e38da",
+        "name": "Priority Input",
+        "rules": [
+            {
+                "t": "set",
+                "p": "priority",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 330,
+        "y": 280,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "64300a9a705f2b0d",
@@ -1768,7 +1827,7 @@
         "name": "Form",
         "label": "Form",
         "group": "5d5982fc91e21a2a",
-        "order": 0,
+        "order": 5,
         "width": 0,
         "height": 0,
         "options": [
