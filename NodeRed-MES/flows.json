@@ -48,7 +48,7 @@
     {
         "id": "264f4d45e89c5368",
         "type": "ui_tab",
-        "name": "Form",
+        "name": "Register Order",
         "icon": "dashboard",
         "disabled": false,
         "hidden": false
@@ -193,11 +193,73 @@
         "sessionExpiry": ""
     },
     {
+        "id": "00426be119a79d1b",
+        "type": "ui_tab",
+        "name": "User Interface",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "c283d1f336c1be31",
+        "type": "ui_group",
+        "name": "Pending Orders",
+        "tab": "00426be119a79d1b",
+        "order": 2,
+        "disp": true,
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "8068ff87c6587c75",
+        "type": "ui_group",
+        "name": "Production History",
+        "tab": "00426be119a79d1b",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a9a9a15b6e27edbf",
+        "type": "ui_spacer",
+        "z": "8d441b1e1f9e38da",
+        "name": "spacer",
+        "group": "8068ff87c6587c75",
+        "order": 2,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "dbab7d39e8d12ef2",
+        "type": "ui_spacer",
+        "z": "8d441b1e1f9e38da",
+        "name": "spacer",
+        "group": "8068ff87c6587c75",
+        "order": 2,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "d3651f4aa7a0a0ce",
+        "type": "ui_group",
+        "name": "Stations State",
+        "tab": "00426be119a79d1b",
+        "order": 3,
+        "disp": true,
+        "width": "20",
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "de14ef11e7dc4d56",
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Order Input",
-        "func": "let type = flow.get('product_type');\nlet quantite = flow.get('nb_product');\nlet priority =  flow.get('priority');\n\nif (!type || !quantite) {\n    node.warn(\"Incomplete input\");\n    return null; \n}\n\nmsg.topic = \"INSERT INTO Orders (nb_product, product_type, status, priority) VALUES (?, ?, 'QUEUED', ?);\";\nmsg.payload = [quantite, type, priority];\n\nreturn msg;",
+        "func": "let type = flow.get('product_type');\nlet quantite = flow.get('nb_product');\nlet rawPriority = flow.get('priority');\n\nlet priority = (rawPriority === true || rawPriority === \"true\" || rawPriority === 1) ? 1 : 0;\n\nif (!type || !quantite) {\n    node.warn(\"Incomplete input\");\n    return null;\n}\n\nmsg.topic = \"INSERT INTO Orders (nb_product, product_type, status, priority) VALUES (?, ?, 'QUEUED', ?);\";\nmsg.payload = [quantite, type, priority];\n\nflow.set('priority', false);\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -246,7 +308,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 170,
-        "y": 720,
+        "y": 660,
         "wires": [
             [
                 "321ef8b9ec4432a6"
@@ -327,10 +389,10 @@
         "payload": "",
         "payloadType": "date",
         "x": 120,
-        "y": 800,
+        "y": 760,
         "wires": [
             [
-                "321ef8b9ec4432a6"
+                "a23c4fb65811150e"
             ]
         ]
     },
@@ -475,7 +537,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Take Decision",
-        "func": "let fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations');\n\nlet sn = msg.payload.sn || msg.sn;\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart) return null;\nif (cart.state !== 'UPDATE') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id;\n    msg.productSN = sn;\n\n    stations[6] = null;\n\n    let cartId = cart.cart_id; \n    cart.sn = null;\n    cart.order_id = null;\n    cart.productData = null;\n    cart.currentStation = 0;\n    cart.state = 'IDLE';\n    cart.isBypassed = false;\n\n    global.set('factory_fleet', fleet);\n    global.set('factory_stations', stations);\n\n    return [msg, { payload: `[Product ${sn}] Production finished ! Cart ${cartId} is now FREE.` }];\n}\n\nstations[numStation] = cart.cart_id;\nif (numStation > 1) {\n    stations[numStation - 1] = null;\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn],\n    order_id: cart.order_id,\n    productSN: sn\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'CART_IN_WAIT';\n\n\ncommandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}]. Waiting for CART_IN`;\n\n\nglobal.set('factory_fleet', fleet);\nglobal.set('factory_stations', stations);\n\nreturn [dbUpdateMsg, commandMsg];",
+        "func": "let fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations');\n\nlet sn = msg.payload.sn || msg.sn;\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart) return null;\nif (cart.state !== 'UPDATE') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED', current_station = 'OUT' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id;\n    msg.productSN = sn;\n\n    stations[6] = null;\n\n    let cartId = cart.cart_id; \n    cart.sn = null;\n    cart.order_id = null;\n    cart.productData = null;\n    cart.currentStation = 0;\n    cart.state = 'IDLE';\n    cart.isBypassed = false;\n\n    global.set('factory_fleet', fleet);\n    global.set('factory_stations', stations);\n\n    return [msg, { payload: `[Product ${sn}] Production finished ! Cart ${cartId} is now FREE.` }];\n}\n\nstations[numStation] = cart.cart_id;\nif (numStation > 1) {\n    stations[numStation - 1] = null;\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn],\n    order_id: cart.order_id,\n    productSN: sn\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'CART_IN_WAIT';\n\n\ncommandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}]. Waiting for CART_IN`;\n\n\nglobal.set('factory_fleet', fleet);\nglobal.set('factory_stations', stations);\n\nreturn [dbUpdateMsg, commandMsg];",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -1032,91 +1094,6 @@
         "wires": []
     },
     {
-        "id": "0ee4da4c80425284",
-        "type": "debug",
-        "z": "8d441b1e1f9e38da",
-        "name": "Delete Order",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1010,
-        "y": 440,
-        "wires": []
-    },
-    {
-        "id": "ea74bcdf73234576",
-        "type": "mysql",
-        "z": "8d441b1e1f9e38da",
-        "mydb": "8fe1b8c2b9d8069a",
-        "name": "Insert",
-        "x": 810,
-        "y": 440,
-        "wires": [
-            [
-                "0ee4da4c80425284"
-            ]
-        ]
-    },
-    {
-        "id": "ae420591212b9497",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "DeleteOrder",
-        "func": "msg.topic = \"DELETE FROM Orders;\";\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 530,
-        "y": 440,
-        "wires": [
-            [
-                "ea74bcdf73234576"
-            ]
-        ]
-    },
-    {
-        "id": "9a44244dea3cb636",
-        "type": "mysql",
-        "z": "8d441b1e1f9e38da",
-        "mydb": "8fe1b8c2b9d8069a",
-        "name": "Insert",
-        "x": 270,
-        "y": 440,
-        "wires": [
-            [
-                "ae420591212b9497"
-            ]
-        ]
-    },
-    {
-        "id": "f79a37f9c5995765",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "DeleteOrder",
-        "func": "msg.topic = \"DELETE FROM Production;\";\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 90,
-        "y": 440,
-        "wires": [
-            [
-                "9a44244dea3cb636"
-            ]
-        ]
-    },
-    {
         "id": "577822512f86621c",
         "type": "function",
         "z": "8d441b1e1f9e38da",
@@ -1451,41 +1428,6 @@
         "wires": []
     },
     {
-        "id": "fbe25712eeb6ffd9",
-        "type": "mysql",
-        "z": "8d441b1e1f9e38da",
-        "mydb": "8fe1b8c2b9d8069a",
-        "name": "RQ Orders",
-        "x": 1770,
-        "y": 200,
-        "wires": [
-            [
-                "435110bf7280e486",
-                "c9fdd05bba4d9edc"
-            ]
-        ]
-    },
-    {
-        "id": "0b5f113548db05f8",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "RQ WAITING Orders",
-        "func": "msg.topic = `\n    SELECT o.order_id, o.product_type, o.nb_product, p.* FROM Orders o \n    JOIN Products p ON o.product_type = p.product_type \n    WHERE o.status = 'WAITING'\n    LIMIT 1;\n`;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1540,
-        "y": 200,
-        "wires": [
-            [
-                "fbe25712eeb6ffd9"
-            ]
-        ]
-    },
-    {
         "id": "6342795f167f4bd2",
         "type": "function",
         "z": "8d441b1e1f9e38da",
@@ -1533,119 +1475,6 @@
                 "099e43275746a44a"
             ]
         ]
-    },
-    {
-        "id": "4c21d0d0d9558a01",
-        "type": "comment",
-        "z": "8d441b1e1f9e38da",
-        "name": "Partie actualisation des état de production",
-        "info": "",
-        "x": 1540,
-        "y": 240,
-        "wires": []
-    },
-    {
-        "id": "b836b1d9ca14ef54",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "Change for QEUEUD status",
-        "func": "let data = msg.payload[0]; \n\nmsg.order_id = data.order_id;\nmsg.productData = data;\nmsg.topic = \"UPDATE Orders SET status = 'QUEUED' WHERE order_id = ?;\";\nmsg.remainingProducts = data.nb_product;\n\nmsg.payload = [data.order_id];\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 2220,
-        "y": 200,
-        "wires": [
-            [
-                "eb5a89c9bb7e837a"
-            ]
-        ]
-    },
-    {
-        "id": "eb5a89c9bb7e837a",
-        "type": "mysql",
-        "z": "8d441b1e1f9e38da",
-        "mydb": "8fe1b8c2b9d8069a",
-        "name": "Update Order",
-        "x": 2460,
-        "y": 200,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "435110bf7280e486",
-        "type": "switch",
-        "z": "8d441b1e1f9e38da",
-        "name": "WAITING Order ?",
-        "property": "payload.length",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "gt",
-                "v": "0",
-                "vt": "num"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 1970,
-        "y": 200,
-        "wires": [
-            [
-                "b836b1d9ca14ef54"
-            ]
-        ]
-    },
-    {
-        "id": "92fee42ba2ba2117",
-        "type": "inject",
-        "z": "8d441b1e1f9e38da",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 1390,
-        "y": 340,
-        "wires": [
-            [
-                "0b5f113548db05f8"
-            ]
-        ]
-    },
-    {
-        "id": "c9fdd05bba4d9edc",
-        "type": "debug",
-        "z": "8d441b1e1f9e38da",
-        "name": "WAITING",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1970,
-        "y": 280,
-        "wires": []
     },
     {
         "id": "63ed270b76f1a8a4",
@@ -1824,6 +1653,455 @@
         "wires": [
             [
                 "63ed270b76f1a8a4"
+            ]
+        ]
+    },
+    {
+        "id": "41eac088c353809d",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "Inject RQ",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 420,
+        "wires": [
+            [
+                "f5b58c6beba80fbf"
+            ]
+        ]
+    },
+    {
+        "id": "f5b58c6beba80fbf",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "RQ pending orders",
+        "func": "msg.topic = \"SELECT order_id, nb_product, product_type, status, priority FROM Orders WHERE status IN ('PAUSED', 'QUEUED') ORDER BY priority DESC, order_id ASC;\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 420,
+        "wires": [
+            [
+                "cee7c96ce2be1649"
+            ]
+        ]
+    },
+    {
+        "id": "cee7c96ce2be1649",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ Pending Orders",
+        "x": 570,
+        "y": 420,
+        "wires": [
+            [
+                "0674afd13c76451e"
+            ]
+        ]
+    },
+    {
+        "id": "a4b1d0c2229e70ce",
+        "type": "ui_table",
+        "z": "8d441b1e1f9e38da",
+        "group": "c283d1f336c1be31",
+        "name": "Pending Orders",
+        "order": 1,
+        "width": "10",
+        "height": "10",
+        "columns": [
+            {
+                "field": "order_id",
+                "title": "Order ID",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "nb_product",
+                "title": "Number of Products",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "product_type",
+                "title": "Type of Product",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "status",
+                "title": "Status",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "priority",
+                "title": "Priority",
+                "width": "",
+                "align": "left",
+                "formatter": "tickCross",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 1,
+        "cts": true,
+        "x": 1000,
+        "y": 420,
+        "wires": [
+            [
+                "4b3b4c7efb7a0f0c",
+                "de0c1fe81145e3ca"
+            ]
+        ]
+    },
+    {
+        "id": "4b3b4c7efb7a0f0c",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Select Order",
+        "func": "flow.set(\"selectedOrderId\", msg.payload.order_id);\n\nlet msgPriority = { payload: msg.payload.priority === 1 }; \n\nreturn msgPriority;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1190,
+        "y": 420,
+        "wires": [
+            [
+                "b71ab66809c70258"
+            ]
+        ]
+    },
+    {
+        "id": "b71ab66809c70258",
+        "type": "ui_switch",
+        "z": "8d441b1e1f9e38da",
+        "name": "Change Priority",
+        "label": "Prioritized ?",
+        "tooltip": "",
+        "group": "c283d1f336c1be31",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1400,
+        "y": 420,
+        "wires": [
+            [
+                "3b6035cb275de9e7"
+            ]
+        ]
+    },
+    {
+        "id": "3b6035cb275de9e7",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Update Priority",
+        "func": "let order_id = flow.get(\"selectedOrderId\");\n\nlet newPriority = msg.payload ? 1 : 0;\nmsg.topic = \"UPDATE Orders SET priority = ? WHERE order_id = ?\";\nmsg.payload = [newPriority, order_id];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1600,
+        "y": 420,
+        "wires": [
+            [
+                "b257da6af1f6a405"
+            ]
+        ]
+    },
+    {
+        "id": "b257da6af1f6a405",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Update Select Order",
+        "x": 1840,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "de0c1fe81145e3ca",
+        "type": "ui_text",
+        "z": "8d441b1e1f9e38da",
+        "group": "c283d1f336c1be31",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Selected Order :",
+        "label": "Selected Order :",
+        "format": "N° {{msg.payload.order_id}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1200,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "8ff30d67ec6093a0",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "Update Stations",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 560,
+        "wires": [
+            [
+                "3c6555e3a50b31dd"
+            ]
+        ]
+    },
+    {
+        "id": "3c6555e3a50b31dd",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Select Used Stations",
+        "func": "msg.topic = `\nSELECT \n    p.current_station, \n    p.productSN, \n    p.order_id, \n    p.cart_id, \n    o.priority,\n    pr.*\nFROM Production p\nJOIN Orders o ON p.order_id = o.order_id\nJOIN Products pr ON o.product_type = pr.product_type\nWHERE p.status = 'IN_PROGRESS' AND p.current_station != 'OUT';\n`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 560,
+        "wires": [
+            [
+                "ab7a23bd3fb22618"
+            ]
+        ]
+    },
+    {
+        "id": "ab7a23bd3fb22618",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ Pending Orders",
+        "x": 590,
+        "y": 560,
+        "wires": [
+            [
+                "c4fee0d5948dbe3e"
+            ]
+        ]
+    },
+    {
+        "id": "c4fee0d5948dbe3e",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Organize Infos",
+        "func": "let stations = {};\nfor (let i = 1; i <= 6; i++) {\n    stations[\"Station\" + i] = { active: false };\n}\n\nif (Array.isArray(msg.payload)) {\n    msg.payload.forEach(row => {\n        let stName = row.current_station;\n        if (stations[stName]) {\n            stations[stName] = {\n                active: true,\n                sn: row.productSN,\n                order: row.order_id,\n                cart: row.cart_id,\n                op: row[stName + \"Op\"],\n                priority: row.priority\n            };\n        }\n    });\n}\n\nmsg.payload = stations;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 560,
+        "wires": [
+            [
+                "38af9d01e979e388"
+            ]
+        ]
+    },
+    {
+        "id": "38af9d01e979e388",
+        "type": "ui_template",
+        "z": "8d441b1e1f9e38da",
+        "group": "d3651f4aa7a0a0ce",
+        "name": "Line State",
+        "order": 0,
+        "width": "20",
+        "height": "7",
+        "format": "<style>\n    .factory-floor {\n        display: flex;\n        justify-content: space-around;\n        align-items: stretch;\n        background-color: #1a1a1a;\n        padding: 15px;\n        border-radius: 10px;\n    }\n\n    .station-box {\n        flex: 1;\n        margin: 0 5px;\n        background-color: #333;\n        border: 2px solid #555;\n        border-radius: 6px;\n        padding: 10px;\n        min-height: 160px;\n        /* Légèrement agrandi pour laisser place aux boutons */\n        color: #eee;\n        font-family: sans-serif;\n        position: relative;\n        display: flex;\n        flex-direction: column;\n        /* Permet de pousser les boutons vers le bas */\n    }\n\n    .station-box.active {\n        border-color: #3498db;\n        background-color: #2c3e50;\n    }\n\n    .station-box.priority-active {\n        border-color: #f1c40f !important;\n        box-shadow: inset 0 0 10px rgba(241, 196, 15, 0.2);\n    }\n\n    .prio-badge {\n        position: absolute;\n        top: -8px;\n        right: -5px;\n        background-color: #f1c40f;\n        color: #000;\n        font-size: 0.7em;\n        font-weight: bold;\n        padding: 2px 6px;\n        border-radius: 4px;\n        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);\n    }\n\n    .st-name {\n        border-bottom: 1px solid #555;\n        margin-bottom: 8px;\n        padding-bottom: 4px;\n        font-weight: bold;\n        color: #3498db;\n        text-align: center;\n    }\n\n    .info-line {\n        font-size: 0.85em;\n        margin: 4px 0;\n    }\n\n    .label {\n        color: #888;\n        font-size: 0.9em;\n    }\n\n    .val {\n        font-weight: bold;\n        color: #fff;\n    }\n\n    .op-tag {\n        margin-top: 8px;\n        background: #444;\n        padding: 3px 6px;\n        border-radius: 4px;\n        font-size: 0.8em;\n        text-align: center;\n        border-left: 3px solid #e67e22;\n    }\n\n    .empty-msg {\n        color: #555;\n        text-align: center;\n        margin-top: 20px;\n        font-style: italic;\n        font-size: 0.8em;\n        flex-grow: 1;\n        /* Remplit l'espace vide */\n    }\n\n    /* --- NOUVEAU : Style pour les boutons --- */\n    .controls {\n        margin-top: auto;\n        /* Pousse les boutons tout en bas de la carte */\n        display: flex;\n        gap: 5px;\n        padding-top: 10px;\n    }\n\n    .btn-mqtt {\n        flex: 1;\n        border: none;\n        border-radius: 3px;\n        padding: 5px 0;\n        font-size: 0.75em;\n        font-weight: bold;\n        cursor: pointer;\n        color: white;\n        transition: 0.2s;\n    }\n\n    .btn-in {\n        background-color: #2980b9;\n    }\n\n    .btn-in:hover {\n        background-color: #3498db;\n    }\n\n    .btn-in:active {\n        background-color: #1f6391;\n    }\n\n    .btn-done {\n        background-color: #27ae60;\n    }\n\n    .btn-done:hover {\n        background-color: #2ecc71;\n    }\n\n    .btn-done:active {\n        background-color: #1e8449;\n    }\n</style>\n\n<div class=\"factory-floor\">\n    <div ng-repeat=\"i in [1,2,3,4,5,6]\" class=\"station-box\"\n        ng-class=\"{'active': msg.payload['Station'+i].active, 'priority-active': msg.payload['Station'+i].priority}\">\n\n        <div class=\"prio-badge\" ng-if=\"msg.payload['Station'+i].priority\">\n            PRIO\n        </div>\n\n        <div class=\"st-name\">STATION {{i}}</div>\n\n        <div ng-if=\"msg.payload['Station'+i].active\">\n            <div class=\"info-line\">\n                <span class=\"label\">ORDER:</span> <span class=\"val\">#{{msg.payload['Station'+i].order}}</span>\n            </div>\n            <div class=\"info-line\">\n                <span class=\"label\">CART:</span> <span class=\"val\">{{msg.payload['Station'+i].cart}}</span>\n            </div>\n            <div class=\"op-tag\">\n                {{msg.payload['Station'+i].op}}\n            </div>\n        </div>\n\n        <div ng-if=\"!msg.payload['Station'+i].active\" class=\"empty-msg\">\n            Empty Station\n        </div>\n\n        <div class=\"controls\">\n            <button class=\"btn-mqtt btn-in\" ng-click=\"send({payload: {station: i, response: 'CART_IN'}})\">IN</button>\n            <button class=\"btn-mqtt btn-done\" ng-click=\"send({payload: {station: i, response: 'DONE'}})\">DONE</button>\n        </div>\n\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 980,
+        "y": 560,
+        "wires": [
+            [
+                "2e3f75ec07943f15"
+            ]
+        ]
+    },
+    {
+        "id": "0674afd13c76451e",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Check if changed",
+        "func": "let currentDataString = JSON.stringify(msg.payload);\n\nlet previousDataString = flow.get(\"previousTableData\");\n\nif (currentDataString === previousDataString) {\n    return null;\n}\n\nflow.set(\"previousTableData\", currentDataString);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 420,
+        "wires": [
+            [
+                "a4b1d0c2229e70ce"
+            ]
+        ]
+    },
+    {
+        "id": "2e3f75ec07943f15",
+        "type": "mqtt out",
+        "z": "8d441b1e1f9e38da",
+        "name": "",
+        "topic": "test",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0374e6d057e88ee9",
+        "x": 1130,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "4ee759867ffc5e26",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "Bypass check to start",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 480,
+        "wires": [
+            [
+                "f9a00c6b60e5cde2"
+            ]
+        ]
+    },
+    {
+        "id": "c00b4e7b0e142746",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ Pending Orders",
+        "x": 790,
+        "y": 480,
+        "wires": [
+            [
+                "a4b1d0c2229e70ce"
+            ]
+        ]
+    },
+    {
+        "id": "f9a00c6b60e5cde2",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "RQ pending orders",
+        "func": "msg.topic = \"SELECT order_id, nb_product, product_type, status, priority FROM Orders WHERE status IN ('PAUSED', 'QUEUED') ORDER BY priority DESC, order_id ASC;\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 480,
+        "wires": [
+            [
+                "c00b4e7b0e142746"
             ]
         ]
     },

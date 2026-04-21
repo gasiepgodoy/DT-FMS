@@ -5,7 +5,8 @@
     "dependencies": {
         "node-red-contrib-aedes": "^0.13.0",
         "node-red-dashboard": "~3.6.6",
-        "node-red-node-mysql": "~3.0.0"
+        "node-red-node-mysql": "~3.0.0",
+        "node-red-node-ui-table": "~0.4.5"
     },
     "node-red": {
         "settings": {
