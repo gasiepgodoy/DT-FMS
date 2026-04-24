@@ -236,16 +236,6 @@
         "className": ""
     },
     {
-        "id": "475335035d17ae6c",
-        "type": "ui_spacer",
-        "z": "8d441b1e1f9e38da",
-        "name": "spacer",
-        "group": "d3651f4aa7a0a0ce",
-        "order": 4,
-        "width": 1,
-        "height": 1
-    },
-    {
         "id": "9cddced30134a29d",
         "type": "ui_tab",
         "name": "Engineering Interface",
@@ -260,6 +250,17 @@
         "name": "Initialize the Line",
         "tab": "9cddced30134a29d",
         "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "941b97812585655e",
+        "type": "ui_group",
+        "name": "Creat New Product",
+        "tab": "9cddced30134a29d",
+        "order": 2,
         "disp": true,
         "width": 6,
         "collapse": false,
@@ -356,8 +357,7 @@
         "y": 1260,
         "wires": [
             [
-                "cec95615ef423c17",
-                "a23c4fb65811150e"
+                "cec95615ef423c17"
             ]
         ]
     },
@@ -377,35 +377,6 @@
         "x": 970,
         "y": 1260,
         "wires": []
-    },
-    {
-        "id": "7c1723890b99af02",
-        "type": "inject",
-        "z": "8d441b1e1f9e38da",
-        "name": "Begin Production",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 200,
-        "y": 1240,
-        "wires": [
-            [
-                "a23c4fb65811150e"
-            ]
-        ]
     },
     {
         "id": "e3a57c9eb541a5b7",
@@ -732,7 +703,7 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 1170,
+        "x": 1390,
         "y": 100,
         "wires": [
             [
@@ -754,14 +725,14 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "1",
         "crontab": "",
         "once": true,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 150,
+        "x": 160,
         "y": 100,
         "wires": [
             [
@@ -799,7 +770,7 @@
         "y": 100,
         "wires": [
             [
-                "d29457d843a1b481"
+                "1fe9e5f7809df3d1"
             ]
         ]
     },
@@ -815,7 +786,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 920,
+        "x": 1120,
         "y": 100,
         "wires": [
             [
@@ -923,7 +894,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1430,
+        "x": 1670,
         "y": 100,
         "wires": [
             []
@@ -1134,26 +1105,6 @@
         "y": 1420,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "a23c4fb65811150e",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "Initialize Line",
-        "func": "let carts = [];\nfor (let i = 1; i <= 7; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null, \n        productData: null,          \n        currentStation: 0, \n        state: 'IDLE'\n    });\n}\n\nlet stations = {\n    1: null, 2: null, 3: null, 4: null, 5: null, 6: null\n};\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', \"A\"); \n\nreturn { payload: \"Factory Initialized\" };\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 190,
-        "y": 1340,
-        "wires": [
-            [
-                "099e43275746a44a"
-            ]
         ]
     },
     {
@@ -1480,8 +1431,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 210,
-        "y": 1560,
+        "x": 110,
+        "y": 1440,
         "wires": [
             [
                 "099e43275746a44a"
@@ -2252,7 +2203,7 @@
         "id": "5a6a0b4ea09586c5",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
-        "name": "",
+        "name": "RQ Finished Production",
         "props": [
             {
                 "p": "payload"
@@ -2269,7 +2220,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 170,
+        "x": 150,
         "y": 780,
         "wires": [
             [
@@ -2495,7 +2446,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Reset Variables",
-        "func": "if (msg.payload === \"connect\") {\n    flow.set(\"previousFinishedData\", null);\n    flow.set(\"previousProgressData\", null);\n    flow.set(\"previousTableData\", null);\n    flow.set(\"previousWaitingData\", null);\n}\nreturn null;",
+        "func": "if (msg.payload === \"connect\") {\n    flow.set(\"previousFinishedData\", null);\n    flow.set(\"previousProgressData\", null);\n    flow.set(\"previousTableData\", null);\n    flow.set(\"previousWaitingData\", null);\n    flow.set(\"previousFinishedOrdersData\", null);\n    flow.set(\"previousTypeProducts\", null);\n}\nreturn null;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2592,8 +2543,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 110,
-        "y": 920,
+        "x": 130,
+        "y": 960,
         "wires": [
             [
                 "f6af6de1e41c41c0"
@@ -2612,8 +2563,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 320,
-        "y": 920,
+        "x": 340,
+        "y": 960,
         "wires": [
             [
                 "45b5fc8c88fc2d80"
@@ -2626,8 +2577,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Pending Orders",
-        "x": 550,
-        "y": 920,
+        "x": 570,
+        "y": 960,
         "wires": [
             [
                 "83042ad92b745ce9"
@@ -2687,8 +2638,8 @@
         ],
         "outputs": 1,
         "cts": true,
-        "x": 940,
-        "y": 920,
+        "x": 960,
+        "y": 960,
         "wires": [
             [
                 "bbf1a087cb80f9c1"
@@ -2707,8 +2658,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1130,
-        "y": 920,
+        "x": 1150,
+        "y": 960,
         "wires": [
             [
                 "43913cadb52b2af0"
@@ -2727,8 +2678,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1320,
-        "y": 920,
+        "x": 1340,
+        "y": 960,
         "wires": [
             [
                 "27a5242a5da03f95"
@@ -2741,8 +2692,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Select Order",
-        "x": 1540,
-        "y": 920,
+        "x": 1560,
+        "y": 960,
         "wires": [
             []
         ]
@@ -2759,8 +2710,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 750,
-        "y": 920,
+        "x": 770,
+        "y": 960,
         "wires": [
             [
                 "f497eb17b52aed09"
@@ -2796,7 +2747,7 @@
         "label": "Number of Carts",
         "tooltip": "",
         "group": "a09eb10a018f4e3a",
-        "order": 2,
+        "order": 1,
         "width": 0,
         "height": 0,
         "wrap": false,
@@ -2808,8 +2759,8 @@
         "max": "99",
         "step": 1,
         "className": "",
-        "x": 1860,
-        "y": 1080,
+        "x": 1680,
+        "y": 1000,
         "wires": [
             [
                 "0957481a1a37f369"
@@ -2835,8 +2786,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 2100,
-        "y": 1080,
+        "x": 1940,
+        "y": 1000,
         "wires": [
             []
         ]
@@ -2847,7 +2798,7 @@
         "z": "8d441b1e1f9e38da",
         "name": "Submit Initialization",
         "group": "a09eb10a018f4e3a",
-        "order": 4,
+        "order": 2,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -2861,8 +2812,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 1830,
-        "y": 1160,
+        "x": 1610,
+        "y": 1080,
         "wires": [
             [
                 "ee78f59909efeda5"
@@ -2881,8 +2832,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2050,
-        "y": 1160,
+        "x": 1830,
+        "y": 1080,
         "wires": [
             [
                 "0da178d6e914d46b"
@@ -2906,9 +2857,346 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2290,
-        "y": 1160,
+        "x": 2070,
+        "y": 1080,
         "wires": []
+    },
+    {
+        "id": "346253c2ccdf1317",
+        "type": "ui_form",
+        "z": "8d441b1e1f9e38da",
+        "name": "Create new product",
+        "label": "Create new product",
+        "group": "941b97812585655e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Type of Product",
+                "value": "product_type",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Station 1 : Stop ?",
+                "value": "station1_stop",
+                "type": "switch",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Station 1 : Action",
+                "value": "station1_op",
+                "type": "text",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Station 2 : Stop ?",
+                "value": "station2_stop",
+                "type": "switch",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Station 2 : Action",
+                "value": "station2_op",
+                "type": "text",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Station 3 : Stop ?",
+                "value": "station3_stop",
+                "type": "switch",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Station 3 : Action",
+                "value": "station3_op",
+                "type": "text",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Station 4 : Stop ?",
+                "value": "station4_stop",
+                "type": "switch",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Station 4 : Action",
+                "value": "station4_op",
+                "type": "text",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Station 5 : Stop ?",
+                "value": "station5_stop",
+                "type": "switch",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Station 5 : Action",
+                "value": "station5_op",
+                "type": "text",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Station 6 : Stop ?",
+                "value": "station6_stop",
+                "type": "switch",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Station 6 : Action",
+                "value": "station6_op",
+                "type": "text",
+                "required": false,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "product_type": "",
+            "station1_stop": false,
+            "station1_op": "",
+            "station2_stop": false,
+            "station2_op": "",
+            "station3_stop": false,
+            "station3_op": "",
+            "station4_stop": false,
+            "station4_op": "",
+            "station5_stop": false,
+            "station5_op": "",
+            "station6_stop": false,
+            "station6_op": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 1570,
+        "y": 1140,
+        "wires": [
+            [
+                "220dc4e57cf0379d"
+            ]
+        ]
+    },
+    {
+        "id": "220dc4e57cf0379d",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Insert new Product",
+        "func": "let data = msg.payload;\n\nlet s1_op = data.station1_stop ? data.station1_op : null;\nlet s2_op = data.station2_stop ? data.station2_op : null;\nlet s3_op = data.station3_stop ? data.station3_op : null;\nlet s4_op = data.station4_stop ? data.station4_op : null;\nlet s5_op = data.station5_stop ? data.station5_op : null;\nlet s6_op = data.station6_stop ? data.station6_op : null;\n\nmsg.topic = `\n    INSERT INTO Products (\n        product_type, \n        Station1Stop, Station1Op, \n        Station2Stop, Station2Op, \n        Station3Stop, Station3Op,\n        Station4Stop, Station4Op,\n        Station5Stop, Station5Op,\n        Station6Stop, Station6Op\n    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n`;\n\nmsg.payload = [\n    data.product_type, \n    data.station1_stop, s1_op,\n    data.station2_stop, s2_op,\n    data.station3_stop, s3_op,\n    data.station4_stop, s4_op,\n    data.station5_stop, s5_op,\n    data.station6_stop, s6_op\n];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1800,
+        "y": 1140,
+        "wires": [
+            [
+                "70ceb9fc058c5dc6"
+            ]
+        ]
+    },
+    {
+        "id": "70ceb9fc058c5dc6",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Insert New Product",
+        "x": 2050,
+        "y": 1140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b1bd22d8c83a9bbb",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "RQ Finished Orders",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 900,
+        "wires": [
+            [
+                "ba1c20437cf554b8"
+            ]
+        ]
+    },
+    {
+        "id": "698401133d6a2a71",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ Finished Orders",
+        "x": 600,
+        "y": 900,
+        "wires": [
+            [
+                "15216192394e62ec"
+            ]
+        ]
+    },
+    {
+        "id": "15216192394e62ec",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Check if changed",
+        "func": "let currentProduction = JSON.stringify(msg.payload);\n\nlet previousProduction = flow.get(\"previousFinishedOrdersData\");\n\nif (currentProduction === previousProduction) {\n    return null;\n}\n\nflow.set(\"previousFinishedOrdersData\", currentProduction);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 900,
+        "wires": [
+            [
+                "05d83948e8660116"
+            ]
+        ]
+    },
+    {
+        "id": "ba1c20437cf554b8",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "RQ finished orders",
+        "func": "msg.topic = \"SELECT order_id, nb_product, product_type, status, priority FROM Orders WHERE status = 'FINISHED' ORDER BY order_id ASC;\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 900,
+        "wires": [
+            [
+                "698401133d6a2a71"
+            ]
+        ]
+    },
+    {
+        "id": "05d83948e8660116",
+        "type": "ui_table",
+        "z": "8d441b1e1f9e38da",
+        "group": "d3651f4aa7a0a0ce",
+        "name": "Finished Orders",
+        "order": 10,
+        "width": "10",
+        "height": "10",
+        "columns": [
+            {
+                "field": "order_id",
+                "title": "Order ID",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "nb_product",
+                "title": "Number of Products",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "product_type",
+                "title": "Type of Product",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "status",
+                "title": "Status",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "priority",
+                "title": "Priority",
+                "width": "",
+                "align": "left",
+                "formatter": "tickCross",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 1,
+        "cts": true,
+        "x": 1040,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1fe9e5f7809df3d1",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Check if changed",
+        "func": "let currentIn_PROGRESSString = JSON.stringify(msg.payload);\n\nlet previousIN_PROGRESSString = flow.get(\"previousTypeProducts\");\n\nif (currentIn_PROGRESSString === previousIN_PROGRESSString) {\n    return null;\n}\n\nflow.set(\"previousTypeProducts\", currentIn_PROGRESSString);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 100,
+        "wires": [
+            [
+                "d29457d843a1b481"
+            ]
+        ]
     },
     {
         "id": "64300a9a705f2b0d",
