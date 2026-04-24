@@ -16,6 +16,487 @@
         "env": []
     },
     {
+        "id": "b65c0f0491e09d53",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Register Order",
+        "style": {
+            "fill": "#3f93cf",
+            "label": true,
+            "color": "#000000",
+            "stroke": "#000000"
+        },
+        "nodes": [
+            "de14ef11e7dc4d56",
+            "dcc222f6d322e31f",
+            "48d0a54e54817425",
+            "611bf8d5bdf9debe",
+            "2134d8a2a817cc33",
+            "c99229d43f862c66",
+            "d29457d843a1b481",
+            "9ff79a563ba72fdc",
+            "dd14154524c0955d",
+            "13b16cbfaae17ea4",
+            "b64d50c7e2d97fb6",
+            "3fb50263282f6dd8",
+            "816aea9c14353a0b",
+            "1fe9e5f7809df3d1"
+        ],
+        "x": 54,
+        "y": 79,
+        "w": 1812,
+        "h": 262
+    },
+    {
+        "id": "c151ae1081dd72f5",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "User Interface",
+        "style": {
+            "stroke": "#000000",
+            "label": true,
+            "color": "#000000",
+            "fill": "#7fb7df"
+        },
+        "nodes": [
+            "ebd6ae41e5cf72a0",
+            "4495730ed16d5742",
+            "c1f0eb807d02177f",
+            "e0de735e72c013f2"
+        ],
+        "x": 48,
+        "y": 393,
+        "w": 2524,
+        "h": 874
+    },
+    {
+        "id": "892b130053452acd",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Engineering Interface",
+        "style": {
+            "fill": "#bfdbef",
+            "label": true,
+            "color": "#000000",
+            "stroke": "#000000"
+        },
+        "nodes": [
+            "34985de2926e71f1",
+            "0957481a1a37f369",
+            "b35ca589a8f93823",
+            "ee78f59909efeda5",
+            "0da178d6e914d46b",
+            "346253c2ccdf1317",
+            "220dc4e57cf0379d",
+            "70ceb9fc058c5dc6"
+        ],
+        "x": 1974,
+        "y": 99,
+        "w": 712,
+        "h": 202
+    },
+    {
+        "id": "ebd6ae41e5cf72a0",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "g": "c151ae1081dd72f5",
+        "name": "Orders",
+        "style": {
+            "stroke": "#000000",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "41eac088c353809d",
+            "f5b58c6beba80fbf",
+            "cee7c96ce2be1649",
+            "a4b1d0c2229e70ce",
+            "4b3b4c7efb7a0f0c",
+            "b71ab66809c70258",
+            "3b6035cb275de9e7",
+            "b257da6af1f6a405",
+            "de0c1fe81145e3ca",
+            "0674afd13c76451e",
+            "0d5577a85115129e",
+            "556adf5b05f05e65",
+            "52e74df1d7039d0b",
+            "5b3af11c0c82ba16",
+            "0d5cbb525eb641b9",
+            "18df62717c7ed240",
+            "d430896ab53eb35a",
+            "26a9ecc22d9e7a49",
+            "f6af6de1e41c41c0",
+            "45b5fc8c88fc2d80",
+            "f497eb17b52aed09",
+            "bbf1a087cb80f9c1",
+            "43913cadb52b2af0",
+            "27a5242a5da03f95",
+            "83042ad92b745ce9",
+            "8a6f5d124d6ac28d"
+        ],
+        "x": 74,
+        "y": 419,
+        "w": 1892,
+        "h": 382
+    },
+    {
+        "id": "4495730ed16d5742",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "g": "c151ae1081dd72f5",
+        "name": "Production History",
+        "style": {
+            "stroke": "#000000",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "5a6a0b4ea09586c5",
+            "daa6bdc7919b1d10",
+            "d44f6c96e2ddf8f3",
+            "fb39f3687632aa51",
+            "0556cde7e9040cee",
+            "e00e1135f9298cbc",
+            "03387c105e763deb",
+            "5cafacf5c6096315",
+            "63b7e62b670d2264",
+            "7de9fa37861e1f88",
+            "6457c1d79075b85b"
+        ],
+        "x": 74,
+        "y": 819,
+        "w": 2112,
+        "h": 202
+    },
+    {
+        "id": "c1f0eb807d02177f",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "g": "c151ae1081dd72f5",
+        "name": "Station State",
+        "style": {
+            "stroke": "#000000",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "8ff30d67ec6093a0",
+            "3c6555e3a50b31dd",
+            "ab7a23bd3fb22618",
+            "c4fee0d5948dbe3e",
+            "38af9d01e979e388",
+            "2e3f75ec07943f15",
+            "9494a109ddea6e2d",
+            "b1bd22d8c83a9bbb",
+            "698401133d6a2a71",
+            "15216192394e62ec",
+            "ba1c20437cf554b8",
+            "05d83948e8660116"
+        ],
+        "x": 74,
+        "y": 1039,
+        "w": 1212,
+        "h": 202
+    },
+    {
+        "id": "e0de735e72c013f2",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "g": "c151ae1081dd72f5",
+        "name": "Reset Update Variables",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#ffff3f",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "4c20f2d035199341",
+            "684a4539c96917ff"
+        ],
+        "x": 2034,
+        "y": 419,
+        "w": 512,
+        "h": 82
+    },
+    {
+        "id": "2a1a3b9f73f9b23c",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "MQTT Broker",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#b797cf",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "43b08b133d4d6d3f",
+            "17eb2d1fe87e2315",
+            "f96498d0c77e9ace",
+            "f6ae6b94abf18389",
+            "e1633402dccd24a6",
+            "526ac301c70fbb68"
+        ],
+        "x": 134,
+        "y": 2739,
+        "w": 512,
+        "h": 282
+    },
+    {
+        "id": "9c42f80966314907",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Test DB Connection + Reset DB",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#ffC000",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "4c3d7e3ebfa46c58",
+            "24b0fb91cf54c062",
+            "8b3ece46f344d351",
+            "cec95615ef423c17",
+            "321ef8b9ec4432a6",
+            "b0e67ffc26d4cb76",
+            "d0174d1415712577",
+            "a216d8f65d9994d0",
+            "257abc6cc0bf5605"
+        ],
+        "x": 54,
+        "y": 1299,
+        "w": 1492,
+        "h": 142
+    },
+    {
+        "id": "7e0bb0a65c701ff8",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "g": "795427bb86b0a097",
+        "name": "Priority Management",
+        "style": {
+            "stroke": "#000000",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "099e43275746a44a",
+            "fb0c76d3d366eb1e",
+            "2d23a486c3a3805c",
+            "a70c88e8c1ac1862"
+        ],
+        "x": 294,
+        "y": 1539,
+        "w": 912,
+        "h": 82
+    },
+    {
+        "id": "795427bb86b0a097",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Order Managemenrt",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#addb7b",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "b08072fa5b6a6025",
+            "8d085d44ed72ad0c",
+            "7e0bb0a65c701ff8",
+            "0806d5b44c86f8e4",
+            "57bfac8a30e02789",
+            "d523d92a2f40452e",
+            "50d35f4f81f92345"
+        ],
+        "x": 48,
+        "y": 1513,
+        "w": 2964,
+        "h": 414
+    },
+    {
+        "id": "0806d5b44c86f8e4",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "g": "795427bb86b0a097",
+        "name": "Order In Progress",
+        "style": {
+            "stroke": "#000000",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "63ed270b76f1a8a4",
+            "44982cd264357834",
+            "7f793375b40450fb",
+            "4615304a7c339a8b",
+            "cd87d15993ba468d",
+            "f80366565a9fda4f"
+        ],
+        "x": 74,
+        "y": 1659,
+        "w": 1212,
+        "h": 142
+    },
+    {
+        "id": "57bfac8a30e02789",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "g": "795427bb86b0a097",
+        "name": "Remaining Products In Order",
+        "style": {
+            "stroke": "#000000",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "64738984acc84a83",
+            "1556ae4b033cfb81",
+            "e64e58cc6b222b8f",
+            "e3a57c9eb541a5b7",
+            "6342795f167f4bd2",
+            "b8cdd283d08a4233",
+            "c8a9bb372268af14",
+            "947dd5e1ce858a94"
+        ],
+        "x": 1994,
+        "y": 1579,
+        "w": 992,
+        "h": 322
+    },
+    {
+        "id": "d523d92a2f40452e",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "g": "795427bb86b0a097",
+        "name": "Order is Finished",
+        "style": {
+            "stroke": "#000000",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "34d9317ec08052a2",
+            "577822512f86621c",
+            "5b8099f0491d684d"
+        ],
+        "x": 1574,
+        "y": 1759,
+        "w": 392,
+        "h": 142
+    },
+    {
+        "id": "4f565882bca5bf77",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Simulate Station Messages",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#dbcbe7",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "998a0880cbc23823",
+            "643b35af03a1d06f"
+        ],
+        "x": 134,
+        "y": 2479,
+        "w": 212,
+        "h": 162
+    },
+    {
+        "id": "5a3ad746643dad2f",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Filter for implementation of changing the type of product on first station",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#dbcbe7",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "932d1207d203e972",
+            "8cbaf8e5a30c6ec0",
+            "8c0249c268cd4caf",
+            "5db297f4edeb65fb",
+            "4253fdfca6e1343c",
+            "dbb2a792c9dedb70",
+            "27cf20efa57da21e"
+        ],
+        "x": 394,
+        "y": 2471.5,
+        "w": 1512,
+        "h": 209.5
+    },
+    {
+        "id": "aa1b437e36ee1fab",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Management of the Stations",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#c8e7a7",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "61480d677f9d9693",
+            "46af1ad0d1ff259e"
+        ],
+        "x": 308,
+        "y": 2013,
+        "w": 1544,
+        "h": 314
+    },
+    {
+        "id": "61480d677f9d9693",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "g": "aa1b437e36ee1fab",
+        "name": "Next Station Management",
+        "style": {
+            "stroke": "#000000",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "7be39002b5515f1e",
+            "b43f5c1e5b80e7df",
+            "310a8d7d2754bad1",
+            "decc9303957efc79"
+        ],
+        "x": 974,
+        "y": 2059,
+        "w": 852,
+        "h": 182
+    },
+    {
+        "id": "46af1ad0d1ff259e",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "g": "aa1b437e36ee1fab",
+        "name": "Signal Management",
+        "style": {
+            "stroke": "#000000",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "ebc4145927af70fe",
+            "cfcda398729ca08e",
+            "085afebbe848cfdd"
+        ],
+        "x": 334,
+        "y": 2039,
+        "w": 512,
+        "h": 262
+    },
+    {
         "id": "7d6e607a0e416a67",
         "type": "MySQLdatabase",
         "name": "test",
@@ -270,6 +751,7 @@
         "id": "de14ef11e7dc4d56",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Order Input",
         "func": "let type = flow.get('product_type');\nlet quantite = flow.get('nb_product');\nlet rawPriority = flow.get('priority');\n\nlet priority = (rawPriority === true || rawPriority === \"true\" || rawPriority === 1) ? 1 : 0;\n\nif (!type || !quantite) {\n    node.warn(\"Incomplete input\");\n    return null;\n}\n\nmsg.topic = \"INSERT INTO Orders (nb_product, product_type, status, priority) VALUES (?, ?, 'WAITING', ?);\";\nmsg.payload = [quantite, type, priority];\n\nflow.set('priority', false);\n\nreturn msg;",
         "outputs": 1,
@@ -278,8 +760,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 270,
-        "y": 280,
+        "x": 330,
+        "y": 300,
         "wires": [
             [
                 "dcc222f6d322e31f"
@@ -290,10 +772,11 @@
         "id": "dcc222f6d322e31f",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Order Insert",
-        "x": 450,
-        "y": 280,
+        "x": 510,
+        "y": 300,
         "wires": [
             []
         ]
@@ -302,6 +785,7 @@
         "id": "4c3d7e3ebfa46c58",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "9c42f80966314907",
         "name": "Delete Orders and Productions",
         "props": [
             {
@@ -319,8 +803,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 250,
-        "y": 1160,
+        "x": 230,
+        "y": 1400,
         "wires": [
             [
                 "321ef8b9ec4432a6"
@@ -331,6 +815,7 @@
         "id": "24b0fb91cf54c062",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "9c42f80966314907",
         "name": "Delete Productions",
         "func": "msg.topic = \"DELETE FROM Orders;\";\nreturn msg;",
         "outputs": 1,
@@ -339,8 +824,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
-        "y": 1260,
+        "x": 890,
+        "y": 1400,
         "wires": [
             [
                 "8b3ece46f344d351"
@@ -351,10 +836,11 @@
         "id": "8b3ece46f344d351",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "9c42f80966314907",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Delete Productions",
-        "x": 710,
-        "y": 1260,
+        "x": 1110,
+        "y": 1400,
         "wires": [
             [
                 "cec95615ef423c17"
@@ -365,6 +851,7 @@
         "id": "cec95615ef423c17",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "g": "9c42f80966314907",
         "name": "Delete Orders and Productions",
         "active": true,
         "tosidebar": true,
@@ -374,18 +861,19 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 970,
-        "y": 1260,
+        "x": 1370,
+        "y": 1400,
         "wires": []
     },
     {
         "id": "e3a57c9eb541a5b7",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "57bfac8a30e02789",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Count Production",
-        "x": 2220,
-        "y": 1500,
+        "x": 2500,
+        "y": 1720,
         "wires": [
             [
                 "6342795f167f4bd2"
@@ -396,10 +884,11 @@
         "id": "1556ae4b033cfb81",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "57bfac8a30e02789",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Insert Production",
-        "x": 690,
-        "y": 1660,
+        "x": 2490,
+        "y": 1860,
         "wires": [
             [
                 "b43f5c1e5b80e7df"
@@ -410,6 +899,7 @@
         "id": "64738984acc84a83",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "57bfac8a30e02789",
         "name": "RQ  Number IN_PROGRESS Production",
         "func": "msg.topic = `\n    SELECT COUNT(*) as total_active FROM Production WHERE status = 'IN_PROGRESS';\n`;\nreturn msg;",
         "outputs": 1,
@@ -418,8 +908,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1920,
-        "y": 1500,
+        "x": 2180,
+        "y": 1720,
         "wires": [
             [
                 "e3a57c9eb541a5b7"
@@ -430,6 +920,7 @@
         "id": "947dd5e1ce858a94",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "57bfac8a30e02789",
         "name": "Add Production DB",
         "func": "let sn = msg.sn;\nlet order_id = msg.order_id;\nlet cart_id = msg.cart_id; \n\nmsg.topic = \"INSERT INTO Production (productSN, order_id, cart_id, current_station, status) VALUES (?, ?, ?, 'Station1', 'IN_PROGRESS');\";\n\nmsg.payload = [sn, order_id, cart_id];\n\nreturn msg;",
         "outputs": 1,
@@ -438,8 +929,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 470,
-        "y": 1660,
+        "x": 2870,
+        "y": 1780,
         "wires": [
             [
                 "1556ae4b033cfb81"
@@ -450,10 +941,11 @@
         "id": "b8cdd283d08a4233",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "57bfac8a30e02789",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Order",
-        "x": 2160,
-        "y": 1580,
+        "x": 2480,
+        "y": 1780,
         "wires": [
             [
                 "c8a9bb372268af14"
@@ -464,6 +956,7 @@
         "id": "c8a9bb372268af14",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "57bfac8a30e02789",
         "name": "Assign Cart",
         "func": "let fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations'); \nlet priorityType = global.get('production_priority');\nlet data = msg.productData;\n\nlet order_id = msg.order_id;\nlet remainingProducts = msg.remainingProducts;\n\nif (remainingProducts > 0) {\n    if (stations[1] !== null) {\n        node.warn(`BLOCKED : Station 1 occupied by cart : ${stations[1]}`);\n        return null; \n    }\n\n    let freeCart = fleet.find(c => c.sn === null);\n    if (!freeCart) {\n        node.warn(\"No free carts available\");\n        return null;\n    }\n\n    let sn = order_id + \"_\" + Date.now();\n\n    freeCart.sn = sn;\n    freeCart.state = 'UPDATE';\n    freeCart.currentStation = 1;\n    freeCart.productData = data;\n    freeCart.isBypassed = false;\n    freeCart.order_id = order_id; \n\n    global.set('factory_fleet', fleet);\n\n    msg.sn = sn;\n    msg.order_id = order_id;\n\n    msg.cart_id = freeCart.cart_id; \n\n    node.warn(`Cart ${freeCart.cart_id} processing to Station 1`);\n    msg.machineCommand = { action: 'DECISION', sn: sn };\n\n    return msg;\n} else {\n    node.warn(\"No Order Processing\");\n    return null;\n}\n    ",
         "outputs": 1,
@@ -472,8 +965,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1730,
-        "y": 1740,
+        "x": 2670,
+        "y": 1780,
         "wires": [
             [
                 "947dd5e1ce858a94"
@@ -484,6 +977,7 @@
         "id": "321ef8b9ec4432a6",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "9c42f80966314907",
         "name": "Delete Orders",
         "func": "msg.topic = \"DELETE FROM Production;\";\nreturn msg;",
         "outputs": 1,
@@ -492,8 +986,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 500,
-        "y": 1200,
+        "x": 480,
+        "y": 1400,
         "wires": [
             [
                 "b0e67ffc26d4cb76"
@@ -504,10 +998,11 @@
         "id": "b0e67ffc26d4cb76",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "9c42f80966314907",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Delete Orders",
-        "x": 700,
-        "y": 1200,
+        "x": 680,
+        "y": 1400,
         "wires": [
             [
                 "24b0fb91cf54c062"
@@ -518,6 +1013,7 @@
         "id": "b43f5c1e5b80e7df",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "61480d677f9d9693",
         "name": "Take Decision",
         "func": "let fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations');\n\nlet sn = msg.payload.sn || msg.sn;\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart) return null;\nif (cart.state !== 'UPDATE') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED', current_station = 'OUT' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id;\n    msg.productSN = sn;\n\n    stations[6] = null;\n\n    let cartId = cart.cart_id; \n    cart.sn = null;\n    cart.order_id = null;\n    cart.productData = null;\n    cart.currentStation = 0;\n    cart.state = 'IDLE';\n    cart.isBypassed = false;\n\n    global.set('factory_fleet', fleet);\n    global.set('factory_stations', stations);\n\n    return [msg, { payload: `[Product ${sn}] Production finished ! Cart ${cartId} is now FREE.` }];\n}\n\nstations[numStation] = cart.cart_id;\nif (numStation > 1) {\n    stations[numStation - 1] = null;\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn],\n    order_id: cart.order_id,\n    productSN: sn\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'CART_IN_WAIT';\n\n\ncommandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}]. Waiting for CART_IN`;\n\n\nglobal.set('factory_fleet', fleet);\nglobal.set('factory_stations', stations);\n\nreturn [dbUpdateMsg, commandMsg];",
         "outputs": 2,
@@ -526,8 +1022,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 860,
-        "y": 1740,
+        "x": 1080,
+        "y": 2140,
         "wires": [
             [
                 "310a8d7d2754bad1"
@@ -541,10 +1037,11 @@
         "id": "310a8d7d2754bad1",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "61480d677f9d9693",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Production",
-        "x": 1090,
-        "y": 1720,
+        "x": 1410,
+        "y": 2100,
         "wires": [
             [
                 "decc9303957efc79"
@@ -555,6 +1052,7 @@
         "id": "ebc4145927af70fe",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "46af1ad0d1ff259e",
         "name": "AcknowledgePhysicalAnswer",
         "func": "let machineAnswer = msg.payload; \nlet station_number = machineAnswer.station\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations'); \n\nif (!fleet || !stations) return null;  \n\nlet cart_id = stations[station_number];\n\n// if (cartId !== undefined) {\n// } else {\n// }\n\nlet cart = fleet.find(c => c.cart_id === cart_id);\n\nif (!cart || cart.state === 'IDLE') return null;\n\nlet sn = cart.sn;\n\nlet nextStation = cart.currentStation + 1;\nlet stopCol = \"Station\" + cart.currentStation + \"Stop\";\nlet opCol = \"Station\" + cart.currentStation + \"Op\";\n\nif (machineAnswer.response === \"CART_IN\" && cart.state === 'CART_IN_WAIT') {\n    \n    if (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n        cart.state = 'DONE_WAIT';\n        global.set('factory_fleet', fleet);\n        return [\n            { payload: `[Station  ${cart.currentStation} | Cart ${cart.cart_id}] CART_IN received. Send instruction : ${cart.productData[opCol]}` },\n            { payload: { action: 'CHECK_NEXT_PRODUCT' }, order_id: cart.order_id }\n        ];    \n    } else {\n        if (stations[nextStation] === null || nextStation > 6) {\n            cart.state = 'UPDATE';\n            let ancientStation = cart.currentStation;\n            cart.currentStation++;\n\n            global.set('factory_fleet', fleet);\n\n\n\n            return [\n                { payload: `[Station  ${ancientStation} | Cart ${cart.cart_id}] CART_IN received. No instruction : BYPASSING... Release cart` },\n                { payload: { action: 'DECISION', sn: sn } }\n            ];\n        } else {\n            cart.state = 'BLOCKED';\n            global.set('factory_fleet', fleet);\n            return [ { payload: `[Station  ${cart.currentStation} | Cart ${cart.cart_id}] Operation BYPASSED but PATH BLOCKED at Station ${nextStation}. Waiting...` }, \n                        { \n                            payload: { action: 'CHECK_NEXT_PRODUCT' }, \n                            order_id: cart.order_id\n                        }\n        ];\n        }\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    \n    if (stations[nextStation] === null || nextStation > 6) {\n        cart.state = 'UPDATE';\n        let ancientStation = cart.currentStation;\n        cart.currentStation++;\n        \n        global.set('factory_fleet', fleet);\n        \n        return [\n            { \n                payload: `[Station  ${ancientStation} | Cart ${cart.cart_id}] DONE received. Release cart for station ${cart.currentStation} !` ,\n                sn: sn\n            }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n\n    } else {\n        cart.state = 'BLOCKED';\n        global.set('factory_fleet', fleet);\n        return [ { payload: `[Cart ${cart.cart_id}] DONE received but PATH BLOCKED at Station ${nextStation}. Waiting...` }, \n                { \n                    payload: { action: 'CHECK_NEXT_PRODUCT' }, \n                    order_id: cart.order_id\n                }\n        ];\n    }\n}\n\nif (cart.state === 'BLOCKED') {\n    if (stations[nextStation] === null || nextStation > 6) {\n\n        cart.state = 'UPDATE';\n\n        let ancientStation = cart.currentStation;\n        cart.currentStation++;\n\n        global.set('factory_fleet', fleet);\n\n        return [\n            {\n                payload: `[Station  ${ancientStation} | Cart ${cart.cart_id}] PATH CLEARED for Station ${cart.currentStation}. MOVE CART !`,\n                sn: sn\n            },\n            { payload: { action: 'DECISION', sn: sn } }\n        ];\n\n    } else {\n        return [{ payload: `[Cart ${cart.cart_id}] Still BLOCKED. Waiting for Station ${nextStation} to clear...` }, \n    { \n        payload: { action: 'CHECK_NEXT_PRODUCT' }, \n        order_id: cart.order_id\n    }\n        ];\n    }\n\n\n}\n\nreturn null;",
         "outputs": 2,
@@ -563,8 +1061,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 440,
-        "y": 2020,
+        "x": 480,
+        "y": 2160,
         "wires": [
             [
                 "085afebbe848cfdd"
@@ -579,6 +1077,7 @@
         "id": "643b35af03a1d06f",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "4f565882bca5bf77",
         "name": "Station Done",
         "props": [
             {
@@ -596,8 +1095,8 @@
         "topic": "",
         "payload": "{     \"sn\": \"15_1775832547181\",     \"response\": \"DONE\" }",
         "payloadType": "json",
-        "x": 270,
-        "y": 2200,
+        "x": 250,
+        "y": 2600,
         "wires": [
             [
                 "932d1207d203e972"
@@ -608,6 +1107,7 @@
         "id": "998a0880cbc23823",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "4f565882bca5bf77",
         "name": "Cart Arrives",
         "props": [
             {
@@ -625,8 +1125,8 @@
         "topic": "",
         "payload": "{     \"sn\": \"15_1775832547181\" ,     \"response\": \"CART_IN\" }",
         "payloadType": "json",
-        "x": 270,
-        "y": 2120,
+        "x": 250,
+        "y": 2520,
         "wires": [
             [
                 "932d1207d203e972"
@@ -637,6 +1137,7 @@
         "id": "085afebbe848cfdd",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "g": "46af1ad0d1ff259e",
         "name": "PhysicalStation",
         "active": true,
         "tosidebar": true,
@@ -646,14 +1147,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 660,
-        "y": 1900,
+        "x": 720,
+        "y": 2080,
         "wires": []
     },
     {
         "id": "7be39002b5515f1e",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "g": "61480d677f9d9693",
         "name": "OutputNextStation",
         "active": true,
         "tosidebar": true,
@@ -663,14 +1165,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 930,
-        "y": 1840,
+        "x": 1410,
+        "y": 2200,
         "wires": []
     },
     {
         "id": "cfcda398729ca08e",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "g": "46af1ad0d1ff259e",
         "name": "OutputUpdate",
         "active": true,
         "tosidebar": true,
@@ -680,14 +1183,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 680,
-        "y": 2080,
+        "x": 700,
+        "y": 2260,
         "wires": []
     },
     {
         "id": "48d0a54e54817425",
         "type": "ui_dropdown",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Select Type Of Product",
         "label": "Type Of Product",
         "tooltip": "",
@@ -703,8 +1207,8 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 1390,
-        "y": 100,
+        "x": 1450,
+        "y": 120,
         "wires": [
             [
                 "b64d50c7e2d97fb6"
@@ -715,6 +1219,7 @@
         "id": "611bf8d5bdf9debe",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Request Type Of Product",
         "props": [
             {
@@ -732,8 +1237,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 160,
-        "y": 100,
+        "x": 220,
+        "y": 120,
         "wires": [
             [
                 "2134d8a2a817cc33"
@@ -744,6 +1249,7 @@
         "id": "2134d8a2a817cc33",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Request Type Of Product",
         "func": "msg.topic = \"SELECT product_type FROM Products;\";\nreturn msg;",
         "outputs": 1,
@@ -752,8 +1258,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 410,
-        "y": 100,
+        "x": 470,
+        "y": 120,
         "wires": [
             [
                 "c99229d43f862c66"
@@ -764,10 +1270,11 @@
         "id": "c99229d43f862c66",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Request Type Of Product",
-        "x": 670,
-        "y": 100,
+        "x": 730,
+        "y": 120,
         "wires": [
             [
                 "1fe9e5f7809df3d1"
@@ -778,6 +1285,7 @@
         "id": "d29457d843a1b481",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Insert Into DropDown",
         "func": "if (!Array.isArray(msg.payload)) {\n    return null;\n}\n\nmsg.options = msg.payload.map(row => row.product_type);\n\nmsg.payload = \"\";\n\nreturn msg;",
         "outputs": 1,
@@ -786,8 +1294,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1120,
-        "y": 100,
+        "x": 1180,
+        "y": 120,
         "wires": [
             [
                 "48d0a54e54817425"
@@ -798,6 +1306,7 @@
         "id": "9ff79a563ba72fdc",
         "type": "ui_numeric",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Number Of Product Input",
         "label": "Number of Product",
         "tooltip": "",
@@ -814,8 +1323,8 @@
         "max": "99",
         "step": 1,
         "className": "",
-        "x": 130,
-        "y": 160,
+        "x": 190,
+        "y": 180,
         "wires": [
             [
                 "13b16cbfaae17ea4"
@@ -826,6 +1335,7 @@
         "id": "dd14154524c0955d",
         "type": "ui_button",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Submit Order",
         "group": "5d5982fc91e21a2a",
         "order": 4,
@@ -842,8 +1352,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 90,
-        "y": 280,
+        "x": 150,
+        "y": 300,
         "wires": [
             [
                 "de14ef11e7dc4d56"
@@ -854,6 +1364,7 @@
         "id": "13b16cbfaae17ea4",
         "type": "change",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Number Of Product Input",
         "rules": [
             {
@@ -869,8 +1380,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 390,
-        "y": 160,
+        "x": 450,
+        "y": 180,
         "wires": [
             []
         ]
@@ -879,6 +1390,7 @@
         "id": "b64d50c7e2d97fb6",
         "type": "change",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Select Type Of Product",
         "rules": [
             {
@@ -894,8 +1406,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1670,
-        "y": 100,
+        "x": 1730,
+        "y": 120,
         "wires": [
             []
         ]
@@ -904,10 +1416,11 @@
         "id": "4615304a7c339a8b",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "0806d5b44c86f8e4",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "GetProduction",
-        "x": 1360,
-        "y": 1340,
+        "x": 920,
+        "y": 1760,
         "wires": [
             [
                 "8d085d44ed72ad0c",
@@ -919,16 +1432,17 @@
         "id": "7f793375b40450fb",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "0806d5b44c86f8e4",
         "name": "Get Order Info",
-        "func": "if (msg.orderIndex === undefined) {\n    if (!msg.payload || msg.payload.length === 0) {\n        node.status({ fill: \"grey\", shape: \"ring\", text: \"Aucune commande\" });\n        return null;\n    }\n    msg.ordersArray = msg.payload; \n    msg.orderIndex = 0;           \n}\n\nif (msg.orderIndex >= msg.ordersArray.length) {\n    node.status({ fill: \"yellow\", shape: \"dot\", text: \"Usine saturée\" });\n    delete msg.ordersArray;\n    delete msg.orderIndex;\n    return null; \n}\n\nlet currentOrder = msg.ordersArray[msg.orderIndex];\n\nmsg.payload = [currentOrder.order_id];\nmsg.topic = `\n   SELECT\n        o.order_id, o.nb_product, pr.*,\n        COUNT(p.productSN) AS total_processed,\n        SUM(CASE WHEN p.status = 'FINISHED' THEN 1 ELSE 0 END) AS count_finished,\n        SUM(CASE WHEN p.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS count_in_progress\n    FROM Orders o\n    JOIN Products pr ON pr.product_type = o.product_type\n    LEFT JOIN Production p ON p.order_id = o.order_id AND p.status IN ('FINISHED', 'IN_PROGRESS')\n    WHERE o.order_id = ?\n    GROUP BY o.order_id;\n`;\n\nreturn msg;",
+        "func": "if (msg.orderIndex === undefined) {\n    if (!msg.payload || msg.payload.length === 0) {\n        node.status({ fill: \"grey\", shape: \"ring\", text: \"No Order\" });\n        return null;\n    }\n    msg.ordersArray = msg.payload; \n    msg.orderIndex = 0;           \n}\n\nif (msg.orderIndex >= msg.ordersArray.length) {\n    node.status({ fill: \"yellow\", shape: \"dot\", text: \"No free space in the Line\" });\n    delete msg.ordersArray;\n    delete msg.orderIndex;\n    return null; \n}\n\nlet currentOrder = msg.ordersArray[msg.orderIndex];\n\nmsg.payload = [currentOrder.order_id];\nmsg.topic = `\n   SELECT\n        o.order_id, o.nb_product, pr.*,\n        COUNT(p.productSN) AS total_processed,\n        SUM(CASE WHEN p.status = 'FINISHED' THEN 1 ELSE 0 END) AS count_finished,\n        SUM(CASE WHEN p.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS count_in_progress\n    FROM Orders o\n    JOIN Products pr ON pr.product_type = o.product_type\n    LEFT JOIN Production p ON p.order_id = o.order_id AND p.status IN ('FINISHED', 'IN_PROGRESS')\n    WHERE o.order_id = ?\n    GROUP BY o.order_id;\n`;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1120,
-        "y": 1340,
+        "x": 720,
+        "y": 1760,
         "wires": [
             [
                 "4615304a7c339a8b"
@@ -939,6 +1453,7 @@
         "id": "8d085d44ed72ad0c",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "795427bb86b0a097",
         "name": "Is Order Finished?",
         "func": "if (!msg.payload || msg.payload.length === 0) {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Error : No command\" });\n    return null;\n}\n\nlet totalProducts = msg.payload[0].nb_product;\nlet processedProducts = msg.payload[0].total_processed;\nlet finishedProducts = msg.payload[0].count_finished;\n\nlet remainingProducts = totalProducts - processedProducts;\nmsg.remainingProducts = remainingProducts;\n\nif (remainingProducts > 0) {\n    msg.productData = msg.payload[0];\n    msg.order_id = msg.payload[0].order_id;\n    msg.production_status = \"PENDING_PRODUCTS\";\n\n    node.status({ fill: \"blue\", shape: \"dot\", text: `Remaining ${remainingProducts}/${totalProducts} products (Order ${msg.order_id})` });\n    \n    delete msg.ordersArray;\n    delete msg.orderIndex;\n    \n    return [msg, null, null];\n\n} else if (totalProducts === finishedProducts) {\n    msg.production_status = \"FINISHED\";\n    msg.order_id = msg.payload[0].order_id;\n    \n    node.status({ fill: \"green\", shape: \"dot\", text: `Order ${msg.order_id} Finished !` });\n    \n    delete msg.ordersArray;\n    delete msg.orderIndex;\n    \n    return [null, msg, null];\n\n} else {\n    msg.production_status = \"NEXT ORDER\";\n    \n    node.status({ fill: \"yellow\", shape: \"ring\", text: \"Transition to next order\" });\n\n    msg.orderIndex += 1;\n\n    return [null, null, msg];\n}",
         "outputs": 3,
@@ -947,8 +1462,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1690,
-        "y": 1420,
+        "x": 1430,
+        "y": 1740,
         "wires": [
             [
                 "e64e58cc6b222b8f",
@@ -967,6 +1482,7 @@
         "id": "e64e58cc6b222b8f",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "g": "57bfac8a30e02789",
         "name": "OutputRemainingProducts-Remaining",
         "active": true,
         "tosidebar": true,
@@ -976,8 +1492,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1950,
-        "y": 1320,
+        "x": 2330,
+        "y": 1620,
         "wires": []
     },
     {
@@ -985,6 +1501,7 @@
         "type": "debug",
         "z": "8d441b1e1f9e38da",
         "d": true,
+        "g": "0806d5b44c86f8e4",
         "name": "debugGetProduction",
         "active": true,
         "tosidebar": true,
@@ -994,14 +1511,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1620,
-        "y": 1340,
+        "x": 1140,
+        "y": 1700,
         "wires": []
     },
     {
         "id": "34d9317ec08052a2",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "g": "d523d92a2f40452e",
         "name": "OutputRemainingProducts-Finished",
         "active": true,
         "tosidebar": true,
@@ -1011,18 +1529,19 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2140,
-        "y": 1320,
+        "x": 1740,
+        "y": 1860,
         "wires": []
     },
     {
         "id": "d0174d1415712577",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "9c42f80966314907",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "",
-        "x": 290,
-        "y": 40,
+        "x": 370,
+        "y": 1340,
         "wires": [
             [
                 "257abc6cc0bf5605"
@@ -1033,6 +1552,7 @@
         "id": "a216d8f65d9994d0",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "9c42f80966314907",
         "name": "Test DB Connection",
         "props": [
             {
@@ -1050,8 +1570,8 @@
         "topic": "SELECT 1 AS test_connexion;",
         "payload": "",
         "payloadType": "date",
-        "x": 110,
-        "y": 40,
+        "x": 190,
+        "y": 1340,
         "wires": [
             [
                 "d0174d1415712577"
@@ -1062,6 +1582,7 @@
         "id": "257abc6cc0bf5605",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "g": "9c42f80966314907",
         "name": "Connection OK",
         "active": true,
         "tosidebar": true,
@@ -1071,14 +1592,15 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 460,
-        "y": 40,
+        "x": 540,
+        "y": 1340,
         "wires": []
     },
     {
         "id": "577822512f86621c",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "d523d92a2f40452e",
         "name": "Complete Order",
         "func": "let order_id = msg.order_id;\n\nmsg.order_id = order_id;\nmsg.topic = \"UPDATE Orders SET status = 'FINISHED' WHERE order_id = ?;\";\n\nmsg.payload = [order_id];\n\nreturn msg;\n\n",
         "outputs": 1,
@@ -1087,8 +1609,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1940,
-        "y": 1420,
+        "x": 1680,
+        "y": 1800,
         "wires": [
             [
                 "5b8099f0491d684d"
@@ -1099,10 +1621,11 @@
         "id": "5b8099f0491d684d",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "d523d92a2f40452e",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Finish Order",
-        "x": 2130,
-        "y": 1420,
+        "x": 1870,
+        "y": 1800,
         "wires": [
             []
         ]
@@ -1111,6 +1634,7 @@
         "id": "932d1207d203e972",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "5a3ad746643dad2f",
         "name": "Station 1 Priority Filter",
         "func": "let machineAnswer = msg.payload; \nlet station_number = machineAnswer.station\n\n//let sn = machineAnswer.sn;\n\nlet fleet = global.get('factory_fleet');\nlet priorityType = global.get('production_priority');\nlet stations = global.get('factory_stations');\n\n\nif (!fleet || !priorityType) return [msg, null, null]; \n\nlet cart_id = stations[station_number];\n\n// if (cartId !== undefined) {\n// } else {\n// }\n\nlet cart = fleet.find(c => c.cart_id === cart_id);\nif (!cart || cart.state === 'IDLE') return [msg, null, null];\n\n\nif (cart.currentStation === 99 && machineAnswer.response === \"CART_IN\") { //Adapt Filter to change product while on production\n    \n    let currentType = cart.productData.product_type; \n    let order_id = cart.order_id;\n\n    if (currentType !== priorityType) {\n        let dbUpdateMsg = {\n            topic: \"UPDATE Orders SET product_type = ? WHERE order_id = ?;\",\n            payload: [priorityType, order_id],\n            order_id: order_id,\n            sn: cart.sn,\n            newType: priorityType\n        };\n\n        let newAction = \"NEW PRIORITY\";\n        let commandMsg = {\n            payload: `[Cart ${cart.cart_id}] OVERRIDE PRIORITY ! Abort previous action. NEW TYPE: ${priorityType} | NEW ACTION: ${newAction}`\n        };\n\n        cart.productData.product_type = priorityType;\n        global.set('factory_fleet', fleet);\n\n        return [null, dbUpdateMsg, commandMsg];\n    }\n}\n\nreturn [msg, null, null];",
         "outputs": 3,
@@ -1119,8 +1643,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 500,
-        "y": 2160,
+        "x": 520,
+        "y": 2520,
         "wires": [
             [
                 "ebc4145927af70fe"
@@ -1137,6 +1661,7 @@
         "id": "27cf20efa57da21e",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "g": "5a3ad746643dad2f",
         "name": "Send New action to Station",
         "active": true,
         "tosidebar": true,
@@ -1146,18 +1671,19 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 800,
-        "y": 2280,
+        "x": 820,
+        "y": 2640,
         "wires": []
     },
     {
         "id": "dbb2a792c9dedb70",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "5a3ad746643dad2f",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Order Type",
-        "x": 790,
-        "y": 2160,
+        "x": 810,
+        "y": 2520,
         "wires": [
             [
                 "8cbaf8e5a30c6ec0"
@@ -1168,6 +1694,7 @@
         "id": "5db297f4edeb65fb",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "5a3ad746643dad2f",
         "name": "Actualize product data",
         "func": "let sn = msg.sn;\nlet productData = msg.payload[0];\n\nif (!sn || !productData) return null;\n\nlet fleet = global.get('factory_fleet');\nif (!fleet) return null;\n\nlet cart = fleet.find(c => c.sn === sn);\nif (!cart) return null;\n\nproductData.order_id = cart.order_id;\ncart.productData = productData;\n\nglobal.set('factory_fleet', fleet);\n\nglobal.set('factory_fleet', fleet);\n\nreturn { payload: `[Cart ${cart.cart_id}] Cart Update for product : ${productData.product_type} !` };",
         "outputs": 1,
@@ -1176,8 +1703,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1480,
-        "y": 2160,
+        "x": 1500,
+        "y": 2520,
         "wires": [
             [
                 "8c0249c268cd4caf"
@@ -1188,6 +1715,7 @@
         "id": "8cbaf8e5a30c6ec0",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "5a3ad746643dad2f",
         "name": "RQ Product Data",
         "func": "\nlet newType = msg.newType;\nlet sn = msg.sn;\nlet order_id = msg.order_id;\n\nlet dbUpdateMsg = {\n            topic: \"SELECT o.order_id, o.product_type, p.* FROM Orders o JOIN Products p ON o.product_type = p.product_type JOIN Production pr ON o.order_id = ?;\",\n            payload: [order_id],\n            sn: sn,\n            newType: newType\n        };\n\nreturn dbUpdateMsg;",
         "outputs": 1,
@@ -1196,8 +1724,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1030,
-        "y": 2160,
+        "x": 1050,
+        "y": 2520,
         "wires": [
             [
                 "4253fdfca6e1343c"
@@ -1208,10 +1736,11 @@
         "id": "4253fdfca6e1343c",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "5a3ad746643dad2f",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Order Type",
-        "x": 1250,
-        "y": 2160,
+        "x": 1270,
+        "y": 2520,
         "wires": [
             [
                 "5db297f4edeb65fb"
@@ -1222,6 +1751,7 @@
         "id": "8c0249c268cd4caf",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "g": "5a3ad746643dad2f",
         "name": "OutputActualizeProduct",
         "active": true,
         "tosidebar": true,
@@ -1231,14 +1761,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1730,
-        "y": 2160,
+        "x": 1750,
+        "y": 2520,
         "wires": []
     },
     {
         "id": "43b08b133d4d6d3f",
         "type": "mqtt in",
         "z": "8d441b1e1f9e38da",
+        "g": "2a1a3b9f73f9b23c",
         "name": "Message from the stations",
         "topic": "test",
         "qos": "2",
@@ -1248,8 +1779,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 290,
-        "y": 2360,
+        "x": 270,
+        "y": 2860,
         "wires": [
             [
                 "f96498d0c77e9ace",
@@ -1261,6 +1792,7 @@
         "id": "f96498d0c77e9ace",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
+        "g": "2a1a3b9f73f9b23c",
         "name": "Output MQTT",
         "active": true,
         "tosidebar": true,
@@ -1270,14 +1802,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 540,
-        "y": 2360,
+        "x": 500,
+        "y": 2860,
         "wires": []
     },
     {
         "id": "f6ae6b94abf18389",
         "type": "aedes broker",
         "z": "8d441b1e1f9e38da",
+        "g": "2a1a3b9f73f9b23c",
         "name": "",
         "mqtt_port": "1884",
         "mqtt_ws_bind": "port",
@@ -1290,8 +1823,8 @@
         "persistence_bind": "memory",
         "dburl": "",
         "usetls": false,
-        "x": 1130,
-        "y": 2380,
+        "x": 250,
+        "y": 2960,
         "wires": [
             [
                 "e1633402dccd24a6"
@@ -1306,6 +1839,7 @@
         "type": "debug",
         "z": "8d441b1e1f9e38da",
         "d": true,
+        "g": "2a1a3b9f73f9b23c",
         "name": "Connection Output",
         "active": true,
         "tosidebar": true,
@@ -1315,8 +1849,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1400,
-        "y": 2360,
+        "x": 510,
+        "y": 2920,
         "wires": []
     },
     {
@@ -1324,6 +1858,7 @@
         "type": "debug",
         "z": "8d441b1e1f9e38da",
         "d": true,
+        "g": "2a1a3b9f73f9b23c",
         "name": "Message Output",
         "active": true,
         "tosidebar": true,
@@ -1333,20 +1868,21 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1390,
-        "y": 2400,
+        "x": 500,
+        "y": 2980,
         "wires": []
     },
     {
         "id": "17eb2d1fe87e2315",
         "type": "json",
         "z": "8d441b1e1f9e38da",
+        "g": "2a1a3b9f73f9b23c",
         "name": "",
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 390,
-        "y": 2280,
+        "x": 470,
+        "y": 2780,
         "wires": [
             [
                 "932d1207d203e972"
@@ -1354,28 +1890,11 @@
         ]
     },
     {
-        "id": "2db295df1cc4fd0d",
-        "type": "debug",
-        "z": "8d441b1e1f9e38da",
-        "d": true,
-        "name": "Switch Debug",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1000,
-        "y": 2000,
-        "wires": []
-    },
-    {
         "id": "decc9303957efc79",
         "type": "debug",
         "z": "8d441b1e1f9e38da",
         "d": true,
+        "g": "61480d677f9d9693",
         "name": "OutputUpdateProduction",
         "active": true,
         "tosidebar": true,
@@ -1385,14 +1904,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1290,
-        "y": 1780,
+        "x": 1670,
+        "y": 2100,
         "wires": []
     },
     {
         "id": "6342795f167f4bd2",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "57bfac8a30e02789",
         "name": "Check If free space on line",
         "func": "let total_active = msg.payload[0].total_active;\n\nlet fleet = global.get('factory_fleet') || [];\n\nlet available_carts = fleet.filter(cart => cart.state === 'IDLE');\n\nif (total_active >= 6) {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Line Full (6/6)\" });\n    node.warn(\"Production blocked : 6 products on the line\");\n    return null;\n}\n\nif (available_carts.length === 0) {\n    node.status({ fill: \"yellow\", shape: \"ring\", text: \"No carts available\" });\n    node.warn(\"Production blocked : No IDLE carts available\");\n    return null;\n}\nmsg.topic = \"UPDATE Orders SET status = 'IN_PROGRESS' WHERE order_id = ? AND status = 'QUEUED';\";\nmsg.payload = [msg.order_id];\n\nreturn msg;",
         "outputs": 2,
@@ -1401,8 +1921,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1880,
-        "y": 1580,
+        "x": 2760,
+        "y": 1720,
         "wires": [
             [
                 "b8cdd283d08a4233"
@@ -1414,6 +1934,7 @@
         "id": "b08072fa5b6a6025",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "795427bb86b0a097",
         "name": "Check for Orders",
         "props": [
             {
@@ -1431,8 +1952,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 110,
-        "y": 1440,
+        "x": 190,
+        "y": 1580,
         "wires": [
             [
                 "099e43275746a44a"
@@ -1443,6 +1964,7 @@
         "id": "63ed270b76f1a8a4",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "0806d5b44c86f8e4",
         "name": "RQ  Number IN_PROGRESS Production",
         "func": "msg.topic = `\n    SELECT order_id, product_type, nb_product\n    FROM Orders\n    WHERE status IN ('IN_PROGRESS', 'QUEUED');\n`;\nreturn msg;",
         "outputs": 1,
@@ -1451,8 +1973,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 620,
-        "y": 1340,
+        "x": 260,
+        "y": 1760,
         "wires": [
             [
                 "44982cd264357834"
@@ -1463,10 +1985,11 @@
         "id": "44982cd264357834",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "0806d5b44c86f8e4",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Orders",
-        "x": 890,
-        "y": 1340,
+        "x": 530,
+        "y": 1760,
         "wires": [
             [
                 "cd87d15993ba468d",
@@ -1479,6 +2002,7 @@
         "type": "debug",
         "z": "8d441b1e1f9e38da",
         "d": true,
+        "g": "0806d5b44c86f8e4",
         "name": "RQ Orders IN_PROGRESS",
         "active": true,
         "tosidebar": true,
@@ -1488,14 +2012,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1120,
-        "y": 1400,
+        "x": 760,
+        "y": 1700,
         "wires": []
     },
     {
         "id": "3fb50263282f6dd8",
         "type": "ui_switch",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Priority ?",
         "label": "Prioritized",
         "tooltip": "",
@@ -1518,8 +2043,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 80,
-        "y": 220,
+        "x": 140,
+        "y": 240,
         "wires": [
             [
                 "816aea9c14353a0b"
@@ -1530,6 +2055,7 @@
         "id": "816aea9c14353a0b",
         "type": "change",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Priority Input",
         "rules": [
             {
@@ -1545,8 +2071,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 250,
-        "y": 220,
+        "x": 310,
+        "y": 240,
         "wires": [
             []
         ]
@@ -1555,6 +2081,7 @@
         "id": "099e43275746a44a",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "7e0bb0a65c701ff8",
         "name": "RQ  Priority Production",
         "func": "msg.topic = `\n    SELECT o.order_id\n    FROM Orders o\n    LEFT JOIN Production p ON o.order_id = p.order_id\n    WHERE o.priority = TRUE AND o.status IN ('QUEUED', 'IN_PROGRESS')\n    GROUP BY o.order_id, o.nb_product\n    HAVING COUNT(p.productSN) < o.nb_product\n    LIMIT 1;\n`;\nreturn msg;",
         "outputs": 1,
@@ -1563,8 +2090,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 1440,
+        "x": 420,
+        "y": 1580,
         "wires": [
             [
                 "fb0c76d3d366eb1e"
@@ -1575,10 +2102,11 @@
         "id": "fb0c76d3d366eb1e",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "7e0bb0a65c701ff8",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Priority Orders",
-        "x": 570,
-        "y": 1440,
+        "x": 650,
+        "y": 1580,
         "wires": [
             [
                 "2d23a486c3a3805c"
@@ -1589,6 +2117,7 @@
         "id": "2d23a486c3a3805c",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "7e0bb0a65c701ff8",
         "name": "Priority Manager",
         "func": "if (msg.payload && msg.payload.length > 0) {\n    msg.topic = \"UPDATE Orders SET status = 'PAUSED' WHERE priority = FALSE AND status IN ('QUEUED', 'IN_PROGRESS');\";\n    \n    node.status({fill:\"red\", shape:\"dot\", text:\"Active Priority\"});\n} else {\n    msg.topic = \"UPDATE Orders SET status = 'QUEUED' WHERE priority = FALSE AND status = 'PAUSED';\";\n    \n    node.status({fill:\"green\", shape:\"dot\", text:\"No Priority\"});\n}\n\nreturn msg;",
         "outputs": 1,
@@ -1597,8 +2126,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 780,
-        "y": 1440,
+        "x": 860,
+        "y": 1580,
         "wires": [
             [
                 "a70c88e8c1ac1862"
@@ -1609,10 +2138,11 @@
         "id": "a70c88e8c1ac1862",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "7e0bb0a65c701ff8",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Priority Orders",
-        "x": 980,
-        "y": 1440,
+        "x": 1080,
+        "y": 1580,
         "wires": [
             [
                 "63ed270b76f1a8a4"
@@ -1623,6 +2153,7 @@
         "id": "41eac088c353809d",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "Inject RQ",
         "props": [
             {
@@ -1640,8 +2171,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 110,
-        "y": 380,
+        "x": 190,
+        "y": 640,
         "wires": [
             [
                 "f5b58c6beba80fbf"
@@ -1652,6 +2183,7 @@
         "id": "f5b58c6beba80fbf",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "RQ pending orders",
         "func": "msg.topic = \"SELECT order_id, nb_product, product_type, status, priority FROM Orders WHERE status IN ('PAUSED', 'QUEUED') ORDER BY priority DESC, order_id ASC;\";\n\nreturn msg;",
         "outputs": 1,
@@ -1660,8 +2192,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 290,
-        "y": 380,
+        "x": 390,
+        "y": 640,
         "wires": [
             [
                 "cee7c96ce2be1649"
@@ -1672,10 +2204,11 @@
         "id": "cee7c96ce2be1649",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Pending Orders",
-        "x": 510,
-        "y": 380,
+        "x": 610,
+        "y": 640,
         "wires": [
             [
                 "0674afd13c76451e"
@@ -1686,6 +2219,7 @@
         "id": "a4b1d0c2229e70ce",
         "type": "ui_table",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "group": "c283d1f336c1be31",
         "name": "Pending Orders",
         "order": 6,
@@ -1745,8 +2279,8 @@
         ],
         "outputs": 1,
         "cts": true,
-        "x": 940,
-        "y": 380,
+        "x": 1040,
+        "y": 640,
         "wires": [
             [
                 "4b3b4c7efb7a0f0c",
@@ -1758,6 +2292,7 @@
         "id": "4b3b4c7efb7a0f0c",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "Select Order",
         "func": "flow.set(\"selectedOrderId\", msg.payload.order_id);\n\nlet msgPriority = { payload: msg.payload.priority === 1 }; \n\nreturn msgPriority;",
         "outputs": 1,
@@ -1766,8 +2301,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1130,
-        "y": 380,
+        "x": 1230,
+        "y": 640,
         "wires": [
             [
                 "b71ab66809c70258"
@@ -1778,6 +2313,7 @@
         "id": "b71ab66809c70258",
         "type": "ui_switch",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "Change Priority",
         "label": "Prioritized ?",
         "tooltip": "",
@@ -1800,8 +2336,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 1340,
-        "y": 380,
+        "x": 1420,
+        "y": 640,
         "wires": [
             [
                 "3b6035cb275de9e7"
@@ -1812,6 +2348,7 @@
         "id": "3b6035cb275de9e7",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "Update Priority",
         "func": "let order_id = flow.get(\"selectedOrderId\");\n\nlet newPriority = msg.payload ? 1 : 0;\nmsg.topic = \"UPDATE Orders SET priority = ? WHERE order_id = ?\";\nmsg.payload = [newPriority, order_id];\n\nreturn msg;",
         "outputs": 1,
@@ -1820,8 +2357,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1540,
-        "y": 380,
+        "x": 1620,
+        "y": 640,
         "wires": [
             [
                 "b257da6af1f6a405"
@@ -1832,10 +2369,11 @@
         "id": "b257da6af1f6a405",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Select Order",
-        "x": 1780,
-        "y": 380,
+        "x": 1840,
+        "y": 640,
         "wires": [
             []
         ]
@@ -1844,6 +2382,7 @@
         "id": "de0c1fe81145e3ca",
         "type": "ui_text",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "group": "c283d1f336c1be31",
         "order": 7,
         "width": 0,
@@ -1857,14 +2396,15 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1140,
-        "y": 440,
+        "x": 1240,
+        "y": 700,
         "wires": []
     },
     {
         "id": "8ff30d67ec6093a0",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "name": "Update Stations",
         "props": [
             {
@@ -1882,8 +2422,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 150,
-        "y": 660,
+        "x": 210,
+        "y": 1080,
         "wires": [
             [
                 "3c6555e3a50b31dd"
@@ -1894,6 +2434,7 @@
         "id": "3c6555e3a50b31dd",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "name": "Select Used Stations",
         "func": "msg.topic = `\nSELECT \n    p.current_station, \n    p.productSN, \n    p.order_id, \n    p.cart_id, \n    o.priority,\n    pr.*\nFROM Production p\nJOIN Orders o ON p.order_id = o.order_id\nJOIN Products pr ON o.product_type = pr.product_type\nWHERE p.status = 'IN_PROGRESS' AND p.current_station != 'OUT';\n`;\nreturn msg;",
         "outputs": 1,
@@ -1902,8 +2443,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 380,
-        "y": 660,
+        "x": 440,
+        "y": 1080,
         "wires": [
             [
                 "ab7a23bd3fb22618"
@@ -1914,10 +2455,11 @@
         "id": "ab7a23bd3fb22618",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Pending Orders",
-        "x": 610,
-        "y": 660,
+        "x": 670,
+        "y": 1080,
         "wires": [
             [
                 "c4fee0d5948dbe3e"
@@ -1928,6 +2470,7 @@
         "id": "c4fee0d5948dbe3e",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "name": "Organize Infos",
         "func": "let stations = {};\nfor (let i = 1; i <= 6; i++) {\n    stations[\"Station\" + i] = { active: false };\n}\n\nif (Array.isArray(msg.payload)) {\n    msg.payload.forEach(row => {\n        let stName = row.current_station;\n        if (stations[stName]) {\n            stations[stName] = {\n                active: true,\n                sn: row.productSN,\n                order: row.order_id,\n                cart: row.cart_id,\n                op: row[stName + \"Op\"],\n                priority: row.priority\n            };\n        }\n    });\n}\n\nmsg.payload = stations;\nreturn msg;",
         "outputs": 1,
@@ -1936,8 +2479,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 820,
-        "y": 660,
+        "x": 880,
+        "y": 1080,
         "wires": [
             [
                 "38af9d01e979e388"
@@ -1948,6 +2491,7 @@
         "id": "38af9d01e979e388",
         "type": "ui_template",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "group": "d3651f4aa7a0a0ce",
         "name": "Line State",
         "order": 2,
@@ -1959,8 +2503,8 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1000,
-        "y": 660,
+        "x": 1060,
+        "y": 1080,
         "wires": [
             [
                 "2e3f75ec07943f15"
@@ -1971,6 +2515,7 @@
         "id": "0674afd13c76451e",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "Check if changed",
         "func": "let currentDataString = JSON.stringify(msg.payload);\n\nlet previousDataString = flow.get(\"previousTableData\");\n\nif (currentDataString === previousDataString) {\n    return null;\n}\n\nflow.set(\"previousTableData\", currentDataString);\n\nreturn msg;",
         "outputs": 1,
@@ -1979,8 +2524,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 730,
-        "y": 380,
+        "x": 830,
+        "y": 640,
         "wires": [
             [
                 "a4b1d0c2229e70ce"
@@ -1991,6 +2536,7 @@
         "id": "2e3f75ec07943f15",
         "type": "mqtt out",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "name": "",
         "topic": "test",
         "qos": "",
@@ -2001,14 +2547,15 @@
         "correl": "",
         "expiry": "",
         "broker": "0374e6d057e88ee9",
-        "x": 1150,
-        "y": 660,
+        "x": 1210,
+        "y": 1080,
         "wires": []
     },
     {
         "id": "0d5577a85115129e",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "RQ in progress orders",
         "props": [
             {
@@ -2026,8 +2573,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 150,
-        "y": 720,
+        "x": 230,
+        "y": 760,
         "wires": [
             [
                 "556adf5b05f05e65"
@@ -2038,6 +2585,7 @@
         "id": "556adf5b05f05e65",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "RQ pending orders",
         "func": "msg.topic = \"SELECT order_id, nb_product, product_type, status, priority FROM Orders WHERE status = 'IN_PROGRESS' ORDER BY priority DESC, order_id ASC;\";\n\nreturn msg;",
         "outputs": 1,
@@ -2046,8 +2594,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 370,
-        "y": 720,
+        "x": 470,
+        "y": 760,
         "wires": [
             [
                 "52e74df1d7039d0b"
@@ -2058,10 +2606,11 @@
         "id": "52e74df1d7039d0b",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ in progress Orders",
-        "x": 600,
-        "y": 720,
+        "x": 700,
+        "y": 760,
         "wires": [
             [
                 "5b3af11c0c82ba16"
@@ -2072,6 +2621,7 @@
         "id": "5b3af11c0c82ba16",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "Check if changed",
         "func": "let currentIn_PROGRESSString = JSON.stringify(msg.payload);\n\nlet previousIN_PROGRESSString = flow.get(\"previousProgressData\");\n\nif (currentIn_PROGRESSString === previousIN_PROGRESSString) {\n    return null;\n}\n\nflow.set(\"previousProgressData\", currentIn_PROGRESSString);\n\nreturn msg;",
         "outputs": 1,
@@ -2080,8 +2630,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 810,
-        "y": 720,
+        "x": 930,
+        "y": 760,
         "wires": [
             [
                 "0d5cbb525eb641b9"
@@ -2092,6 +2642,7 @@
         "id": "0d5cbb525eb641b9",
         "type": "ui_table",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "group": "c283d1f336c1be31",
         "name": "In Progress Orders",
         "order": 10,
@@ -2151,8 +2702,8 @@
         ],
         "outputs": 1,
         "cts": true,
-        "x": 1030,
-        "y": 720,
+        "x": 1150,
+        "y": 760,
         "wires": [
             []
         ]
@@ -2161,6 +2712,7 @@
         "id": "18df62717c7ed240",
         "type": "ui_text",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "group": "c283d1f336c1be31",
         "order": 5,
         "width": 0,
@@ -2174,14 +2726,15 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1500,
-        "y": 640,
+        "x": 180,
+        "y": 580,
         "wires": []
     },
     {
         "id": "d430896ab53eb35a",
         "type": "ui_text",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "group": "c283d1f336c1be31",
         "order": 9,
         "width": 0,
@@ -2195,7 +2748,7 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1510,
+        "x": 190,
         "y": 700,
         "wires": []
     },
@@ -2203,6 +2756,7 @@
         "id": "5a6a0b4ea09586c5",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "4495730ed16d5742",
         "name": "RQ Finished Production",
         "props": [
             {
@@ -2220,8 +2774,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 150,
-        "y": 780,
+        "x": 230,
+        "y": 920,
         "wires": [
             [
                 "daa6bdc7919b1d10"
@@ -2232,6 +2786,7 @@
         "id": "daa6bdc7919b1d10",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "4495730ed16d5742",
         "name": "Finished Products",
         "func": "msg.topic = \"SELECT order_id, productSN FROM Production WHERE status = 'FINISHED' ORDER BY order_id;\";\n\nreturn msg;",
         "outputs": 1,
@@ -2240,8 +2795,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 370,
-        "y": 780,
+        "x": 470,
+        "y": 920,
         "wires": [
             [
                 "d44f6c96e2ddf8f3"
@@ -2252,10 +2807,11 @@
         "id": "d44f6c96e2ddf8f3",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "4495730ed16d5742",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Finished Products",
-        "x": 600,
-        "y": 780,
+        "x": 700,
+        "y": 920,
         "wires": [
             [
                 "fb39f3687632aa51"
@@ -2266,6 +2822,7 @@
         "id": "fb39f3687632aa51",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "4495730ed16d5742",
         "name": "Check if changed",
         "func": "let currentProduction = JSON.stringify(msg.payload);\n\nlet previousProduction = flow.get(\"previousFinishedData\");\n\nif (currentProduction === previousProduction) {\n    return null;\n}\n\nflow.set(\"previousFinishedData\", currentProduction);\n\nreturn msg;",
         "outputs": 1,
@@ -2274,8 +2831,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 830,
-        "y": 780,
+        "x": 930,
+        "y": 920,
         "wires": [
             [
                 "0556cde7e9040cee"
@@ -2286,6 +2843,7 @@
         "id": "0556cde7e9040cee",
         "type": "ui_table",
         "z": "8d441b1e1f9e38da",
+        "g": "4495730ed16d5742",
         "group": "8068ff87c6587c75",
         "name": "Finished Products",
         "order": 4,
@@ -2315,8 +2873,8 @@
         ],
         "outputs": 1,
         "cts": true,
-        "x": 1050,
-        "y": 780,
+        "x": 1150,
+        "y": 920,
         "wires": [
             [
                 "e00e1135f9298cbc",
@@ -2328,6 +2886,7 @@
         "id": "e00e1135f9298cbc",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "4495730ed16d5742",
         "name": "RQ Particular Production",
         "func": "let sn = msg.payload.productSN;\n\nif (!sn) return null;\n\nmsg.productSN = sn;\n\nmsg.topic = `\n    SELECT \n        pr.*\n    FROM Production p\n    JOIN Orders o ON p.order_id = o.order_id\n    JOIN Products pr ON o.product_type = pr.product_type\n    WHERE p.productSN = '${sn}';\n`;\n\nreturn msg;",
         "outputs": 1,
@@ -2336,8 +2895,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1290,
-        "y": 780,
+        "x": 1390,
+        "y": 920,
         "wires": [
             [
                 "03387c105e763deb"
@@ -2348,10 +2907,11 @@
         "id": "03387c105e763deb",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "4495730ed16d5742",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Finished Products",
-        "x": 1540,
-        "y": 780,
+        "x": 1640,
+        "y": 920,
         "wires": [
             [
                 "5cafacf5c6096315"
@@ -2362,6 +2922,7 @@
         "id": "5cafacf5c6096315",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "4495730ed16d5742",
         "name": "Prepare Display",
         "func": "\nif (!msg.payload || msg.payload.length === 0) return null;\n\nlet recipe = msg.payload[0];\nlet productionDetails = [];\n\nfor (let i = 1; i <= 6; i++) {\n    let stop = recipe[\"Station\" + i + \"Stop\"]; \n    let operation = recipe[\"Station\" + i + \"Op\"]; \n    \n    productionDetails.push({\n        step: \"Station \" + i,\n        required_stop: stop ? \"True\" : \"False\",\n        action: operation ? operation : \"Bypass\"\n    });\n}\n\nmsg.payload = productionDetails;\n\nreturn msg;",
         "outputs": 1,
@@ -2370,8 +2931,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1760,
-        "y": 780,
+        "x": 1860,
+        "y": 920,
         "wires": [
             [
                 "63b7e62b670d2264"
@@ -2382,6 +2943,7 @@
         "id": "63b7e62b670d2264",
         "type": "ui_table",
         "z": "8d441b1e1f9e38da",
+        "g": "4495730ed16d5742",
         "group": "8068ff87c6587c75",
         "name": "Detailed Production",
         "order": 6,
@@ -2421,8 +2983,8 @@
         ],
         "outputs": 1,
         "cts": true,
-        "x": 1970,
-        "y": 780,
+        "x": 2070,
+        "y": 920,
         "wires": [
             []
         ]
@@ -2431,10 +2993,11 @@
         "id": "4c20f2d035199341",
         "type": "ui_ui_control",
         "z": "8d441b1e1f9e38da",
+        "g": "e0de735e72c013f2",
         "name": "Check Dashboard Connection",
         "events": "all",
-        "x": 1090,
-        "y": 320,
+        "x": 2190,
+        "y": 460,
         "wires": [
             [
                 "684a4539c96917ff"
@@ -2445,6 +3008,7 @@
         "id": "684a4539c96917ff",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "e0de735e72c013f2",
         "name": "Reset Variables",
         "func": "if (msg.payload === \"connect\") {\n    flow.set(\"previousFinishedData\", null);\n    flow.set(\"previousProgressData\", null);\n    flow.set(\"previousTableData\", null);\n    flow.set(\"previousWaitingData\", null);\n    flow.set(\"previousFinishedOrdersData\", null);\n    flow.set(\"previousTypeProducts\", null);\n}\nreturn null;",
         "outputs": 1,
@@ -2453,8 +3017,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1340,
-        "y": 320,
+        "x": 2440,
+        "y": 460,
         "wires": [
             []
         ]
@@ -2463,6 +3027,7 @@
         "id": "7de9fa37861e1f88",
         "type": "ui_text",
         "z": "8d441b1e1f9e38da",
+        "g": "4495730ed16d5742",
         "group": "8068ff87c6587c75",
         "order": 5,
         "width": 0,
@@ -2476,14 +3041,15 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1240,
-        "y": 860,
+        "x": 1380,
+        "y": 980,
         "wires": []
     },
     {
         "id": "9494a109ddea6e2d",
         "type": "ui_text",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "group": "d3651f4aa7a0a0ce",
         "order": 3,
         "width": 0,
@@ -2497,14 +3063,15 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1720,
-        "y": 640,
+        "x": 180,
+        "y": 1140,
         "wires": []
     },
     {
         "id": "6457c1d79075b85b",
         "type": "ui_text",
         "z": "8d441b1e1f9e38da",
+        "g": "4495730ed16d5742",
         "group": "8068ff87c6587c75",
         "order": 3,
         "width": 0,
@@ -2518,14 +3085,15 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1740,
-        "y": 700,
+        "x": 200,
+        "y": 860,
         "wires": []
     },
     {
         "id": "26a9ecc22d9e7a49",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "Inject RQ",
         "props": [
             {
@@ -2543,8 +3111,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 130,
-        "y": 960,
+        "x": 190,
+        "y": 520,
         "wires": [
             [
                 "f6af6de1e41c41c0"
@@ -2555,6 +3123,7 @@
         "id": "f6af6de1e41c41c0",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "RQ WAITING orders",
         "func": "msg.topic = \"SELECT order_id, nb_product, product_type, status FROM Orders WHERE status = 'WAITING' ORDER BY order_id ASC;\";\n\nreturn msg;",
         "outputs": 1,
@@ -2563,8 +3132,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 960,
+        "x": 400,
+        "y": 520,
         "wires": [
             [
                 "45b5fc8c88fc2d80"
@@ -2575,10 +3144,11 @@
         "id": "45b5fc8c88fc2d80",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Pending Orders",
-        "x": 570,
-        "y": 960,
+        "x": 630,
+        "y": 520,
         "wires": [
             [
                 "83042ad92b745ce9"
@@ -2589,6 +3159,7 @@
         "id": "f497eb17b52aed09",
         "type": "ui_table",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "group": "c283d1f336c1be31",
         "name": "Waiting Orders",
         "order": 2,
@@ -2638,8 +3209,8 @@
         ],
         "outputs": 1,
         "cts": true,
-        "x": 960,
-        "y": 960,
+        "x": 1060,
+        "y": 520,
         "wires": [
             [
                 "bbf1a087cb80f9c1"
@@ -2650,6 +3221,7 @@
         "id": "bbf1a087cb80f9c1",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "Select Order",
         "func": "flow.set(\"selectedWaitingOrderId\", msg.payload.order_id);\n\nlet msgPriority = { payload: msg.payload.priority === 1 }; \n\nreturn msgPriority;",
         "outputs": 1,
@@ -2658,8 +3230,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1150,
-        "y": 960,
+        "x": 1250,
+        "y": 520,
         "wires": [
             [
                 "43913cadb52b2af0"
@@ -2670,6 +3242,7 @@
         "id": "43913cadb52b2af0",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "Update Priority",
         "func": "let order_id = flow.get(\"selectedWaitingOrderId\");\n\nmsg.topic = \"UPDATE Orders SET status = 'QUEUED' WHERE order_id = ?\";\nmsg.payload = [order_id];\n\nreturn msg;",
         "outputs": 1,
@@ -2678,8 +3251,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1340,
-        "y": 960,
+        "x": 1440,
+        "y": 520,
         "wires": [
             [
                 "27a5242a5da03f95"
@@ -2690,10 +3263,11 @@
         "id": "27a5242a5da03f95",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Select Order",
-        "x": 1560,
-        "y": 960,
+        "x": 1660,
+        "y": 520,
         "wires": [
             []
         ]
@@ -2702,6 +3276,7 @@
         "id": "83042ad92b745ce9",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "name": "Check if changed",
         "func": "let currentDataString = JSON.stringify(msg.payload);\n\nlet previousDataString = flow.get(\"previousWaitingData\");\n\nif (currentDataString === previousDataString) {\n    return null;\n}\n\nflow.set(\"previousWaitingData\", currentDataString);\n\nreturn msg;",
         "outputs": 1,
@@ -2710,8 +3285,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 770,
-        "y": 960,
+        "x": 850,
+        "y": 520,
         "wires": [
             [
                 "f497eb17b52aed09"
@@ -2722,6 +3297,7 @@
         "id": "8a6f5d124d6ac28d",
         "type": "ui_text",
         "z": "8d441b1e1f9e38da",
+        "g": "ebd6ae41e5cf72a0",
         "group": "c283d1f336c1be31",
         "order": 1,
         "width": 0,
@@ -2735,14 +3311,15 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1940,
-        "y": 640,
+        "x": 180,
+        "y": 460,
         "wires": []
     },
     {
         "id": "34985de2926e71f1",
         "type": "ui_numeric",
         "z": "8d441b1e1f9e38da",
+        "g": "892b130053452acd",
         "name": "Number Of Carts Input",
         "label": "Number of Carts",
         "tooltip": "",
@@ -2759,8 +3336,8 @@
         "max": "99",
         "step": 1,
         "className": "",
-        "x": 1680,
-        "y": 1000,
+        "x": 2100,
+        "y": 140,
         "wires": [
             [
                 "0957481a1a37f369"
@@ -2771,6 +3348,7 @@
         "id": "0957481a1a37f369",
         "type": "change",
         "z": "8d441b1e1f9e38da",
+        "g": "892b130053452acd",
         "name": "Number Of Carts Input",
         "rules": [
             {
@@ -2786,8 +3364,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1940,
-        "y": 1000,
+        "x": 2340,
+        "y": 140,
         "wires": [
             []
         ]
@@ -2796,6 +3374,7 @@
         "id": "b35ca589a8f93823",
         "type": "ui_button",
         "z": "8d441b1e1f9e38da",
+        "g": "892b130053452acd",
         "name": "Submit Initialization",
         "group": "a09eb10a018f4e3a",
         "order": 2,
@@ -2812,8 +3391,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 1610,
-        "y": 1080,
+        "x": 2090,
+        "y": 200,
         "wires": [
             [
                 "ee78f59909efeda5"
@@ -2824,6 +3403,7 @@
         "id": "ee78f59909efeda5",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "892b130053452acd",
         "name": "Submit Initialization",
         "func": "let nb_carts = flow.get('nb_carts');\n\nlet carts = [];\nfor (let i = 1; i <= nb_carts; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null,\n        productData: null,\n        currentStation: 0,\n        state: 'IDLE'\n    });\n}\n\nlet stations = {\n    1: null, 2: null, 3: null, 4: null, 5: null, 6: null\n};\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', \"A\");\n\nreturn { \n    payload: \"Factory Initialized\",\n    nb_carts: nb_carts\n        };\n",
         "outputs": 1,
@@ -2832,8 +3412,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1830,
-        "y": 1080,
+        "x": 2310,
+        "y": 200,
         "wires": [
             [
                 "0da178d6e914d46b"
@@ -2844,6 +3424,7 @@
         "id": "0da178d6e914d46b",
         "type": "ui_text",
         "z": "8d441b1e1f9e38da",
+        "g": "892b130053452acd",
         "group": "d3651f4aa7a0a0ce",
         "order": 1,
         "width": 0,
@@ -2857,14 +3438,15 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2070,
-        "y": 1080,
+        "x": 2550,
+        "y": 200,
         "wires": []
     },
     {
         "id": "346253c2ccdf1317",
         "type": "ui_form",
         "z": "8d441b1e1f9e38da",
+        "g": "892b130053452acd",
         "name": "Create new product",
         "label": "Create new product",
         "group": "941b97812585655e",
@@ -2986,8 +3568,8 @@
         "topicType": "msg",
         "splitLayout": "",
         "className": "",
-        "x": 1570,
-        "y": 1140,
+        "x": 2090,
+        "y": 260,
         "wires": [
             [
                 "220dc4e57cf0379d"
@@ -2998,6 +3580,7 @@
         "id": "220dc4e57cf0379d",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "892b130053452acd",
         "name": "Insert new Product",
         "func": "let data = msg.payload;\n\nlet s1_op = data.station1_stop ? data.station1_op : null;\nlet s2_op = data.station2_stop ? data.station2_op : null;\nlet s3_op = data.station3_stop ? data.station3_op : null;\nlet s4_op = data.station4_stop ? data.station4_op : null;\nlet s5_op = data.station5_stop ? data.station5_op : null;\nlet s6_op = data.station6_stop ? data.station6_op : null;\n\nmsg.topic = `\n    INSERT INTO Products (\n        product_type, \n        Station1Stop, Station1Op, \n        Station2Stop, Station2Op, \n        Station3Stop, Station3Op,\n        Station4Stop, Station4Op,\n        Station5Stop, Station5Op,\n        Station6Stop, Station6Op\n    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n`;\n\nmsg.payload = [\n    data.product_type, \n    data.station1_stop, s1_op,\n    data.station2_stop, s2_op,\n    data.station3_stop, s3_op,\n    data.station4_stop, s4_op,\n    data.station5_stop, s5_op,\n    data.station6_stop, s6_op\n];\n\nreturn msg;",
         "outputs": 1,
@@ -3006,8 +3589,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1800,
-        "y": 1140,
+        "x": 2310,
+        "y": 260,
         "wires": [
             [
                 "70ceb9fc058c5dc6"
@@ -3018,10 +3601,11 @@
         "id": "70ceb9fc058c5dc6",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "892b130053452acd",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Insert New Product",
-        "x": 2050,
-        "y": 1140,
+        "x": 2530,
+        "y": 260,
         "wires": [
             []
         ]
@@ -3030,6 +3614,7 @@
         "id": "b1bd22d8c83a9bbb",
         "type": "inject",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "name": "RQ Finished Orders",
         "props": [
             {
@@ -3047,8 +3632,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 140,
-        "y": 900,
+        "x": 220,
+        "y": 1200,
         "wires": [
             [
                 "ba1c20437cf554b8"
@@ -3059,10 +3644,11 @@
         "id": "698401133d6a2a71",
         "type": "mysql",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Finished Orders",
-        "x": 600,
-        "y": 900,
+        "x": 680,
+        "y": 1200,
         "wires": [
             [
                 "15216192394e62ec"
@@ -3073,6 +3659,7 @@
         "id": "15216192394e62ec",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "name": "Check if changed",
         "func": "let currentProduction = JSON.stringify(msg.payload);\n\nlet previousProduction = flow.get(\"previousFinishedOrdersData\");\n\nif (currentProduction === previousProduction) {\n    return null;\n}\n\nflow.set(\"previousFinishedOrdersData\", currentProduction);\n\nreturn msg;",
         "outputs": 1,
@@ -3081,8 +3668,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 830,
-        "y": 900,
+        "x": 910,
+        "y": 1200,
         "wires": [
             [
                 "05d83948e8660116"
@@ -3093,6 +3680,7 @@
         "id": "ba1c20437cf554b8",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "name": "RQ finished orders",
         "func": "msg.topic = \"SELECT order_id, nb_product, product_type, status, priority FROM Orders WHERE status = 'FINISHED' ORDER BY order_id ASC;\";\n\nreturn msg;",
         "outputs": 1,
@@ -3101,8 +3689,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 370,
-        "y": 900,
+        "x": 450,
+        "y": 1200,
         "wires": [
             [
                 "698401133d6a2a71"
@@ -3113,6 +3701,7 @@
         "id": "05d83948e8660116",
         "type": "ui_table",
         "z": "8d441b1e1f9e38da",
+        "g": "c1f0eb807d02177f",
         "group": "d3651f4aa7a0a0ce",
         "name": "Finished Orders",
         "order": 10,
@@ -3172,8 +3761,8 @@
         ],
         "outputs": 1,
         "cts": true,
-        "x": 1040,
-        "y": 900,
+        "x": 1120,
+        "y": 1200,
         "wires": [
             []
         ]
@@ -3182,6 +3771,7 @@
         "id": "1fe9e5f7809df3d1",
         "type": "function",
         "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
         "name": "Check if changed",
         "func": "let currentIn_PROGRESSString = JSON.stringify(msg.payload);\n\nlet previousIN_PROGRESSString = flow.get(\"previousTypeProducts\");\n\nif (currentIn_PROGRESSString === previousIN_PROGRESSString) {\n    return null;\n}\n\nflow.set(\"previousTypeProducts\", currentIn_PROGRESSString);\n\nreturn msg;",
         "outputs": 1,
@@ -3190,13 +3780,24 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 890,
-        "y": 100,
+        "x": 950,
+        "y": 120,
         "wires": [
             [
                 "d29457d843a1b481"
             ]
         ]
+    },
+    {
+        "id": "50d35f4f81f92345",
+        "type": "comment",
+        "z": "8d441b1e1f9e38da",
+        "g": "795427bb86b0a097",
+        "name": "Next Order",
+        "info": "",
+        "x": 1340,
+        "y": 1840,
+        "wires": []
     },
     {
         "id": "64300a9a705f2b0d",
