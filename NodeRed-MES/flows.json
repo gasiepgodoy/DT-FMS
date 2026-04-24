@@ -40,7 +40,8 @@
             "b64d50c7e2d97fb6",
             "3fb50263282f6dd8",
             "816aea9c14353a0b",
-            "1fe9e5f7809df3d1"
+            "1fe9e5f7809df3d1",
+            "8515aca0791c864d"
         ],
         "x": 54,
         "y": 79,
@@ -86,14 +87,155 @@
             "b35ca589a8f93823",
             "ee78f59909efeda5",
             "0da178d6e914d46b",
-            "346253c2ccdf1317",
             "220dc4e57cf0379d",
-            "70ceb9fc058c5dc6"
+            "70ceb9fc058c5dc6",
+            "6643d12a02296c5c"
         ],
         "x": 1974,
         "y": 99,
         "w": 712,
         "h": 202
+    },
+    {
+        "id": "2a1a3b9f73f9b23c",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "MQTT Broker",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#b797cf",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "43b08b133d4d6d3f",
+            "17eb2d1fe87e2315",
+            "f96498d0c77e9ace",
+            "f6ae6b94abf18389",
+            "e1633402dccd24a6",
+            "526ac301c70fbb68"
+        ],
+        "x": 134,
+        "y": 2659,
+        "w": 512,
+        "h": 282
+    },
+    {
+        "id": "9c42f80966314907",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Test DB Connection + Reset DB",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#ffC000",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "4c3d7e3ebfa46c58",
+            "24b0fb91cf54c062",
+            "8b3ece46f344d351",
+            "cec95615ef423c17",
+            "321ef8b9ec4432a6",
+            "b0e67ffc26d4cb76",
+            "d0174d1415712577",
+            "a216d8f65d9994d0",
+            "257abc6cc0bf5605"
+        ],
+        "x": 54,
+        "y": 1299,
+        "w": 1492,
+        "h": 142
+    },
+    {
+        "id": "795427bb86b0a097",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Order Managemenrt",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#addb7b",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "b08072fa5b6a6025",
+            "8d085d44ed72ad0c",
+            "7e0bb0a65c701ff8",
+            "0806d5b44c86f8e4",
+            "57bfac8a30e02789",
+            "d523d92a2f40452e",
+            "50d35f4f81f92345"
+        ],
+        "x": 48,
+        "y": 1513,
+        "w": 2964,
+        "h": 414
+    },
+    {
+        "id": "4f565882bca5bf77",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Simulate Station Messages",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#dbcbe7",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "998a0880cbc23823",
+            "643b35af03a1d06f"
+        ],
+        "x": 134,
+        "y": 2479,
+        "w": 212,
+        "h": 142
+    },
+    {
+        "id": "5a3ad746643dad2f",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Filter for implementation of changing the type of product on first station",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#dbcbe7",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "932d1207d203e972",
+            "8cbaf8e5a30c6ec0",
+            "8c0249c268cd4caf",
+            "5db297f4edeb65fb",
+            "4253fdfca6e1343c",
+            "dbb2a792c9dedb70",
+            "27cf20efa57da21e"
+        ],
+        "x": 394,
+        "y": 2471.5,
+        "w": 1512,
+        "h": 149.5
+    },
+    {
+        "id": "aa1b437e36ee1fab",
+        "type": "group",
+        "z": "8d441b1e1f9e38da",
+        "name": "Management of the Stations",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#c8e7a7",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "61480d677f9d9693",
+            "46af1ad0d1ff259e"
+        ],
+        "x": 308,
+        "y": 2013,
+        "w": 1544,
+        "h": 314
     },
     {
         "id": "ebd6ae41e5cf72a0",
@@ -220,57 +362,6 @@
         "h": 82
     },
     {
-        "id": "2a1a3b9f73f9b23c",
-        "type": "group",
-        "z": "8d441b1e1f9e38da",
-        "name": "MQTT Broker",
-        "style": {
-            "stroke": "#000000",
-            "fill": "#b797cf",
-            "label": true,
-            "color": "#000000"
-        },
-        "nodes": [
-            "43b08b133d4d6d3f",
-            "17eb2d1fe87e2315",
-            "f96498d0c77e9ace",
-            "f6ae6b94abf18389",
-            "e1633402dccd24a6",
-            "526ac301c70fbb68"
-        ],
-        "x": 134,
-        "y": 2739,
-        "w": 512,
-        "h": 282
-    },
-    {
-        "id": "9c42f80966314907",
-        "type": "group",
-        "z": "8d441b1e1f9e38da",
-        "name": "Test DB Connection + Reset DB",
-        "style": {
-            "stroke": "#000000",
-            "fill": "#ffC000",
-            "label": true,
-            "color": "#000000"
-        },
-        "nodes": [
-            "4c3d7e3ebfa46c58",
-            "24b0fb91cf54c062",
-            "8b3ece46f344d351",
-            "cec95615ef423c17",
-            "321ef8b9ec4432a6",
-            "b0e67ffc26d4cb76",
-            "d0174d1415712577",
-            "a216d8f65d9994d0",
-            "257abc6cc0bf5605"
-        ],
-        "x": 54,
-        "y": 1299,
-        "w": 1492,
-        "h": 142
-    },
-    {
         "id": "7e0bb0a65c701ff8",
         "type": "group",
         "z": "8d441b1e1f9e38da",
@@ -291,31 +382,6 @@
         "y": 1539,
         "w": 912,
         "h": 82
-    },
-    {
-        "id": "795427bb86b0a097",
-        "type": "group",
-        "z": "8d441b1e1f9e38da",
-        "name": "Order Managemenrt",
-        "style": {
-            "stroke": "#000000",
-            "fill": "#addb7b",
-            "label": true,
-            "color": "#000000"
-        },
-        "nodes": [
-            "b08072fa5b6a6025",
-            "8d085d44ed72ad0c",
-            "7e0bb0a65c701ff8",
-            "0806d5b44c86f8e4",
-            "57bfac8a30e02789",
-            "d523d92a2f40452e",
-            "50d35f4f81f92345"
-        ],
-        "x": 48,
-        "y": 1513,
-        "w": 2964,
-        "h": 414
     },
     {
         "id": "0806d5b44c86f8e4",
@@ -387,71 +453,6 @@
         "y": 1759,
         "w": 392,
         "h": 142
-    },
-    {
-        "id": "4f565882bca5bf77",
-        "type": "group",
-        "z": "8d441b1e1f9e38da",
-        "name": "Simulate Station Messages",
-        "style": {
-            "stroke": "#000000",
-            "fill": "#dbcbe7",
-            "label": true,
-            "color": "#000000"
-        },
-        "nodes": [
-            "998a0880cbc23823",
-            "643b35af03a1d06f"
-        ],
-        "x": 134,
-        "y": 2479,
-        "w": 212,
-        "h": 162
-    },
-    {
-        "id": "5a3ad746643dad2f",
-        "type": "group",
-        "z": "8d441b1e1f9e38da",
-        "name": "Filter for implementation of changing the type of product on first station",
-        "style": {
-            "stroke": "#000000",
-            "fill": "#dbcbe7",
-            "label": true,
-            "color": "#000000"
-        },
-        "nodes": [
-            "932d1207d203e972",
-            "8cbaf8e5a30c6ec0",
-            "8c0249c268cd4caf",
-            "5db297f4edeb65fb",
-            "4253fdfca6e1343c",
-            "dbb2a792c9dedb70",
-            "27cf20efa57da21e"
-        ],
-        "x": 394,
-        "y": 2471.5,
-        "w": 1512,
-        "h": 209.5
-    },
-    {
-        "id": "aa1b437e36ee1fab",
-        "type": "group",
-        "z": "8d441b1e1f9e38da",
-        "name": "Management of the Stations",
-        "style": {
-            "stroke": "#000000",
-            "fill": "#c8e7a7",
-            "label": true,
-            "color": "#000000"
-        },
-        "nodes": [
-            "61480d677f9d9693",
-            "46af1ad0d1ff259e"
-        ],
-        "x": 308,
-        "y": 2013,
-        "w": 1544,
-        "h": 314
     },
     {
         "id": "61480d677f9d9693",
@@ -778,7 +779,9 @@
         "x": 510,
         "y": 300,
         "wires": [
-            []
+            [
+                "8515aca0791c864d"
+            ]
         ]
     },
     {
@@ -1015,7 +1018,7 @@
         "z": "8d441b1e1f9e38da",
         "g": "61480d677f9d9693",
         "name": "Take Decision",
-        "func": "let fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations');\n\nlet sn = msg.payload.sn || msg.sn;\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart) return null;\nif (cart.state !== 'UPDATE') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > 6) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED', current_station = 'OUT' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id;\n    msg.productSN = sn;\n\n    stations[6] = null;\n\n    let cartId = cart.cart_id; \n    cart.sn = null;\n    cart.order_id = null;\n    cart.productData = null;\n    cart.currentStation = 0;\n    cart.state = 'IDLE';\n    cart.isBypassed = false;\n\n    global.set('factory_fleet', fleet);\n    global.set('factory_stations', stations);\n\n    return [msg, { payload: `[Product ${sn}] Production finished ! Cart ${cartId} is now FREE.` }];\n}\n\nstations[numStation] = cart.cart_id;\nif (numStation > 1) {\n    stations[numStation - 1] = null;\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn],\n    order_id: cart.order_id,\n    productSN: sn\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'CART_IN_WAIT';\n\n\ncommandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}]. Waiting for CART_IN`;\n\n\nglobal.set('factory_fleet', fleet);\nglobal.set('factory_stations', stations);\n\nreturn [dbUpdateMsg, commandMsg];",
+        "func": "let fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations');\nlet nb_stations = global.get('nb_stations');\n\nlet sn = msg.payload.sn || msg.sn;\nlet cart = fleet.find(c => c.sn === sn);\n\nif (!cart) return null;\nif (cart.state !== 'UPDATE') return null;\n\nlet numStation = cart.currentStation;\n\nif (numStation > nb_stations) {\n    msg.topic = \"UPDATE Production SET status = 'FINISHED', current_station = 'OUT' WHERE productSN = ?;\";\n    msg.payload = [sn];\n    msg.order_id = cart.order_id;\n    msg.productSN = sn;\n\n    stations[nb_stations] = null;\n\n    let cartId = cart.cart_id; \n    cart.sn = null;\n    cart.order_id = null;\n    cart.productData = null;\n    cart.currentStation = 0;\n    cart.state = 'IDLE';\n    cart.isBypassed = false;\n\n    global.set('factory_fleet', fleet);\n    global.set('factory_stations', stations);\n\n    return [msg, { payload: `[Product ${sn}] Production finished ! Cart ${cartId} is now FREE.` }];\n}\n\nstations[numStation] = cart.cart_id;\nif (numStation > 1) {\n    stations[numStation - 1] = null;\n}\n\nlet dbUpdateMsg = {\n    topic: \"UPDATE Production SET current_station = ? WHERE productSN = ?;\",\n    payload: [\"Station\" + numStation, sn],\n    order_id: cart.order_id,\n    productSN: sn\n};\n\nlet commandMsg = { payload: {} };\nlet stopCol = \"Station\" + numStation + \"Stop\";\nlet opCol = \"Station\" + numStation + \"Op\";\n\ncart.state = 'CART_IN_WAIT';\n\n\ncommandMsg.payload = `[Cart ${cart.cart_id} | Product ${sn} -> Station ${numStation}]. Waiting for CART_IN`;\n\n\nglobal.set('factory_fleet', fleet);\nglobal.set('factory_stations', stations);\n\nreturn [dbUpdateMsg, commandMsg];",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -1053,15 +1056,15 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "g": "46af1ad0d1ff259e",
-        "name": "AcknowledgePhysicalAnswer",
-        "func": "let machineAnswer = msg.payload; \nlet station_number = machineAnswer.station\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations'); \n\nif (!fleet || !stations) return null;  \n\nlet cart_id = stations[station_number];\n\n// if (cartId !== undefined) {\n// } else {\n// }\n\nlet cart = fleet.find(c => c.cart_id === cart_id);\n\nif (!cart || cart.state === 'IDLE') return null;\n\nlet sn = cart.sn;\n\nlet nextStation = cart.currentStation + 1;\nlet stopCol = \"Station\" + cart.currentStation + \"Stop\";\nlet opCol = \"Station\" + cart.currentStation + \"Op\";\n\nif (machineAnswer.response === \"CART_IN\" && cart.state === 'CART_IN_WAIT') {\n    \n    if (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n        cart.state = 'DONE_WAIT';\n        global.set('factory_fleet', fleet);\n        return [\n            { payload: `[Station  ${cart.currentStation} | Cart ${cart.cart_id}] CART_IN received. Send instruction : ${cart.productData[opCol]}` },\n            { payload: { action: 'CHECK_NEXT_PRODUCT' }, order_id: cart.order_id }\n        ];    \n    } else {\n        if (stations[nextStation] === null || nextStation > 6) {\n            cart.state = 'UPDATE';\n            let ancientStation = cart.currentStation;\n            cart.currentStation++;\n\n            global.set('factory_fleet', fleet);\n\n\n\n            return [\n                { payload: `[Station  ${ancientStation} | Cart ${cart.cart_id}] CART_IN received. No instruction : BYPASSING... Release cart` },\n                { payload: { action: 'DECISION', sn: sn } }\n            ];\n        } else {\n            cart.state = 'BLOCKED';\n            global.set('factory_fleet', fleet);\n            return [ { payload: `[Station  ${cart.currentStation} | Cart ${cart.cart_id}] Operation BYPASSED but PATH BLOCKED at Station ${nextStation}. Waiting...` }, \n                        { \n                            payload: { action: 'CHECK_NEXT_PRODUCT' }, \n                            order_id: cart.order_id\n                        }\n        ];\n        }\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    \n    if (stations[nextStation] === null || nextStation > 6) {\n        cart.state = 'UPDATE';\n        let ancientStation = cart.currentStation;\n        cart.currentStation++;\n        \n        global.set('factory_fleet', fleet);\n        \n        return [\n            { \n                payload: `[Station  ${ancientStation} | Cart ${cart.cart_id}] DONE received. Release cart for station ${cart.currentStation} !` ,\n                sn: sn\n            }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n\n    } else {\n        cart.state = 'BLOCKED';\n        global.set('factory_fleet', fleet);\n        return [ { payload: `[Cart ${cart.cart_id}] DONE received but PATH BLOCKED at Station ${nextStation}. Waiting...` }, \n                { \n                    payload: { action: 'CHECK_NEXT_PRODUCT' }, \n                    order_id: cart.order_id\n                }\n        ];\n    }\n}\n\nif (cart.state === 'BLOCKED') {\n    if (stations[nextStation] === null || nextStation > 6) {\n\n        cart.state = 'UPDATE';\n\n        let ancientStation = cart.currentStation;\n        cart.currentStation++;\n\n        global.set('factory_fleet', fleet);\n\n        return [\n            {\n                payload: `[Station  ${ancientStation} | Cart ${cart.cart_id}] PATH CLEARED for Station ${cart.currentStation}. MOVE CART !`,\n                sn: sn\n            },\n            { payload: { action: 'DECISION', sn: sn } }\n        ];\n\n    } else {\n        return [{ payload: `[Cart ${cart.cart_id}] Still BLOCKED. Waiting for Station ${nextStation} to clear...` }, \n    { \n        payload: { action: 'CHECK_NEXT_PRODUCT' }, \n        order_id: cart.order_id\n    }\n        ];\n    }\n\n\n}\n\nreturn null;",
+        "name": "Acknowledge Physical Answer",
+        "func": "let machineAnswer = msg.payload; \nlet station_number = machineAnswer.station\n\nlet fleet = global.get('factory_fleet');\nlet stations = global.get('factory_stations'); \nlet nb_stations = global.get('nb_stations');\n\nif (!fleet || !stations) return null;  \n\nlet cart_id = stations[station_number];\n\n// if (cartId !== undefined) {\n// } else {\n// }\n\nlet cart = fleet.find(c => c.cart_id === cart_id);\n\nif (!cart || cart.state === 'IDLE') return null;\n\nlet sn = cart.sn;\n\nlet nextStation = cart.currentStation + 1;\nlet stopCol = \"Station\" + cart.currentStation + \"Stop\";\nlet opCol = \"Station\" + cart.currentStation + \"Op\";\n\nif (machineAnswer.response === \"CART_IN\" && cart.state === 'CART_IN_WAIT') {\n    \n    if (cart.productData[stopCol] === 1 || cart.productData[stopCol] === true) {\n        cart.state = 'DONE_WAIT';\n        global.set('factory_fleet', fleet);\n        return [\n            { payload: `[Station  ${cart.currentStation} | Cart ${cart.cart_id}] CART_IN received. Send instruction : ${cart.productData[opCol]}` },\n            { payload: { action: 'CHECK_NEXT_PRODUCT' }, order_id: cart.order_id }\n        ];    \n    } else {\n        if (stations[nextStation] === null || nextStation > nb_stations) {\n            cart.state = 'UPDATE';\n            let ancientStation = cart.currentStation;\n            cart.currentStation++;\n\n            global.set('factory_fleet', fleet);\n\n\n\n            return [\n                { payload: `[Station  ${ancientStation} | Cart ${cart.cart_id}] CART_IN received. No instruction : BYPASSING... Release cart` },\n                { payload: { action: 'DECISION', sn: sn } }\n            ];\n        } else {\n            cart.state = 'BLOCKED';\n            global.set('factory_fleet', fleet);\n            return [ { payload: `[Station  ${cart.currentStation} | Cart ${cart.cart_id}] Operation BYPASSED but PATH BLOCKED at Station ${nextStation}. HOLD` }, \n                        { \n                            payload: { action: 'CHECK_NEXT_PRODUCT' }, \n                            order_id: cart.order_id\n                        }\n        ];\n        }\n    }\n}\n\nif (machineAnswer.response === \"DONE\" && cart.state === 'DONE_WAIT') {\n    \n    if (stations[nextStation] === null || nextStation > nb_stations) {\n        cart.state = 'UPDATE';\n        let ancientStation = cart.currentStation;\n        cart.currentStation++;\n        \n        global.set('factory_fleet', fleet);\n        \n        return [\n            { \n                payload: `[Station  ${ancientStation} | Cart ${cart.cart_id}] DONE received. Release cart for station ${cart.currentStation} !` ,\n                sn: sn\n            }, \n            { payload: { action: 'DECISION', sn: sn } } \n        ];\n\n    } else {\n        cart.state = 'BLOCKED';\n        global.set('factory_fleet', fleet);\n        return [ { payload: `[Cart ${cart.cart_id}] DONE received but PATH BLOCKED at Station ${nextStation}. HOLD` }, \n                { \n                    payload: { action: 'CHECK_NEXT_PRODUCT' }, \n                    order_id: cart.order_id\n                }\n        ];\n    }\n}\n\nif (cart.state === 'BLOCKED') {\n    if (stations[nextStation] === null || nextStation > nb_stations) {\n\n        cart.state = 'UPDATE';\n\n        let ancientStation = cart.currentStation;\n        cart.currentStation++;\n\n        global.set('factory_fleet', fleet);\n\n        return [\n            {\n                payload: `[Station  ${ancientStation} | Cart ${cart.cart_id}] PATH CLEARED for Station ${cart.currentStation}. MOVE CART !`,\n                sn: sn\n            },\n            { payload: { action: 'DECISION', sn: sn } }\n        ];\n\n    } else {\n        return [{ payload: `[Cart ${cart.cart_id}] Still BLOCKED. Waiting for Station ${nextStation} to clear. HOLD` }, \n    { \n        payload: { action: 'CHECK_NEXT_PRODUCT' }, \n        order_id: cart.order_id\n    }\n        ];\n    }\n\n\n}\n\nreturn null;",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 480,
+        "x": 490,
         "y": 2160,
         "wires": [
             [
@@ -1096,7 +1099,7 @@
         "payload": "{     \"sn\": \"15_1775832547181\",     \"response\": \"DONE\" }",
         "payloadType": "json",
         "x": 250,
-        "y": 2600,
+        "y": 2580,
         "wires": [
             [
                 "932d1207d203e972"
@@ -1434,7 +1437,7 @@
         "z": "8d441b1e1f9e38da",
         "g": "0806d5b44c86f8e4",
         "name": "Get Order Info",
-        "func": "if (msg.orderIndex === undefined) {\n    if (!msg.payload || msg.payload.length === 0) {\n        node.status({ fill: \"grey\", shape: \"ring\", text: \"No Order\" });\n        return null;\n    }\n    msg.ordersArray = msg.payload; \n    msg.orderIndex = 0;           \n}\n\nif (msg.orderIndex >= msg.ordersArray.length) {\n    node.status({ fill: \"yellow\", shape: \"dot\", text: \"No free space in the Line\" });\n    delete msg.ordersArray;\n    delete msg.orderIndex;\n    return null; \n}\n\nlet currentOrder = msg.ordersArray[msg.orderIndex];\n\nmsg.payload = [currentOrder.order_id];\nmsg.topic = `\n   SELECT\n        o.order_id, o.nb_product, pr.*,\n        COUNT(p.productSN) AS total_processed,\n        SUM(CASE WHEN p.status = 'FINISHED' THEN 1 ELSE 0 END) AS count_finished,\n        SUM(CASE WHEN p.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS count_in_progress\n    FROM Orders o\n    JOIN Products pr ON pr.product_type = o.product_type\n    LEFT JOIN Production p ON p.order_id = o.order_id AND p.status IN ('FINISHED', 'IN_PROGRESS')\n    WHERE o.order_id = ?\n    GROUP BY o.order_id;\n`;\n\nreturn msg;",
+        "func": "if (msg.orderIndex === undefined) {\n    if (!msg.payload || msg.payload.length === 0) {\n        node.status({ fill: \"grey\", shape: \"ring\", text: \"No Order\" });\n        return null;\n    }\n    msg.ordersArray = msg.payload; \n    msg.orderIndex = 0;           \n}\n\nif (msg.orderIndex >= msg.ordersArray.length) {\n    node.status({ fill: \"yellow\", shape: \"dot\", text: \"No products left to launch\" });\n    delete msg.ordersArray;\n    delete msg.orderIndex;\n    return null;\n}\n\nlet currentOrder = msg.ordersArray[msg.orderIndex];\n\nmsg.payload = [currentOrder.order_id];\nmsg.topic = `\n   SELECT\n        o.order_id, o.nb_product, pr.*,\n        COUNT(p.productSN) AS total_processed,\n        SUM(CASE WHEN p.status = 'FINISHED' THEN 1 ELSE 0 END) AS count_finished,\n        SUM(CASE WHEN p.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS count_in_progress\n    FROM Orders o\n    JOIN Products pr ON pr.product_type = o.product_type\n    LEFT JOIN Production p ON p.order_id = o.order_id AND p.status IN ('FINISHED', 'IN_PROGRESS')\n    WHERE o.order_id = ?\n    GROUP BY o.order_id;\n`;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1672,7 +1675,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 820,
-        "y": 2640,
+        "y": 2580,
         "wires": []
     },
     {
@@ -1780,7 +1783,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 270,
-        "y": 2860,
+        "y": 2780,
         "wires": [
             [
                 "f96498d0c77e9ace",
@@ -1803,7 +1806,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 500,
-        "y": 2860,
+        "y": 2780,
         "wires": []
     },
     {
@@ -1824,7 +1827,7 @@
         "dburl": "",
         "usetls": false,
         "x": 250,
-        "y": 2960,
+        "y": 2880,
         "wires": [
             [
                 "e1633402dccd24a6"
@@ -1850,7 +1853,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 510,
-        "y": 2920,
+        "y": 2840,
         "wires": []
     },
     {
@@ -1869,7 +1872,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 500,
-        "y": 2980,
+        "y": 2900,
         "wires": []
     },
     {
@@ -1882,7 +1885,7 @@
         "action": "obj",
         "pretty": false,
         "x": 470,
-        "y": 2780,
+        "y": 2700,
         "wires": [
             [
                 "932d1207d203e972"
@@ -1914,7 +1917,7 @@
         "z": "8d441b1e1f9e38da",
         "g": "57bfac8a30e02789",
         "name": "Check If free space on line",
-        "func": "let total_active = msg.payload[0].total_active;\n\nlet fleet = global.get('factory_fleet') || [];\n\nlet available_carts = fleet.filter(cart => cart.state === 'IDLE');\n\nif (total_active >= 6) {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Line Full (6/6)\" });\n    node.warn(\"Production blocked : 6 products on the line\");\n    return null;\n}\n\nif (available_carts.length === 0) {\n    node.status({ fill: \"yellow\", shape: \"ring\", text: \"No carts available\" });\n    node.warn(\"Production blocked : No IDLE carts available\");\n    return null;\n}\nmsg.topic = \"UPDATE Orders SET status = 'IN_PROGRESS' WHERE order_id = ? AND status = 'QUEUED';\";\nmsg.payload = [msg.order_id];\n\nreturn msg;",
+        "func": "let total_active = msg.payload[0].total_active;\n\nlet fleet = global.get('factory_fleet') || [];\nlet nb_stations = global.get('nb_stations');\n\nlet available_carts = fleet.filter(cart => cart.state === 'IDLE');\n\nif (total_active >= nb_stations) {\n    node.status({ fill: \"red\", shape: \"ring\", text: `Line Full (${nb_stations}/${nb_stations})` });\n    node.warn(`Production blocked : ${nb_stations} products on the line`);\n    return null;\n}\n\nif (available_carts.length === 0) {\n    node.status({ fill: \"yellow\", shape: \"ring\", text: \"No carts available\" });\n    node.warn(\"Production blocked : No IDLE carts available\");\n    return null;\n}\nmsg.topic = \"UPDATE Orders SET status = 'IN_PROGRESS' WHERE order_id = ? AND status = 'QUEUED';\";\nmsg.payload = [msg.order_id];\n\nreturn msg;",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -2472,7 +2475,7 @@
         "z": "8d441b1e1f9e38da",
         "g": "c1f0eb807d02177f",
         "name": "Organize Infos",
-        "func": "let stations = {};\nfor (let i = 1; i <= 6; i++) {\n    stations[\"Station\" + i] = { active: false };\n}\n\nif (Array.isArray(msg.payload)) {\n    msg.payload.forEach(row => {\n        let stName = row.current_station;\n        if (stations[stName]) {\n            stations[stName] = {\n                active: true,\n                sn: row.productSN,\n                order: row.order_id,\n                cart: row.cart_id,\n                op: row[stName + \"Op\"],\n                priority: row.priority\n            };\n        }\n    });\n}\n\nmsg.payload = stations;\nreturn msg;",
+        "func": "let nb_stations = global.get('nb_stations');\n\nlet stations = {};\nfor (let i = 1; i <= nb_stations; i++) {\n    stations[\"Station\" + i] = { active: false };\n}\n\nif (Array.isArray(msg.payload)) {\n    msg.payload.forEach(row => {\n        let stName = row.current_station;\n        if (stations[stName]) {\n            stations[stName] = {\n                active: true,\n                sn: row.productSN,\n                order: row.order_id,\n                cart: row.cart_id,\n                op: row[stName + \"Op\"],\n                priority: row.priority\n            };\n        }\n    });\n}\n\n\nmsg.stations_array = Array.from({ length: global.get('nb_stations') }, (_, i) => i + 1);\nmsg.payload = stations;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2497,7 +2500,7 @@
         "order": 2,
         "width": "20",
         "height": "7",
-        "format": "<style>\n    .factory-floor {\n        display: flex;\n        justify-content: space-around;\n        align-items: stretch;\n        background-color: #1a1a1a;\n        padding: 15px;\n        border-radius: 10px;\n    }\n\n    .station-box {\n        flex: 1;\n        margin: 0 5px;\n        background-color: #333;\n        border: 2px solid #555;\n        border-radius: 6px;\n        padding: 10px;\n        min-height: 160px;\n        /* Légèrement agrandi pour laisser place aux boutons */\n        color: #eee;\n        font-family: sans-serif;\n        position: relative;\n        display: flex;\n        flex-direction: column;\n        /* Permet de pousser les boutons vers le bas */\n    }\n\n    .station-box.active {\n        border-color: #3498db;\n        background-color: #2c3e50;\n    }\n\n    .station-box.priority-active {\n        border-color: #f1c40f !important;\n        box-shadow: inset 0 0 10px rgba(241, 196, 15, 0.2);\n    }\n\n    .prio-badge {\n        position: absolute;\n        top: -8px;\n        right: -5px;\n        background-color: #f1c40f;\n        color: #000;\n        font-size: 0.7em;\n        font-weight: bold;\n        padding: 2px 6px;\n        border-radius: 4px;\n        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);\n    }\n\n    .st-name {\n        border-bottom: 1px solid #555;\n        margin-bottom: 8px;\n        padding-bottom: 4px;\n        font-weight: bold;\n        color: #3498db;\n        text-align: center;\n    }\n\n    .info-line {\n        font-size: 0.85em;\n        margin: 4px 0;\n    }\n\n    .label {\n        color: #888;\n        font-size: 0.9em;\n    }\n\n    .val {\n        font-weight: bold;\n        color: #fff;\n    }\n\n    .op-tag {\n        margin-top: 8px;\n        background: #444;\n        padding: 3px 6px;\n        border-radius: 4px;\n        font-size: 0.8em;\n        text-align: center;\n        border-left: 3px solid #e67e22;\n    }\n\n    .empty-msg {\n        color: #555;\n        text-align: center;\n        margin-top: 20px;\n        font-style: italic;\n        font-size: 0.8em;\n        flex-grow: 1;\n        /* Remplit l'espace vide */\n    }\n\n    /* --- NOUVEAU : Style pour les boutons --- */\n    .controls {\n        margin-top: auto;\n        /* Pousse les boutons tout en bas de la carte */\n        display: flex;\n        gap: 5px;\n        padding-top: 10px;\n    }\n\n    .btn-mqtt {\n        flex: 1;\n        border: none;\n        border-radius: 3px;\n        padding: 5px 0;\n        font-size: 0.75em;\n        font-weight: bold;\n        cursor: pointer;\n        color: white;\n        transition: 0.2s;\n    }\n\n    .btn-in {\n        background-color: #2980b9;\n    }\n\n    .btn-in:hover {\n        background-color: #3498db;\n    }\n\n    .btn-in:active {\n        background-color: #1f6391;\n    }\n\n    .btn-done {\n        background-color: #27ae60;\n    }\n\n    .btn-done:hover {\n        background-color: #2ecc71;\n    }\n\n    .btn-done:active {\n        background-color: #1e8449;\n    }\n</style>\n\n<div class=\"factory-floor\">\n    <div ng-repeat=\"i in [1,2,3,4,5,6]\" class=\"station-box\"\n        ng-class=\"{'active': msg.payload['Station'+i].active, 'priority-active': msg.payload['Station'+i].priority}\">\n\n        <div class=\"prio-badge\" ng-if=\"msg.payload['Station'+i].priority\">\n            PRIO\n        </div>\n\n        <div class=\"st-name\">STATION {{i}}</div>\n\n        <div ng-if=\"msg.payload['Station'+i].active\">\n            <div class=\"info-line\">\n                <span class=\"label\">ORDER:</span> <span class=\"val\">#{{msg.payload['Station'+i].order}}</span>\n            </div>\n            <div class=\"info-line\">\n                <span class=\"label\">CART:</span> <span class=\"val\">{{msg.payload['Station'+i].cart}}</span>\n            </div>\n            <div class=\"op-tag\">\n                {{msg.payload['Station'+i].op}}\n            </div>\n        </div>\n\n        <div ng-if=\"!msg.payload['Station'+i].active\" class=\"empty-msg\">\n            Empty Station\n        </div>\n\n        <div class=\"controls\">\n            <button class=\"btn-mqtt btn-in\" ng-click=\"send({payload: {station: i, response: 'CART_IN'}})\">IN</button>\n            <button class=\"btn-mqtt btn-done\" ng-click=\"send({payload: {station: i, response: 'DONE'}})\">DONE</button>\n        </div>\n\n    </div>\n</div>",
+        "format": "<style>\n    .factory-floor {\n        display: flex;\n        justify-content: space-around;\n        align-items: stretch;\n        background-color: #1a1a1a;\n        padding: 15px;\n        border-radius: 10px;\n    }\n\n    .station-box {\n        flex: 1;\n        margin: 0 5px;\n        background-color: #333;\n        border: 2px solid #555;\n        border-radius: 6px;\n        padding: 10px;\n        min-height: 160px;\n        color: #eee;\n        font-family: sans-serif;\n        position: relative;\n        display: flex;\n        flex-direction: column;\n    }\n\n    .station-box.active {\n        border-color: #3498db;\n        background-color: #2c3e50;\n    }\n\n    .station-box.priority-active {\n        border-color: #f1c40f !important;\n        box-shadow: inset 0 0 10px rgba(241, 196, 15, 0.2);\n    }\n\n    .prio-badge {\n        position: absolute;\n        top: -8px;\n        right: -5px;\n        background-color: #f1c40f;\n        color: #000;\n        font-size: 0.7em;\n        font-weight: bold;\n        padding: 2px 6px;\n        border-radius: 4px;\n        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);\n    }\n\n    .st-name {\n        border-bottom: 1px solid #555;\n        margin-bottom: 8px;\n        padding-bottom: 4px;\n        font-weight: bold;\n        color: #3498db;\n        text-align: center;\n    }\n\n    .info-line {\n        font-size: 0.85em;\n        margin: 4px 0;\n    }\n\n    .label {\n        color: #888;\n        font-size: 0.9em;\n    }\n\n    .val {\n        font-weight: bold;\n        color: #fff;\n    }\n\n    .op-tag {\n        margin-top: 8px;\n        background: #444;\n        padding: 3px 6px;\n        border-radius: 4px;\n        font-size: 0.8em;\n        text-align: center;\n        border-left: 3px solid #e67e22;\n    }\n\n    .empty-msg {\n        color: #555;\n        text-align: center;\n        margin-top: 20px;\n        font-style: italic;\n        font-size: 0.8em;\n        flex-grow: 1;\n    }\n\n    .controls {\n        margin-top: auto;\n        display: flex;\n        gap: 5px;\n        padding-top: 10px;\n    }\n\n    .btn-mqtt {\n        flex: 1;\n        border: none;\n        border-radius: 3px;\n        padding: 5px 0;\n        font-size: 0.75em;\n        font-weight: bold;\n        cursor: pointer;\n        color: white;\n        transition: 0.2s;\n    }\n\n    .btn-in {\n        background-color: #2980b9;\n    }\n\n    .btn-in:hover {\n        background-color: #3498db;\n    }\n\n    .btn-in:active {\n        background-color: #1f6391;\n    }\n\n    .btn-done {\n        background-color: #27ae60;\n    }\n\n    .btn-done:hover {\n        background-color: #2ecc71;\n    }\n\n    .btn-done:active {\n        background-color: #1e8449;\n    }\n</style>\n\n<div class=\"factory-floor\">\n    <div ng-repeat=\"i in msg.stations_array\" class=\"station-box\"\n        ng-class=\"{'active': msg.payload['Station'+i].active, 'priority-active': msg.payload['Station'+i].priority}\">\n\n        <div class=\"prio-badge\" ng-if=\"msg.payload['Station'+i].priority\">\n            PRIO\n        </div>\n\n        <div class=\"st-name\">STATION {{i}}</div>\n\n        <div ng-if=\"msg.payload['Station'+i].active\">\n            <div class=\"info-line\">\n                <span class=\"label\">ORDER:</span> <span class=\"val\">#{{msg.payload['Station'+i].order}}</span>\n            </div>\n            <div class=\"info-line\">\n                <span class=\"label\">CART:</span> <span class=\"val\">{{msg.payload['Station'+i].cart}}</span>\n            </div>\n            <div class=\"op-tag\">\n                {{msg.payload['Station'+i].op}}\n            </div>\n        </div>\n\n        <div ng-if=\"!msg.payload['Station'+i].active\" class=\"empty-msg\">\n            Empty Station\n        </div>\n\n        <div class=\"controls\">\n            <button class=\"btn-mqtt btn-in\" ng-click=\"send({payload: {station: i, response: 'CART_IN'}})\">IN</button>\n            <button class=\"btn-mqtt btn-done\" ng-click=\"send({payload: {station: i, response: 'DONE'}})\">DONE</button>\n        </div>\n\n    </div>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
@@ -3381,7 +3384,7 @@
         "width": 0,
         "height": 0,
         "passthru": false,
-        "label": "Sumbit",
+        "label": "Initialize Line",
         "tooltip": "",
         "color": "",
         "bgcolor": "",
@@ -3405,7 +3408,7 @@
         "z": "8d441b1e1f9e38da",
         "g": "892b130053452acd",
         "name": "Submit Initialization",
-        "func": "let nb_carts = flow.get('nb_carts');\n\nlet carts = [];\nfor (let i = 1; i <= nb_carts; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null,\n        productData: null,\n        currentStation: 0,\n        state: 'IDLE'\n    });\n}\n\nlet stations = {\n    1: null, 2: null, 3: null, 4: null, 5: null, 6: null\n};\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', \"A\");\n\nreturn { \n    payload: \"Factory Initialized\",\n    nb_carts: nb_carts\n        };\n",
+        "func": "let nb_carts = flow.get('nb_carts');\nlet nb_stations = 7;\n\nlet carts = [];\nfor (let i = 1; i <= nb_carts; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null,\n        productData: null,\n        currentStation: 0,\n        state: 'IDLE'\n    });\n}\n\nlet stations = {};\nfor (let i = 1; i <= nb_stations; i++) {\n    stations[i] = null;\n}\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', \"A\");\nglobal.set('nb_stations', nb_stations);\n\nreturn { \n    payload: \"Factory Initialized\",\n    nb_carts: nb_carts,\n    nb_stations: nb_stations\n        };\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -3441,140 +3444,6 @@
         "x": 2550,
         "y": 200,
         "wires": []
-    },
-    {
-        "id": "346253c2ccdf1317",
-        "type": "ui_form",
-        "z": "8d441b1e1f9e38da",
-        "g": "892b130053452acd",
-        "name": "Create new product",
-        "label": "Create new product",
-        "group": "941b97812585655e",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "options": [
-            {
-                "label": "Type of Product",
-                "value": "product_type",
-                "type": "text",
-                "required": true,
-                "rows": null
-            },
-            {
-                "label": "Station 1 : Stop ?",
-                "value": "station1_stop",
-                "type": "switch",
-                "required": false,
-                "rows": null
-            },
-            {
-                "label": "Station 1 : Action",
-                "value": "station1_op",
-                "type": "text",
-                "required": false,
-                "rows": null
-            },
-            {
-                "label": "Station 2 : Stop ?",
-                "value": "station2_stop",
-                "type": "switch",
-                "required": false,
-                "rows": null
-            },
-            {
-                "label": "Station 2 : Action",
-                "value": "station2_op",
-                "type": "text",
-                "required": false,
-                "rows": null
-            },
-            {
-                "label": "Station 3 : Stop ?",
-                "value": "station3_stop",
-                "type": "switch",
-                "required": false,
-                "rows": null
-            },
-            {
-                "label": "Station 3 : Action",
-                "value": "station3_op",
-                "type": "text",
-                "required": false,
-                "rows": null
-            },
-            {
-                "label": "Station 4 : Stop ?",
-                "value": "station4_stop",
-                "type": "switch",
-                "required": false,
-                "rows": null
-            },
-            {
-                "label": "Station 4 : Action",
-                "value": "station4_op",
-                "type": "text",
-                "required": false,
-                "rows": null
-            },
-            {
-                "label": "Station 5 : Stop ?",
-                "value": "station5_stop",
-                "type": "switch",
-                "required": false,
-                "rows": null
-            },
-            {
-                "label": "Station 5 : Action",
-                "value": "station5_op",
-                "type": "text",
-                "required": false,
-                "rows": null
-            },
-            {
-                "label": "Station 6 : Stop ?",
-                "value": "station6_stop",
-                "type": "switch",
-                "required": false,
-                "rows": null
-            },
-            {
-                "label": "Station 6 : Action",
-                "value": "station6_op",
-                "type": "text",
-                "required": false,
-                "rows": null
-            }
-        ],
-        "formValue": {
-            "product_type": "",
-            "station1_stop": false,
-            "station1_op": "",
-            "station2_stop": false,
-            "station2_op": "",
-            "station3_stop": false,
-            "station3_op": "",
-            "station4_stop": false,
-            "station4_op": "",
-            "station5_stop": false,
-            "station5_op": "",
-            "station6_stop": false,
-            "station6_op": ""
-        },
-        "payload": "",
-        "submit": "submit",
-        "cancel": "cancel",
-        "topic": "topic",
-        "topicType": "msg",
-        "splitLayout": "",
-        "className": "",
-        "x": 2090,
-        "y": 260,
-        "wires": [
-            [
-                "220dc4e57cf0379d"
-            ]
-        ]
     },
     {
         "id": "220dc4e57cf0379d",
@@ -3795,8 +3664,49 @@
         "g": "795427bb86b0a097",
         "name": "Next Order",
         "info": "",
-        "x": 1340,
-        "y": 1840,
+        "x": 1380,
+        "y": 1820,
+        "wires": []
+    },
+    {
+        "id": "6643d12a02296c5c",
+        "type": "ui_template",
+        "z": "8d441b1e1f9e38da",
+        "g": "892b130053452acd",
+        "group": "941b97812585655e",
+        "name": "Create new product",
+        "order": 1,
+        "width": "6",
+        "height": "29",
+        "format": "<form ng-submit=\"send({payload: formData})\">\n\n    <div style=\"margin-bottom: 20px;\">\n        <label><b>Product Type :</b></label><br>\n        <input type=\"text\" ng-model=\"formData.product_type\" required maxlength=\"1\" style=\"width: 100%;\">\n    </div>\n\n    <div style=\"margin-bottom: 20px; padding: 10px; background: #f4f4f4; border-radius: 5px;\">\n        <h4>Station 1</h4>\n        <label>\n            <input type=\"checkbox\" ng-model=\"formData.station1_stop\"> \n            Stop at station?\n        </label><br><br>\n\n        <label>Operation:</label>\n        <select ng-model=\"formData.station1_op\" style=\"width: 100%; padding: 5px;\">\n            <option value=\"\">-- None / Select --</option>\n            <option value=\"Drop 1 Cover\">Drop 1 Cover</option>\n        </select>\n    </div>\n\n    <div style=\"margin-bottom: 20px; padding: 10px; background: #f4f4f4; border-radius: 5px;\">\n        <h4>Station 2</h4>\n        <label>\n            <input type=\"checkbox\" ng-model=\"formData.station2_stop\"> \n            Stop at station?\n        </label><br><br>\n\n        <label>Operation:</label>\n        <select ng-model=\"formData.station2_op\" style=\"width: 100%; padding: 5px;\">\n            <option value=\"\">-- None / Select --</option>\n            <option value=\"2 Holes\">2 Holes</option>\n            <option value=\"4 Holes\">4 Holes</option>\n        </select>\n    </div>\n\n    <div style=\"margin-bottom: 20px; padding: 10px; background: #f4f4f4; border-radius: 5px;\">\n        <h4>Station 3</h4>\n        <label>\n            <input type=\"checkbox\" ng-model=\"formData.station3_stop\"> \n            Stop at station?\n        </label><br><br>\n\n        <label>Operation:</label>\n        <select ng-model=\"formData.station3_op\" style=\"width: 100%; padding: 5px;\">\n            <option value=\"\">-- Nothing - Robot Cell --</option>\n        </select>\n    </div>\n\n    <div style=\"margin-bottom: 20px; padding: 10px; background: #f4f4f4; border-radius: 5px;\">\n        <h4>Station 4</h4>\n        <label>\n            <input type=\"checkbox\" ng-model=\"formData.station4_stop\"> \n            Stop at station?\n        </label><br><br>\n\n        <label>Operation:</label>\n        <select ng-model=\"formData.station4_op\" style=\"width: 100%; padding: 5px;\">\n            <option value=\"\">-- None / Select --</option>\n            <option value=\"1 Picture\">1 Picture</option>\n            <option value=\"2 Picture\">2 Picture</option>\n        </select>\n    </div>\n\n    <div style=\"margin-bottom: 20px; padding: 10px; background: #f4f4f4; border-radius: 5px;\">\n        <h4>Station 5</h4>\n        <label>\n            <input type=\"checkbox\" ng-model=\"formData.station5_stop\"> \n            Stop at station?\n        </label><br><br>\n\n        <label>Operation:</label>\n        <select ng-model=\"formData.station5_op\" style=\"width: 100%; padding: 5px;\">\n            <option value=\"\">-- None / Select --</option>\n            <option value=\"Drop 1 Cover\">Drop 1 Cover</option>\n        </select>\n    </div>\n\n    <div style=\"margin-bottom: 20px; padding: 10px; background: #f4f4f4; border-radius: 5px;\">\n        <h4>Station 6</h4>\n        <label>\n            <input type=\"checkbox\" ng-model=\"formData.station6_stop\"> \n            Stop at station?\n        </label><br><br>\n\n        <label>Operation:</label>\n        <select ng-model=\"formData.station6_op\" style=\"width: 100%; padding: 5px;\">\n            <option value=\"\">-- None / Select --</option>\n            <option value=\"Pressing\">Pressing</option>\n        </select>\n    </div>\n\n    <div style=\"margin-bottom: 20px; padding: 10px; background: #f4f4f4; border-radius: 5px;\">\n        <h4>Station 7</h4>\n        <label>\n            <input type=\"checkbox\" ng-model=\"formData.station7_stop\"> \n            Stop at station?\n        </label><br><br>\n\n        <label>Operation:</label>\n        <select ng-model=\"formData.station7_op\" style=\"width: 100%; padding: 5px;\">\n            <option value=\"\">-- None / Select --</option>\n            <option value=\"Manual Pickup\">Manual Pickup</option>\n            <option value=\"Robot Pickup\">Robot Pickup</option>\n        </select>\n    </div>\n\n    <button type=\"submit\" style=\"width: 100%; padding: 10px; background: #0073e6; color: white; border: none; border-radius: 5px; cursor: pointer;\">\n        Save Product\n    </button>\n</form>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 2090,
+        "y": 260,
+        "wires": [
+            [
+                "220dc4e57cf0379d"
+            ]
+        ]
+    },
+    {
+        "id": "8515aca0791c864d",
+        "type": "debug",
+        "z": "8d441b1e1f9e38da",
+        "g": "b65c0f0491e09d53",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 300,
         "wires": []
     },
     {
