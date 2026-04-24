@@ -50,6 +50,7 @@
         "type": "ui_tab",
         "name": "Register Order",
         "icon": "dashboard",
+        "order": 2,
         "disabled": false,
         "hidden": false
     },
@@ -197,7 +198,7 @@
         "type": "ui_tab",
         "name": "User Interface",
         "icon": "dashboard",
-        "order": 2,
+        "order": 1,
         "disabled": false,
         "hidden": false
     },
@@ -224,26 +225,6 @@
         "className": ""
     },
     {
-        "id": "a9a9a15b6e27edbf",
-        "type": "ui_spacer",
-        "z": "8d441b1e1f9e38da",
-        "name": "spacer",
-        "group": "8068ff87c6587c75",
-        "order": 1,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "dbab7d39e8d12ef2",
-        "type": "ui_spacer",
-        "z": "8d441b1e1f9e38da",
-        "name": "spacer",
-        "group": "8068ff87c6587c75",
-        "order": 2,
-        "width": 1,
-        "height": 1
-    },
-    {
         "id": "d3651f4aa7a0a0ce",
         "type": "ui_group",
         "name": "Stations State",
@@ -255,19 +236,49 @@
         "className": ""
     },
     {
+        "id": "475335035d17ae6c",
+        "type": "ui_spacer",
+        "z": "8d441b1e1f9e38da",
+        "name": "spacer",
+        "group": "d3651f4aa7a0a0ce",
+        "order": 4,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "9cddced30134a29d",
+        "type": "ui_tab",
+        "name": "Engineering Interface",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "a09eb10a018f4e3a",
+        "type": "ui_group",
+        "name": "Initialize the Line",
+        "tab": "9cddced30134a29d",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "de14ef11e7dc4d56",
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Order Input",
-        "func": "let type = flow.get('product_type');\nlet quantite = flow.get('nb_product');\nlet rawPriority = flow.get('priority');\n\nlet priority = (rawPriority === true || rawPriority === \"true\" || rawPriority === 1) ? 1 : 0;\n\nif (!type || !quantite) {\n    node.warn(\"Incomplete input\");\n    return null;\n}\n\nmsg.topic = \"INSERT INTO Orders (nb_product, product_type, status, priority) VALUES (?, ?, 'QUEUED', ?);\";\nmsg.payload = [quantite, type, priority];\n\nflow.set('priority', false);\n\nreturn msg;",
+        "func": "let type = flow.get('product_type');\nlet quantite = flow.get('nb_product');\nlet rawPriority = flow.get('priority');\n\nlet priority = (rawPriority === true || rawPriority === \"true\" || rawPriority === 1) ? 1 : 0;\n\nif (!type || !quantite) {\n    node.warn(\"Incomplete input\");\n    return null;\n}\n\nmsg.topic = \"INSERT INTO Orders (nb_product, product_type, status, priority) VALUES (?, ?, 'WAITING', ?);\";\nmsg.payload = [quantite, type, priority];\n\nflow.set('priority', false);\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 250,
-        "y": 340,
+        "x": 270,
+        "y": 280,
         "wires": [
             [
                 "dcc222f6d322e31f"
@@ -280,8 +291,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Order Insert",
-        "x": 430,
-        "y": 340,
+        "x": 450,
+        "y": 280,
         "wires": [
             []
         ]
@@ -307,8 +318,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 170,
-        "y": 740,
+        "x": 250,
+        "y": 1160,
         "wires": [
             [
                 "321ef8b9ec4432a6"
@@ -327,8 +338,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 410,
-        "y": 840,
+        "x": 490,
+        "y": 1260,
         "wires": [
             [
                 "8b3ece46f344d351"
@@ -341,8 +352,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Delete Productions",
-        "x": 630,
-        "y": 840,
+        "x": 710,
+        "y": 1260,
         "wires": [
             [
                 "cec95615ef423c17",
@@ -363,8 +374,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 890,
-        "y": 840,
+        "x": 970,
+        "y": 1260,
         "wires": []
     },
     {
@@ -388,8 +399,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 120,
-        "y": 820,
+        "x": 200,
+        "y": 1240,
         "wires": [
             [
                 "a23c4fb65811150e"
@@ -402,8 +413,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Count Production",
-        "x": 2140,
-        "y": 1080,
+        "x": 2220,
+        "y": 1500,
         "wires": [
             [
                 "6342795f167f4bd2"
@@ -416,8 +427,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Insert Production",
-        "x": 610,
-        "y": 1240,
+        "x": 690,
+        "y": 1660,
         "wires": [
             [
                 "b43f5c1e5b80e7df"
@@ -436,8 +447,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1840,
-        "y": 1080,
+        "x": 1920,
+        "y": 1500,
         "wires": [
             [
                 "e3a57c9eb541a5b7"
@@ -456,8 +467,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 390,
-        "y": 1240,
+        "x": 470,
+        "y": 1660,
         "wires": [
             [
                 "1556ae4b033cfb81"
@@ -470,8 +481,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Order",
-        "x": 2080,
-        "y": 1160,
+        "x": 2160,
+        "y": 1580,
         "wires": [
             [
                 "c8a9bb372268af14"
@@ -490,8 +501,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1650,
-        "y": 1320,
+        "x": 1730,
+        "y": 1740,
         "wires": [
             [
                 "947dd5e1ce858a94"
@@ -510,8 +521,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 420,
-        "y": 780,
+        "x": 500,
+        "y": 1200,
         "wires": [
             [
                 "b0e67ffc26d4cb76"
@@ -524,8 +535,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Delete Orders",
-        "x": 620,
-        "y": 780,
+        "x": 700,
+        "y": 1200,
         "wires": [
             [
                 "24b0fb91cf54c062"
@@ -544,8 +555,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 780,
-        "y": 1320,
+        "x": 860,
+        "y": 1740,
         "wires": [
             [
                 "310a8d7d2754bad1"
@@ -561,8 +572,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Production",
-        "x": 1010,
-        "y": 1300,
+        "x": 1090,
+        "y": 1720,
         "wires": [
             [
                 "decc9303957efc79"
@@ -581,8 +592,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 360,
-        "y": 1600,
+        "x": 440,
+        "y": 2020,
         "wires": [
             [
                 "085afebbe848cfdd"
@@ -614,8 +625,8 @@
         "topic": "",
         "payload": "{     \"sn\": \"15_1775832547181\",     \"response\": \"DONE\" }",
         "payloadType": "json",
-        "x": 190,
-        "y": 1780,
+        "x": 270,
+        "y": 2200,
         "wires": [
             [
                 "932d1207d203e972"
@@ -643,8 +654,8 @@
         "topic": "",
         "payload": "{     \"sn\": \"15_1775832547181\" ,     \"response\": \"CART_IN\" }",
         "payloadType": "json",
-        "x": 190,
-        "y": 1700,
+        "x": 270,
+        "y": 2120,
         "wires": [
             [
                 "932d1207d203e972"
@@ -664,8 +675,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 580,
-        "y": 1480,
+        "x": 660,
+        "y": 1900,
         "wires": []
     },
     {
@@ -681,8 +692,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 850,
-        "y": 1420,
+        "x": 930,
+        "y": 1840,
         "wires": []
     },
     {
@@ -698,8 +709,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 600,
-        "y": 1660,
+        "x": 680,
+        "y": 2080,
         "wires": []
     },
     {
@@ -721,8 +732,8 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 350,
-        "y": 160,
+        "x": 1170,
+        "y": 100,
         "wires": [
             [
                 "b64d50c7e2d97fb6"
@@ -750,7 +761,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 190,
+        "x": 150,
         "y": 100,
         "wires": [
             [
@@ -770,7 +781,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 450,
+        "x": 410,
         "y": 100,
         "wires": [
             [
@@ -784,7 +795,7 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Request Type Of Product",
-        "x": 750,
+        "x": 670,
         "y": 100,
         "wires": [
             [
@@ -804,8 +815,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 100,
-        "y": 160,
+        "x": 920,
+        "y": 100,
         "wires": [
             [
                 "48d0a54e54817425"
@@ -832,8 +843,8 @@
         "max": "99",
         "step": 1,
         "className": "",
-        "x": 110,
-        "y": 220,
+        "x": 130,
+        "y": 160,
         "wires": [
             [
                 "13b16cbfaae17ea4"
@@ -860,8 +871,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 70,
-        "y": 340,
+        "x": 90,
+        "y": 280,
         "wires": [
             [
                 "de14ef11e7dc4d56"
@@ -887,8 +898,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 370,
-        "y": 220,
+        "x": 390,
+        "y": 160,
         "wires": [
             []
         ]
@@ -912,8 +923,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 610,
-        "y": 160,
+        "x": 1430,
+        "y": 100,
         "wires": [
             []
         ]
@@ -924,8 +935,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "GetProduction",
-        "x": 1280,
-        "y": 920,
+        "x": 1360,
+        "y": 1340,
         "wires": [
             [
                 "8d085d44ed72ad0c",
@@ -945,8 +956,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1040,
-        "y": 920,
+        "x": 1120,
+        "y": 1340,
         "wires": [
             [
                 "4615304a7c339a8b"
@@ -965,8 +976,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1610,
-        "y": 1000,
+        "x": 1690,
+        "y": 1420,
         "wires": [
             [
                 "e64e58cc6b222b8f",
@@ -994,8 +1005,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1870,
-        "y": 900,
+        "x": 1950,
+        "y": 1320,
         "wires": []
     },
     {
@@ -1012,8 +1023,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1540,
-        "y": 920,
+        "x": 1620,
+        "y": 1340,
         "wires": []
     },
     {
@@ -1029,8 +1040,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2060,
-        "y": 900,
+        "x": 2140,
+        "y": 1320,
         "wires": []
     },
     {
@@ -1105,8 +1116,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1860,
-        "y": 1000,
+        "x": 1940,
+        "y": 1420,
         "wires": [
             [
                 "5b8099f0491d684d"
@@ -1119,8 +1130,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Finish Order",
-        "x": 2050,
-        "y": 1000,
+        "x": 2130,
+        "y": 1420,
         "wires": [
             []
         ]
@@ -1137,8 +1148,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 110,
-        "y": 920,
+        "x": 190,
+        "y": 1340,
         "wires": [
             [
                 "099e43275746a44a"
@@ -1157,8 +1168,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 420,
-        "y": 1740,
+        "x": 500,
+        "y": 2160,
         "wires": [
             [
                 "ebc4145927af70fe"
@@ -1184,8 +1195,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 720,
-        "y": 1860,
+        "x": 800,
+        "y": 2280,
         "wires": []
     },
     {
@@ -1194,8 +1205,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Order Type",
-        "x": 710,
-        "y": 1740,
+        "x": 790,
+        "y": 2160,
         "wires": [
             [
                 "8cbaf8e5a30c6ec0"
@@ -1214,8 +1225,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1400,
-        "y": 1740,
+        "x": 1480,
+        "y": 2160,
         "wires": [
             [
                 "8c0249c268cd4caf"
@@ -1234,8 +1245,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 950,
-        "y": 1740,
+        "x": 1030,
+        "y": 2160,
         "wires": [
             [
                 "4253fdfca6e1343c"
@@ -1248,8 +1259,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Order Type",
-        "x": 1170,
-        "y": 1740,
+        "x": 1250,
+        "y": 2160,
         "wires": [
             [
                 "5db297f4edeb65fb"
@@ -1269,8 +1280,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1650,
-        "y": 1740,
+        "x": 1730,
+        "y": 2160,
         "wires": []
     },
     {
@@ -1286,8 +1297,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 210,
-        "y": 1940,
+        "x": 290,
+        "y": 2360,
         "wires": [
             [
                 "f96498d0c77e9ace",
@@ -1308,8 +1319,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 460,
-        "y": 1940,
+        "x": 540,
+        "y": 2360,
         "wires": []
     },
     {
@@ -1328,8 +1339,8 @@
         "persistence_bind": "memory",
         "dburl": "",
         "usetls": false,
-        "x": 1050,
-        "y": 1960,
+        "x": 1130,
+        "y": 2380,
         "wires": [
             [
                 "e1633402dccd24a6"
@@ -1353,8 +1364,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1320,
-        "y": 1940,
+        "x": 1400,
+        "y": 2360,
         "wires": []
     },
     {
@@ -1371,8 +1382,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1310,
-        "y": 1980,
+        "x": 1390,
+        "y": 2400,
         "wires": []
     },
     {
@@ -1383,8 +1394,8 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 310,
-        "y": 1860,
+        "x": 390,
+        "y": 2280,
         "wires": [
             [
                 "932d1207d203e972"
@@ -1405,8 +1416,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 920,
-        "y": 1580,
+        "x": 1000,
+        "y": 2000,
         "wires": []
     },
     {
@@ -1423,8 +1434,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1210,
-        "y": 1360,
+        "x": 1290,
+        "y": 1780,
         "wires": []
     },
     {
@@ -1432,19 +1443,20 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Check If free space on line",
-        "func": "let total_active = msg.payload[0].total_active;\n\nif (total_active >= 6) {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Line Full (6/6)\" });\n    node.warn(\"Production blocked : 6 product on the line\");\n    return null; \n}\n\nmsg.topic = \"UPDATE Orders SET status = 'IN_PROGRESS' WHERE order_id = ? AND status = 'QUEUED';\";\n\nmsg.payload = [msg.order_id];\n\nnode.status({ fill: \"green\", shape: \"dot\", text: \"Space available\" });\n\nreturn msg;",
-        "outputs": 1,
+        "func": "let total_active = msg.payload[0].total_active;\n\nlet fleet = global.get('factory_fleet') || [];\n\nlet available_carts = fleet.filter(cart => cart.state === 'IDLE');\n\nif (total_active >= 6) {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"Line Full (6/6)\" });\n    node.warn(\"Production blocked : 6 products on the line\");\n    return null;\n}\n\nif (available_carts.length === 0) {\n    node.status({ fill: \"yellow\", shape: \"ring\", text: \"No carts available\" });\n    node.warn(\"Production blocked : No IDLE carts available\");\n    return null;\n}\nmsg.topic = \"UPDATE Orders SET status = 'IN_PROGRESS' WHERE order_id = ? AND status = 'QUEUED';\";\nmsg.payload = [msg.order_id];\n\nreturn msg;",
+        "outputs": 2,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1800,
-        "y": 1160,
+        "x": 1880,
+        "y": 1580,
         "wires": [
             [
                 "b8cdd283d08a4233"
-            ]
+            ],
+            []
         ]
     },
     {
@@ -1468,8 +1480,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 130,
-        "y": 1140,
+        "x": 210,
+        "y": 1560,
         "wires": [
             [
                 "099e43275746a44a"
@@ -1488,8 +1500,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 540,
-        "y": 920,
+        "x": 620,
+        "y": 1340,
         "wires": [
             [
                 "44982cd264357834"
@@ -1502,8 +1514,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Orders",
-        "x": 810,
-        "y": 920,
+        "x": 890,
+        "y": 1340,
         "wires": [
             [
                 "cd87d15993ba468d",
@@ -1525,8 +1537,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1040,
-        "y": 980,
+        "x": 1120,
+        "y": 1400,
         "wires": []
     },
     {
@@ -1555,8 +1567,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 160,
-        "y": 280,
+        "x": 80,
+        "y": 220,
         "wires": [
             [
                 "816aea9c14353a0b"
@@ -1582,8 +1594,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 330,
-        "y": 280,
+        "x": 250,
+        "y": 220,
         "wires": [
             []
         ]
@@ -1600,8 +1612,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 260,
-        "y": 1020,
+        "x": 340,
+        "y": 1440,
         "wires": [
             [
                 "fb0c76d3d366eb1e"
@@ -1614,8 +1626,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Priority Orders",
-        "x": 490,
-        "y": 1020,
+        "x": 570,
+        "y": 1440,
         "wires": [
             [
                 "2d23a486c3a3805c"
@@ -1634,8 +1646,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 700,
-        "y": 1020,
+        "x": 780,
+        "y": 1440,
         "wires": [
             [
                 "a70c88e8c1ac1862"
@@ -1648,8 +1660,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "Update Priority Orders",
-        "x": 900,
-        "y": 1020,
+        "x": 980,
+        "y": 1440,
         "wires": [
             [
                 "63ed270b76f1a8a4"
@@ -1677,8 +1689,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 150,
-        "y": 420,
+        "x": 110,
+        "y": 380,
         "wires": [
             [
                 "f5b58c6beba80fbf"
@@ -1697,8 +1709,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 350,
-        "y": 420,
+        "x": 290,
+        "y": 380,
         "wires": [
             [
                 "cee7c96ce2be1649"
@@ -1711,8 +1723,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Pending Orders",
-        "x": 570,
-        "y": 420,
+        "x": 510,
+        "y": 380,
         "wires": [
             [
                 "0674afd13c76451e"
@@ -1725,412 +1737,6 @@
         "z": "8d441b1e1f9e38da",
         "group": "c283d1f336c1be31",
         "name": "Pending Orders",
-        "order": 2,
-        "width": "10",
-        "height": "10",
-        "columns": [
-            {
-                "field": "order_id",
-                "title": "Order ID",
-                "width": "",
-                "align": "left",
-                "formatter": "plaintext",
-                "formatterParams": {
-                    "target": "_blank"
-                }
-            },
-            {
-                "field": "nb_product",
-                "title": "Number of Products",
-                "width": "",
-                "align": "left",
-                "formatter": "plaintext",
-                "formatterParams": {
-                    "target": "_blank"
-                }
-            },
-            {
-                "field": "product_type",
-                "title": "Type of Product",
-                "width": "",
-                "align": "left",
-                "formatter": "plaintext",
-                "formatterParams": {
-                    "target": "_blank"
-                }
-            },
-            {
-                "field": "status",
-                "title": "Status",
-                "width": "",
-                "align": "left",
-                "formatter": "plaintext",
-                "formatterParams": {
-                    "target": "_blank"
-                }
-            },
-            {
-                "field": "priority",
-                "title": "Priority",
-                "width": "",
-                "align": "left",
-                "formatter": "tickCross",
-                "formatterParams": {
-                    "target": "_blank"
-                }
-            }
-        ],
-        "outputs": 1,
-        "cts": true,
-        "x": 1000,
-        "y": 420,
-        "wires": [
-            [
-                "4b3b4c7efb7a0f0c",
-                "de0c1fe81145e3ca"
-            ]
-        ]
-    },
-    {
-        "id": "4b3b4c7efb7a0f0c",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "Select Order",
-        "func": "flow.set(\"selectedOrderId\", msg.payload.order_id);\n\nlet msgPriority = { payload: msg.payload.priority === 1 }; \n\nreturn msgPriority;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1190,
-        "y": 420,
-        "wires": [
-            [
-                "b71ab66809c70258"
-            ]
-        ]
-    },
-    {
-        "id": "b71ab66809c70258",
-        "type": "ui_switch",
-        "z": "8d441b1e1f9e38da",
-        "name": "Change Priority",
-        "label": "Prioritized ?",
-        "tooltip": "",
-        "group": "c283d1f336c1be31",
-        "order": 4,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 1400,
-        "y": 420,
-        "wires": [
-            [
-                "3b6035cb275de9e7"
-            ]
-        ]
-    },
-    {
-        "id": "3b6035cb275de9e7",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "Update Priority",
-        "func": "let order_id = flow.get(\"selectedOrderId\");\n\nlet newPriority = msg.payload ? 1 : 0;\nmsg.topic = \"UPDATE Orders SET priority = ? WHERE order_id = ?\";\nmsg.payload = [newPriority, order_id];\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1600,
-        "y": 420,
-        "wires": [
-            [
-                "b257da6af1f6a405"
-            ]
-        ]
-    },
-    {
-        "id": "b257da6af1f6a405",
-        "type": "mysql",
-        "z": "8d441b1e1f9e38da",
-        "mydb": "8fe1b8c2b9d8069a",
-        "name": "Update Select Order",
-        "x": 1840,
-        "y": 420,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "de0c1fe81145e3ca",
-        "type": "ui_text",
-        "z": "8d441b1e1f9e38da",
-        "group": "c283d1f336c1be31",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "name": "Selected Order :",
-        "label": "Selected Order :",
-        "format": "N° {{msg.payload.order_id}}",
-        "layout": "row-left",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 1200,
-        "y": 480,
-        "wires": []
-    },
-    {
-        "id": "8ff30d67ec6093a0",
-        "type": "inject",
-        "z": "8d441b1e1f9e38da",
-        "name": "Update Stations",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 130,
-        "y": 560,
-        "wires": [
-            [
-                "3c6555e3a50b31dd"
-            ]
-        ]
-    },
-    {
-        "id": "3c6555e3a50b31dd",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "Select Used Stations",
-        "func": "msg.topic = `\nSELECT \n    p.current_station, \n    p.productSN, \n    p.order_id, \n    p.cart_id, \n    o.priority,\n    pr.*\nFROM Production p\nJOIN Orders o ON p.order_id = o.order_id\nJOIN Products pr ON o.product_type = pr.product_type\nWHERE p.status = 'IN_PROGRESS' AND p.current_station != 'OUT';\n`;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 360,
-        "y": 560,
-        "wires": [
-            [
-                "ab7a23bd3fb22618"
-            ]
-        ]
-    },
-    {
-        "id": "ab7a23bd3fb22618",
-        "type": "mysql",
-        "z": "8d441b1e1f9e38da",
-        "mydb": "8fe1b8c2b9d8069a",
-        "name": "RQ Pending Orders",
-        "x": 590,
-        "y": 560,
-        "wires": [
-            [
-                "c4fee0d5948dbe3e"
-            ]
-        ]
-    },
-    {
-        "id": "c4fee0d5948dbe3e",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "Organize Infos",
-        "func": "let stations = {};\nfor (let i = 1; i <= 6; i++) {\n    stations[\"Station\" + i] = { active: false };\n}\n\nif (Array.isArray(msg.payload)) {\n    msg.payload.forEach(row => {\n        let stName = row.current_station;\n        if (stations[stName]) {\n            stations[stName] = {\n                active: true,\n                sn: row.productSN,\n                order: row.order_id,\n                cart: row.cart_id,\n                op: row[stName + \"Op\"],\n                priority: row.priority\n            };\n        }\n    });\n}\n\nmsg.payload = stations;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 800,
-        "y": 560,
-        "wires": [
-            [
-                "38af9d01e979e388"
-            ]
-        ]
-    },
-    {
-        "id": "38af9d01e979e388",
-        "type": "ui_template",
-        "z": "8d441b1e1f9e38da",
-        "group": "d3651f4aa7a0a0ce",
-        "name": "Line State",
-        "order": 0,
-        "width": "20",
-        "height": "7",
-        "format": "<style>\n    .factory-floor {\n        display: flex;\n        justify-content: space-around;\n        align-items: stretch;\n        background-color: #1a1a1a;\n        padding: 15px;\n        border-radius: 10px;\n    }\n\n    .station-box {\n        flex: 1;\n        margin: 0 5px;\n        background-color: #333;\n        border: 2px solid #555;\n        border-radius: 6px;\n        padding: 10px;\n        min-height: 160px;\n        /* Légèrement agrandi pour laisser place aux boutons */\n        color: #eee;\n        font-family: sans-serif;\n        position: relative;\n        display: flex;\n        flex-direction: column;\n        /* Permet de pousser les boutons vers le bas */\n    }\n\n    .station-box.active {\n        border-color: #3498db;\n        background-color: #2c3e50;\n    }\n\n    .station-box.priority-active {\n        border-color: #f1c40f !important;\n        box-shadow: inset 0 0 10px rgba(241, 196, 15, 0.2);\n    }\n\n    .prio-badge {\n        position: absolute;\n        top: -8px;\n        right: -5px;\n        background-color: #f1c40f;\n        color: #000;\n        font-size: 0.7em;\n        font-weight: bold;\n        padding: 2px 6px;\n        border-radius: 4px;\n        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);\n    }\n\n    .st-name {\n        border-bottom: 1px solid #555;\n        margin-bottom: 8px;\n        padding-bottom: 4px;\n        font-weight: bold;\n        color: #3498db;\n        text-align: center;\n    }\n\n    .info-line {\n        font-size: 0.85em;\n        margin: 4px 0;\n    }\n\n    .label {\n        color: #888;\n        font-size: 0.9em;\n    }\n\n    .val {\n        font-weight: bold;\n        color: #fff;\n    }\n\n    .op-tag {\n        margin-top: 8px;\n        background: #444;\n        padding: 3px 6px;\n        border-radius: 4px;\n        font-size: 0.8em;\n        text-align: center;\n        border-left: 3px solid #e67e22;\n    }\n\n    .empty-msg {\n        color: #555;\n        text-align: center;\n        margin-top: 20px;\n        font-style: italic;\n        font-size: 0.8em;\n        flex-grow: 1;\n        /* Remplit l'espace vide */\n    }\n\n    /* --- NOUVEAU : Style pour les boutons --- */\n    .controls {\n        margin-top: auto;\n        /* Pousse les boutons tout en bas de la carte */\n        display: flex;\n        gap: 5px;\n        padding-top: 10px;\n    }\n\n    .btn-mqtt {\n        flex: 1;\n        border: none;\n        border-radius: 3px;\n        padding: 5px 0;\n        font-size: 0.75em;\n        font-weight: bold;\n        cursor: pointer;\n        color: white;\n        transition: 0.2s;\n    }\n\n    .btn-in {\n        background-color: #2980b9;\n    }\n\n    .btn-in:hover {\n        background-color: #3498db;\n    }\n\n    .btn-in:active {\n        background-color: #1f6391;\n    }\n\n    .btn-done {\n        background-color: #27ae60;\n    }\n\n    .btn-done:hover {\n        background-color: #2ecc71;\n    }\n\n    .btn-done:active {\n        background-color: #1e8449;\n    }\n</style>\n\n<div class=\"factory-floor\">\n    <div ng-repeat=\"i in [1,2,3,4,5,6]\" class=\"station-box\"\n        ng-class=\"{'active': msg.payload['Station'+i].active, 'priority-active': msg.payload['Station'+i].priority}\">\n\n        <div class=\"prio-badge\" ng-if=\"msg.payload['Station'+i].priority\">\n            PRIO\n        </div>\n\n        <div class=\"st-name\">STATION {{i}}</div>\n\n        <div ng-if=\"msg.payload['Station'+i].active\">\n            <div class=\"info-line\">\n                <span class=\"label\">ORDER:</span> <span class=\"val\">#{{msg.payload['Station'+i].order}}</span>\n            </div>\n            <div class=\"info-line\">\n                <span class=\"label\">CART:</span> <span class=\"val\">{{msg.payload['Station'+i].cart}}</span>\n            </div>\n            <div class=\"op-tag\">\n                {{msg.payload['Station'+i].op}}\n            </div>\n        </div>\n\n        <div ng-if=\"!msg.payload['Station'+i].active\" class=\"empty-msg\">\n            Empty Station\n        </div>\n\n        <div class=\"controls\">\n            <button class=\"btn-mqtt btn-in\" ng-click=\"send({payload: {station: i, response: 'CART_IN'}})\">IN</button>\n            <button class=\"btn-mqtt btn-done\" ng-click=\"send({payload: {station: i, response: 'DONE'}})\">DONE</button>\n        </div>\n\n    </div>\n</div>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 980,
-        "y": 560,
-        "wires": [
-            [
-                "2e3f75ec07943f15"
-            ]
-        ]
-    },
-    {
-        "id": "0674afd13c76451e",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "Check if changed",
-        "func": "let currentDataString = JSON.stringify(msg.payload);\n\nlet previousDataString = flow.get(\"previousTableData\");\n\nif (currentDataString === previousDataString) {\n    return null;\n}\n\nflow.set(\"previousTableData\", currentDataString);\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 790,
-        "y": 420,
-        "wires": [
-            [
-                "a4b1d0c2229e70ce"
-            ]
-        ]
-    },
-    {
-        "id": "2e3f75ec07943f15",
-        "type": "mqtt out",
-        "z": "8d441b1e1f9e38da",
-        "name": "",
-        "topic": "test",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "0374e6d057e88ee9",
-        "x": 1130,
-        "y": 560,
-        "wires": []
-    },
-    {
-        "id": "0d5577a85115129e",
-        "type": "inject",
-        "z": "8d441b1e1f9e38da",
-        "name": "RQ in progress orders",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 130,
-        "y": 620,
-        "wires": [
-            [
-                "556adf5b05f05e65"
-            ]
-        ]
-    },
-    {
-        "id": "556adf5b05f05e65",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "RQ pending orders",
-        "func": "msg.topic = \"SELECT order_id, nb_product, product_type, status, priority FROM Orders WHERE status = 'IN_PROGRESS' ORDER BY priority DESC, order_id ASC;\";\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 350,
-        "y": 620,
-        "wires": [
-            [
-                "52e74df1d7039d0b"
-            ]
-        ]
-    },
-    {
-        "id": "52e74df1d7039d0b",
-        "type": "mysql",
-        "z": "8d441b1e1f9e38da",
-        "mydb": "8fe1b8c2b9d8069a",
-        "name": "RQ in progress Orders",
-        "x": 580,
-        "y": 620,
-        "wires": [
-            [
-                "5b3af11c0c82ba16"
-            ]
-        ]
-    },
-    {
-        "id": "5b3af11c0c82ba16",
-        "type": "function",
-        "z": "8d441b1e1f9e38da",
-        "name": "Check if changed",
-        "func": "let currentIn_PROGRESSString = JSON.stringify(msg.payload);\n\nlet previousIN_PROGRESSString = flow.get(\"previousProgressData\");\n\nif (currentIn_PROGRESSString === previousIN_PROGRESSString) {\n    return null;\n}\n\nflow.set(\"previousProgressData\", currentIn_PROGRESSString);\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 790,
-        "y": 620,
-        "wires": [
-            [
-                "0d5cbb525eb641b9"
-            ]
-        ]
-    },
-    {
-        "id": "0d5cbb525eb641b9",
-        "type": "ui_table",
-        "z": "8d441b1e1f9e38da",
-        "group": "c283d1f336c1be31",
-        "name": "In Progress Orders",
         "order": 6,
         "width": "10",
         "height": "10",
@@ -2188,8 +1794,414 @@
         ],
         "outputs": 1,
         "cts": true,
-        "x": 1010,
-        "y": 620,
+        "x": 940,
+        "y": 380,
+        "wires": [
+            [
+                "4b3b4c7efb7a0f0c",
+                "de0c1fe81145e3ca"
+            ]
+        ]
+    },
+    {
+        "id": "4b3b4c7efb7a0f0c",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Select Order",
+        "func": "flow.set(\"selectedOrderId\", msg.payload.order_id);\n\nlet msgPriority = { payload: msg.payload.priority === 1 }; \n\nreturn msgPriority;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1130,
+        "y": 380,
+        "wires": [
+            [
+                "b71ab66809c70258"
+            ]
+        ]
+    },
+    {
+        "id": "b71ab66809c70258",
+        "type": "ui_switch",
+        "z": "8d441b1e1f9e38da",
+        "name": "Change Priority",
+        "label": "Prioritized ?",
+        "tooltip": "",
+        "group": "c283d1f336c1be31",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1340,
+        "y": 380,
+        "wires": [
+            [
+                "3b6035cb275de9e7"
+            ]
+        ]
+    },
+    {
+        "id": "3b6035cb275de9e7",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Update Priority",
+        "func": "let order_id = flow.get(\"selectedOrderId\");\n\nlet newPriority = msg.payload ? 1 : 0;\nmsg.topic = \"UPDATE Orders SET priority = ? WHERE order_id = ?\";\nmsg.payload = [newPriority, order_id];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1540,
+        "y": 380,
+        "wires": [
+            [
+                "b257da6af1f6a405"
+            ]
+        ]
+    },
+    {
+        "id": "b257da6af1f6a405",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Update Select Order",
+        "x": 1780,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "de0c1fe81145e3ca",
+        "type": "ui_text",
+        "z": "8d441b1e1f9e38da",
+        "group": "c283d1f336c1be31",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "name": "Selected Order :",
+        "label": "Selected Order :",
+        "format": "N° {{msg.payload.order_id}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1140,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "8ff30d67ec6093a0",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "Update Stations",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 660,
+        "wires": [
+            [
+                "3c6555e3a50b31dd"
+            ]
+        ]
+    },
+    {
+        "id": "3c6555e3a50b31dd",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Select Used Stations",
+        "func": "msg.topic = `\nSELECT \n    p.current_station, \n    p.productSN, \n    p.order_id, \n    p.cart_id, \n    o.priority,\n    pr.*\nFROM Production p\nJOIN Orders o ON p.order_id = o.order_id\nJOIN Products pr ON o.product_type = pr.product_type\nWHERE p.status = 'IN_PROGRESS' AND p.current_station != 'OUT';\n`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 660,
+        "wires": [
+            [
+                "ab7a23bd3fb22618"
+            ]
+        ]
+    },
+    {
+        "id": "ab7a23bd3fb22618",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ Pending Orders",
+        "x": 610,
+        "y": 660,
+        "wires": [
+            [
+                "c4fee0d5948dbe3e"
+            ]
+        ]
+    },
+    {
+        "id": "c4fee0d5948dbe3e",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Organize Infos",
+        "func": "let stations = {};\nfor (let i = 1; i <= 6; i++) {\n    stations[\"Station\" + i] = { active: false };\n}\n\nif (Array.isArray(msg.payload)) {\n    msg.payload.forEach(row => {\n        let stName = row.current_station;\n        if (stations[stName]) {\n            stations[stName] = {\n                active: true,\n                sn: row.productSN,\n                order: row.order_id,\n                cart: row.cart_id,\n                op: row[stName + \"Op\"],\n                priority: row.priority\n            };\n        }\n    });\n}\n\nmsg.payload = stations;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 660,
+        "wires": [
+            [
+                "38af9d01e979e388"
+            ]
+        ]
+    },
+    {
+        "id": "38af9d01e979e388",
+        "type": "ui_template",
+        "z": "8d441b1e1f9e38da",
+        "group": "d3651f4aa7a0a0ce",
+        "name": "Line State",
+        "order": 2,
+        "width": "20",
+        "height": "7",
+        "format": "<style>\n    .factory-floor {\n        display: flex;\n        justify-content: space-around;\n        align-items: stretch;\n        background-color: #1a1a1a;\n        padding: 15px;\n        border-radius: 10px;\n    }\n\n    .station-box {\n        flex: 1;\n        margin: 0 5px;\n        background-color: #333;\n        border: 2px solid #555;\n        border-radius: 6px;\n        padding: 10px;\n        min-height: 160px;\n        /* Légèrement agrandi pour laisser place aux boutons */\n        color: #eee;\n        font-family: sans-serif;\n        position: relative;\n        display: flex;\n        flex-direction: column;\n        /* Permet de pousser les boutons vers le bas */\n    }\n\n    .station-box.active {\n        border-color: #3498db;\n        background-color: #2c3e50;\n    }\n\n    .station-box.priority-active {\n        border-color: #f1c40f !important;\n        box-shadow: inset 0 0 10px rgba(241, 196, 15, 0.2);\n    }\n\n    .prio-badge {\n        position: absolute;\n        top: -8px;\n        right: -5px;\n        background-color: #f1c40f;\n        color: #000;\n        font-size: 0.7em;\n        font-weight: bold;\n        padding: 2px 6px;\n        border-radius: 4px;\n        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);\n    }\n\n    .st-name {\n        border-bottom: 1px solid #555;\n        margin-bottom: 8px;\n        padding-bottom: 4px;\n        font-weight: bold;\n        color: #3498db;\n        text-align: center;\n    }\n\n    .info-line {\n        font-size: 0.85em;\n        margin: 4px 0;\n    }\n\n    .label {\n        color: #888;\n        font-size: 0.9em;\n    }\n\n    .val {\n        font-weight: bold;\n        color: #fff;\n    }\n\n    .op-tag {\n        margin-top: 8px;\n        background: #444;\n        padding: 3px 6px;\n        border-radius: 4px;\n        font-size: 0.8em;\n        text-align: center;\n        border-left: 3px solid #e67e22;\n    }\n\n    .empty-msg {\n        color: #555;\n        text-align: center;\n        margin-top: 20px;\n        font-style: italic;\n        font-size: 0.8em;\n        flex-grow: 1;\n        /* Remplit l'espace vide */\n    }\n\n    /* --- NOUVEAU : Style pour les boutons --- */\n    .controls {\n        margin-top: auto;\n        /* Pousse les boutons tout en bas de la carte */\n        display: flex;\n        gap: 5px;\n        padding-top: 10px;\n    }\n\n    .btn-mqtt {\n        flex: 1;\n        border: none;\n        border-radius: 3px;\n        padding: 5px 0;\n        font-size: 0.75em;\n        font-weight: bold;\n        cursor: pointer;\n        color: white;\n        transition: 0.2s;\n    }\n\n    .btn-in {\n        background-color: #2980b9;\n    }\n\n    .btn-in:hover {\n        background-color: #3498db;\n    }\n\n    .btn-in:active {\n        background-color: #1f6391;\n    }\n\n    .btn-done {\n        background-color: #27ae60;\n    }\n\n    .btn-done:hover {\n        background-color: #2ecc71;\n    }\n\n    .btn-done:active {\n        background-color: #1e8449;\n    }\n</style>\n\n<div class=\"factory-floor\">\n    <div ng-repeat=\"i in [1,2,3,4,5,6]\" class=\"station-box\"\n        ng-class=\"{'active': msg.payload['Station'+i].active, 'priority-active': msg.payload['Station'+i].priority}\">\n\n        <div class=\"prio-badge\" ng-if=\"msg.payload['Station'+i].priority\">\n            PRIO\n        </div>\n\n        <div class=\"st-name\">STATION {{i}}</div>\n\n        <div ng-if=\"msg.payload['Station'+i].active\">\n            <div class=\"info-line\">\n                <span class=\"label\">ORDER:</span> <span class=\"val\">#{{msg.payload['Station'+i].order}}</span>\n            </div>\n            <div class=\"info-line\">\n                <span class=\"label\">CART:</span> <span class=\"val\">{{msg.payload['Station'+i].cart}}</span>\n            </div>\n            <div class=\"op-tag\">\n                {{msg.payload['Station'+i].op}}\n            </div>\n        </div>\n\n        <div ng-if=\"!msg.payload['Station'+i].active\" class=\"empty-msg\">\n            Empty Station\n        </div>\n\n        <div class=\"controls\">\n            <button class=\"btn-mqtt btn-in\" ng-click=\"send({payload: {station: i, response: 'CART_IN'}})\">IN</button>\n            <button class=\"btn-mqtt btn-done\" ng-click=\"send({payload: {station: i, response: 'DONE'}})\">DONE</button>\n        </div>\n\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1000,
+        "y": 660,
+        "wires": [
+            [
+                "2e3f75ec07943f15"
+            ]
+        ]
+    },
+    {
+        "id": "0674afd13c76451e",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Check if changed",
+        "func": "let currentDataString = JSON.stringify(msg.payload);\n\nlet previousDataString = flow.get(\"previousTableData\");\n\nif (currentDataString === previousDataString) {\n    return null;\n}\n\nflow.set(\"previousTableData\", currentDataString);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 380,
+        "wires": [
+            [
+                "a4b1d0c2229e70ce"
+            ]
+        ]
+    },
+    {
+        "id": "2e3f75ec07943f15",
+        "type": "mqtt out",
+        "z": "8d441b1e1f9e38da",
+        "name": "",
+        "topic": "test",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0374e6d057e88ee9",
+        "x": 1150,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "0d5577a85115129e",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "RQ in progress orders",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 720,
+        "wires": [
+            [
+                "556adf5b05f05e65"
+            ]
+        ]
+    },
+    {
+        "id": "556adf5b05f05e65",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "RQ pending orders",
+        "func": "msg.topic = \"SELECT order_id, nb_product, product_type, status, priority FROM Orders WHERE status = 'IN_PROGRESS' ORDER BY priority DESC, order_id ASC;\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 720,
+        "wires": [
+            [
+                "52e74df1d7039d0b"
+            ]
+        ]
+    },
+    {
+        "id": "52e74df1d7039d0b",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ in progress Orders",
+        "x": 600,
+        "y": 720,
+        "wires": [
+            [
+                "5b3af11c0c82ba16"
+            ]
+        ]
+    },
+    {
+        "id": "5b3af11c0c82ba16",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Check if changed",
+        "func": "let currentIn_PROGRESSString = JSON.stringify(msg.payload);\n\nlet previousIN_PROGRESSString = flow.get(\"previousProgressData\");\n\nif (currentIn_PROGRESSString === previousIN_PROGRESSString) {\n    return null;\n}\n\nflow.set(\"previousProgressData\", currentIn_PROGRESSString);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 720,
+        "wires": [
+            [
+                "0d5cbb525eb641b9"
+            ]
+        ]
+    },
+    {
+        "id": "0d5cbb525eb641b9",
+        "type": "ui_table",
+        "z": "8d441b1e1f9e38da",
+        "group": "c283d1f336c1be31",
+        "name": "In Progress Orders",
+        "order": 10,
+        "width": "10",
+        "height": "10",
+        "columns": [
+            {
+                "field": "order_id",
+                "title": "Order ID",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "nb_product",
+                "title": "Number of Products",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "product_type",
+                "title": "Type of Product",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "status",
+                "title": "Status",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "priority",
+                "title": "Priority",
+                "width": "",
+                "align": "left",
+                "formatter": "tickCross",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 1,
+        "cts": true,
+        "x": 1030,
+        "y": 720,
         "wires": [
             []
         ]
@@ -2199,7 +2211,7 @@
         "type": "ui_text",
         "z": "8d441b1e1f9e38da",
         "group": "c283d1f336c1be31",
-        "order": 1,
+        "order": 5,
         "width": 0,
         "height": 0,
         "name": "Pending Orders",
@@ -2211,8 +2223,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1480,
-        "y": 540,
+        "x": 1500,
+        "y": 640,
         "wires": []
     },
     {
@@ -2220,7 +2232,7 @@
         "type": "ui_text",
         "z": "8d441b1e1f9e38da",
         "group": "c283d1f336c1be31",
-        "order": 5,
+        "order": 9,
         "width": 0,
         "height": 0,
         "name": "Orders In Progress",
@@ -2232,8 +2244,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1490,
-        "y": 600,
+        "x": 1510,
+        "y": 700,
         "wires": []
     },
     {
@@ -2257,8 +2269,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 150,
-        "y": 680,
+        "x": 170,
+        "y": 780,
         "wires": [
             [
                 "daa6bdc7919b1d10"
@@ -2277,8 +2289,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 350,
-        "y": 680,
+        "x": 370,
+        "y": 780,
         "wires": [
             [
                 "d44f6c96e2ddf8f3"
@@ -2291,8 +2303,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Finished Products",
-        "x": 580,
-        "y": 680,
+        "x": 600,
+        "y": 780,
         "wires": [
             [
                 "fb39f3687632aa51"
@@ -2311,8 +2323,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 810,
-        "y": 680,
+        "x": 830,
+        "y": 780,
         "wires": [
             [
                 "0556cde7e9040cee"
@@ -2325,7 +2337,7 @@
         "z": "8d441b1e1f9e38da",
         "group": "8068ff87c6587c75",
         "name": "Finished Products",
-        "order": 3,
+        "order": 4,
         "width": "10",
         "height": "10",
         "columns": [
@@ -2352,8 +2364,8 @@
         ],
         "outputs": 1,
         "cts": true,
-        "x": 1030,
-        "y": 680,
+        "x": 1050,
+        "y": 780,
         "wires": [
             [
                 "e00e1135f9298cbc",
@@ -2373,8 +2385,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1270,
-        "y": 680,
+        "x": 1290,
+        "y": 780,
         "wires": [
             [
                 "03387c105e763deb"
@@ -2387,8 +2399,8 @@
         "z": "8d441b1e1f9e38da",
         "mydb": "8fe1b8c2b9d8069a",
         "name": "RQ Finished Products",
-        "x": 1520,
-        "y": 680,
+        "x": 1540,
+        "y": 780,
         "wires": [
             [
                 "5cafacf5c6096315"
@@ -2407,8 +2419,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1740,
-        "y": 680,
+        "x": 1760,
+        "y": 780,
         "wires": [
             [
                 "63b7e62b670d2264"
@@ -2421,7 +2433,7 @@
         "z": "8d441b1e1f9e38da",
         "group": "8068ff87c6587c75",
         "name": "Detailed Production",
-        "order": 5,
+        "order": 6,
         "width": "10",
         "height": "10",
         "columns": [
@@ -2458,8 +2470,8 @@
         ],
         "outputs": 1,
         "cts": true,
-        "x": 1950,
-        "y": 680,
+        "x": 1970,
+        "y": 780,
         "wires": [
             []
         ]
@@ -2468,7 +2480,7 @@
         "id": "4c20f2d035199341",
         "type": "ui_ui_control",
         "z": "8d441b1e1f9e38da",
-        "name": "Chack Dashboard Connection",
+        "name": "Check Dashboard Connection",
         "events": "all",
         "x": 1090,
         "y": 320,
@@ -2483,7 +2495,7 @@
         "type": "function",
         "z": "8d441b1e1f9e38da",
         "name": "Reset Variables",
-        "func": "if (msg.payload === \"connect\") {\n    flow.set(\"previousFinishedData\", null);\n    flow.set(\"previousProgressData\", null);\n    flow.set(\"previousTableData\", null);\n}\nreturn null;",
+        "func": "if (msg.payload === \"connect\") {\n    flow.set(\"previousFinishedData\", null);\n    flow.set(\"previousProgressData\", null);\n    flow.set(\"previousTableData\", null);\n    flow.set(\"previousWaitingData\", null);\n}\nreturn null;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2501,7 +2513,7 @@
         "type": "ui_text",
         "z": "8d441b1e1f9e38da",
         "group": "8068ff87c6587c75",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "name": "Selected Production : ",
@@ -2513,8 +2525,389 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1200,
-        "y": 760,
+        "x": 1240,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "9494a109ddea6e2d",
+        "type": "ui_text",
+        "z": "8d441b1e1f9e38da",
+        "group": "d3651f4aa7a0a0ce",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "Finished Order",
+        "label": "Finished Order",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1720,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "6457c1d79075b85b",
+        "type": "ui_text",
+        "z": "8d441b1e1f9e38da",
+        "group": "8068ff87c6587c75",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "Finished Production",
+        "label": "Finished Production",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1740,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "26a9ecc22d9e7a49",
+        "type": "inject",
+        "z": "8d441b1e1f9e38da",
+        "name": "Inject RQ",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 920,
+        "wires": [
+            [
+                "f6af6de1e41c41c0"
+            ]
+        ]
+    },
+    {
+        "id": "f6af6de1e41c41c0",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "RQ WAITING orders",
+        "func": "msg.topic = \"SELECT order_id, nb_product, product_type, status FROM Orders WHERE status = 'WAITING' ORDER BY order_id ASC;\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 920,
+        "wires": [
+            [
+                "45b5fc8c88fc2d80"
+            ]
+        ]
+    },
+    {
+        "id": "45b5fc8c88fc2d80",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ Pending Orders",
+        "x": 550,
+        "y": 920,
+        "wires": [
+            [
+                "83042ad92b745ce9"
+            ]
+        ]
+    },
+    {
+        "id": "f497eb17b52aed09",
+        "type": "ui_table",
+        "z": "8d441b1e1f9e38da",
+        "group": "c283d1f336c1be31",
+        "name": "Waiting Orders",
+        "order": 2,
+        "width": "10",
+        "height": "10",
+        "columns": [
+            {
+                "field": "order_id",
+                "title": "Order ID",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "nb_product",
+                "title": "Number of Products",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "product_type",
+                "title": "Type of Product",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "status",
+                "title": "Status",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 1,
+        "cts": true,
+        "x": 940,
+        "y": 920,
+        "wires": [
+            [
+                "bbf1a087cb80f9c1"
+            ]
+        ]
+    },
+    {
+        "id": "bbf1a087cb80f9c1",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Select Order",
+        "func": "flow.set(\"selectedWaitingOrderId\", msg.payload.order_id);\n\nlet msgPriority = { payload: msg.payload.priority === 1 }; \n\nreturn msgPriority;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1130,
+        "y": 920,
+        "wires": [
+            [
+                "43913cadb52b2af0"
+            ]
+        ]
+    },
+    {
+        "id": "43913cadb52b2af0",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Update Priority",
+        "func": "let order_id = flow.get(\"selectedWaitingOrderId\");\n\nmsg.topic = \"UPDATE Orders SET status = 'QUEUED' WHERE order_id = ?\";\nmsg.payload = [order_id];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1320,
+        "y": 920,
+        "wires": [
+            [
+                "27a5242a5da03f95"
+            ]
+        ]
+    },
+    {
+        "id": "27a5242a5da03f95",
+        "type": "mysql",
+        "z": "8d441b1e1f9e38da",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "Update Select Order",
+        "x": 1540,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "83042ad92b745ce9",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Check if changed",
+        "func": "let currentDataString = JSON.stringify(msg.payload);\n\nlet previousDataString = flow.get(\"previousWaitingData\");\n\nif (currentDataString === previousDataString) {\n    return null;\n}\n\nflow.set(\"previousWaitingData\", currentDataString);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 920,
+        "wires": [
+            [
+                "f497eb17b52aed09"
+            ]
+        ]
+    },
+    {
+        "id": "8a6f5d124d6ac28d",
+        "type": "ui_text",
+        "z": "8d441b1e1f9e38da",
+        "group": "c283d1f336c1be31",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Waiting Order",
+        "label": "Waiting Order (Click to Accept)",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1940,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "34985de2926e71f1",
+        "type": "ui_numeric",
+        "z": "8d441b1e1f9e38da",
+        "name": "Number Of Carts Input",
+        "label": "Number of Carts",
+        "tooltip": "",
+        "group": "a09eb10a018f4e3a",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "99",
+        "step": 1,
+        "className": "",
+        "x": 1860,
+        "y": 1080,
+        "wires": [
+            [
+                "0957481a1a37f369"
+            ]
+        ]
+    },
+    {
+        "id": "0957481a1a37f369",
+        "type": "change",
+        "z": "8d441b1e1f9e38da",
+        "name": "Number Of Carts Input",
+        "rules": [
+            {
+                "t": "set",
+                "p": "nb_carts",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2100,
+        "y": 1080,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b35ca589a8f93823",
+        "type": "ui_button",
+        "z": "8d441b1e1f9e38da",
+        "name": "Submit Initialization",
+        "group": "a09eb10a018f4e3a",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Sumbit",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1830,
+        "y": 1160,
+        "wires": [
+            [
+                "ee78f59909efeda5"
+            ]
+        ]
+    },
+    {
+        "id": "ee78f59909efeda5",
+        "type": "function",
+        "z": "8d441b1e1f9e38da",
+        "name": "Submit Initialization",
+        "func": "let nb_carts = flow.get('nb_carts');\n\nlet carts = [];\nfor (let i = 1; i <= nb_carts; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null,\n        productData: null,\n        currentStation: 0,\n        state: 'IDLE'\n    });\n}\n\nlet stations = {\n    1: null, 2: null, 3: null, 4: null, 5: null, 6: null\n};\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', \"A\");\n\nreturn { \n    payload: \"Factory Initialized\",\n    nb_carts: nb_carts\n        };\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2050,
+        "y": 1160,
+        "wires": [
+            [
+                "0da178d6e914d46b"
+            ]
+        ]
+    },
+    {
+        "id": "0da178d6e914d46b",
+        "type": "ui_text",
+        "z": "8d441b1e1f9e38da",
+        "group": "d3651f4aa7a0a0ce",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Display Number of Carts",
+        "label": "Number of Carts available :",
+        "format": " {{msg.nb_carts}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 2290,
+        "y": 1160,
         "wires": []
     },
     {
