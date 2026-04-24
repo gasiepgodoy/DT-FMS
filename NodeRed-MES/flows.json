@@ -3408,7 +3408,7 @@
         "z": "8d441b1e1f9e38da",
         "g": "892b130053452acd",
         "name": "Submit Initialization",
-        "func": "let nb_carts = flow.get('nb_carts');\nlet nb_stations = 7;\n\nlet carts = [];\nfor (let i = 1; i <= nb_carts; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null,\n        productData: null,\n        currentStation: 0,\n        state: 'IDLE'\n    });\n}\n\nlet stations = {};\nfor (let i = 1; i <= nb_stations; i++) {\n    stations[i] = null;\n}\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', \"A\");\nglobal.set('nb_stations', nb_stations);\n\nreturn { \n    payload: \"Factory Initialized\",\n    nb_carts: nb_carts,\n    nb_stations: nb_stations\n        };\n",
+        "func": "let nb_carts = flow.get('nb_carts');\nlet nb_stations = 4;\n\nlet carts = [];\nfor (let i = 1; i <= nb_carts; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null,\n        productData: null,\n        currentStation: 0,\n        state: 'IDLE'\n    });\n}\n\nlet stations = {};\nfor (let i = 1; i <= nb_stations; i++) {\n    stations[i] = null;\n}\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', \"A\");\nglobal.set('nb_stations', nb_stations);\n\nreturn { \n    payload: \"Factory Initialized\",\n    nb_carts: nb_carts,\n    nb_stations: nb_stations\n        };\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
