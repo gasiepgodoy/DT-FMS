@@ -16,6 +16,12 @@
         "env": []
     },
     {
+        "id": "aas-mqtt-bridge",
+        "type": "tab",
+        "label": "AAS Bridge",
+        "disabled": false
+    },
+    {
         "id": "b65c0f0491e09d53",
         "type": "group",
         "z": "8d441b1e1f9e38da",
@@ -43,9 +49,9 @@
             "1fe9e5f7809df3d1",
             "8515aca0791c864d"
         ],
-        "x": 54,
+        "x": 44,
         "y": 79,
-        "w": 1812,
+        "w": 1822,
         "h": 262
     },
     {
@@ -91,9 +97,9 @@
             "70ceb9fc058c5dc6",
             "6643d12a02296c5c"
         ],
-        "x": 1974,
+        "x": 1964,
         "y": 99,
-        "w": 712,
+        "w": 722,
         "h": 202
     },
     {
@@ -307,7 +313,7 @@
         ],
         "x": 74,
         "y": 819,
-        "w": 2112,
+        "w": 2122,
         "h": 202
     },
     {
@@ -449,9 +455,9 @@
             "577822512f86621c",
             "5b8099f0491d684d"
         ],
-        "x": 1574,
+        "x": 1564,
         "y": 1759,
-        "w": 392,
+        "w": 402,
         "h": 142
     },
     {
@@ -3408,7 +3414,7 @@
         "z": "8d441b1e1f9e38da",
         "g": "892b130053452acd",
         "name": "Submit Initialization",
-        "func": "let nb_carts = flow.get('nb_carts');\nlet nb_stations = 4;\n\nlet carts = [];\nfor (let i = 1; i <= nb_carts; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null,\n        productData: null,\n        currentStation: 0,\n        state: 'IDLE'\n    });\n}\n\nlet stations = {};\nfor (let i = 1; i <= nb_stations; i++) {\n    stations[i] = null;\n}\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', \"A\");\nglobal.set('nb_stations', nb_stations);\n\nreturn { \n    payload: \"Factory Initialized\",\n    nb_carts: nb_carts,\n    nb_stations: nb_stations\n        };\n",
+        "func": "let nb_carts = flow.get('nb_carts');\nlet nb_stations = 7;\n\nlet carts = [];\nfor (let i = 1; i <= nb_carts; i++) {\n    carts.push({\n        cart_id: i,\n        order_id: null,\n        sn: null,\n        productData: null,\n        currentStation: 0,\n        state: 'IDLE'\n    });\n}\n\nlet stations = {};\nfor (let i = 1; i <= nb_stations; i++) {\n    stations[i] = null;\n}\n\nglobal.set('factory_fleet', carts);\nglobal.set('factory_stations', stations);\nglobal.set('production_priority', \"A\");\nglobal.set('nb_stations', nb_stations);\n\nreturn { \n    payload: \"Factory Initialized\",\n    nb_carts: nb_carts,\n    nb_stations: nb_stations\n        };\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -4483,6 +4489,198 @@
         "y": 780,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "mqtt-cart-in",
+        "type": "mqtt in",
+        "z": "aas-mqtt-bridge",
+        "name": "CART_IN",
+        "topic": "test",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "0374e6d057e88ee9",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 160,
+        "y": 160,
+        "wires": [
+            [
+                "aas-update-cart-in",
+                "b0a233eb7a8fa73c"
+            ]
+        ]
+    },
+    {
+        "id": "aas-update-cart-in",
+        "type": "function",
+        "z": "aas-mqtt-bridge",
+        "name": "Update CartPresent",
+        "func": "const payload = msg.payload;\n\n// Stocker le sn en contexte depuis le message d'état\nif (payload.Station1 !== undefined) {\n    for (let i = 1; i <= 7; i++) {\n        const key = 'Station' + i;\n        if (payload[key] && payload[key].sn) {\n            flow.set('sn_station' + i, payload[key].sn);\n            flow.set('op_station' + i, payload[key].op || '');\n        }\n    }\n    return null;\n}\n\nif (!payload.response || payload.response !== \"CART_IN\") return null;\n\nconst stationNum = payload.station;\nfunction b64(s) { return Buffer.from(s).toString('base64'); }\nconst smId = b64('urn:polimi:dtfms:submodel:station' + stationNum + ':operational');\nconst base = { method: 'PATCH', headers: { 'Content-Type': 'application/json' } };\n\nnode.send({\n    ...base,\n    url: `http://localhost:8081/submodels/${smId}/submodel-elements/Sensors.CartPresent/$value`,\n    payload: '\"true\"'\n});\n\nconst sn = flow.get('sn_station' + stationNum) || ''; \nnode.send({\n    ...base,\n    url: `http://localhost:8081/submodels/${smId}/submodel-elements/Status.CurrentProduct/$value`,\n    payload: '\"' + sn + '\"'\n});\n\nreturn null;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 200,
+        "wires": [
+            [
+                "aas-http-request"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt-done",
+        "type": "mqtt in",
+        "z": "aas-mqtt-bridge",
+        "name": "DONE",
+        "topic": "test",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "0374e6d057e88ee9",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 150,
+        "y": 260,
+        "wires": [
+            [
+                "aas-update-done"
+            ]
+        ]
+    },
+    {
+        "id": "aas-update-done",
+        "type": "function",
+        "z": "aas-mqtt-bridge",
+        "name": "Update StationState DONE",
+        "func": "const payload = msg.payload;\nif (!payload.response || payload.response !== \"DONE\") return null;\n\nconst stationNum = payload.station;\n\nfunction b64(s) { return Buffer.from(s).toString('base64'); }\n\nconst smId = b64('urn:polimi:dtfms:submodel:station' + stationNum + ':operational');\nconst base = { method: 'PATCH', headers: { 'Content-Type': 'application/json' } };\n\n// StationState = DONE\nnode.send({\n    ...base,\n    url: `http://localhost:8081/submodels/${smId}/submodel-elements/Status.StationState/$value`,\n    payload: '\"DONE\"'\n});\n\n// CartPresent = false\nnode.send({\n    ...base,\n    url: `http://localhost:8081/submodels/${smId}/submodel-elements/Sensors.CartPresent/$value`,\n    payload: '\"false\"'\n});\n\n// CurrentProduct = vide\nnode.send({\n    ...base,\n    url: `http://localhost:8081/submodels/${smId}/submodel-elements/Status.CurrentProduct/$value`,\n    payload: '\"\"'\n});\n\n// StationState = IDLE après 500ms\nsetTimeout(() => {\n    node.send({\n        ...base,\n        url: `http://localhost:8081/submodels/${smId}/submodel-elements/Status.StationState/$value`,\n        payload: '\"IDLE\"'\n    });\n}, 500);\n\n// Mettre à jour le ProductionHistory\nconst sn = flow.get('sn_station' + stationNum) || '';\nconst op = flow.get('op_station' + stationNum) || '';\n\nif (sn) {\n    const smHistId = `urn:polimi:dtfms:product:${sn}:history`;\n    const smHistB64 = b64(smHistId);\n    const timestamp = new Date().toISOString();\n\n    // Station_Status = DONE\n    node.send({\n        ...base,\n        url: `http://localhost:8081/submodels/${smHistB64}/submodel-elements/Station${stationNum}_Status/$value`,\n        payload: '\"DONE\"'\n    });\n\n    // Station_Operation\n    node.send({\n        ...base,\n        url: `http://localhost:8081/submodels/${smHistB64}/submodel-elements/Station${stationNum}_Operation/$value`,\n        payload: `\"${op}\"`\n    });\n\n    // Station_Timestamp\n    node.send({\n        ...base,\n        url: `http://localhost:8081/submodels/${smHistB64}/submodel-elements/Station${stationNum}_Timestamp/$value`,\n        payload: `\"${timestamp}\"`\n    });\n\n    // Mettre à jour CurrentStation dans ProductInfo\n    const smInfoId = `urn:polimi:dtfms:product:${sn}:info`;\n    const smInfoB64 = b64(smInfoId);\n    const nextStation = stationNum < 7 ? stationNum + 1 : stationNum;\n    node.send({\n        ...base,\n        url: `http://localhost:8081/submodels/${smInfoB64}/submodel-elements/CurrentStation/$value`,\n        payload: `\"${nextStation}\"`\n    });\n\n    // Si Station 7 → FINISHED\n    if (stationNum === 7) {\n        node.send({\n            ...base,\n            url: `http://localhost:8081/submodels/${smInfoB64}/submodel-elements/Status/$value`,\n            payload: '\"FINISHED\"'\n        });\n    }\n}\n\nreturn null;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 260,
+        "wires": [
+            [
+                "aas-http-request"
+            ]
+        ]
+    },
+    {
+        "id": "aas-http-request",
+        "type": "http request",
+        "z": "aas-mqtt-bridge",
+        "name": "NOVAAS API",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 650,
+        "y": 200,
+        "wires": [
+            [
+                "efaa9bfde5350791"
+            ]
+        ]
+    },
+    {
+        "id": "aas-debug",
+        "type": "debug",
+        "z": "aas-mqtt-bridge",
+        "name": "AAS Update Result",
+        "active": true,
+        "tosidebar": true,
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "efaa9bfde5350791",
+        "type": "function",
+        "z": "aas-mqtt-bridge",
+        "name": "Format AAS Response",
+        "func": "if (msg.statusCode === 204 || msg.statusCode === 201 || msg.statusCode === 200 || msg.statusCode === 404) {\n    const parts = msg.url.split('/submodel-elements/');\n    const prop = parts[1] ? parts[1].replace('/$value', '') : 'AAS cree';\n    msg.payload = \"✅ \" + prop + \" mis a jour\";\n} else if (msg.statusCode === 409) {\n    msg.payload = \"ℹ️ AAS deja existant - ignore\";\n} else if (!msg.payload || msg.payload === '' || msg.statusCode === undefined) {\n    msg.payload = \"🚗 En mouvement...\";\n} else {\n    msg.payload = \"❌ Erreur \" + msg.statusCode + \" : \" + JSON.stringify(msg.payload);\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 200,
+        "wires": [
+            [
+                "aas-debug"
+            ]
+        ]
+    },
+    {
+        "id": "28d39388af420bf1",
+        "type": "mysql",
+        "z": "aas-mqtt-bridge",
+        "mydb": "8fe1b8c2b9d8069a",
+        "name": "RQ Product Info",
+        "x": 620,
+        "y": 140,
+        "wires": [
+            [
+                "4b609eecaba193a5"
+            ]
+        ]
+    },
+    {
+        "id": "b0a233eb7a8fa73c",
+        "type": "function",
+        "z": "aas-mqtt-bridge",
+        "name": "Prepare MySQL Query",
+        "func": "const payload = msg.payload;\n\n// Ignorer les messages d'état des stations\nif (payload.Station1 !== undefined) return null;\n\n// On ne fait la requête que pour le CART_IN à Station 1\nif (!payload.response || payload.response !== \"CART_IN\") return null;\nif (payload.station != 1) return null;\n\nconst sn = flow.get('sn_station1') || '';\nif (!sn) {\n    node.warn(\"SN non trouve en contexte !\");\n    return null;\n}\n\nmsg.topic = `SELECT pr.productSN, pr.order_id, o.product_type FROM Production pr JOIN Orders o ON pr.order_id = o.order_id WHERE pr.productSN = '${sn}'`;\nmsg._sn = sn;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 140,
+        "wires": [
+            [
+                "28d39388af420bf1"
+            ]
+        ]
+    },
+    {
+        "id": "4b609eecaba193a5",
+        "type": "function",
+        "z": "aas-mqtt-bridge",
+        "name": "Create Product AAS",
+        "func": "const rows = msg.payload;\nif (!rows || rows.length === 0) return null;\n\nconst row = rows[0];\nconst sn = row.productSN;\nconst productType = row.product_type;\nconst orderId = row.order_id;\n\nfunction b64(s) { return Buffer.from(s).toString('base64'); }\n\nconst aasId = `urn:polimi:dtfms:product:${sn}`;\nconst smInfoId = `urn:polimi:dtfms:product:${sn}:info`;\nconst smHistId = `urn:polimi:dtfms:product:${sn}:history`;\n\ncontext.set('product_' + sn, { productType, orderId, aasId, smHistId });\n\nconst aasB64 = b64(aasId);\nconst base = { method: 'POST', headers: { 'Content-Type': 'application/json' } };\n\n// 1. Supprimer l'AAS existant\nnode.send({\n    url: `http://localhost:8081/shells/${aasB64}`,\n    method: 'DELETE',\n    headers: { 'Content-Type': 'application/json' },\n    payload: {}\n});\n\n// 2. Attendre 500ms puis créer l'AAS\nsetTimeout(() => {\n    node.send({\n        ...base,\n        url: `http://localhost:8081/shells`,\n        payload: {\n            idShort: `Product_${sn}`,\n            id: aasId,\n            assetInformation: { assetKind: \"Instance\", globalAssetId: `urn:polimi:dtfms:asset:product:${sn}` },\n            submodels: [\n                { type: \"ExternalReference\", keys: [{ type: \"Submodel\", value: smInfoId }] },\n                { type: \"ExternalReference\", keys: [{ type: \"Submodel\", value: smHistId }] }\n            ]\n        }\n    });\n}, 500);\n\n// 3. Attendre 1000ms puis créer les submodels\nsetTimeout(() => {\n    node.send({\n        ...base,\n        url: `http://localhost:8081/submodels`,\n        payload: {\n            idShort: 'ProductInfo',\n            id: smInfoId,\n            submodelElements: [\n                { modelType: 'Property', idShort: 'SerialNumber', valueType: 'xs:string', value: sn },\n                { modelType: 'Property', idShort: 'ProductType', valueType: 'xs:string', value: productType },\n                { modelType: 'Property', idShort: 'OrderId', valueType: 'xs:integer', value: String(orderId) },\n                { modelType: 'Property', idShort: 'CurrentStation', valueType: 'xs:integer', value: '1' },\n                { modelType: 'Property', idShort: 'Status', valueType: 'xs:string', value: 'IN_PROGRESS' }\n            ]\n        }\n    });\n\n    node.send({\n        ...base,\n        url: `http://localhost:8081/submodels`,\n        payload: {\n            idShort: 'ProductionHistory',\n            id: smHistId,\n            submodelElements: [\n                { modelType: 'Property', idShort: 'Station1_Status', valueType: 'xs:string', value: 'IN_PROGRESS' },\n                { modelType: 'Property', idShort: 'Station1_Operation', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station1_Timestamp', valueType: 'xs:string', value: new Date().toISOString() },\n                { modelType: 'Property', idShort: 'Station2_Status', valueType: 'xs:string', value: 'PENDING' },\n                { modelType: 'Property', idShort: 'Station2_Operation', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station2_Timestamp', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station3_Status', valueType: 'xs:string', value: 'PENDING' },\n                { modelType: 'Property', idShort: 'Station3_Operation', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station3_Timestamp', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station4_Status', valueType: 'xs:string', value: 'PENDING' },\n                { modelType: 'Property', idShort: 'Station4_Operation', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station4_Timestamp', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station5_Status', valueType: 'xs:string', value: 'PENDING' },\n                { modelType: 'Property', idShort: 'Station5_Operation', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station5_Timestamp', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station6_Status', valueType: 'xs:string', value: 'PENDING' },\n                { modelType: 'Property', idShort: 'Station6_Operation', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station6_Timestamp', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station7_Status', valueType: 'xs:string', value: 'PENDING' },\n                { modelType: 'Property', idShort: 'Station7_Operation', valueType: 'xs:string', value: '' },\n                { modelType: 'Property', idShort: 'Station7_Timestamp', valueType: 'xs:string', value: '' }\n            ]\n        }\n    });\n}, 1000);\n\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 140,
+        "wires": [
+            [
+                "aas-http-request"
+            ]
         ]
     }
 ]
