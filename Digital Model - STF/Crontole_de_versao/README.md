@@ -532,6 +532,70 @@ mal-parenteadas, **Chart compila sem erros**.
 - **Lidas 9 das 72 paginas.** Verificado o padrao do destino Testing; assumido que os
   outros cinco seguem a mesma estrutura (o indice das redes sustenta isso, mas e
   inferencia, nao leitura completa). As redes 43-48 nao foram modeladas.
+
+---
+
+## v0.4.14 --> v0.4.15  (Testing [70] e Handling 2 [90] -- fim das verificacoes)
+
+### 1. Testing [70] -- logica correta, sintaxe nao
+
+Os 16 estados de `Identified_Delivery` e os 22 de `Requested_Delivery` conferidos contra
+`Testing/FB4` e `FB5`. **A sequencia bate**: peca chega no elevador --> identificacao
+metalica pelo indutivo --> sobe elevador --> identificacao no alto (sensor de altura +
+temporizador) --> ejecao --> retorna elevador --> sinaliza entrega. O `Requested_Delivery`
+acrescenta `CheckPart`/`Part_Equal`/`Part_Different` e uma segunda descida, que sao a
+Rede 5 ("Part equals to Request?") e a Rede 8 ("Ejection Process for Bad Part") do FB5.
+
+**74 erros de sintaxe corrigidos em 38 estados:** atribuicoes sem ponto-e-virgula
+(`Status3a_10 = true`) e `if` com ponto-e-virgula na condicao
+(`if ~AS_i_70.A_74_CRoute_Out;`). Tambem em `PartToProcessing`.
+
+### 2. Handling 2 [90] -- erro de logica real
+
+O `Hd2/OB1` chama **duas rotinas opostas**: `FB4 - Cart 2 Delivery` (carro --> entrega) e
+`FB5 - Del 2 Cart` (entrega --> carro). No modelo, `PartToProcessing` e `PartToProcessing1`
+eram **copias identicas**, ambas no sentido do FB4.
+
+Confirmado no ladder: no `FB4` a Rede 2 garante a garra em `Claw_Cart` e a Rede 4 move para
+`Claw2Del`; no `FB5` a Rede 2 garante `Claw_Del` e a Rede 4 move para `Claw2Cart` -- espelhado.
+
+Corrigido o segundo bloco trocando `O_90_Claw_Cart` <-> `O_90_Claw_Del` e
+`F_92_Claw_2_Cart` <-> `F_92_Claw_2_Del`, e renomeado para **`ProcessingToPart`**.
+
+> O nome antigo dizia o oposto do comportamento -- provavelmente foi isso que manteve o
+> erro invisivel. `PartToProcessing` leva do carro ao Processing; `ProcessingToPart` traz de volta.
+
+### 3. Os 8 `after()` do Testing
+
+Todos estavam em **AND**, e com respaldos diferentes no ladder:
+
+| Transicao | Timer no ladder | Correcao |
+|---|---|---|
+| `Elevator_High -> Pushes_Part` | `T2`, 2 s | OR com `F_72_Eject_Part` |
+| `Elevator_High -> CheckPart` | `T2`, 2 s | OR com `F_72_Eject_Part` |
+| `J552 -> Piston_Back` | `T3`, 2 s | OR com `O_70_Pist_Bck` |
+| `J722 -> Piston_Back` | `T3`, 2 s | OR com `O_70_Pist_Bck` |
+| `Elevator_Down -> End_Process` (x2) | **nenhum** | `after` removido --> `[O_70_Elev_Low && C_75_Part_Del]` |
+| `J723 -> Pushes_Part` | **nenhum** | `after` removido --> `[Part_Equal == true]` |
+| `J723 -> J727` | **nenhum** | `after` removido --> `[Part_Different == true]` |
+
+O pior era `Elevator_Down -> End_Process`: guarda `after(2,sec)` **sozinha**, sem condicao
+de estado, disparando so pelo relogio da simulacao. A Rede 6 do FB4 nao tem temporizador --
+o que encerra e o elevador chegar embaixo e sinalizar entrega.
+
+Os dois do `J723` tambem corrigiam um problema colateral: como os dois ramos tinham o mesmo
+`after(2,sec)`, o desempate entre peca certa e peca errada saia por **ordem de execucao**
+em vez da comparacao.
+
+### 4. Transicoes externas: 41, nenhuma sem guarda
+
+Uma verificacao anterior acusou `J1892 -> ProcessingToPart` sem guarda. **Falso positivo:**
+a listagem mostrava arestas diretas sem resolver as cadeias de juncao, e o trecho final de
+uma cadeia nao carrega rotulo (a guarda esta no inicio). Resolvendo as cadeias:
+**41 transicoes bloco->bloco, 0 sem guarda.**
+
+**Verificacao da v0.4.15:** 0 sobreposicoes de bloco, 0 de juncao, 0 `after` em AND puro no
+Testing, 1 estado inalcancavel conhecido (`Vision/FinishesProcess`), **Chart compila sem erros**.
 ## Estado atual por estacao
 
 | Estacao | Situacao | Blocos |
@@ -540,9 +604,9 @@ mal-parenteadas, **Chart compila sem erros**.
 | Processing [100] | implementada, verificada contra o ladder | TestOnly, TestDrill, RotationOnly |
 | Handling 1 [50] | implementada, verificada contra o ladder | Handling1_Cart2Del |
 | Distribution [80] | implementada, verificada contra o ladder (FB4) | Single, Continuous, Counted |
-| Testing [70] | com logica, NAO verificada contra o ladder | Identified_Delivery, Requested_Delivery |
+| Testing [70] | implementada, verificada contra `FB4`/`FB5` | Identified_Delivery, Requested_Delivery |
 | Conveyor [20] | implementada, verificada contra `Master/FB11` | CartToTesting, CartToProcessing..4 |
-| Handling 2 [90] | com logica, NAO verificada | PartToProcessing, PartToProcessing1 |
+| Handling 2 [90] | implementada, verificada contra `FB4`/`FB5` | PartToProcessing, ProcessingToPart |
 | Storage [40] | implementada, verificada contra o ladder (estacao simulada) | Store, Retrieve |
 | Robot [30] | implementada, verificada contra `Master/FB3` | Robot1, Robot2 |
 | Vision | **pendente** - stub de 2 estados, **sem PDF de ladder** | - |
