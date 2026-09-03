@@ -395,6 +395,143 @@ Para a Storage o ladder ja da a resposta (`C_45_StorePart`/`C_45_RetrievePart` e
   entra na Sorting e nunca devolve o controle a linha. Mesmo padrao que foi removido da
   Processing na v0.4.9. **Pendente de decisao sobre o destino apos a classificacao.**
 
+## v0.4.13 --> v0.4.14  (Conveyor [20])
+
+### O que o `Master/FB11` revelou
+
+`Master/FB11 - Conveyor Control` tem 48 redes, mas e **o mesmo padrao de 7 redes repetido**
+para 6 destinos (redes 1-7 Testing, 8-14 Processing, 15-21 Vision, 22-28 Robot,
+29-35 Storage, 36-42 Sorting; 43-48 sao os comandos aos pinos de cada estacao).
+
+| Rede | Funcao |
+|---|---|
+| N1 | Solicitacao de carrinho -- `C_2N_Request` ou pedido da estacao, e **nenhum outro destino solicitando** |
+| N2 | Escolhe o carro mais proximo e abre o caminho (cascata de prioridade entre as estacoes) |
+| N3 | Aciona a esteira -- exige `O_20_Controler_On`, senao gera `FB11_Conv_Error` |
+| N4 | Desliga os pinos quando o carro fica proximo (`Cart_Next`) |
+| N5 | Contador identifica o numero do carro --> `*_CartID` |
+| N6 | Carro chegou (`Cart_Stat`) + timer de 3 s |
+| N7 | Sinaliza chegada --> `C_2N_CartDel` |
+
+Os barramentos confirmam a estrutura: `Control_20` e `Sensors_20` sao organizados por
+indice **24 a 29** -- exatamente seis destinos.
+
+### Mapeamento dos 6 blocos
+
+| Bloco | Indice | Destino |
+|---|---|---|
+| `CartToTesting` | 24 | Testing |
+| `CartToProcessing` | 25 | Processing |
+| `CartToProcessing1` | 26 | Vision |
+| `CartToProcessing2` | 27 | Robot |
+| `CartToProcessing3` | 28 | Storage |
+| `CartToProcessing4` | 29 | Sorting |
+
+Cada bloco passou de 12 estados (copia generica, com `T1`/`T2`/`T3`) para **7 estados**
+espelhando as 7 redes: `Config > EscolheCarro > EsteiraLigada > CarroProximo >
+IdentificaCarro > CarroChegou > SinalizaChegada`.
+
+### Erro encontrado: `CartToProcessing1` com indice trocado
+
+O bloco vai para o **Vision**, mas usava `C_25_Request` e `C_25_CartDel` -- sinais do
+**Processing**. Reagiria ao pedido do destino errado. Corrigido para `C_26_*`.
+So apareceu porque agora existe um mapeamento sistematico para conferir contra.
+
+### Guardas externas
+
+As **7 transicoes externas que estavam sem guarda** foram preenchidas no padrao do CLP:
+entrada exige `C_2N_Request`, saida exige `C_2N_CartDel`. Somando as do Robot (v0.4.13),
+**nao resta nenhuma transicao externa sem guarda no chart**.
+
+### Layout
+
+Ao crescer as caixas, `CartToProcessing3` e `CartToProcessing4` colidiram com outros
+blocos. Movidos para faixa livre (`y=10553` e `y=11453`).
+
+### Ressalvas
+
+- **A rede N2 foi simplificada.** A cascata de prioridade do ladder escolhe entre cinco
+  origens possiveis de carro (Processing, Vision, Robot, Storage, Sorting), cada uma abrindo
+  um caminho diferente. No modelo virou um unico estado `EscolheCarro`. Defensavel para uma
+  sombra que observa o estado da linha, mas **nao e reproducao fiel** -- se for preciso saber
+  *de onde* o carro veio, esse estado precisa ser desmembrado.
+- **Lidas 9 das 72 paginas do FB11.** Verificado o padrao do destino Testing; assumido que os
+  outros cinco seguem a mesma estrutura (o indice das redes sustenta, mas e inferencia).
+  As redes 43-48 (comandos aos pinos) nao foram modeladas.
+
+**Verificacao da v0.4.14:** 0 sobreposicoes (blocos e juncoes), 0 transicoes mal-parenteadas,
+0 transicoes externas sem guarda, **Chart compila sem erros**.
+
+---
+
+## v0.4.13 --> v0.4.14  (Conveyor [20] -- os 6 blocos)
+
+### 1. Estrutura do `Master/FB11 - Conveyor Control`
+
+48 redes, mas e **o mesmo padrao de 7 redes repetido para 6 destinos**
+(Testing 1-7, Processing 8-14, Vision 15-21, Robot 22-28, Storage 29-35, Sorting 36-42;
+as redes 43-48 sao os comandos aos pinos de cada estacao).
+
+| Rede | Funcao |
+|---|---|
+| N1 | Solicitacao de carrinho -- `C_2N_Request` ou pedido da estacao, e **nenhum outro destino solicitando** |
+| N2 | Escolhe o carro mais proximo e abre o caminho (cascata de prioridade entre as estacoes) |
+| N3 | Aciona a esteira -- exige `O_20_Controler_On`, senao gera `FB11_Conv_Error` |
+| N4 | Desliga os pinos quando o carro fica proximo (`Cart_Next`) |
+| N5 | Contador identifica o numero do carro --> `A_*_CartID` |
+| N6 | Carro chegou (`Cart_Stat`) + timer de 3 s |
+| N7 | Sinaliza chegada --> `C_2N_CartDel` |
+
+Os barramentos confirmam a estrutura: `Control_20` e `Sensors_20` sao organizados por
+indice **24 a 29** -- exatamente seis destinos.
+
+### 2. Mapeamento dos blocos
+
+| Bloco | Indice | Destino |
+|---|---|---|
+| `CartToTesting` | 24 | Testing |
+| `CartToProcessing` | 25 | Processing |
+| `CartToProcessing1` | 26 | Vision |
+| `CartToProcessing2` | 27 | Robot |
+| `CartToProcessing3` | 28 | Storage |
+| `CartToProcessing4` | 29 | Sorting |
+
+Cada bloco passou de 12 estados (copia generica, com `T1`/`T2`/`T3`) para **7 estados
+espelhando as 7 redes**: `Config` > `EscolheCarro` > `EsteiraLigada` > `CarroProximo`
+> `IdentificaCarro` > `CarroChegou` > `SinalizaChegada`.
+
+### 3. Erro encontrado: indice trocado no `CartToProcessing1`
+
+O bloco vai para o **Vision**, mas usava `C_25_Request` e `C_25_CartDel` -- sinais do
+**Processing**. Reagiria ao pedido do destino errado. Corrigido para `C_26_*`.
+
+> So apareceu porque passou a existir um mapeamento sistematico indice<->destino para
+> conferir contra.
+
+### 4. Guardas externas completas
+
+As **7 transicoes externas que estavam sem guarda** foram preenchidas no padrao do CLP:
+entrada exige `C_2N_Request`, saida exige `C_2N_CartDel`. Somando as do Robot (v0.4.13),
+**nao resta nenhuma transicao externa sem guarda no chart**.
+
+### 5. Layout
+
+`CartToProcessing3` e `CartToProcessing4` passaram a colidir com outros blocos ao ganhar
+caixas maiores. Movidos para faixa livre (`y=10553` e `y=11453`).
+
+**Verificacao da v0.4.14:** 0 sobreposicoes de bloco, 0 de juncao, 0 transicoes
+mal-parenteadas, **Chart compila sem erros**.
+
+### Ressalvas
+
+- **A rede N2 foi simplificada.** A cascata de prioridade do ladder escolhe entre cinco
+  origens possiveis de carro (Processing, Vision, Robot, Storage, Sorting), cada uma
+  abrindo um caminho diferente. No modelo isso virou um unico estado `EscolheCarro`.
+  Defensavel para uma sombra que observa o estado da linha, mas **nao e reproducao fiel**:
+  se for preciso saber *de onde* o carro veio, esse estado precisa ser desmembrado.
+- **Lidas 9 das 72 paginas.** Verificado o padrao do destino Testing; assumido que os
+  outros cinco seguem a mesma estrutura (o indice das redes sustenta isso, mas e
+  inferencia, nao leitura completa). As redes 43-48 nao foram modeladas.
 ## Estado atual por estacao
 
 | Estacao | Situacao | Blocos |
@@ -404,7 +541,7 @@ Para a Storage o ladder ja da a resposta (`C_45_StorePart`/`C_45_RetrievePart` e
 | Handling 1 [50] | implementada, verificada contra o ladder | Handling1_Cart2Del |
 | Distribution [80] | implementada, verificada contra o ladder (FB4) | Single, Continuous, Counted |
 | Testing [70] | com logica, NAO verificada contra o ladder | Identified_Delivery, Requested_Delivery |
-| Conveyor [20] | mapeada, NAO verificada - **sem PDFs de ladder** | CartToTesting, CartToProcessing..4 |
+| Conveyor [20] | implementada, verificada contra `Master/FB11` | CartToTesting, CartToProcessing..4 |
 | Handling 2 [90] | com logica, NAO verificada | PartToProcessing, PartToProcessing1 |
 | Storage [40] | implementada, verificada contra o ladder (estacao simulada) | Store, Retrieve |
 | Robot [30] | implementada, verificada contra `Master/FB3` | Robot1, Robot2 |
@@ -417,7 +554,9 @@ PDFs de ladder disponiveis para 8 pastas (Distribution, Hd1, Hd2, Master, Proces
 Sorting, Storage, Testing). O Robot [30] esta dentro da Master (`FB3`, remota) e o
 Conveyor [20] em `Master/FB11` (48 redes, 6 destinos). **Nao ha PDF do Vision.**
 
-Proximo passo sugerido: **Conveyor [20]** via `Master/FB11` -- fundamenta as 7 guardas que faltam e os `after()` sem respaldo dos 6 conveyors.
+Pendencias: **Vision** (stub de 2 estados, `FinishesProcess` inalcancavel, **sem PDF de ladder**);
+**Testing [70]** e **Handling 2 [90]** tem logica substancial mas nunca verificada contra os PDFs;
+a **Sorting nao tem transicao de saida** (cicla internamente).
 
 ---
 
