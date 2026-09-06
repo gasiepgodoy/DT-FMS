@@ -596,6 +596,90 @@ uma cadeia nao carrega rotulo (a guarda esta no inicio). Resolvendo as cadeias:
 
 **Verificacao da v0.4.15:** 0 sobreposicoes de bloco, 0 de juncao, 0 `after` em AND puro no
 Testing, 1 estado inalcancavel conhecido (`Vision/FinishesProcess`), **Chart compila sem erros**.
+
+---
+
+## v0.4.15 --> v0.4.16  (Vision + auditoria final)
+
+### 1. Vision -- estacao simbolica
+
+Nao existe FB de Vision nos PDFs nem barramento proprio. Ela so aparece como **destino 26**
+da esteira (`Master/FB11`, redes 15-21). O bloco era stub de 2 estados lendo `_90`, com
+`FinishesProcess` **inalcancavel**. Reconstruido como passagem simbolica de 3 estados:
+
+| Estado | Observa |
+|---|---|
+| `Config_Visn` | `Control_20.C_26_CartDel` (carro chegou na Vision) |
+| `Inspecao_Visn` | passagem de **5 s** (tempo medido na planta fisica) |
+| `FinishesProcess_Visn` | `Control_20.C_27_Request` (esteira pede o proximo destino) |
+
+Guarda de saida: `[St_Visn_3 == true && Control_20.C_27_Request == true]`.
+
+> **Os 5 s nao vem do CLP.** Sao valor medido na planta. Quem realmente libera a peca e a
+> condicao `C_27_Request` na transicao externa; o tempo apenas preenche o intervalo.
+
+### 2. Auditoria final
+
+| Verificacao | Resultado |
+|---|---|
+| Estados inalcancaveis | **0** |
+| Transicoes bloco->bloco sem guarda | **0** (de 40) |
+| Transicoes mal-parenteadas | **0** |
+| Sobreposicoes bloco-bloco | **0** |
+| Sobreposicoes juncao-estado | **0** (1 corrigida: `J1897` sobre o `Vision`) |
+| Campos de bus inexistentes | **0** |
+| Identificadores nao declarados | **0** |
+| Compilacao do Chart | **sem erros** |
+
+Blocos de topo: 30. Estados: 287.
+
+### 3. Blocos sem saida externa (6)
+
+`BRS`, `BSR`, `RBS`, `RSB`, `SRB`, `SBR` -- a **Sorting e terminal**: entra pelas juncoes e
+cicla internamente, sem devolver o controle a linha. **Pendente de decisao.**
+
+### 4. `after()` restantes -- todos legitimos
+
+| Onde | Tempo | Por que |
+|---|---|---|
+| `Distribution_Single/Continuous/Counted` | 4 s | **Ramo alternativo de juncao**, nao AND: o caminho normal tem prioridade, o `after` e saida por timeout |
+| `Store` | 3 s | Estacao **simulada** no CLP (`S5T#3S`) |
+| `Retrieve` | 5 s | Estacao **simulada** no CLP (`S5T#5S`) |
+| `Vision` | 5 s | Estacao **simbolica**, sem ladder |
+
+Nenhum `after` bloqueia caminho que tenha sinal observavel disponivel.
+
+---
+
+## MAPA DAS SIMPLIFICACOES
+
+O que **nao** e reproducao fiel do CLP -- atencao ao migrar para o modelo matematico:
+
+| # | Onde | Simplificacao | Impacto no modelo matematico |
+|---|---|---|---|
+| 1 | Conveyor, rede N2 | Cascata de prioridade entre 5 origens de carro virou o unico estado `EscolheCarro` | Precisa ser desmembrada: o modelo tem de saber **de onde** o carro veio para o tempo de percurso |
+| 2 | Conveyor, redes 43-48 | Comandos aos pinos de cada estacao nao modelados | Os pinos definem o desvio do carro; sem eles o percurso nao fecha |
+| 3 | Vision | Estacao inteira simbolica (5 s fixos) | Sem ladder; tempo real precisa de medicao |
+| 4 | Storage | Fiel ao CLP, mas o CLP **ja e simulacao** (3 s e 5 s) | A planta fisica pode ter tempo diferente |
+| 5 | Robot, T7 | No ladder conta da **chegada do carro**; no modelo, do estado `Recua` | Instante zero do cronometro difere |
+| 6 | Robot, movimento | O CLP nao sequencia o robo (`FB3` e so I/O da remota) | A sequencia real esta no programa do robo, indisponivel |
+| 7 | OB1 de todas as estacoes | Inicializacao nao modelada (decisao acordada) | Modelo precisara de condicoes iniciais explicitas |
+| 8 | FB2/FB3 de cada estacao | Passagem OPC-UA 1:1, coberta pelos blocos de bus | Sem impacto |
+| 9 | Sorting | Sem transicao de saida; cicla internamente | Impede o fechamento do ciclo da linha |
+| 10 | `Master/FB11` | Lidas 9 das 72 paginas; padrao do Testing extrapolado aos outros 5 destinos | Verificar antes de extrair tempos |
+| 11 | Granularidade | Varias estacoes tem mais estados que redes no ladder | Nao contradiz o ladder, mas os estados extras nao tem tempo proprio no CLP |
+
+### Nota sobre a transicao para o modelo matematico
+
+A logica desta sombra pode ser reaproveitada: a estrutura de estados e transicoes e a mesma.
+O que muda e a **direcao da causalidade** -- na sombra as variaveis vem da planta e os
+estados as observam; no modelo matematico os estados **geram** as variaveis a partir de
+tempos medidos.
+
+Por isso os `after()` merecem atencao especial: na sombra sao fallback (o sinal real manda),
+mas no modelo matematico **passam a ser a fonte da verdade**. Os 4 casos legitimos acima ja
+tem tempo definido; os demais precisarao de tempo medido para cada transicao que hoje
+depende de sinal observavel.
 ## Estado atual por estacao
 
 | Estacao | Situacao | Blocos |
@@ -609,7 +693,7 @@ Testing, 1 estado inalcancavel conhecido (`Vision/FinishesProcess`), **Chart com
 | Handling 2 [90] | implementada, verificada contra `FB4`/`FB5` | PartToProcessing, ProcessingToPart |
 | Storage [40] | implementada, verificada contra o ladder (estacao simulada) | Store, Retrieve |
 | Robot [30] | implementada, verificada contra `Master/FB3` | Robot1, Robot2 |
-| Vision | **pendente** - stub de 2 estados, **sem PDF de ladder** | - |
+| Vision | simbolica (5 s), **sem PDF de ladder** | Vision |
 
 Nenhum bloco le `Sensors_30/40`, `Actuators_30/40` ou `AS_i_30/40`: os barramentos
 dessas estacoes estao declarados e nunca usados.
