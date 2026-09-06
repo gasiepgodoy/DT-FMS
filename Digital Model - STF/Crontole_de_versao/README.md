@@ -651,6 +651,30 @@ Nenhum `after` bloqueia caminho que tenha sinal observavel disponivel.
 
 ---
 
+
+### 5. Ramos irmaos ambiguos em juncoes (correcao tardia)
+
+A auditoria de "transicoes sem guarda" tinha um **defeito de metodo**: ela resolvia as
+cadeias de juncao **concatenando** as guardas do caminho, entao ramos irmaos herdavam a
+guarda comum do inicio e apareciam como "com guarda". Nunca verificou se **ramos que saem
+da mesma juncao se distinguem entre si**.
+
+Quatro defeitos reais encontrados por isso:
+
+| No | Problema | Efeito | Correcao |
+|---|---|---|---|
+| `J1888` | Ramos para `Store` e `Retrieve` **ambos sem guarda** | Todo carro ia para `Retrieve`; `Store` inalcancavel na pratica | Guardas `C_45_StorePart` e `C_45_RetrievePart` (`Storage/OB1` N4 e N5) |
+| `J1882` | Ramo sem guarda com **ordem 1**, guardado com ordem 2 | `RSB` nunca alcancado -- o fluxo escapava antes de testar o bit | Ordens invertidas |
+| `J1890` | Idem | `SRB` nunca alcancado | Ordens invertidas |
+| `Handling1_Cart2Del` | Idem | Saida para a Sorting nunca testada antes do desvio | Ordens invertidas |
+
+> **Padrao correto de cascata if-else em juncao:** o ramo **com guarda** deve ter ordem de
+> execucao **menor** que o ramo sem guarda (que funciona como `else`). Se o `else` vier
+> primeiro, ele sempre passa e o ramo guardado vira codigo morto.
+
+Apos a correcao: **6/6 combinacoes da Sorting alcancaveis**, 0 nos com ordem errada,
+Chart compila sem erros.
+
 ## MAPA DAS SIMPLIFICACOES
 
 O que **nao** e reproducao fiel do CLP -- atencao ao migrar para o modelo matematico:
@@ -702,9 +726,12 @@ PDFs de ladder disponiveis para 8 pastas (Distribution, Hd1, Hd2, Master, Proces
 Sorting, Storage, Testing). O Robot [30] esta dentro da Master (`FB3`, remota) e o
 Conveyor [20] em `Master/FB11` (48 redes, 6 destinos). **Nao ha PDF do Vision.**
 
-Pendencias: **Vision** (stub de 2 estados, `FinishesProcess` inalcancavel, **sem PDF de ladder**);
-**Testing [70]** e **Handling 2 [90]** tem logica substancial mas nunca verificada contra os PDFs;
-a **Sorting nao tem transicao de saida** (cicla internamente).
+**Todas as estacoes foram verificadas contra o ladder**, exceto o Vision, que nao tem PDF
+e foi modelado como passagem simbolica de 5 s (v0.4.16).
+
+Pendencia unica: a **Sorting nao tem transicao de saida** -- entra pelas juncoes e cicla
+internamente, sem devolver o controle a linha. Precisa de decisao sobre o destino da peca
+apos a classificacao.
 
 ---
 
