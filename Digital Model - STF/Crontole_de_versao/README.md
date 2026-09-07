@@ -675,6 +675,105 @@ Quatro defeitos reais encontrados por isso:
 Apos a correcao: **6/6 combinacoes da Sorting alcancaveis**, 0 nos com ordem errada,
 Chart compila sem erros.
 
+
+### 6. Auditoria final da v0.4.16
+
+| Verificacao | Resultado |
+|---|---|
+| Campos de bus inexistentes | 0 |
+| Escritas em bus de entrada | 0 |
+| Identificadores nao declarados | 0 |
+| Estados inalcancaveis | 0 |
+| Blocos com default != 1 | 0 |
+| Transicoes mal-parenteadas | 0 |
+| Sobreposicoes bloco e juncao | 0 |
+| Rotulos de estado != nome | 0 |
+| Variaveis so-leitura | 0 |
+| Caminhos bloco->bloco sem guarda | 0 |
+| Ramos de juncao com ordem errada | 0 |
+| Sintaxe | 0 (3 corrigidos: `if ...;` no `ArmArrives_Finish` das 3 modalidades da Distribution) |
+| Compilacao do Chart | **sem erros** |
+
+Inventario: 30 blocos de topo, 287 estados, 374 transicoes, 70 juncoes, 695 dados.
+
+### 7. CORRECAO: backtracking em juncoes
+
+Durante a v0.4.16 afirmei que varios nos estavam quebrados por terem ramos sem guarda
+avaliados antes dos guardados. **Isso estava errado.**
+
+O Stateflow avalia uma transicao estado->estado atraves de juncoes como um **caminho
+completo, com backtracking**: se o segmento final falhar, ele desfaz o caminho e tenta o
+proximo ramo. Portanto um segmento intermediario **sem guarda e normal** -- a guarda fica
+no fim do caminho.
+
+Consequencias:
+
+- `J259` (leque da Sorting em 2 grupos) e `J289` (Robot1/Robot2): **corretos**, nao
+  precisavam de correcao. As 6 combinacoes e os 2 robos sao alcancaveis de fato.
+- As mudancas de ordem de execucao em `J1882`, `J1890` e `Handling1_Cart2Del` eram
+  **desnecessarias**. Nao quebraram nada (por o ramo guardado primeiro evita retrocesso
+  a toa e e mais legivel), mas foram apresentadas como conserto de bug e nao eram.
+- A correcao do **`J1888` (Store/Retrieve) era real e necessaria**: ali os dois caminhos
+  terminavam em estado **sem nenhuma guarda em todo o percurso**, entao nao havia o que
+  falhar e nao havia backtracking -- a ordem decidia sozinha e o `Store` era inalcancavel.
+
+> **Criterio correto de verificacao:** nao basta olhar se ramos irmaos tem guarda. O que
+> importa e se existe **caminho bloco->bloco sem nenhuma guarda em todo o percurso** --
+> esse sim engole o fluxo. Hoje: 0.
+
+---
+
+## HISTORICO DE ERROS DO METODO (para nao repetir)
+
+Erros de verificacao cometidos ao longo do projeto, cada um descoberto depois de ter
+afirmado que estava tudo certo:
+
+| # | Erro de metodo | Como apareceu | Correcao do metodo |
+|---|---|---|---|
+| 1 | Verificacao de sobreposicao so comparava **bloco vs bloco** | `J3808` sobre a caixa do `Robot2` apos mover o bloco | Passou a verificar **juncao vs estado** |
+| 2 | Ao mover blocos, mover os filhos **depois** de encolher a caixa | Estados saiam da hierarquia | Tecnica da **caixa-uniao**: alargar antes, mover, so entao encolher |
+| 3 | Analise de alcancabilidade so seguia transicoes **estado->estado** | 52 falsos positivos de "estado inalcancavel" | Incluir **juncoes** no grafo |
+| 4 | Listagem de guardas sem resolver **cadeias de juncao** | Falso positivo `J1892 -> ProcessingToPart` sem guarda | Resolver a cadeia ate o bloco destino |
+| 5 | Resolucao de cadeias **concatenava** guardas do percurso | Ramos irmaos herdavam a guarda comum; `J1888` passou como correto | Verificar **caminho sem nenhuma guarda** |
+| 6 | Diagnostico do `double` do OPC UA como "tipo do servidor" | 382 casts indevidos, mascarando desconexao | O `double` indica **falha de conexao**; nao fechar o modelo durante diagnostico |
+| 7 | Limpeza de orfas com filtro diferente do de deteccao de uso | 70 variaveis em uso apagadas | Usar o **mesmo** regex nos dois lados |
+| 8 | Assumir que ramo sem guarda antes do guardado quebra o fluxo | 3 correcoes desnecessarias de ordem | Stateflow faz **backtracking** |
+
+---
+
+## CONTEXTO PARA RETOMAR
+
+**O que e este projeto:** sombra digital de um FMS didatico controlado por CLP S7
+(CPU 313C-2 DP), em Simulink/Stateflow. O modelo **observa** a planta via OPC UA;
+todos os barramentos entram no Chart com escopo `Input` (somente leitura).
+
+**Como o Chart e organizado:** 30 blocos de topo (estados `OR`) no nivel do Chart,
+ligados por uma rede de ~70 juncoes que forma o fluxo da linha. Cada bloco e uma
+estacao ou um modo de operacao dela. O topo e `EXCLUSIVE_OR`: **um bloco ativo por vez**.
+
+**Onde estao as coisas:**
+- Modelo: `Digital Model - STF/FullFMS_2026_02_25_V0_4_16.slx`
+- Bus objects: `Digital Model - STF/BUS_CONFIG.mat` (carregado pela `PreLoadFcn`)
+- PDFs de ladder: `Full_FMS_PDFs/` (8 pastas) + texto extraido em `_txt/`
+- Utilitarios de leitura de ladder: `Matlba/pdf2txt.m`, `pdfPage.m`, `dumpLadder.m`,
+  `inflateBytes.m`, `getCMaps.m` -- leem os PDFs em MATLAB puro (nao ha Python nem
+  pdftotext na maquina) e recuperam a **polaridade NA/NF** dos contatos
+
+**Como validar o Chart sem OPC UA:** montar um modelo scratch com o Chart e 32 Inports
+tipados com os bus objects (`OutDataTypeStr = 'Bus: B_xxx'`), conectados na ordem de
+`D(i).Port`, e rodar `set_param(sc,'SimulationCommand','update')`. Isola a logica do
+Stateflow da conexao OPC UA.
+
+**Armadilhas da API do Stateflow** (ver secao de Notas): ordem `Destination` antes de
+`Source` ao criar transicoes; criar estados e transicoes na mesma passagem; caixa-uniao
+ao mover; `delete()` falha em silencio; `IsGrouped` impede criar objetos dentro do bloco.
+
+**Pendencia estrutural unica:** a Sorting nao tem transicao de saida.
+
+**Validacao que falta inteira:** o modelo nunca rodou com dados da planta. Os erros mais
+graves desta sessao (`J1888` mandando todo carro para `Retrieve`; Handling 2 com o sentido
+invertido) **nao apareciam na compilacao** -- so apareceriam em simulacao.
+
 ## MAPA DAS SIMPLIFICACOES
 
 O que **nao** e reproducao fiel do CLP -- atencao ao migrar para o modelo matematico:
