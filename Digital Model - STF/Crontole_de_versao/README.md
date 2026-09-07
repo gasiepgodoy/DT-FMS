@@ -774,13 +774,108 @@ ao mover; `delete()` falha em silencio; `IsGrouped` impede criar objetos dentro 
 graves desta sessao (`J1888` mandando todo carro para `Retrieve`; Handling 2 com o sentido
 invertido) **nao apareciam na compilacao** -- so apareceriam em simulacao.
 
+
+---
+
+## v0.4.16 --> v0.4.17  (desmembramento da rede N2 dos conveyors)
+
+### 1. A regra descoberta no ladder
+
+O estado generico `EscolheCarro` de cada conveyor escondia a cascata de prioridade da
+**rede N2 do `Master/FB11`**. Lidas as **6 cascatas** (uma por destino), a regra e:
+
+> **Prioridade = carro mais proximo a MONTANTE do laco.**
+
+Laco fisico: `Testing(24) -> Processing(25) -> Vision(26) -> Robot(27) -> Storage(28) -> Sorting(29) ->` volta.
+Para cada destino a busca vai para tras, e o ultimo da lista e o caso default (nenhum carro
+nas outras estacoes).
+
+| Destino | Prioridade | Paginas do PDF |
+|---|---|---|
+| Testing | Sorting > Storage > Robot > Vision > Processing | 2-5 |
+| Processing | Testing > Sorting > Storage > Robot > Vision | 11-14 |
+| Vision | Processing > Testing > Sorting > Storage > Robot | 20-22 |
+| Robot | Vision > Processing > Testing > Sorting > Storage | 29-30 |
+| Storage | Robot > Vision > Processing > Testing > Sorting | 38-39 |
+| Sorting | Storage > Robot > Vision > Processing > Testing | 47-48 |
+
+**Os 6 destinos foram confirmados diretamente no PDF** -- nenhuma extrapolacao.
+
+### 2. Implementacao
+
+Cada `EscolheCarro_CvN` virou **5 estados**, um por origem:
+
+```
+Config > DeSorting / DeStorage / DeRobot / DeVision / DeProcessing > EsteiraLigada
+```
+
+As guardas reproduzem os contatos NF do ladder: a de maior prioridade so testa presenca,
+as seguintes acumulam as negacoes das anteriores.
+
+```
+prioridade 1: [C_24_Request && O_29_Cart_Stat]
+prioridade 5: [C_24_Request && O_25_Cart_Stat && O_29_Cart_Stat == false
+               && O_28_... == false && O_27_... == false && O_26_... == false]
+```
+
+Ordem de execucao = prioridade (redundante com as negacoes, mas fiel ao ladder).
+Cada conveyor foi de 7 para **11 estados**; os 6 blocos foram reposicionados em faixa livre.
+
+**Verificacao:** 0 sobreposicoes (bloco e juncao), 0 estados inalcancaveis, Chart compila
+sem erros. Chart: 30 blocos, 317 estados.
+
+> Item 1 do MAPA DAS SIMPLIFICACOES resolvido.
+
+---
+
+## COBERTURA DE LEITURA DOS PDFs
+
+Inventario honesto do que foi lido em detalhe (rasterizado, polaridade NA/NF conferida,
+cruzado com os barramentos) e do que nao foi.
+
+### Lido e verificado
+
+| Arquivo | Cobertura |
+|---|---|
+| `Sorting/FB4`, `FB5`, `FB6` | completo |
+| `Processing/FB4`, `FB5`, `FB6` | completo |
+| `Hd1/FB4` | completo (9 redes) |
+| `Hd2/FB4`, `FB5` | completo |
+| `Distribution/FB4` | completo |
+| `Testing/FB4`, `FB5` | completo |
+| `Storage/FB4`, `FB5`, `OB1` | completo |
+| `Master/FB3` (Robot) | completo (15 redes) |
+| `Master/FB11` | redes N1-N2 dos **6** destinos + padrao N3-N7 do Testing |
+
+### NAO lido -- risco real
+
+| Arquivo | Por que importa |
+|---|---|
+| `Distribution/FB5` (Continuous) | Assumido que segue o `FB4` (Single), que foi verificado. **Suposicao nao confirmada.** |
+| `Distribution/FB6` (Counted) | Idem |
+| `Master/FB11` redes 43-48 | Comandos aos **pinos de desvio** de cada estacao -- sem eles o percurso nao fecha (item 2 do mapa de simplificacoes) |
+| `Master/FB11` redes N3-N7 dos outros 5 destinos | Assumido que seguem o padrao do Testing (o indice das redes sustenta, mas e inferencia) |
+
+### NAO lido -- risco baixo
+
+`FB1` de todas as estacoes (inicializacao -- decisao acordada de nao modelar);
+`FB2`/`FB3` de cada estacao (passagem OPC-UA 1:1, coberta pelos blocos de bus);
+`Master/FB2`, `FB4`-`FB10` (mapeamento OPC-UA, mesma natureza de passagem).
+
+### Prioridade sugerida para a proxima sessao
+
+1. `Distribution/FB5` e `FB6` -- unica logica implementada baseada em suposicao
+2. `Master/FB11` redes 43-48 -- fecha o item 2 do mapa de simplificacoes
+3. Decisao sobre a **saida da Sorting** (pendencia estrutural unica)
+4. **Simulacao com o OPC UA conectado** -- validacao que falta inteira
+
 ## MAPA DAS SIMPLIFICACOES
 
 O que **nao** e reproducao fiel do CLP -- atencao ao migrar para o modelo matematico:
 
 | # | Onde | Simplificacao | Impacto no modelo matematico |
 |---|---|---|---|
-| 1 | Conveyor, rede N2 | Cascata de prioridade entre 5 origens de carro virou o unico estado `EscolheCarro` | Precisa ser desmembrada: o modelo tem de saber **de onde** o carro veio para o tempo de percurso |
+| 1 | ~~Conveyor, rede N2~~ | **RESOLVIDO na v0.4.17** -- desmembrado em 5 estados por conveyor, 6 cascatas confirmadas no PDF | - |
 | 2 | Conveyor, redes 43-48 | Comandos aos pinos de cada estacao nao modelados | Os pinos definem o desvio do carro; sem eles o percurso nao fecha |
 | 3 | Vision | Estacao inteira simbolica (5 s fixos) | Sem ladder; tempo real precisa de medicao |
 | 4 | Storage | Fiel ao CLP, mas o CLP **ja e simulacao** (3 s e 5 s) | A planta fisica pode ter tempo diferente |
