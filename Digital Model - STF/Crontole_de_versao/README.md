@@ -642,7 +642,8 @@ cicla internamente, sem devolver o controle a linha. **Pendente de decisao.**
 
 | Onde | Tempo | Por que |
 |---|---|---|
-| `Distribution_Single/Continuous/Counted` | 4 s | **Ramo alternativo de juncao**, nao AND: o caminho normal tem prioridade, o `after` e saida por timeout |
+| `Distribution_Single` | 4 s | **Ramo alternativo de juncao**, nao AND: o caminho normal tem prioridade, o `after` e saida por timeout |
+| `Distribution_Continuous/Counted` | 4 s | **CORRIGIDO o registro na v0.4.18: e codigo morto**, nao ramo de juncao -- ver v0.4.18 item 8 |
 | `Store` | 3 s | Estacao **simulada** no CLP (`S5T#3S`) |
 | `Retrieve` | 5 s | Estacao **simulada** no CLP (`S5T#5S`) |
 | `Vision` | 5 s | Estacao **simbolica**, sem ladder |
@@ -738,6 +739,8 @@ afirmado que estava tudo certo:
 | 6 | Diagnostico do `double` do OPC UA como "tipo do servidor" | 382 casts indevidos, mascarando desconexao | O `double` indica **falha de conexao**; nao fechar o modelo durante diagnostico |
 | 7 | Limpeza de orfas com filtro diferente do de deteccao de uso | 70 variaveis em uso apagadas | Usar o **mesmo** regex nos dois lados |
 | 8 | Assumir que ramo sem guarda antes do guardado quebra o fluxo | 3 correcoes desnecessarias de ordem | Stateflow faz **backtracking** |
+| 9 | Marcar `after()` como legitimo sem distinguir ramo de juncao de transicao irma de estado | 2 `after(4,sec)` mortos passaram como "ramo alternativo" (v0.4.16 --> v0.4.18) | So um ramo de **juncao** e alternativa real; transicao irma de estado com ordem 3 apos duas guardas complementares e codigo morto |
+| 10 | Assumir que um FB irmao segue o FB ja verificado | `Distribution/FB5` e `FB6` passaram 7 versoes sem leitura; o Counted estava com a malha invertida | Ler **todo** FB cuja logica foi implementada, mesmo que a estrutura pareca identica |
 
 ---
 
@@ -752,7 +755,7 @@ ligados por uma rede de ~70 juncoes que forma o fluxo da linha. Cada bloco e uma
 estacao ou um modo de operacao dela. O topo e `EXCLUSIVE_OR`: **um bloco ativo por vez**.
 
 **Onde estao as coisas:**
-- Modelo: `Digital Model - STF/FullFMS_2026_02_25_V0_4_16.slx`
+- Modelo: `Digital Model - STF/FullFMS_2026_02_25_V0_4_18.slx`
 - Bus objects: `Digital Model - STF/BUS_CONFIG.mat` (carregado pela `PreLoadFcn`)
 - PDFs de ladder: `Full_FMS_PDFs/` (8 pastas) + texto extraido em `_txt/`
 - Utilitarios de leitura de ladder: `Matlba/pdf2txt.m`, `pdfPage.m`, `dumpLadder.m`,
@@ -841,7 +844,7 @@ cruzado com os barramentos) e do que nao foi.
 | `Processing/FB4`, `FB5`, `FB6` | completo |
 | `Hd1/FB4` | completo (9 redes) |
 | `Hd2/FB4`, `FB5` | completo |
-| `Distribution/FB4` | completo |
+| `Distribution/FB4`, `FB5`, `FB6` | completo (v0.4.18: FB5 7 pgs, FB6 8 pgs, polaridade NA/NF conferida) |
 | `Testing/FB4`, `FB5` | completo |
 | `Storage/FB4`, `FB5`, `OB1` | completo |
 | `Master/FB3` (Robot) | completo (15 redes) |
@@ -851,8 +854,6 @@ cruzado com os barramentos) e do que nao foi.
 
 | Arquivo | Por que importa |
 |---|---|
-| `Distribution/FB5` (Continuous) | Assumido que segue o `FB4` (Single), que foi verificado. **Suposicao nao confirmada.** |
-| `Distribution/FB6` (Counted) | Idem |
 | `Master/FB11` redes 43-48 | Comandos aos **pinos de desvio** de cada estacao -- sem eles o percurso nao fecha (item 2 do mapa de simplificacoes) |
 | `Master/FB11` redes N3-N7 dos outros 5 destinos | Assumido que seguem o padrao do Testing (o indice das redes sustenta, mas e inferencia) |
 
@@ -864,10 +865,11 @@ cruzado com os barramentos) e do que nao foi.
 
 ### Prioridade sugerida para a proxima sessao
 
-1. `Distribution/FB5` e `FB6` -- unica logica implementada baseada em suposicao
+1. ~~`Distribution/FB5` e `FB6`~~ -- **RESOLVIDO na v0.4.18** (malha do Counted estava invertida)
 2. `Master/FB11` redes 43-48 -- fecha o item 2 do mapa de simplificacoes
 3. Decisao sobre a **saida da Sorting** (pendencia estrutural unica)
 4. **Simulacao com o OPC UA conectado** -- validacao que falta inteira
+5. Decisao sobre o `after(4,sec)` morto de `Distribution_Continuous`/`_Counted` (v0.4.18, item 8)
 
 ## MAPA DAS SIMPLIFICACOES
 
@@ -905,7 +907,7 @@ depende de sinal observavel.
 | Sorting [60] | implementada, verificada contra o ladder | BRS, BSR, RBS, RSB, SRB, SBR |
 | Processing [100] | implementada, verificada contra o ladder | TestOnly, TestDrill, RotationOnly |
 | Handling 1 [50] | implementada, verificada contra o ladder | Handling1_Cart2Del |
-| Distribution [80] | implementada, verificada contra o ladder (FB4) | Single, Continuous, Counted |
+| Distribution [80] | implementada, verificada contra `FB4`/`FB5`/`FB6` (v0.4.18) | Single, Continuous, Counted |
 | Testing [70] | implementada, verificada contra `FB4`/`FB5` | Identified_Delivery, Requested_Delivery |
 | Conveyor [20] | implementada, verificada contra `Master/FB11` | CartToTesting, CartToProcessing..4 |
 | Handling 2 [90] | implementada, verificada contra `FB4`/`FB5` | PartToProcessing, ProcessingToPart |
@@ -967,3 +969,121 @@ acerto. Texto extraido dos 47 PDFs em `Full_FMS_PDFs/_txt/`.
   (tecnica da caixa-uniao), senao os estados saem da hierarquia.
 - `delete()` falha silenciosamente as vezes, deixando estados orfaos com nomes
   duplicados (`Config_X` e `Config_X1` sobrepostos). Sempre verifique apos apagar.
+
+---
+
+## v0.4.17 --> v0.4.18  (Distribution FB5 e FB6 -- fim da unica logica por suposicao)
+
+Ate aqui `Distribution_Continuous` e `Distribution_Counted` nunca tinham sido conferidos
+contra o ladder: assumiu-se que seguiam o `FB4` (Single), verificado na v0.4.11. Lidos
+agora os dois PDFs inteiros (`Distribution/FB5`, 7 paginas; `Distribution/FB6`, 8 paginas),
+rasterizados a 200 dpi com a polaridade NA/NF conferida contato a contato.
+
+### 1. O que os dois FBs sao, de fato
+
+Ambos sao o `FB4` com um envelope em volta. A sequencia do braco e **identica** nos tres:
+
+```
+A2D_1 (braco vazio ate a entrega) -> Pist_Fwd (pistao alimenta 1 peca do magazine)
+-> PartMove -> A2M_1 (braco ate o magazine) -> Suct_On -> Part_Stuck (peca na ventosa)
+-> A2D_2 (braco ate a entrega, com a peca) -> Suct_Off -> peca entregue
+```
+
+O que muda e o criterio de repeticao:
+
+| FB | Envelope | Fim do ciclo |
+|---|---|---|
+| FB4 Single | nenhum | uma peca e para |
+| FB5 Continuous | repete enquanto `Magazine_Empty` (I124.6) for **falso** | `Magazine_Empty` --> `T3` (1 s) --> `A2M_2` --> reseta `Automatic_On` |
+| FB6 Counted | contador `C2` (`S_CD`) pre-carregado com `C_83_RQ_Parts + 1`, decrementado a cada peca entregue | o `Q` do contador cai --> `FB6_Counted_On` (M4.7) desliga |
+
+**A malha de repeticao volta ao pistao, nao ao inicio.** No FB5 a Rede 2 reseta `PartMove`
+e `PartStuck` mas **nao** reseta `PartExists`; com o braco ainda na entrega, o proximo rung
+que fecha e `Arm_Del && ~PartMove && Pist_Back --> S Pist_Fwd`. O modelo ja voltava para
+`ArmArrives_FeedsPart` -- **correto, confirmado**.
+
+### 2. Erro de logica real: a malha do Counted estava invertida
+
+`Distribution_Counted/PartDel_CheckLoop`:
+
+```
+antes: LoopDistCont = C_85_Part_Del && C_87_RQ_MParts == 0
+agora: LoopDistCont = C_85_Part_Del && C_87_RQ_MParts ~= 0
+```
+
+`C_87_RQ_MParts` (QB87) e o **CV do contador** -- "Number of Parts Still Needed for Counted
+Mode". Com `== 0` o bloco entregava **uma** peca e encerrava enquanto ainda faltavam pecas,
+e passava a **repetir para sempre** justamente quando a contagem zerava. Invertido.
+
+> Nao aparecia na compilacao. Mesmo perfil dos dois piores erros da v0.4.16 (`J1888` e a
+> Handling 2 invertida): guarda sintaticamente valida, semantica trocada.
+
+### 3. Bit de modo errado no Counted
+
+`Distribution_Counted/InitialCondition` observava `Control_80.C_85_Continuous` -- copia do
+bloco vizinho. `Control_80.C_85_Counted` existe no bus e nunca era usado. Corrigido.
+
+> Sem efeito sobre o fluxo: a selecao de modo real esta na juncao `J1963`, no nivel do
+> Chart, que **ja** usava `C_85_Counted`. Era erro de fidelidade, nao de comportamento.
+
+### 4. Condicao de partida: `C_75_RQ_Wrong` nao pertence ao FB5 nem ao FB6
+
+A Rede 1 do `FB4` tem o ramo OR `C_75_RQ_Wrong` (I75.5), documentado no proprio PDF:
+"If on Requested Mode [70] starts again until correct part is delivered". **O FB5 (Rede 1)
+e o FB6 (Rede 2) nao tem esse ramo** -- confirmado no PDF: as tres origens sao `Start`,
+`C_85_Start` e (`A_74_CRoute_In80 && Key_Pos`). Removido das guardas de partida do
+`Distribution_Continuous` e do `Distribution_Counted`; mantido no `Distribution_Single`.
+
+### 5. Sinal do magazine no Continuous
+
+`PartDel_CheckLoop` do Continuous usava `Control_80.C_86_Mag_Parts ~= 0` (contagem do OB1).
+O FB5 le o sensor `Magazine_Empty` (I124.6) direto, e `Sensors_80.O_80_Mag_Empty` existe no
+bus e nunca era usado:
+
+```
+antes: LoopDistCont = C_85_Part_Del && C_86_Mag_Parts ~= 0
+agora: LoopDistCont = C_85_Part_Del && ~Sensors_80.O_80_Mag_Empty
+```
+
+### 6. Condicao do contador no Counted
+
+O `FB6` Rede 2 so carrega o contador se `OB1_Exis_Parts >= C_83_RQ_Parts` (bloco `CMP >=I`)
+-- ha pecas suficientes no magazine para o pedido. Acrescentado ao `InitialCondition`:
+`C_86_Mag_Parts >= C_83_RQ_Parts`.
+
+### 7. Variaveis
+
+- `Distribution_Continuous/InitialCondition`: o ramo `if` atribuia `St_DCt0_2a_1` e o `else`
+  atribuia `St_DCt0_2b_1` -- variaveis diferentes no mesmo if/else. Unificado em `_2b_1`;
+  `St_DCt0_2a_1` removida (orfa).
+- `Distribution_Counted/ArmArrives_FeedsPart` usava `St_DCd0_2b_4` (prefixo do Continuous)
+  no lugar de `St_DCd0_2c_4`. Renomeada, no rotulo do estado e na guarda de saida.
+
+### 8. CORRECAO ao registro da v0.4.16: os `after(4,sec)` da Distribution
+
+A tabela "`after()` restantes -- todos legitimos" afirmava que os 4 s das tres modalidades
+eram "ramo alternativo de juncao". **Isso vale apenas para o `Distribution_Single`**, onde o
+`after` e o ramo de ordem 2 da juncao `J578`.
+
+No `Continuous` e no `Counted` o `after(4,sec)` e uma **terceira transicao saindo do estado
+`PartDel_CheckLoop`**, com ordem de execucao 3, enquanto as ordens 1 e 2 ja cobrem
+`LoopDistCont == true` e `== false`. Sendo `LoopDistCont` booleana, uma das duas sempre
+fecha: **a transicao de ordem 3 e codigo morto, e o estado `T1` desses dois blocos so e
+alcancavel por ela.**
+
+Nao removido: apagar a transicao deixaria `T1` inalcancavel, e a limpeza e mudanca de
+estrutura, nao de fidelidade ao ladder. **Pendente de decisao.**
+
+### 9. O que do FB6 continua nao modelado (e por que)
+
+As Redes 4 e 5 do `FB6` produzem o decremento (`FB6_Dec_Count`) a partir de
+`(FB6_Part_Del && C_75_Identified80) || (C_75_RQ_Part_Del && C_75_Requested80)`, com `T3` de
+1 s, e resetam `FB6_Part_Del`. O modelo **nao** reimplementa isso: observa `C_87_RQ_MParts`,
+que ja e o resultado do contador e esta exposto no OPC UA. E o principio da sombra aplicado
+corretamente -- nao se reimplementa o contador do CLP, observa-se o valor que ele publica.
+
+**Verificacao da v0.4.18:** 0 estados inalcancaveis nos 3 blocos da Distribution, 1 default
+por bloco, **Chart compila sem erros** (harness isolado de 32 Inports).
+
+Modelo: `FullFMS_2026_02_25_V0_4_18.slx`
+
