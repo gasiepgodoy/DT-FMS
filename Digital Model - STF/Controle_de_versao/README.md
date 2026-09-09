@@ -1,4 +1,4 @@
-## Sombra Digital - Full FMS (Stateflow)
+# Sombra Digital - Full FMS (Stateflow)
 Sombra digital do FMS controlado por CLP S7 (CPU 313C-2 DP), em Simulink/Stateflow.
 O modelo apenas **observa** a planta: os barramentos `Sensors_*`, `Actuators_*`,
 `Control_*` e `AS_i_*` entram no chart com escopo **Input** (somente leitura).
