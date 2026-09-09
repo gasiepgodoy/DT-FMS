@@ -831,6 +831,107 @@ sem erros. Chart: 30 blocos, 317 estados.
 
 ---
 
+
+---
+
+## v0.4.17 --> v0.4.18  (feita em outra sessao)
+
+Removido o bloco `Variable_Declaration` (9 filhos, `VarDeclaration_20` a `_100`), que era
+**documentacao** -- cada filho listava os sinais da estacao em comentarios sem efeito.
+Chart: 30 --> 29 blocos, 311 --> 301 estados.
+
+Auditoria da v0.4.18: 0 campos de bus inexistentes, 0 escritas em Input, 0 nao declarados,
+0 sintaxe, 0 inalcancaveis, 0 default!=1, 0 mal-parenteadas, 0 sobreposicoes, 0 caminhos
+sem guarda, **Chart compila sem erros**. Os 29 blocos restantes tem a mesma contagem de
+filhos da v0.4.17 (desmembramento da rede N2 preservado).
+
+> O conteudo do `Variable_Declaration` continua disponivel na v0.4.17, caso a referencia
+> rapida de nomes de sinal por estacao seja util.
+
+---
+
+## BUG DO R2026a -- OPC UA (IMPORTANTE)
+
+### Sintoma
+
+Os Bus Selectors nao recebem os sinais dos blocos OPC UA Read. No dialogo do bus,
+"Elements in the bus" fica **vazio** e os `Value_XXXX` aparecem em **vermelho**.
+Em paralelo surge o aviso:
+
+```
+Warning: Multiple nodes found with identifier NNNN. Using the first available node in the list.
+  In opcuasrc.opcuamasks.helper.getNodes
+  In opcUARead/getOutputDataTypeImpl
+```
+
+E, em alguns blocos, o erro:
+
+```
+MATLAB System block '.../opcInternalBlock' error occurred when invoking
+'getOutputDataTypeImpl' method of 'opcUARead'.  Index exceeds array bounds.
+```
+
+### Causa
+
+**Bug da Industrial Communication Toolbox 26.1 (R2026a, 20-Nov-2025).** No R2025b o mesmo
+modelo funciona. Nao e problema do modelo, do script, da rede nem dos servidores.
+
+### Solucao
+
+Usar o **R2025b**. Modelo exportado com:
+
+```matlab
+Simulink.exportToVersion('FullFMS_2026_02_25_V0_4_18', ...
+    'FullFMS_2026_02_25_V0_4_18_R2025b.slx', 'R2025B_SLX')
+```
+
+Arquivo gerado: **`FullFMS_2026_02_25_V0_4_18_R2025b.slx`**. Conteudo verificado apos a
+exportacao -- 29 blocos, 301 estados, 412 transicoes, 70 juncoes, 718 dados, 8 blocos
+OPC UA Read com servidor e `NodeList` intactos (66/66/44/39/53/39/46/40 nos).
+**"No replaced blocks found"** -- nada foi substituido ou removido.
+
+> O arquivo exportado tem ~202 KB contra ~2,1 MB do original. E normal: a exportacao
+> descarta caches e metadados de renderizacao do R2026a. O conteudo funcional esta integro.
+
+> Ao abrir no R2025b, o `PreLoadFcn` faz `load("BUS_CONFIG.mat")` sem caminho -- o MATLAB
+> precisa estar com a pasta `Digital Model - STF` como diretorio atual ou no path.
+
+### O que foi DESCARTADO no diagnostico (nao repetir)
+
+| Hipotese | Como foi descartada |
+|---|---|
+| Script de conexao com bug | Gera `NodeList` e `OutputSignals` **identicos** aos da v0.4.5, que funcionava |
+| Tags faltando ou sobrando | 386 tags conferidas contra os 32 bus objects e contra os 9 CSVs: 0 divergencias |
+| Tag buscada no CSV da estacao errada | 0 erradas nos 8 grupos |
+| CSVs desatualizados | Os 9 baixados na mesma execucao, em 10 s (16:29:15 a 16:29:25) |
+| IDs duplicados dentro de um servidor | 0 duplicados dentro de cada CSV |
+| Namespace errado | Todos `ns=6`, confirmado nos CSVs e pelo usuario |
+| Hostname de discovery | `UseDiscoveryHostname=true` nao resolveu |
+| Certificado nao confiavel | Servidores usam `None`; sem certificado a validar |
+| Politica de seguranca | `MessageSecurityMode=None` + `ChannelSecurityPolicy=None` nao resolveu |
+| Rede inacessivel | `ping` responde em `.202`, `.206`, `.213` |
+| `ServerList` diferente entre versoes | Identico (1 item) em ambas |
+| Modelo corrompido | A v0.4.18 chegou a resolver MASTER e NODE (66 cada) |
+
+### Erros de interpretacao cometidos no caminho
+
+- **`outports=1` NAO significa bloco desconectado.** O OPC UA Read tem sempre **uma** porta,
+  que carrega um bus. Interpretei isso como falha de conexao varias vezes, o que contaminou
+  diagnosticos.
+- **Chamadas `opcua()` diretas deixam sessoes penduradas** e podem impedir os blocos de
+  conectar. Ao testar hipoteses, provavelmente esgotei sessoes em `.203`-`.208` -- os mesmos
+  seis que depois falhavam, enquanto `.202` e `.213` (nao testados diretamente) funcionavam.
+- **Fechar o modelo derruba as sessoes OPC UA.** Nao fechar durante diagnostico.
+- O aviso "message security mode... None" indica conexao **bem-sucedida**, nao problema.
+
+### Fragilidades do script de conexao (nao sao a causa, mas valem correcao)
+
+- `IdentRows = string(0)` inicializa com a string `"0"` em vez de vazio; use `strings(0)`.
+- Se o `mget` falhar, o `Variables_X.csv` **anterior permanece** e passa despercebido.
+- Se o `movefile` falhar, o `Variables.csv` generico fica na pasta e a **proxima** estacao
+  do laco o renomeia com o nome dela -- atribuindo dados de um servidor a outro.
+- `close(s)` esta dentro do `try`: se o `mget` lancar excecao, a sessao SFTP nunca fecha.
+
 ## COBERTURA DE LEITURA DOS PDFs
 
 Inventario honesto do que foi lido em detalhe (rasterizado, polaridade NA/NF conferida,
