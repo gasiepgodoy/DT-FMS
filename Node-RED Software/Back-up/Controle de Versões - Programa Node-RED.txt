@@ -1,5 +1,8 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
+V7.0.7 - 17/09/2026
+Movido "Simple Historian" para aba MQTT/PLC para trabalhar em ambiente Windows.
+
 V7.0.6 - 30/03/2026
 Corrigido ligação dos sinais da Testing [70] para o servidor MQTT
 Adicionado aba de Monitoring para permitir acesso ao WireShark
