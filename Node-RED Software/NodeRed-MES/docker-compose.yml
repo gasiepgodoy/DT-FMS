@@ -1,0 +1,23 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: production-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: MES_POLIMI
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    container_name: production-ui
+    restart: always
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:

@@ -1,0 +1,40 @@
+================AS_i_40==============================
+A_44_Request = AS_i_40.A_44_Request;
+A_44_No_Cart = AS_i_40.A_44_No_Cart;
+A_44_Cart_Full = AS_i_40.A_44_Cart_Full;
+A_44_CRoute_In= AS_i_40.A_44_CRoute_In;
+A_43_StorCartID = AS_i_40.A_43_StorCartID;
+A_44_Cart_Stat = AS_i_40.A_44_Cart_Stat;
+A_44_Cart_Next = AS_i_40.A_44_Cart_Next;
+A_44_Optic = AS_i_40.A_44_Optic;
+A_44_Count =  AS_i_40.A_44_Count;
+A_44_Pist_Bck = AS_i_40.A_44_Pist_Bck;
+A_44_Release_FB = AS_i_40.A_44_Release_FB;
+A_44_CRoute_Out = AS_i_40.A_44_CRoute_Out;
+
+================Control_40===========================
+C_45_Initialization = Control_40.C_45_Initialization;
+C_42_Profibus = Control_40.C_42_Profibus;
+C_45_Start = Control_40.C_45_Start;
+C_45_StorePart = Control_40.C_45_StorePart;
+C_45_RetrievePart = Control_40.C_45_RetrievePart;
+
+================Actuators_40========================
+F_43_Led_Start = Actuators_40.F_43_Led_Start;
+F_43_Led_Reset = Actuators_40.F_43_Led_Reset;
+F_43_Led_Extra1 = Actuators_40.F_43_Led_Extra1;
+F_43_Led_Extra2 = Actuators_40.F_43_Led_Extra2;
+F_43_Panel_O4 = Actuators_40.F_43_Panel_O4;
+F_43_Panel_O5 = Actuators_40.F_43_Panel_O5;
+F_43_Panel_O6 = Actuators_40.F_43_Panel_O6;
+F_43_Panel_O7 = Actuators_40.F_43_Panel_O7;
+
+=================Sensors_40=========================
+O_41_Start = Sensors_40.O_41_Start;
+O_41_Stop = Sensors_40.O_41_Stop;
+O_41_Key_Pos = Sensors_40.O_41_Key_Pos;
+O_41_Reset = Sensors_40.O_41_Reset;
+O_41_Panel_I4 = Sensors_40.O_41_Panel_I4;
+O_41_Panel_I5 = Sensors_40.O_41_Panel_I5;
+O_41_Panel_I6 = Sensors_40.O_41_Panel_I6;
+O_41_Panel_I7 = Sensors_40.O_41_Panel_I7;

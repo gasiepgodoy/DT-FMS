@@ -1,0 +1,4 @@
+Steps to Activate the SSH
+
+1. Create a c:\ssh_keys folder
+2. copy both files to the folder.

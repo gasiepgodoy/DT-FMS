@@ -3,28 +3,41 @@ Procedure to Download and configure  TV BOx Linux
 In Linux Terminal:
 
 For each station, create a folder in main root directory (using the commands below) and Download the raw files from GitHub, renaming them
+This is done on a bath file (.sh) called Upgrade_AAS_x.x
+The main code is below:
 
-mkdir ProjetoGemeo			//Creates project Directory
-cd ProjetoGemeo
-mkdir AAS					//Creates AAS folder to hold files
-cd AAS
-mkdir "Station"				//Creates the folder for each Station (Distribution, Handling1, Handling2, Master, Processing, Sorting, Testing)
-cd Station
-curl -O "raw File"			//Take the raw file path from GitHub. Current V2.1 version below:
+ 
+cd ProjetoGemeo/AAS/Distribution
+curl -o nodeset.xml https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-11-19%20-%20V2.4%20nodeset%20Distribution.xml
+cd
+cd ProjetoGemeo/AAS/Handling1
+curl -o nodeset.xml https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-11-19%20-%20V2.4%20nodeset%20Handling%201.xml
+cd
+cd ProjetoGemeo/AAS/Handling2
+curl -o nodeset.xml https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-11-19%20-%20V2.4%20nodeset%20Handling%202.xml
+cd
+cd ProjetoGemeo/AAS/Master
+curl -o nodeset.xml https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-11-19%20-%20V2.4%20nodeset%20Master.xml
+cd
+cd ProjetoGemeo/AAS/Processing
+curl -o nodeset.xml https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-11-19%20-%20V2.4%20nodeset%20Processing.xml
+cd
+cd ProjetoGemeo/AAS/Robot
+curl -o nodeset.xml https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-11-19%20-%20V2.4%20nodeset%20Robot%20%2B%20Storage.xml
+cd
+cd ProjetoGemeo/AAS/Sorting
+curl -o nodeset.xml https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-11-19%20-%20V2.4%20nodeset%20Sorting.xml
+cd
+cd ProjetoGemeo/AAS/Testing
+curl -o nodeset.xml https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-11-19%20-%20V2.4%20nodeset%20Testing.xml
 
-Distribution: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Distribution.xml
-Handling1: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Handling%201.xml
-Handling2: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Handling%202.xml
-Master: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Master.xml
-Processing: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Processing.xml
-Sorting: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Sorting.xml
-Testing: https://raw.githubusercontent.com/gasiepgodoy/DT-FMS/refs/heads/Node-Red-Software/2025-04-28%20-%20V2.1%20nodeset%20Testing.xml
+Creating Executable Batch Files
 
-mv "finename" nodeset.xml	//Makes the name of the file correct for the system. The file name is listed on the folder and can be seen with the "ls" command.
+After creating the new AAS Upgrade File (.sh) use the following comand lines to create and execute the bash file
 
-after the file is downloaded and renamed, check if file is ok with the command below, that should return the header of the file.
+chmod +x Upgrade_AAS_x.sh
+bash Upgrade_AAS_x.sh
 
-head nodeset.xml
 
 In Node-red:
 
@@ -35,3 +48,4 @@ On each Server node, insert the correct path to the nodeset file:
 On each CSV node, insert the correct path and file name (the file is created and updated by the flow)
 
 /root/ProjetoGemeo/AAS/"Station"/Variables.csv
+

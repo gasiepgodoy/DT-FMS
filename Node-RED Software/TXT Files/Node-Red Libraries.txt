@@ -7,3 +7,5 @@ dasboard: 	npm install -g @flowfuse/node-red-dashboard@1.22.1
 			npm install -g node-red-dashboard
 led: 		npm install -g node-red-contrib-ui-led@0.4.11
 mqtt:		npm install -g node-red-contrib-aedes@0.13.0
+mysql:		npm install -g node-red-node-mysql@3.0.0
+table:		npm install -g node-red-node-ui-table@0.4.5
