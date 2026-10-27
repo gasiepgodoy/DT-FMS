@@ -598,6 +598,419 @@ Modelo: `FullFMS_2026_02_25_V0_4_18.slx`
 
 ---
 
+## v0.4.18 --> v0.4.19  (ProcessingToPart -- correcao feita fora desta linha de trabalho)
+
+Arquivo: `FullFMS_2026_02_25_V0_4_19_R2025b.slx`, gerado pelo script `corrige_ProcessingToPart.m`
+a partir do `V0_4_18_R2025b`. Motivo: o `ProcessingToPart` era copia do `PartToProcessing`
+e esperava o carro **cheio**; no ciclo real o carro esta vazio quando a peca sai do Processing.
+
+1. `InitialCondition`: passou a exigir `~A_94_Cart_Full && C_95_Initialization && C_92_Profibus && O_91_Key_Pos`.
+2. `InitialCondition -> ClawBeginsDescent`: `A_94_CRoute_In` trocado por `F_92_Claw_Down`.
+3. `ClawDescent -> DeliversPart`: `O_100_PInit_Pos` trocado por `A_94_Cart_Full`.
+4. `FinishesProcess`: `C_95_PD_Proc` trocado por `C_95_PD_Cart`.
+
+**Resultado no teste com a planta:** a simulacao parou no `InitialCondition` do `ProcessingToPart`.
+O cruzamento com o ladder (v0.4.20) mostrou que a condicao nao correspondia ao `Hd2/OB1` +
+`FB5`: faltava `C_95_Del2Cart`, sobrava `O_91_Key_Pos`, e a sequencia de movimento nao era a do FB5.
+
+---
+
+## v0.4.19 --> v0.4.20  (FMS V2 + Handling 2 reescrito pelo FB4/FB5)
+
+### 1. Levantamento do FMS novo (`Full_FMS_V2` / `Full_FMS_PDFs_V2`)
+
+Comparados os 8 diretorios de PDFs V1 x V2 (texto extraido). Mudancas reais de conteudo:
+
+| Bloco | Mudanca | Efeito no modelo |
+|---|---|---|
+| `Master/OB1` | rede 11 "Conveyor Control - Regular" chama `FB11` com `~C_21_MES_On` (Q21.0); rede 12 "Conveyor Control - MES" chama `FB12` com `C_21_MES_On` | nenhum enquanto o MES estiver desligado; `C_21_MES_On` **nao existe** em `B_Control_20`, nos CSV nem no `Tags_OPCUA.mat` |
+| `Master/FB12` | bloco novo "Conveyor MES / MES Routing" v0.1, **vazio** | nada a modelar ainda (MES adiado a pedido) |
+| `Master/FB2` | `T10` S5T#5S -> S5T#1S; Q26.2/`C_26_` -> Q25.2/`C_25_` ("Fix Optic issue") | passagem OPC UA, sem efeito na logica do Chart |
+
+Todos os FBs de estacao (FB4/FB5/FB6 etc.) estao **iguais** a V1.
+
+### 2. Handling 2 reescrito contra o ladder
+
+`PartToProcessing` (FB4 `Cart_2_Del`, prefixo P2P0) e `ProcessingToPart` (FB5 `Del_2_Cart`,
+prefixo P2P1) refeitos com 10 estados cada, um por passo do FB:
+`Config -> Garra no carro/na entrega -> DescePega -> FechaGarra -> SobeComPeca ->
+MoveParaEntrega/MoveParaCarro -> DesceEntrega -> AbreGarra -> SobeVazia -> PecaEntregue`.
+
+- Config P2P0: `C_95_Initialization && C_92_Profibus && C_95_Cart2Del` (OB1 N5).
+- Config P2P1: `C_95_Initialization && C_92_Profibus && C_95_Del2Cart` (OB1 N6, leitura parcial -- corrigida na v0.4.22).
+- Fim P2P0: `C_95_PD_Proc` (OB1 N7, Q95.1 <- M1.7). Fim P2P1: `C_95_PD_Cart` (OB1 N8, Q95.2 <- M2.7).
+- Saida externa `ProcessingToPart -> J1969`: `[St_P2P1_5_10 == true && C_95_PD_Cart == true]`;
+  saida para `CartToProcessing1`: `[C_26_Request == true && St_P2P1_5_10 == true]` (antes
+  referenciava `St_P2P1_5_13`, que deixou de existir -- erro de compilacao corrigido).
+- `J1969` afastada da caixa do `ProcessingToPart`.
+
+### 3. Incidente de versao
+
+A v0.4.20 foi gravada primeiro com `save_system` numa sessao R2026a com nome `_R2025b` --
+o arquivo continuava R2026a. Refeito com `Simulink.exportToVersion(m, arq, 'R2025B_SLX')`;
+o original virou `_R2026a`. **Regra:** `save_system` grava sempre no formato da sessao.
+
+---
+
+## v0.4.20 --> v0.4.21  (dados nao inicializados + partida da Processing)
+
+1. **Erro de execucao** `St_P2P1_5_10 was read before being written to`: as guardas externas
+   leem variaveis locais de blocos ainda nao ativados. `InitialValue = 'false'` aplicado em
+   **259** dados locais `St_*`/`Status*`.
+2. **Processing parada em `Config_TOnly`**: exigia `C_105_Initialization`, mas o
+   `Processing/OB1` rede 5 usa `M0.0 Init_Ok` (interno, fora do OPC UA). As tres configs
+   passaram a usar a exclusao de modos do OB1:
+   - `Config_TOnly`: `C_105_Test && ~C_105_TestDrill && ~C_105_Rotation`
+   - `Config_TDrill`: `C_105_TestDrill && ~C_105_Test && ~C_105_Rotation`
+   - `Config_ROnly`: `C_105_Rotation && ~C_105_Test && ~C_105_TestDrill`
+3. Harness isolado: compila e simula sem erro. 29 blocos de topo, 295 estados, 406 transicoes,
+   70 juncoes, 712 dados.
+
+**Teste com a planta:** passou pelo `PartToProcessing` e pela `Processing_TestOnly`; parou
+no `Config_P2P1` do `ProcessingToPart`.
+
+---
+
+## v0.4.21 --> v0.4.22  (`Config_P2P1` pela rede 6 do `Hd2/OB1`)
+
+A rede 6 do `Hd2/OB1` ("Del 2 Cart") foi **rasterizada e lida visualmente** (nova ferramenta
+`Matlba/renderPdfPage.m`, ver Notas). Topologia confirmada:
+
+```
+EN(FB5) = ( M0.0 FB1_Init_Parcial && I92.0 C_92_Profibus &&
+            ( (M0.6 OB1_OK_Move && I95.2 C_95_Del2Cart)
+            || (I105.1 C_105_Part_ready && /I94.2 A_94_Optic)
+            || M2.0 FB5_P2D_Proc ) )
+       || /I125.1 Stop
+```
+
+O `C_95_Del2Cart` e o caminho **manual**; no ciclo automatico quem habilita o FB5 e
+`C_105_Part_ready && ~A_94_Optic` (peca pronta no Processing e sem peca no carro). Por isso
+o estado ficava parado: o modelo so aceitava o caminho manual.
+
+Nova condicao do `Config_P2P1`:
+
+```matlab
+if Control_90.C_95_Initialization && Control_90.C_92_Profibus && ...
+   ( Control_90.C_95_Del2Cart || (Control_100.C_105_Part_ready && ~AS_i_90.A_94_Optic) )
+```
+
+Correspondencias e omissoes (todas por falta do sinal no OPC UA):
+
+- `M0.0 FB1_Init_Parcial` (interno) -> `C_95_Initialization` (mesmo criterio do P2P0, que passou na planta).
+- `I105.1` do Hd2 -> `Control_100.C_105_Part_ready` (o mesmo sinal publicado pelo CLP da Processing).
+- `M0.6 OB1_OK_Move` (interno, rede 4) omitido -- so atua em serie com `C_95_Del2Cart`.
+- `M2.0` (auto-retencao) e o proprio estado do modelo.
+- `/I125.1 Stop` (painel local, fora do OPC UA) omitido.
+- `FB5` rede 1: o movimento so comeca com `I95.0 C_95_Start` (S M2.0). **Nao** foi colocado na
+  guarda, como no P2P0: os estados seguintes so avancam com atuadores/sensores reais da garra.
+
+**Verificacao:** harness isolado compila e simula sem erro; `V0_4_22_R2025b.slx` exportado com
+`exportToVersion` (`Simulink.MDLInfo` = R2025b) e a guarda nova conferida no XML do chart.
+
+Modelo: `FullFMS_2026_02_25_V0_4_22_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
+
+**Teste com a planta:** continuou parado no `Config_P2P1`. Valores no momento: `C_105_Part_ready = 0`,
+`C_95_Del2Cart = 0`, `C_95_PD_Cart = 1`, `A_94_No_Cart = 1` -- o CLP ja tinha entregue a peca no
+carro e o carro ja tinha saido; a sombra perdeu a transferencia inteira.
+
+---
+
+## v0.4.22 --> v0.4.23  (`Config_P2P1` com captura na entrada + auto-retencao)
+
+### Diagnostico
+- A unica entrada do `ProcessingToPart` e a saida da Processing com guarda `C_105_Part_ready == true`
+  (TestOnly, TestDrill e RotationOnly). Logo, **no passo da entrada o `Part_ready` era 1**.
+- `Processing/OB1` rede 4 (rasterizada): `Q105.1 C_105_Part_ready` e bobina simples de
+  `FB1_RT_RP1 || RP2 || RP3 || FB4_PartPickUp || FB5_PartPickUp || FB6_PartPickUp`. Cai assim que a
+  garra da HD2 retira a peca -- ou seja, **o Part_ready dura pouco**.
+- No CLP isso nao importa: depois que o FB5 parte, ele se mantem habilitado pelo ramo `M2.0`
+  (auto-retencao da rede 6). No modelo, o `entry` zerava `St_P2P1_5_1` e o `during` so testava a
+  condicao no passo seguinte; se o `Part_ready` ja tinha caido, o estado nunca saia.
+
+### Correcao
+- `entry`: `St_P2P1_5_1` recebe a condicao de habilitacao **no mesmo passo** da transicao de entrada
+  (em que a guarda acabou de ler `Part_ready == true`).
+- `during`: so seta para `true`, nunca volta a `false` -- e o equivalente observavel do `M2.0`.
+- Os estados seguintes continuam esperando os sensores/atuadores reais da garra, entao a captura
+  nao faz a sombra andar sozinha.
+
+**Verificacao:** harness isolado compila e simula sem erro; `V0_4_23_R2025b.slx` exportado com
+`exportToVersion` (`Simulink.MDLInfo` = R2025b).
+
+**Ressalva para o teste:** a sombra precisa acompanhar o ciclo desde o inicio. Se a simulacao
+comecar com a peca ja entregue (`C_95_PD_Cart = 1`, sem carro), nada mais vai acontecer no
+`Config_P2P1`, como no CLP (o FB5 tambem fica desabilitado).
+
+Modelo: `FullFMS_2026_02_25_V0_4_23_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
+
+**Teste com a planta:** passou do `Config_P2P1` e parou no `GarraNaEntrega_P2P1`, com a garra
+ja parada no carro (`O_90_Claw_Cart = 1`, `Claw_High = 1`, atuadores em 0, sem peca na garra).
+
+---
+
+## v0.4.23 --> v0.4.24  (Handling 2: latch em todos os passos + saida pelo `C_95_PD_Cart`)
+
+### Diagnostico (hipotese do usuario: "sinais rapidos demais" -- confirmada em parte)
+- Configuracao do modelo: passo fixo de 0,01 s e 8 blocos OPC UA Read **sincronos** por passo.
+  O tempo real de cada passo e bem maior que 0,01 s, entao sinais de duracao curta podem cair
+  entre duas leituras.
+- Todos os passos tinham `else St = false`: o estado precisava ver a condicao **no `during` e de
+  novo no passo seguinte** (quando a transicao e testada). Condicao momentanea = estado preso.
+- O caso concreto: a transicao `GarraNaEntrega -> DescePega` exigia, alem do flag,
+  `O_90_Claw_High == true` **instantaneo**. Se a sombra chega com a garra ja descendo, `Claw_High`
+  so volta a 1 no instante em que a garra sobe com a peca -- e o FB5 rede 4 manda a garra para o
+  carro na hora (`Part_In_Claw && Claw_Up`). Janela curtissima; perdida, a garra sai da entrega,
+  o `else` zera o flag e o estado trava -- exatamente a foto do teste.
+- Nem todo sinal era curto: `Claw_Del`, `Claw_Cart`, `Part_in_Claw`, `C_95_PD_*` sao mantidos por
+  segundos. Os curtos sao `Claw_Low` (so enquanto fecha/abre a garra) e os atuadores de translacao
+  (`F_92_Claw_2_Cart`/`_2_Del` caem ao chegar -- por isso `Claw_2_Cart && Claw_Cart` quase nunca
+  coexistem).
+
+### Correcao (aplicada nos 20 passos de `PartToProcessing` e `ProcessingToPart`)
+1. **Captura no `entry` + latch no `during`** (sem `else`). Equivale as bobinas `S` dos FB4/FB5:
+   cada passo do CLP e um bit setado que so e resetado no fim do ciclo.
+2. **`Claw_High` removido** das transicoes `GarraNoCarro/GarraNaEntrega -> DescePega`.
+3. **Condicoes com alternativa mantida** nos passos de sinal curto (consequencia fisica do passo,
+   nao suposicao de tempo):
+   - `DescePega`: `(pos && Claw_Down && Claw_Low) || (pos && Part_in_Claw)` -- se ja pegou a peca, desceu.
+   - `MoveParaCarro` / `MoveParaEntrega`: `pos_destino && Part_in_Claw` (o atuador de translacao cai ao chegar).
+   - `DesceEntrega`: `(pos && Claw_Down && Claw_Low) || (pos && ~Part_in_Claw)` -- se ja soltou, desceu.
+4. **Saida do `ProcessingToPart` pelo proprio CLP**, como ja era a do `PartToProcessing` (que sai
+   por `C_95_PD_Proc` em qualquer passo -- por isso nunca travou). Novo dado local `P2P1_Armed`:
+   zerado no `entry` do bloco, vira `true` quando `C_95_PD_Cart` e visto em 0 (o `Part_ready`
+   reseta `M2.7` na rede 1 do FB5). Saidas:
+   `[(St_P2P1_5_10 || P2P1_Armed) && C_95_PD_Cart]` e
+   `[C_26_Request && (St_P2P1_5_10 || P2P1_Armed)]`. O armamento evita sair com um `PD_Cart = 1`
+   antigo do ciclo anterior.
+
+**Verificacao:** harness isolado compila e simula sem erro; `V0_4_24_R2025b.slx` exportado com
+`exportToVersion` (R2025b); no XML: 19 latches, 5 referencias a `P2P1_Armed`, nenhuma guarda com
+`Claw_High == true`.
+
+**Limite:** se a simulacao comecar com o ciclo ja concluido (`PD_Cart = 1` o tempo todo), o
+`P2P1_Armed` nunca arma e a sombra espera o proximo ciclo -- comportamento correto de sombra.
+
+Modelo: `FullFMS_2026_02_25_V0_4_24_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
+
+**Teste com a planta:** Handling 2 passou; `CartToProcessing1` passou tao rapido que nem deu para
+ver; parou no `Inspecao_Visn` (todos os `C_2x_*` em 0 no momento).
+
+---
+
+## v0.4.24 --> v0.4.25  (Vision: `C_26_CartDel` e pulso de 3 s + pedido do Robot)
+
+### Diagnostico (lido no ladder, rasterizado)
+- `Master/FB11` rede 20 ("Cart Arrived"): `M3.0 FB11_Visi && I14.4 Visi_Cart_Stat` -> **`T3` SE
+  S5T#3S** e reseta `M3.6`, `M3.0`, `M7.1`. Rede 21: `T3` -> `C_26_CartDel`. Logo **`C_26_CartDel` e
+  um pulso de 3 s**.
+- O `Inspecao_Visn` (passagem simbolica de 5 s) exigia `C_26_CartDel = 1` **no instante dos 5 s**
+  (`[St_Visn_2 && after(5,sec)]` com `else St = false`). Com pulso de 3 s isso e **impossivel** --
+  a Vision travaria em todo ciclo.
+- `Master/FB11` rede 22: `C_27_Request` (Q27.1, pedido OPC) **seta** `M4.0 FB11_Robot` (bobina S). O
+  CLP guarda o pedido; o modelo exigia `C_27_Request` instantaneo na saida da Vision, de novo na
+  juncao `J1014` e de novo no `Config_Cv27` -- tres leituras do mesmo pulso em passos diferentes.
+
+### Correcao
+- **Vision:** captura no `entry` + latch nos 3 passos. `Config`/`Inspecao` aceitam
+  `C_26_CartDel || O_26_Cart_Stat` (carro presente na Vision, sinal mantido). Novo dado local
+  `Vis_Req27`: zerado no `entry` da Vision com o valor atual de `C_27_Request` e setado no `during`
+  sempre que o pedido aparece -- equivalente observavel do `M4.0`, inclusive se o pedido chegar
+  durante a inspecao. `FinishesProcess_Visn` = `C_27_Request || Vis_Req27`.
+- **Saida:** `Vision -> J1010` e `J1014 -> CartToProcessing2` agora `[St_Visn_3 == true]` (o pedido
+  ja foi registrado). `J1010`/`J1014` so recebem da Vision; `CartToProcessing2` so e alcancado por eles.
+- **`CartToProcessing2`:** `Config_Cv27` = `C_27_Request || Vis_Req27` (latch); nos ramos
+  `De*` e nas transicoes `Config -> De*`, `C_27_Request` instantaneo trocado pelo flag latchado
+  `St_Cv27_1`. Todos os passos do bloco com captura + latch. A saida do bloco ja era pelo proprio
+  CLP (`C_27_CartDel`).
+
+**Verificacao:** harness isolado compila e simula sem erro; `V0_4_25_R2025b.slx` exportado com
+`exportToVersion` (R2025b), 8 referencias a `Vis_Req27` no XML.
+
+**Atencao:** os outros blocos de esteira (`CartToTesting`, `CartToProcessing1/3/4`) tem o mesmo
+padrao (`C_2x_Request` instantaneo nas transicoes, `C_2x_CartDel` pulso de 3 s, `Cart_Next`/`Count`
+momentaneos). Nao foram alterados nesta versao.
+
+Modelo: `FullFMS_2026_02_25_V0_4_25_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
+
+---
+## v0.4.25 --> v0.4.26  (Vision guiada pelo roteamento `C_26_CRoute_In` / `C_26_CRoute_Out`)
+
+### Diagnostico
+A v0.4.25 ainda travava em `Inspecao_Visn`. O orientador indicou o sinal de "route out". Conferido no
+ladder (`Master/FB2`, pag. 15, rasterizado):
+- **Rede 31** "26 CRoute In": `Q26.2 C_26_CRoute_In` (OPC Route Arrive) -> `Q23.6 A_23_CRoute_In`
+  (Route Arrive (Vision)).
+- **Rede 32**: `I23.6 A_23_CRoute_Out` (Route Depart (Vision)) **OU** `A_23_CRoute_In` mantido por
+  1 s (`T9 FB2_VisionRoute`, S_ODT S5T#1S) -> `I26.7 C_26_CRoute_Out` (OPC Route Depart).
+- O mesmo par existe para todos os modulos da esteira (24..29) e nas estacoes os AS-i se chamam
+  "Cart Arrived - Routing" / "Process Finished - Routing". Ou seja, **o fim da inspecao e o
+  `C_26_CRoute_Out`**; os 5 s simbolicos eram suposicao.
+- `Q26.2 C_26_CRoute_In` nao e escrito por nenhum bloco do Master: vem do cliente OPC externo
+  (igual ao `Q26.1 C_26_Request`, `FB11` rede 15).
+- Enderecos conferidos em `Variables_Master.csv`: CartDel `i=1462`, CRoute_Out `i=1472`, Request
+  `i=1482`, CRoute_In `i=1492` (itens 18..21 do `OPC UA Read-MASTER`).
+
+### Correcao
+- **Vision (pai):** novos locais `Vis_RIn`, `Vis_ROut`, `Vis_Cart`. `entry` captura `C_26_CRoute_In`,
+  `C_26_CRoute_Out`, `C_27_Request` e marca `Vis_Cart = true` (a entrada e por `C_26_CartDel`, que
+  pela `FB11` N20/N21 so existe com `I14.4 Visi_Cart_Stat`); `during` faz latch dos tres sinais.
+- **`Config_Visn`:** `C_26_CartDel || O_26_Cart_Stat || Vis_RIn || Vis_ROut` (captura + latch).
+- **`Inspecao_Visn`:** `C_26_CRoute_Out || Vis_ROut` (captura + latch). Removido o `after(5,sec)`.
+- **`Inspecao -> FinishesProcess`:** `[St_Visn_2 == true || Vis_Req27 == true]` -- o `C_27_Request`
+  (`FB11` N22 seta `M4.0`) e saida autoritativa do CLP: ele leva o carro ao Robot mesmo sem
+  roteamento da Vision.
+- **`CartToProcessing2`:** `Config_Cv27 -> DeVision_Cv27` = `St_Cv27_1 && (O_26_Cart_Stat ||
+  Vis_Cart)`, prioridade 1 (`FB11` N2); `DeVision_Cv27` idem. `exit` do bloco zera `Vis_Cart`.
+  Motivo: o `I14.4` pode cair assim que o carro e liberado.
+
+**Verificacao:** harness isolado (`harness_v4_26.m`) compila e simula sem erro; `V0_4_26_R2025b.slx`
+exportado com `exportToVersion` (`MDLInfo` = R2025b), `Vis_ROut` presente no XML. Script de
+criacao: `cria_v4_26.m`.
+
+**No teste:** observar se `C_26_CRoute_In` / `C_26_CRoute_Out` vao a 1 com o carro na Vision. Se o
+cliente OPC nao pedir o roteamento, a Vision sai so pelo `C_27_Request`.
+
+Modelo: `FullFMS_2026_02_25_V0_4_26_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
+
+---
+## v0.4.26 --> v0.4.27  (Vision: zera `St_Visn_3` no `entry`)
+
+### Diagnostico
+`St_Visn_3` so era escrito no `FinishesProcess_Visn` (captura + latch) e nunca voltava a `false`. A
+saida `Vision -> J2015 [St_Visn_3 == true]` e avaliada antes dos subestados, entao a partir do
+**2o carrinho** a Vision lia o `true` do ciclo anterior e saia no 1o passo, sem esperar a inspecao
+nem o `C_27_Request`.
+
+### Correcao
+- **Vision (pai):** primeira linha do `entry` = `St_Visn_3 = false;`.
+
+**Verificacao:** harness isolado compila e simula sem erro; `V0_4_27_R2025b.slx` exportado com
+`exportToVersion`. (Os scripts de criacao/harness desta versao foram apagados a pedido.)
+
+**Teste na planta (20/10):** Vision OK. Parou no `CartToProcessing2` porque `C_30_Robot1` e
+`C_30_Robot2` estavam em 0 -- o modo do robo nao tinha sido selecionado no sistema (Config 1 =
+Routine 1, ver `Config Setups.xlsx`). Corrigido na planta, o carro passou pelo Robot e parou no
+`RBS` da Sorting (v0.4.28).
+
+**No teste:** confirmar que o 2o carrinho espera na Vision; `C_30_Robot1` ou `C_30_Robot2` precisa
+estar ligado quando o carro chega no Robot (senao `J2035` fica sem saida e o chart para em
+`CartToProcessing2`). Obs.: `CarroProximo_Cv27` espera `O_27_Cart_Next`, que no Historian so liga na
+saida do Robot -- nao trava (a saida do bloco e por `C_27_CartDel`), mas conferir a rede N4 da `FB11`.
+
+Modelo: `FullFMS_2026_02_25_V0_4_27_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
+
+---
+## v0.4.27 --> v0.4.28  (Sorting: partida dos 6 blocos + saida para o `Start`)
+
+### Diagnostico (teste na planta, 20/10)
+O chart parou no `STATE2` do `RBS`. Valores lidos na simulacao: `C_65_RBS_Output = 1`,
+`C_65_Initialization = 0`, `C_55_PD_Sort = 1`, `O_50_Claw_Del = 0`, `StatusRBS_1 = 0`.
+- `StatusRBS_1` exigia `C_65_Initialization && C_65_RBS_Output` -- o `Initialization` esta em 0 com a
+  estacao rodando, entao o primeiro passo nunca ligava.
+- A transicao `STATE2 -> ESTATE7` exigia `C_55_PD_Sort && O_50_Claw_Del && StatusRBS_1`. No Historian
+  o `Claw_Del` fica so ~300 ms junto com o `PD_Sort` (a garra do Handling 1 volta logo para o carrinho)
+  e o `PD_Sort` continua ligado -- o mesmo padrao de pulso curto do Handling 2.
+
+### Correcao (Claude, 20/10)
+Nos **6 blocos** da Sorting (`RBS`, `RSB`, `BRS`, `BSR`, `SRB`, `SBR`):
+- Primeiro estado: `C_65_Initialization &&` removido -- fica so o bit de saida (`C_65_xxx_Output`).
+- Primeira transicao: `O_50_Claw_Del == true &&` removido -- fica `C_55_PD_Sort && Status..._1`.
+Harness isolado compila e simula sem erro. Exportado com `exportToVersion`.
+
+### Saida para o `Start` (usuario, 22/10, so no `_R2025b.slx`)
+- Adicionada uma transicao **sem condicao** de cada bloco da Sorting para o `Start` (borda do bloco
+  pai -> `Start`, ordem de execucao 1).
+- Removido o laco interno de volta ao primeiro estado (`ESTATE8 -> STATE2` no `RBS`,
+  `ESTATE5 -> STATE1` nos outros 5).
+- Isso fecha a pendencia "a Sorting nao tem transicao de saida".
+
+> **Atencao:** uma transicao de saida **sem condicao** que parte da borda do bloco pai e testada a
+> cada passo antes dos subestados -- o chart sai para o `Start` no passo seguinte a entrada, sem
+> rodar a classificacao. Para sair so no fim do ciclo, a transicao deve partir do ultimo estado
+> (`ESTATE8` / `ESTATE5`) ou ter a condicao do fim, ex.: `[StatusRBS_5 == true]`.
+>
+> **O `_R2026a.slx` da v0.4.28 nao tem essa mudanca** (so a correcao de partida). Se o R2026a for
+> usado como fonte da proxima versao, refazer as 6 saidas nele antes.
+
+Modelo: `FullFMS_2026_02_25_V0_4_28_R2025b.slx` (teste, com a saida para o `Start`) /
+`_R2026a.slx` (fonte, sem a saida).
+
+---
+## v0.4.28 --> v0.4.29  (Sorting: saida para o `Start` so no fim do ciclo)
+
+### Diagnostico
+As 6 saidas `bloco -> Start` da v0.4.28 nao tinham condicao e partiam da borda do bloco pai. Uma
+transicao assim e testada a cada passo antes dos subestados: o chart sairia para o `Start` no passo
+seguinte a entrada, sem rodar a classificacao.
+
+### Correcao
+Nos 6 blocos da Sorting (`RBS`, `RSB`, `BRS`, `BSR`, `SRB`, `SBR`):
+- Saida `bloco -> Start` = `[StatusXXX_5 == true]` (fim de ciclo: pino de identificacao recuado,
+  escrito no ultimo estado -- `ESTATE8` no `RBS`, `ESTATE5` nos outros).
+- `entry` do bloco pai = `StatusXXX_5 = false;` -- sem isso, no 2o ciclo a saida veria o `true` do
+  ciclo anterior e o bloco sairia logo na entrada (mesmo caso do `St_Visn_3` na v0.4.27).
+
+**Verificacao:** harness isolado compila e simula sem erro. Base: `V0_4_28_R2025b.slx` (com as saidas
+do usuario); salvo como `_R2026a` e exportado com `exportToVersion` para `_R2025b`. As duas versoes da
+v0.4.29 tem as saidas para o `Start`.
+
+Modelo: `FullFMS_2026_02_25_V0_4_29_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
+
+---
+## v0.4.29 --> v0.4.30  (Handling 2: zera `St_P2P1_5_10` no `entry` do `ProcessingToPart`)
+
+### Diagnostico (auditoria de flags, 27/10)
+Varredura de todas as transicoes do Chart que leem uma variavel local: a flag precisa ser
+zerada/recalculada no `entry` do estado de origem (ou de um bloco pai), que roda de novo a cada
+carrinho. So uma falhou:
+- `St_P2P1_5_10` e escrita apenas no `PecaEntregue_P2P1` (captura + latch) e nunca voltava a `false`.
+  Ela e lida na saida `ProcessingToPart -> J1861 [(St_P2P1_5_10 || P2P1_Armed) && C_95_PD_Cart]` e em
+  `J1861 -> CartToProcessing1`. O `P2P1_Armed` (zerado no `entry`) existe para so liberar a saida
+  depois que o `C_95_PD_Cart` cai e volta a 1 no ciclo atual. Com o `St_P2P1_5_10` ainda `true` do
+  carrinho anterior, se o `C_95_PD_Cart` estiver em 1 no instante da entrada (o FB5 N1 so o reseta
+  com o `Part_ready`), o bloco sai na entrada, sem rodar a sequencia do Handling 2.
+- `Vis_Cart` tambem aparece na varredura, mas e intencional: liga no `entry` da Vision e e zerado no
+  `exit` do `CartToProcessing2`.
+
+### Correcao
+- **`ProcessingToPart` (pai):** `entry` = `P2P1_Armed = false;` + `St_P2P1_5_10 = false;`.
+- Efeito no 1o carrinho: nenhum (a flag ja comecava em `false` pelo valor inicial). Do 2o em diante o
+  bloco volta a se comportar como no 1o.
+
+**Verificacao:** harness isolado compila e simula sem erro. Base: `V0_4_29_R2026a`; exportado com
+`exportToVersion` para `_R2025b`.
+
+Modelo: `FullFMS_2026_02_25_V0_4_30_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
+
+---
+## v0.4.30 --> v0.4.31  (Sorting: pino de identificacao com latch)
+
+### Diagnostico (teste na planta, 27/10)
+O chart parou no `ESTATE6` do `RBS`. A transicao `ESTATE6 -> ESTATE8` exigia
+`O_60_Part_Pass && StatusRBS_4`, com `StatusRBS_4` = `F_62_Identify` no `during` (com `else false`).
+No Historian o CLP desliga o pino **no mesmo instante** em que a peca passa:
+| Historian | `F_62_Identify` cai | `O_60_Part_Pass` | Sobreposicao |
+|---|---|---|---|
+| 01 | 54,593 s | 54,546 - 54,701 s | ~47 ms |
+| 06 | 04,469 s | 04,419 - 04,575 s | ~50 ms |
+| 10 | 23,688 s | 23,688 - 23,805 s | **0 ms** |
+Com o `else false`, o `StatusRBS_4` cai junto com o pino e a transicao quase nunca ve os dois juntos.
+
+### Correcao
+Nos 6 blocos da Sorting (estado do pino: `ESTATE6` no `RBS`, `ESTATE4` nos outros):
+- Estado do pino: captura no `entry` (`StatusXXX_4 = F_62_Identify;`) + latch no `during` (sem `else`).
+- Transicao seguinte: `[(O_60_Part_Pass == true || F_62_Identify == false) && StatusXXX_4 == true]` --
+  depois de ver o pino acionado, a queda do pino (sinal de nivel) tambem fecha o passo; o `Part_Pass`
+  e um pulso de ~150 ms.
+
+**Verificacao:** harness isolado compila e simula sem erro. Base: `V0_4_30_R2026a`; exportado com
+`exportToVersion` para `_R2025b`.
+
+Modelo: `FullFMS_2026_02_25_V0_4_31_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
+
+---
+
 # NOTAS, PENDENCIAS E CONTEXTO
 
 ## Estado atual por estacao
@@ -609,10 +1022,10 @@ Modelo: `FullFMS_2026_02_25_V0_4_18.slx`
 | Distribution [80] | implementada, verificada contra `FB4`/`FB5`/`FB6` (v0.4.18) | Single, Continuous, Counted |
 | Testing [70] | implementada, verificada contra `FB4`/`FB5` | Identified_Delivery, Requested_Delivery |
 | Conveyor [20] | implementada, verificada contra `Master/FB11` | CartToTesting, CartToProcessing..4 |
-| Handling 2 [90] | implementada, verificada contra `FB4`/`FB5` | PartToProcessing, ProcessingToPart |
+| Handling 2 [90] | reescrita na v0.4.20 por `FB4`/`FB5`; partida do P2P1 pela `OB1` N6 (v0.4.22) | PartToProcessing, ProcessingToPart |
 | Storage [40] | implementada, verificada contra o ladder (estacao simulada) | Store, Retrieve |
 | Robot [30] | implementada, verificada contra `Master/FB3` | Robot1, Robot2 |
-| Vision | simbolica (5 s), **sem PDF de ladder** | Vision |
+| Vision | sem FB proprio; guiada por `Master/FB11` N20-22 e `FB2` N31/N32 (`C_26_CRoute_In/Out`) desde a v0.4.26 | Vision |
 Os barramentos `_30` e `_40` passaram a ser usados a partir das v0.4.12 (Storage) e
 v0.4.13 (Robot): `Sensors_30` 16 usos, `AS_i_30` 16, `Control_30` 12, `Actuators_30` 4,
 `Control_40` 12, `AS_i_40` 8, `Sensors_40` 2. Apenas `Actuators_40` segue sem uso --
@@ -622,9 +1035,7 @@ Sorting, Storage, Testing). O Robot [30] esta dentro da Master (`FB3`, remota) e
 Conveyor [20] em `Master/FB11` (48 redes, 6 destinos). **Nao ha PDF do Vision.**
 **Todas as estacoes foram verificadas contra o ladder**, exceto o Vision, que nao tem PDF
 e foi modelado como passagem simbolica de 5 s (v0.4.16).
-Pendencia unica: a **Sorting nao tem transicao de saida** -- entra pelas juncoes e cicla
-internamente, sem devolver o controle a linha. Precisa de decisao sobre o destino da peca
-apos a classificacao.
+Saida da Sorting: desde a v0.4.29 cada bloco volta ao `Start` no fim do ciclo (`StatusXXX_5`).
 ---
 
 ## O QUE FALTA
@@ -632,8 +1043,10 @@ apos a classificacao.
 | # | Item | Por que importa |
 |---|---|---|
 | 1 | **Simulacao com o OPC UA conectado** | Validacao que falta inteira. O modelo compila, mas nunca rodou com dados da planta. Os dois piores erros ja encontrados (`J1888` mandando todo carro para `Retrieve`; Handling 2 com sentido invertido) **nao apareciam na compilacao**. E dessa simulacao que saem os tempos para o modelo matematico. |
-| 2 | **Saida da Sorting** | Pendencia estrutural unica. Os 6 blocos entram pelas juncoes e ciclam internamente, sem devolver o controle a linha. Precisa de decisao sobre o destino da peca apos a classificacao. |
+| 2 | **Saida da Sorting** | Feita na v0.4.29: os 6 blocos voltam ao `Start` no fim do ciclo, nas duas versoes (R2025b e R2026a). Falta testar na planta. |
 | 3 | `Master/FB11` redes 43-48 | Comandos aos **pinos de desvio** de cada estacao. Sem eles o percurso do carro nao fecha (item 2 do mapa de simplificacoes). Unico trecho de ladder relevante ainda nao lido. |
+| 0 | **Testar a v0.4.31 na planta** (v0.4.30 parou no `ESTATE6` do `RBS`, corrigido na v0.4.31) (Sorting + saida para o `Start` no fim do ciclo; flags zeradas a cada carrinho -- rodar pelo menos 2 ciclos seguidos). Ate a v0.4.27 o ciclo passou por Handling 2, Vision e Robot | v0.4.21-0.4.23 pararam no Handling 2 por sinais curtos; a v0.4.24 aplica latch + captura em todos os passos do Hd2. **As outras estacoes ainda usam `else St = false`** -- se travarem do mesmo jeito, aplicar o mesmo padrao (decisao pendente: fazer em todas de uma vez ou estacao por estacao). Daqui em diante, o primeiro bloco onde parar e o proximo ponto de cruzamento com o ladder. |
+| 5 | **MES (Master `FB12`)** | Adiado a pedido. `FB12` esta vazio no FMS V2 e `C_21_MES_On` nao esta no OPC UA (`B_Control_20`, CSV, `Tags_OPCUA.mat`). Antes de modelar: incluir a tag no `Connect_OPCUA.m` e baixar de novo. |
 | 4 | `after(4,sec)` morto na Distribution | No `Continuous` e no `Counted` e uma terceira transicao saindo de `PartDel_CheckLoop`, com as ordens 1 e 2 ja cobrindo `LoopDistCont` verdadeiro e falso -- nunca dispara. Mas o estado `T1` desses blocos **so e alcancavel por ela**. Apagar deixaria `T1` orfao. Pendente de decisao. |
 
 > Com o OPC UA resolvido no R2025b, o item 1 subiu de prioridade: valida tudo de uma vez e
@@ -809,11 +1222,14 @@ campos numericos do modelo.
 **O que e este projeto:** sombra digital de um FMS didatico controlado por CLP S7
 (CPU 313C-2 DP), em Simulink/Stateflow. O modelo **observa** a planta via OPC UA;
 todos os barramentos entram no Chart com escopo `Input` (somente leitura).
-**Como o Chart e organizado:** 30 blocos de topo (estados `OR`) no nivel do Chart,
+**Como o Chart e organizado:** 29 blocos de topo (estados `OR`) no nivel do Chart,
 ligados por uma rede de ~70 juncoes que forma o fluxo da linha. Cada bloco e uma
 estacao ou um modo de operacao dela. O topo e `EXCLUSIVE_OR`: **um bloco ativo por vez**.
 **Onde estao as coisas:**
-- Modelo: `Digital Model - STF/FullFMS_2026_02_25_V0_4_18.slx`
+- Modelo: `Digital Model - STF/FullFMS_2026_02_25_V0_4_31_R2025b.slx` (para rodar no R2025b,
+  onde o OPC UA funciona) e `..._V0_4_31_R2026a.slx` (fonte). Gerar a versao R2025b SEMPRE com
+  `Simulink.exportToVersion(m, arq, 'R2025B_SLX')`.
+- PDFs do FMS atual: `Full_FMS_PDFs_V2/` (o `Full_FMS_PDFs/` e a V1)
 - Bus objects: `Digital Model - STF/BUS_CONFIG.mat` (carregado pela `PreLoadFcn`)
 - PDFs de ladder: `Full_FMS_PDFs/` (8 pastas) + texto extraido em `_txt/`
 - Utilitarios de leitura de ladder: `Matlba/pdf2txt.m`, `pdfPage.m`, `dumpLadder.m`,
@@ -854,6 +1270,10 @@ em MATLAB puro: `pdf2txt.m`, `pdfPage.m`, `dumpLadder.m`, `inflateBytes.m`, `get
 Decodificam fontes CID via CMap e recuperam a **polaridade dos contatos (NA/NF)** a
 partir das barras de negacao vetoriais - validado contra o `Sorting/FB4` com 100% de
 acerto. Texto extraido dos 47 PDFs em `Full_FMS_PDFs/_txt/`.
+**Leitura visual (v0.4.22):** `renderPdfPage(pdf, pagina, 'saida.png')` redesenha a pagina
+(linhas, retangulos e texto, com a matriz `cm` aplicada) e exporta imagem. Serve para
+confirmar a **topologia de ramos paralelos**, que o texto sozinho nao mostra -- foi o que
+resolveu a rede 6 do `Hd2/OB1`. O indice de pagina e o mesmo do `pdfPage` (streams com texto).
 ### Armadilhas da API do Stateflow
 - Ao criar transicoes por script, definir `Source` antes de `Destination` faz o
   Stateflow reparentear a transicao para o Chart. Ordem correta: `Destination` primeiro.
