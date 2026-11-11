@@ -1,5 +1,9 @@
 Controle de Versões e Atualizações do AAS - Softwares das estações do FMS
 
+V3.1 - 11/11/2026
+Corrigido erro que impedia que servidores OPC UA iniciassem
+Adicionados os submodelos do MES a todas as estações.
+
 V3.0 - 29/09/2026
 Incluídos submodelos para o MES (Nameplate, Maintanence Instructions, KPI Calculator e OPC UA Server Identification)
 Incluídas variável no Master [20] para o MES.

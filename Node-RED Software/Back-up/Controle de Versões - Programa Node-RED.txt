@@ -1,7 +1,15 @@
 Controle de Versões e Atualizações do Node-RED - Softwares das estações do FMS
 
-V7.0.7 - 17/09/2026
+V7.0.8
+Upgrade para versão 3.1 do AAS
+Correções na aba MES para o Dashboard
+Adicionado Usuário e Senha para servidor MQTT
+
+V7.0.7 - 07/10/2026
+Corrigido ligação do Cart routing para permitir roteamento automático.
+Corrigido funcionamento continuado do roteamento sem necessidade de reinicar qual o tipo da rota.
 Movido "Simple Historian" para aba MQTT/PLC para trabalhar em ambiente Windows.
+Inserido aba com a versão do MES desenvolvido na POLIMI para adaptaçao
 
 V7.0.6 - 30/03/2026
 Corrigido ligação dos sinais da Testing [70] para o servidor MQTT
