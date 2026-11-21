@@ -2,7 +2,8 @@
 Sombra digital do FMS controlado por CLP S7 (CPU 313C-2 DP), em Simulink/Stateflow.
 O modelo apenas **observa** a planta: os barramentos `Sensors_*`, `Actuators_*`,
 `Control_*` e `AS_i_*` entram no chart com escopo **Input** (somente leitura).
-Nao existe nenhum bloco OPC UA Write.
+Desde a v0.5.0 existem blocos OPC UA Write para as variaveis simuladas (SS_/SA_/SC_/SR_/SID_),
+ainda sem ligacao com o chart.
 Pasta: `Digital Model - STF/`
 ---
 
@@ -1008,6 +1009,42 @@ Nos 6 blocos da Sorting (estado do pino: `ESTATE6` no `RBS`, `ESTATE4` nos outro
 `exportToVersion` para `_R2025b`.
 
 Modelo: `FullFMS_2026_02_25_V0_4_31_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
+
+---
+
+## v0.4.31 --> v0.5.0  (escrita OPC UA das variaveis simuladas)
+
+Inicio do modelo de simulacao: o chart vai escrever nos nos simulados dos servidores
+(coluna "Simulated TAG" da planilha `Tags FMS V7.0.7.xlsx`). **O chart nao foi alterado**
+(arquivos do Stateflow identicos aos da v0.4.31).
+
+### Blocos novos (um conjunto por servidor: MASTER, NODE, HD1, SORT, TEST, DIST, HD2, PROC)
+`BUS_SIM_IN_<srv>` (Bus Creator, `Bus: B_SIM_<srv>`) --> `BUS_SIM_<srv>` (Bus Selector) --> `OPC UA Write-<srv>`
+- O Write aponta para o mesmo servidor do `OPC UA Read-<srv>` (no script: `SelectedServer` antes de `ServerList`).
+- O Write tem **uma entrada por no**; a saida k do Bus Selector vai na entrada k do Write.
+- As entradas dos Bus Creators estao vazias: as saidas do chart ainda nao existem.
+  Decisao: essas saidas (`SimSensors_50`, ... tipo `Bus: B_SimSensors_50`) e as linhas ate o
+  Bus Creator sao fixas, entao serao criadas direto no modelo, nao por script.
+- `PreLoadFcn`: `load("BUS_CONFIG.mat"); load("BUS_CONFIG_SIM.mat")`.
+
+### Arquivos novos
+| Arquivo | Funcao |
+|---|---|
+| `Tags_SIM_V0_1_20261120.m` | Tags simuladas por servidor e grupo (`SimActuators_NN`, `SimASi_NN`, `SimControl_NN`, `SimSensors_NN`, `SimRFID_RFID`), mesma estrutura do `Tags_V0_4_20260221.m`. `AllVariablesSimNames` guarda o nome de cada grupo (usado nos buses e no Bus Selector). Nomes corrigidos em relacao a planilha: `SC_2x_CRoute_Out` e `SC_85_Part_Mag`. |
+| `Connect_OPCUA_Write.m` | Equivalente do `Connect_OPCUA.m` para a escrita: baixa os `Variables.csv`, cria os bus objects, acha o `i=` de cada tag simulada pelo nome e grava o `NodeList` do Write, o `OutputSignals` do Bus Selector e as linhas Selector->Write, sempre na ordem do Tags_SIM. |
+| `BUS_CONFIG_SIM.mat` | 41 bus objects: `B_Sim<grupo>_NN` (tags do grupo) e `B_SIM_<srv>` (grupos do servidor). Tags de CartID, contadores e RFID = `double`, resto `boolean`. |
+
+### Index do AAS
+Os index nao ficam fixos no modelo. **Depois de cada atualizacao do AAS, rodar o
+`Connect_OPCUA_Write.m`** (como o `Connect_OPCUA.m`). Tag que nao estiver no CSV sai do
+NodeList, do Bus Selector e das linhas ao mesmo tempo, e o script avisa.
+
+### Pendente
+- Os `Write` estao sem nos: os `Variables_*.csv` locais (06/10) nao tem tags simuladas e as
+  TV boxes nao respondem fora da rede do laboratorio. Rodar o script no laboratorio.
+- Ate as saidas do chart existirem, a compilacao reclama das entradas vazias dos Bus Creators.
+
+Modelo: `FullFMS_2026_02_25_V0_5_0_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
 
 ---
 
