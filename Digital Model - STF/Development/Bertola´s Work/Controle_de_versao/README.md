@@ -1048,6 +1048,715 @@ Modelo: `FullFMS_2026_02_25_V0_5_0_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
 
 ---
 
+## v0.5.0 --> v0.6.0  (Chart_SIM: piloto Handling 1 + parada 29)
+
+Primeiro modelo de simulacao. Chart novo `Chart_SIM` no topo (x ~ -960, a esquerda dos
+`BUS_SIM_IN_*`), `SampleTime = Ts_SIM` (0.05 s), sem entradas, linguagem MATLAB.
+**O chart da sombra (`Chart`) nao foi alterado**: o XML dele na v0.6.0 e identico ao da
+v0.5.0, exceto o id interno do chart (3980 -> 4085, renumeracao feita pelo save).
+
+### Saidas e ligacoes
+| Porta | Saida | Tipo | Destino |
+|---|---|---|---|
+| 1-3 | `SimActuators_20`, `SimControl_20`, `SimSensors_20` | `Bus: B_<nome>` | `BUS_SIM_IN_MASTER` 1-3 |
+| 4-7 | `SimActuators_50`, `SimASi_50`, `SimControl_50`, `SimSensors_50` | `Bus: B_<nome>` | `BUS_SIM_IN_HD1` 1-4 |
+
+Os outros `BUS_SIM_IN_*` continuam sem entrada. Campos de bus nao usados ficam em 0.
+- Parametros: `T_HD1_T1`, `T_CONV_T6`, `t_v_down`, `t_v_up`, `t_h_del`, `t_h_cart`, `t_grip`,
+  `t_conv`, `t_leave`, `t_sort_clear`, `N_PARTS` (definidos em `Param_SIM_V0_6.m`).
+- Locais: `SPart60` (peca na Sorting), `PartOnCart`, `CartAt29`, `CRouteIn54`, `Claw2CartCmd` (boolean), `nDone` (double).
+- `PreLoadFcn`: `load("BUS_CONFIG.mat"); load("BUS_CONFIG_SIM.mat"); run("Param_SIM_V0_6.m")`.
+
+### Estrutura Controle / Planta (3 estados paralelos, nesta ordem de execucao)
+1. `Conveyor29` (Master FB11, parada 29, simplificado):
+   `Idle -> Arriving [nDone < N_PARTS] -> AtStop after(t_conv) -> Delivered after(T_CONV_T6) -> Leaving [SR_54_CRoute_Out] -> Idle after(t_leave)`.
+   `AtStop` liga `SS_29_Count/Cart_Stat/Optic` e poe a peca no carro; `Delivered` liga `SC_29_CartDel` e `SR_54_CRoute_In`; `during: SS_29_Optic = PartOnCart`.
+2. `HD1_Ctrl` (controle = ladder `Hd1/FB4 Cart_2_Del`): sequencia abaixo. So escreve atuadores e controles.
+3. `HD1_Plant` (planta = resposta fisica): 4 sub-estados paralelos que leem os atuadores e escrevem os sensores.
+   - `Vertical`: High / GoingDown (t_v_down) / Low / GoingUp (t_v_up); inverte no meio se o comando mudar.
+   - `Horizontal`: AtCart / ToDel (t_h_del) / AtDel / ToCart (t_h_cart).
+   - `Gripper`: Empty / Gripping (t_grip) / Holding / Releasing (t_grip). Pega so se garra embaixo, no carro e `PartOnCart`; ao soltar, `SPart60 = SS_50_Claw_Del`.
+   - `SortingFeed`: NoPart / HasPart; a Sorting leva a peca depois de `t_sort_clear` (`SPart60 = false`).
+
+### Sequencia do HD1_Ctrl x ladder (`Hd1/FB4`, redes N1..N9)
+| Estado | Condicao de entrada | Acao (entry) |
+|---|---|---|
+| `Init` (FB1) | default | `SC_52_Profibus`; zera atuadores |
+| `Ready` | `Claw_Cart && Claw_High && ~Part_in_Claw` | `SC_55_Initialization` |
+| `N1_StartMove` | `CRouteIn54 && CartAt29 && SS_29_Optic && ~SPart60` | `SC_55_PD_Sort = 0` |
+| `N2_LowerClaw` | `~PD_Sort && Claw_Cart && Claw_High && ~Part_in_Claw` | `Claw_Down = 1` |
+| `N3_CloseClaw` | `Claw_Cart && Claw_Low` | `Close_Claw = 1` |
+| `N3_Raise` | `Part_in_Claw` | `Claw_Down = 0` |
+| `N4_Claw2Del` | `Claw_High && Part_in_Claw && ~Claw_Del` | `Claw_2_Cart = 0; Claw_2_Del = 1` |
+| `N5_LowerClaw2` | `Claw_Del && Claw_High && Part_in_Claw` | `Claw_Down = 1` |
+| `N6_Release` | `Claw_Del && Claw_Low` | `Close_Claw = 0` |
+| `N6_Raise` | `~Part_in_Claw` | `Claw_Down = 0` |
+| `N7_PDSort` | `Claw_Del && Claw_High && ~Part_in_Claw` | `SC_55_PD_Sort = 1` |
+| `N8_Claw2Cart` | incondicional | `Claw_2_Del = 0; Claw_2_Cart = 1` |
+| `N9_CRouteOut` | `Claw_Cart` (borda NEG do Claw2Cart -> T1 S_PEXT) | `SR_54_CRoute_Out = 1`; exit: zera e `nDone++` |
+| volta a `Ready` | `after(T_HD1_T1)` | |
+
+### Tempos usados (`Param_SIM_V0_6.m`)
+| Parametro | Valor | Origem |
+|---|---|---|
+| `T_HD1_T1` | 2 s | ladder exato (Hd1 FB4 T1 S_PEXT); Historian mostra pulso de ~1.9 s no `A_54_CRoute_Out` |
+| `T_CONV_T6` | 3 s | ladder exato (Master FB11 T6 SE) |
+| `t_v_down` | 0.93 s | Historian: `F_52_Claw_Down` sobe -> `O_50_Claw_Low` (n=38, 0.82..0.98) |
+| `t_v_up` | 1.37 s | Historian: `F_52_Claw_Down` desce -> `O_50_Claw_High` (n=38, 1.25..1.44) |
+| `t_h_del` | 2.82 s | Historian: `F_52_Claw_2_Del` -> `O_50_Claw_Del` (n=19) |
+| `t_h_cart` | 2.38 s | Historian: `F_52_Claw_2_Cart` -> `O_50_Claw_Cart` (n=19) |
+| `t_grip` | 0.10 s | Historian deu 0.01 s (fechar) e 0.08 s (abrir); usado 2*Ts_SIM |
+| `t_conv` | 5 s | estimado (o Historian nao isola o transporte do carro) |
+| `t_leave` | 2 s | estimado |
+| `t_sort_clear` | 3 s | provisorio |
+| `N_PARTS` | 3 | cenario |
+
+Subida e descida da garra sao bem diferentes (0.93 x 1.37 s), assim como ida e volta (2.82 x 2.38 s),
+por isso o `t_v`/`t_h` unico foi trocado por dois tempos cada (`t_v`/`t_h` ficam no .m so como media).
+Observacao: no Historian `O_29_Count -> C_29_CartDel` leva ~1.2 s (n=17), e nao 3 s; o T6 pode nao
+estar nesse caminho. Mantido o T6 do ladder ate conferir.
+
+### Verificacao (modelo temporario em `%TEMP%`, sem OPC, 90 s, FixedStep 0.01)
+`nDone` chega a 3 (t = 20.70, 41.45, 62.20 s) -> **ciclo de 20.75 s por peca** (60 s nao bastam para 3 pecas).
+Linha do tempo da 1a peca (s):
+`Arriving 0.05 | AtStop 5.05 | Delivered/CRoute_In/N1 8.05 | N2 8.10 | Claw_Low 9.05 | N3 9.10 |
+Part_in_Claw 9.20 | N3_Raise 9.25 | Claw_High 10.65 | N4 10.70 | Claw_Del 13.55 | N5 13.60 | Claw_Low 14.55 |
+N6 14.60 | Part_in_Claw=0, SPart60 14.70 | N6_Raise 14.75 | Claw_High 16.15 | N7 16.20 | N8 16.25 |
+Claw_Cart 18.65 | N9/CRoute_Out 18.70 | Leaving 18.75 | nDone=1, Ready 20.70 | Idle 20.75 | 2o carro 20.80`.
+Garra do CartDel ao CRoute_Out: 10.65 s no modelo x ~10.2 s no Historian 01.
+`Ctrl+D` na v0.6.0: para no primeiro `BUS_SIM_IN_*` sem entrada (`BUS_SIM_IN_TEST` / `_SORT`),
+como esperado; nenhum erro citou o Chart_SIM, o `BUS_SIM_IN_MASTER` ou o `BUS_SIM_IN_HD1`. A compilacao
+completa so sera possivel quando as outras estacoes estiverem ligadas. O mesmo chart compila e roda sozinho.
+
+### Armadilhas encontradas
+- Bus de saida lido antes de ser escrito (erro em tempo de execucao): o `Init` agora escreve os 4 atuadores, `PD_Sort` e `CRoute_Out`.
+- Transicao de retorno com `SourceOClock = 3` tem o arco empurrado para fora do pai e vira supertransicao
+  (o `HD1_Plant` inteiro reentrava). Corrigido com `MidPoint` e rotulo dentro do pai e pai mais largo; o
+  script de construcao confere o pai de cada transicao.
+
+### Pendente
+- Outras estacoes (MASTER restante, NODE, SORT, TEST, DIST, HD2, PROC).
+- `SS_60_SPart` ainda e local (`SPart60`), nao vai para o bus da Sorting.
+- `Connect_OPCUA_Write.m` ainda aponta para a v0.5.0 (e `Connect_OPCUA.m` para a v0.4.18).
+- Conferir `t_conv`, `t_leave` e o T6 com dados da esteira.
+
+Modelo: `FullFMS_2026_02_25_V0_6_0_R2025b.slx` (teste) / `_R2026a.slx` (fonte).
+
+## FullFMS_SIM v0.1.0  (modelo de simulacao separado)
+
+A partir de agora a simulacao fica num `.slx` proprio, `FullFMS_SIM_V0_1_0_R2026a.slx` (fonte) /
+`_R2025b.slx` (teste), so com o `Chart_SIM` e a cadeia de escrita:
+`Chart_SIM -> BUS_SIM_IN_<srv> -> BUS_SIM_<srv> -> OPC UA Write-<srv>` (8 servidores).
+A sombra (chart `Chart`, `OPC UA Read-*`, `BUS_<srv>`, `MATLAB Function*`, Bus Creators de
+leitura) continua nos `FullFMS_2026_02_25_*`; a v0.6.0 nao foi alterada.
+
+- Feito a partir da v0.6.0 (save com novo nome + `delete_block` do resto): 1 chart + 24 blocos
+  (8 `BUS_SIM_IN_*`, 8 `BUS_SIM_*`, 8 `OPC UA Write-*`) com os mesmos nomes, posicoes e parametros.
+- Linhas: `Chart_SIM -> BUS_SIM_IN_MASTER` (3), `Chart_SIM -> BUS_SIM_IN_HD1` (4) e
+  `BUS_SIM_IN_<srv> -> BUS_SIM_<srv>` (8). As linhas `BUS_SIM_<srv> -> OPC UA Write-<srv>` nao
+  existem no .slx (nem existiam na v0.6.0): sao criadas pelo `Connect_OPCUA_Write.m`.
+- `PreLoadFcn`: `load("BUS_CONFIG_SIM.mat"); run("Param_SIM_V0_6.m")` (o `BUS_CONFIG.mat` era so
+  da leitura). Nenhum bloco usa mais `B_Actuators/B_Control/B_Sensors/B_AS_i`.
+- `Ctrl+D`: para em `BUS_SIM_IN_SORT` (sem entrada, falta `B_SimActuators_60`), como na v0.6.0;
+  nenhum erro cita o `Chart_SIM`, o `BUS_SIM_IN_MASTER` ou o `BUS_SIM_IN_HD1`.
+- `Connect_OPCUA_Write.m` aponta para `FullFMS_SIM_V0_1_0_R2025b`.
+- Cuidado: sem servidor OPC UA, um `get_param(...,'PortHandles')` num `OPC UA Write-*` leva ~50 s
+  (inicializacao da mascara); para scripts longos use `matlab -batch`.
+
+## FullFMS_SIM v0.1.0 --> v0.1.2  (Sorting [60])
+
+Sorting no `Chart_SIM`, no mesmo nivel da sombra: controle = ladder rede a rede (`OB1`, `FB1`,
+`FB3`, `FB4`..`FB9`, lidos renderizados, polaridade NA/NF conferida) + planta com tempos do Historian.
+Feito a partir da v0.1.0 (save com novo nome; a v0.1.0 nao mudou). O chart e reconstruido pelo `build_chart_sim_V0_1_2.m` (nesta pasta).
+
+### Saidas e ligacoes
+| Porta | Saida | Destino |
+|---|---|---|
+| 1-3 | `SimActuators_20`, `SimControl_20`, `SimSensors_20` | `BUS_SIM_IN_MASTER` 1-3 |
+| 4-7 | `SimActuators_50`, `SimASi_50`, `SimControl_50`, `SimSensors_50` | `BUS_SIM_IN_HD1` 1-4 |
+| 8-10 | `SimActuators_60`, `SimControl_60`, `SimSensors_60` (`Bus: B_Sim..._60`) | `BUS_SIM_IN_SORT` 1-3 (ordem do `B_SIM_SORT`) |
+
+- `PreLoadFcn`: `load("BUS_CONFIG_SIM.mat"); run("Param_SIM_V0_1_2.m")`.
+- Ordem dos estados de topo: `Conveyor29`, `HD1_Ctrl`, `HD1_Plant`, `SORT_Ctrl`, `SORT_Plant`.
+- O local `SPart60` saiu: o `HD1_Plant.Gripper` liga o sensor real `SimSensors_60.SS_60_SPart` ao
+  soltar a peca na posicao de entrega, e o N1 do `HD1_Ctrl` le `~SS_60_SPart` (como o ladder).
+  O estado `SortingFeed` (peca sumia apos `t_sort_clear`) foi removido.
+- Contadores: `nCart` (carros atendidos pelo Hd1, ++ na saida do N9; o `Conveyor29` chama carro
+  enquanto `nCart < N_PARTS`) e `nDone` (pecas classificadas, ++ quando a peca chega ao `Part_Pass`).
+  `nSortIn` conta as pecas que entraram na esteira e escolhe a cor `PART_COLORS(nSortIn)`.
+
+### Controle (`SORT_Ctrl`, 4 paralelos) x ladder
+| Estado / transicao | Ladder | O que faz |
+|---|---|---|
+| entry do `SORT_Ctrl` | supervisorio | `SC_65_<modo>_Output = (SORT_MODE == k)`; zera todos os `SC_*` e `SA_*` |
+| `FB1_N2_Check` | FB1 N2 | `C_62_Profibus`; vai para `FB1_N1_InitOk` se `~FB1Conv & ~SPart & ~SInd & ~SPhoto & ~Part_Pass` |
+| `FB1_N3_ClearPart` | FB1 N3 | peca na estacao: `FB1_Conveyor` e `FB1_IDPin` (S); reset com `FB1_Conveyor & Part_Pass` |
+| `FB1_N1_InitOk` | FB1 N1/N2 | `FB1_Init` (M0.0) = `C_65_Initialization`; volta ao N2 com `Reset` (N4..N8 zeram MB0..MB4) |
+| `OB1_N4_9_Select` | OB1 N4..N9 | FB do modo so roda com `FB1_Init & C_65_xxx_Output`; dispara com `C_55_PD_Sort & O_50_Claw_Del` |
+| `N1_StartConv` | FBx N1 | S `TrigConv`; R `ID_1`, `ID_2`; dispara `Tx` SE 2 s |
+| `N2_Identify` | FBx N2 | durante `Tx`: `SInd` -> 01; `~SInd & SPhoto` -> 11; `~SInd & ~SPhoto` -> 10 |
+| `N3_SelectLever` | FBx N3 | depois de `Tx`: `Lever1`/`Lever2`/passa direto pelos bits e pelo modo; S `Pin` com `SL1_Fwd` / `SL2_Fwd` / (`SL1_Bck & SL2_Bck`) |
+| `N4_PartDel` | FBx N4 | `TrigConv & ~Tx & Part_Pass` -> S `PartDel`; derruba as alavancas |
+| `N5_ResetNext` | FBx N5 | `PartDel` -> R `TrigConv`, `Pin`, `PartDel`; volta ao `OB1_N4_9_Select` |
+| `N10_PartPass` -> `N11_PartSorted` | OB1 N10/N11 | borda NEG do `Part_Pass` -> T7 SE 4 s -> `C_65_Part_Sorted` |
+| `FB3_Map` | FB3 N1..N12 | com `Key_Pos`: `Conveyor = TrigConv or FB1_Conveyor`, `P1 = Lever1`, `P2 = Lever2`, `Identify = Pin or FB1_IDPin`, `Led_Start = FB1_Init`, `Led_Extra1 = Part_Sorted` |
+
+Os 6 FBs tem as mesmas 5 redes; muda so o destino de cada cor (N3). O chart tem um bloco
+parametrizado (`FB4_9_Sort`) e a tabela `SORT_MAP` do `Param_SIM_V0_1_2.m`.
+Bits: vermelha = `ID_1 & ID_2`, preta = `ID_1 & ~ID_2`, metalica = `~ID_1 & ID_2`.
+
+| `SORT_MODE` | FB | Alavanca 1 (`P1`) | Alavanca 2 (`P2`) | Passa direto | Timer |
+|---|---|---|---|---|---|
+| 1 | FB4 RBS | vermelha | preta | metalica | T1 |
+| 2 | FB5 RSB | vermelha | metalica | preta | T2 |
+| 3 | FB6 BRS | preta | vermelha | metalica | T3 |
+| 4 | FB7 BSR | preta | metalica | vermelha | T4 |
+| 5 | FB8 SRB | metalica | vermelha | preta | T5 |
+| 6 | FB9 SBR | metalica | preta | vermelha | T6 |
+
+Erros do ladder encontrados (mantidos ou contornados):
+- **FB6 N3**: a bobina `FB6_Lever2` le `~"FB5_PartDel"` (M1.4) em vez do `FB6_PartDel` (M2.1). No
+  modo 3 a alavanca 2 nao cai no N4, so no N5 (mesmo ciclo do CLP). Replicado.
+- **FB9 N4**: o contato e `~T11` (nunca disparado) em vez de `~T6`. Tratado como `T6` (como os outros 5 FBs);
+  no CLP real o `PartDel` do FB9 pode ligar durante a janela de identificacao se o `Part_Pass` piscar.
+- O T1..T6 e uma bobina `SE`: no S7 em ingles `SE` = pulso prolongado (S_PEXT), entao a janela de 2 s
+  conta da borda de subida de `PD_Sort & Claw_Del`, mesmo com o `Claw_Del` caindo logo depois.
+
+### Planta (`SORT_Plant`, 3 paralelos)
+- `Part`: `Empty -> AtEntry [SS_60_SPart] -> ToStopper [Conveyor] -> AtStopper -> Released [Identify & Conveyor] -> PartPass -> Empty`.
+  A peca anda so com a esteira ligada (`xSort` soma `Ts_SIM` enquanto `ConvOn60`). No `ToStopper`:
+  `SPart` cai, `SPhoto` liga (vermelha/metalica), `SInd` liga (so metalica); a peca para no pino.
+  No `Released` a saida e decidida pela alavanca avancada (1, 2 ou 3 = direto) e os sensores caem;
+  o `Part_Pass` vem depois do tempo de cada saida.
+- `Lever1` / `Lever2`: `Bck -> ToFwd -> Fwd -> ToBck` (inverte no meio se o comando mudar).
+- Painel: `SS_61_Key_Pos = true` (automatico), `Start/Stop/Reset/Panel_I4..I7 = false`.
+
+### Tempos (`Param_SIM_V0_1_2.m`)
+| Parametro | Valor | Origem |
+|---|---|---|
+| `T_SORT_ID` | 2 s | ladder exato (T1..T6 SE S5T#2S); Historian: `Conveyor -> P1/P2` 1.92 s (n=14) |
+| `T_SORT_T7` | 4 s | ladder exato (OB1 T7 SE S5T#4S); Historian: `Part_Sorted` 3.98 s (n=19) |
+| `t_s_spart_off` | 0.135 s | Historian: `F_62_Conveyor -> O_60_SPart` cai (mediana, n=19) |
+| `t_s_photo` / `t_s_ind` | 0.14 / 0.26 s | Historian: `F_62_Conveyor -> O_60_SPhoto` (n=12) / `-> O_60_SInd` (n=5) |
+| `t_s_ind_off` / `t_s_photo_off` | 0.12 / 0.19 s | Historian: `F_62_Identify -> SInd` / `SPhoto` caem |
+| `t_s_pass1` / `2` / `3` | 1.98 / 2.57 / 2.87 s | Historian: `F_62_Identify -> O_60_Part_Pass` por saida (n=7/7/5) |
+| `t_s_pp` | 0.15 s | Historian: pulso do `Part_Pass` (n=19) |
+| `t_sl1_fwd` / `t_sl1_bck` | 0.42 / 0.25 s | Historian: `F_62_P1 -> O_60_SL1_Fwd` / `-> SL1_Bck` (n=7) |
+| `t_sl2_fwd` / `t_sl2_bck` | 0.14 / 0.32 s | Historian: `F_62_P2 -> O_60_SL2_Fwd` / `-> SL2_Bck` (n=7) |
+| `SORT_MODE`, `PART_COLORS` | 1, [1 2 3] | cenario (setup do supervisorio e cores das pecas) |
+
+Nenhum tempo da Sorting ficou estimado (FB1 nao tem temporizador). Config 01 do Historian = RBS
+(vermelha -> P1, preta -> P2, metalica direto). `t_sort_clear` saiu (a peca agora sai pela planta).
+
+### Verificacao (modelo temporario em `%TEMP%`, so o Chart_SIM, 90 s, FixedStep 0.01)
+| Modo | Peca 1 vermelha | Peca 2 preta | Peca 3 metalica | `nDone` |
+|---|---|---|---|---|
+| 1 RBS | alavanca 1 | alavanca 2 | direto | 3 (t = 20.75, 41.80, 62.70) |
+| 6 SBR | direto | alavanca 2 | alavanca 1 | 3 (t = 21.20, 41.80, 62.25) |
+
+Bits no fim da janela: vermelha 11, preta 10, metalica 01 (batem com a tabela).
+Linha do tempo da 1a peca (RBS, vermelha), em s:
+`SPart 14.70 | PD_Sort + N1 (esteira, ID zerado) 16.20 | N2 16.25, SPart cai e SPhoto liga 16.35, ID 11 em 16.40 |
+N3 / P1 18.20 | SL1_Fwd 18.65 | pino (Identify) 18.70 | SPhoto cai 18.90 | Part_Pass 20.75 | N4 20.80 (P1 cai) |
+N5 20.85 (esteira e pino desligam) | Part_Sorted 20.95 -> 24.95 | SL1_Bck 21.05`.
+Esteira ligada 4.65 s por peca (Historian 4.62 s); `SPart -> Part_Pass` 6.05 s; ciclo ~21 s por peca
+(limitado pelo Hd1 e pelo carro, nao pela Sorting).
+`Ctrl+D` na v0.1.2: para no `BUS_SIM_IN_TEST` (sem entrada, falta `B_SimActuators_70`) -- nao mais no SORT.
+
+### Armadilha encontrada
+Ler um campo de um bus de **saida** dentro de acao de estado (`during: if SimActuators_60.SA_60_Conveyor ...`)
+faz o Stateflow reclamar que o bus "nao tem atribuicao completa". Em transicao pode. Solucao: copia local
+(`ConvOn60`) escrita no `FB3_Map`.
+
+### Pendente
+- Testar com a planta (Connect_OPCUA_Write) em cada modo.
+- `FB1` N3 (limpeza de peca na partida) so roda se houver peca no inicio; nao foi exercitado na verificacao.
+- Proximas estacoes: TEST, DIST, HD2, PROC, NODE, MASTER restante.
+
+Modelo: `FullFMS_SIM_V0_1_2_R2025b.slx` (teste) / `_R2026a.slx` (fonte). `Connect_OPCUA_Write.m` aponta para a R2025b.
+
+## FullFMS_SIM v0.1.2 --> v0.1.3  (Testing [70])
+
+Testing no `Chart_SIM`, no mesmo formato da Sorting: controle = ladder rede a rede (`OB1`, `FB1`, `FB3`,
+`FB4` Identified, `FB5` Requested, lidos renderizados, polaridade NA/NF conferida) + planta com tempos do
+Historian + parada 24 do carro. Feito a partir da v0.1.2 (save com novo nome; a v0.1.2 nao mudou).
+O construtor desta versao ficou fora da pasta (em `%TEMP%`); o `build_chart_sim_V0_1_2.m` foi mantido.
+
+### Saidas e ligacoes
+| Porta | Saida | Destino |
+|---|---|---|
+| 1-10 | (iguais a v0.1.2) | `BUS_SIM_IN_MASTER`, `_HD1`, `_SORT` |
+| 11-14 | `SimActuators_70`, `SimASi_70`, `SimControl_70`, `SimSensors_70` | `BUS_SIM_IN_TEST` 1-4 (ordem do `B_SIM_TEST`) |
+
+- `PreLoadFcn`: `load("BUS_CONFIG_SIM.mat"); run("Param_SIM_V0_1_3.m")`.
+- Estados de topo novos: `TEST_Ctrl` (6), `TEST_Plant` (7), `Conveyor24` (8), `DIST_Feed_PROVISORIO` (9).
+- `Conveyor29`, Hd1 e Sorting nao mudaram. O carro que sai da parada 24 com a peca da Testing **ainda nao
+  segue** pelas paradas 25-28 ate o Hd1: a Testing e contada a parte (`nTest` = carros que sairam com peca;
+  `nTestIn` = pecas entregues ao elevador; `nReject` = pecas rejeitadas embaixo).
+
+### Controle (`TEST_Ctrl`, 5 paralelos) x ladder
+| Estado / transicao | Ladder | O que faz |
+|---|---|---|
+| entry do `TEST_Ctrl` | supervisorio + FB2 N16/N17 | `C_75_Identified = (TEST_MODE == 1)`, `C_75_Requested = (TEST_MODE == 2)`, `*80` iguais; zera `SC_*`, `SA_*`, `SR_*` |
+| `FB1_N2_N3_Check` | FB1 N2/N3 | `C_72_Profibus`; elevador desce se nao estiver embaixo |
+| `FB1_N3_PistonPulse` | FB1 N3 | peca no elevador embaixo: pistao por `T1` SE 4 s |
+| `FB1_N1_N4_InitOk` | FB1 N1/N4 | `~SPart & Elev_Low & Pist_Back` (Init_Parcial) `& C_72_Profibus & C_85_Initialization` -> `FB1_Init` = `C_75_Initialization`; `Reset` volta (N5..N7) |
+| `OB1_N4_Off` / `OB1_N5_Off` | OB1 N4/N5 | FB4 so com `FB1_Init & C_75_Identified`; FB5 so com `FB1_Init & C_75_Requested` |
+| `N1_StartID` / `N1_StartReq` | FB4/FB5 N1 | borda POS do `SPart`: S `Iden_Del`/`Req_Del`; R `ID_Delivery1/2`, `Part_Del`, `RQ_Part_Del` (FB5 tambem `RQ_Wrong`, `Part_Different`) |
+| `N2_N3_Raise` | N2 + N3 | `SPart & Elev_Low & SInductive` -> S `ID_Delivery2` (metalica); `Elev_Up = SPart & Pist_Back & O_80_Arm_Mag` |
+| `N4_Identify` (FB4) | FB4 N4 | no alto: `~ID2` -> S `ID1`; `~ID2 & SPart_Height` -> S `ID2`; `T2` S_ODT 2 s -> R `Iden_Proc`, S `Eject_Proc` |
+| `N4_ColorWindow` / `N4_ColorHold` (FB5) | FB5 N4 | mesma regra, mas so dentro de `T8` S_PEXT 0.5 s; `T2` S_ODT 2 s fecha |
+| `N5_Compare` (FB5) | FB5 N5 | bits `ID` = bits `RQ` -> `Part_Ok` + `Eject_Ok`; qualquer bit diferente -> `Part_Different` + `Eject_Bad` |
+| `N5_Eject*` (FB4) / `N6_Eject*` (FB5) | FB4 N5 / FB5 N6 | carro preso (`~A_74_Pist_Bck & A_74_Cart_Stat`) e vazio (`~A_74_Optic`): pistao + ar por `T3`/`T5` SP 2 s, cai com `A_74_Optic`; `Cart_Full = Cart_Stat & Optic` |
+| `N6_ReturnElev` -> `N6_PartDel` (FB4) | FB4 N6 | `Pist_Back & ~SPart & Optic` -> desce; `Elev_Low` -> S `C_75_Part_Del` |
+| `N7_ReturnElev` -> `N7_RQPartDel` -> `N10_ResetReq` (FB5) | FB5 N7/N10 | idem -> S `C_75_RQ_Part_Del`; R `Req_Del` |
+| `N8_DownBad` -> `N8_EjectBad` -> `N8_WaitBack` (FB5) | FB5 N8 | peca errada: desce com a peca; embaixo pistao `T6` SP 2 s (rejeicao) |
+| `N9_RQWrong` (FB5) | FB5 N9 | `Part_Different & ~Eject_Bad` -> S `C_75_RQ_Wrong` |
+| `OB1_N6_T7_CRouteOut` | OB1 N6 | `Part_Del` ou `RQ_Part_Del` -> `T7` S_PEXT 2 s -> `A_74_CRoute_Out` |
+| `FB3_Map` | FB3 + OB1 N7..N9 | `Elev_Up = FB4 | FB5`; `Elev_Down = FB1 | FB4 | FB5 Down1 | FB5 Down2`; `Eject = FB1 | FB4 | FB5 FWD1 | FWD2`; `Air_On = FB4 | FB5`; `A_74_No_Cart = ~Cart_Stat`; `A_74_Cart_Full = FB4_Cart_Full & Identified | FB5_Cart_Full & Requested | Cart_Stat & Optic`; `CRoute_In80 = CRoute_In`; Leds |
+
+Bits (mesma tabela da Sorting): vermelha 11, preta 10, metalica 01 (metalica pelo indutivo embaixo,
+vermelha pelo `SPart_Height` no alto).
+
+Observacoes do ladder (mantidas):
+- FB5 N4 usa o `T2` "FB4_Iden_T" -- o mesmo temporizador do FB4 (os dois nunca rodam juntos).
+- FB4 nunca zera `Iden_Del` (so o FB1); FB5 N10 so zera `Req_Del` com `~Part_Different`, e o `Part_Different`
+  so cai no N1 da peca seguinte -- depois de uma peca errada o `Req_Del` fica ligado ate a proxima peca.
+- FB4/FB5 N3 e N6..N8 leem `O_80_Arm_Mag` (sensor da Distribution). No SIM vem do `DIST_Feed_PROVISORIO`.
+- `SR_74_Request` nao aparece no ladder da Testing: fica em 0.
+- Master FB11 N6/N7 (destino Testing): `T1` SE 3 s na chegada (`Cart_Stat`) e `C_24_CartDel = T1`, ou seja,
+  o `CartDel` e um pulso de 3 s que **comeca** na chegada (Historian: 2.96 s). O `Conveyor29` da v0.6.0 usa o
+  T6 como atraso antes do `CartDel` -- conferir na rede N41/N42 do FB11 quando a esteira for detalhada.
+
+### Planta (`TEST_Plant`, 4 paralelos) e parada 24
+- `Elevator`: `Elev_Low -> Elev_GoingUp -> Elev_High -> Elev_GoingDown`, com os sensores intermediarios da
+  subida/descida (pulsos do `SInductive` e do `SStation` medidos), `Elev_Low` cai 0.85 s depois de subir,
+  `SPart_Height` liga 0.31 s antes do `Elev_High` (vermelha/metalica). Metalica: `SInductive` ligado embaixo.
+- `Piston`: `Pist_Back -> Pist_Fwd -> Pist_Return`; a peca sai do elevador 0.17 s depois do comando; no alto
+  vai para o carro (`SlideToCart`, `O_24_Optic` 1.21 s depois do comando), embaixo e rejeitada (`nReject`).
+- `Sensors_Out` copia os locais para o `SimSensors_70`. Painel: `Key_Pos = 1`, demais 0.
+- `Conveyor24`: `C24_Request` (`C_24_Request` 2 s) -> `C24_Moving` -> `C24_Count` -> `C24_N6_AtStop` (`Cart_Stat`,
+  pino segura o carro, `C_24_CartDel`, `SR_73_TestCartID`, pedido `RQ_DELIVERY` do carro) -> `C24_CRouteIn`
+  (`A_74_CRoute_In` 1.8 s) -> `C24_Docked` -> `C24_N7_CartDelOff` (fim do pulso de 3 s) -> `[CRoute_Out]` ->
+  `C24_Release` -> `C24_PinBack` -> `C24_Leaving` -> `C24_Gone` (`nTest++` se o carro saiu com peca).
+- **`DIST_Feed_PROVISORIO`** (sai quando a Distribution [80] entrar): espera `CRoute_In80` (ou `RQ_Wrong`),
+  tira o braco do magazine (`O_80_Arm_Mag = 0`), 10.15 s depois poe a proxima peca de `PART_COLORS` no elevador
+  (`SPart`, com o pulso do `SStation`) e devolve o braco 1.87 s depois. `C_85_Initialization` = `DIST_INIT_PROV`
+  (parametro provisorio).
+
+### Tempos (`Param_SIM_V0_1_3.m`)
+| Parametro | Valor | Origem |
+|---|---|---|
+| `T_TEST_T1` | 4 s | ladder exato (FB1 N3 T1 SE S5T#4S) |
+| `T_TEST_T2` | 2 s | ladder exato (FB4/FB5 N4 T2 S_ODT); Historian `Elev_High -> Eject` 1.99 s (n=19) |
+| `T_TEST_T8` | 0.5 s | ladder exato (FB5 N4 T8 S_PEXT S5T#500MS) |
+| `T_TEST_T3` / `T5` / `T6` | 2 s | ladder exato (SP S5T#2S); Historian: ejecao no alto 1.28 s (cai com o `Optic`), embaixo 1.9 s |
+| `T_TEST_T7` | 2 s | ladder exato (OB1 N6 S_PEXT); Historian `A_74_CRoute_Out` 1.91 s (n=19) |
+| `T_CONV24_T1` | 3 s | ladder exato (Master FB11 N6 T1 SE S5T#3S); Historian `C_24_CartDel` 2.96 s |
+| `t_t_up` / `t_t_up_lowoff` | 3.28 / 0.85 s | Historian `F_72_Elev_Up -> Elev_High` / `-> Elev_Low` cai (n=22) |
+| `t_t_up_ind` / `t_t_up_sst` | 0.90 / 1.33 s | Historian: pulsos `SInductive` (n=14) e `SStation` (n=22) na subida |
+| `t_t_metal_off` / `t_t_height_pre` | 1.08 / 0.31 s | Historian (n=8 / n=15) |
+| `t_t_down` / `t_t_down_highoff` | 2.82 / 0.07 s | Historian `F_72_Elev_Down -> Elev_Low` (mediana, n=19) / `-> Elev_High` cai |
+| `t_t_down_sst` / `t_t_down_ind` | 1.73 / 2.39 s | Historian: pulsos na descida (n=22) |
+| `t_t_ej_spart` / `t_t_pist_fwd` / `t_t_pist_back` | 0.17 / 0.14 / 0.29 s | Historian (n=19) |
+| `t_t_ej_cart` | 1.21 s | Historian `F_72_Eject_Part -> O_24_Optic` (n=19) |
+| `t_24_arrive` / `t_24_count` | 10.51 / 1.04 s | Historian `C_24_Request -> O_24_Cart_Stat` (n=19) / `O_24_Count -> Cart_Stat` (n=16) |
+| `t_24_croute_in0` / `t_24_croute_in` | 0.13 / 1.80 s | Historian (n=19 / n=38) |
+| `t_24_pist_bck` / `t_24_optic_off` / `t_24_leave` | 0.43 / 1.38 / 2.69 s | Historian, a partir do `A_74_CRoute_Out` (n=19) |
+| `t_24_req` | 2.0 s | Historian 01 (n=1) |
+| `t_dist_feed` / `t_dist_sst` / `t_dist_sst_dur` / `t_dist_arm` | 10.15 / 0.19 / 1.09 / 1.87 s | Historian (provisorio ate a Distribution entrar) |
+| `TEST_MODE`, `RQ_DELIVERY`, `DIST_INIT_PROV` | 1, [1 1; 1 0; 0 1], 1 | cenario / provisorio |
+
+### Verificacao (modelo temporario em `%TEMP%`, so o Chart_SIM, FixedStep 0.01)
+| Cenario | Resultado |
+|---|---|
+| A: Identified, pecas [vermelha preta metalica], 3 carros, 110 s | bits 11, 10, 01; as 3 pecas no carro; `nTest` = 3 (t = 35.80, 71.65, 107.50) |
+| B: Requested, carro pede vermelha [1 1], pecas [preta vermelha], 60 s | preta: bits 10 != 11 -> desce, rejeitada embaixo (`nReject` = 1), `RQ_Wrong` em 33.75; nova peca 10.25 s depois; vermelha: 11 = 11 -> carro, `RQ_Part_Del` em 56.05; `nTest` = 1 |
+
+Linha do tempo da 1a peca (Identified, vermelha), em s (Historian entre parenteses):
+`carro pedido 0.05 | Cart_Stat + CartDel 10.60 (10.51) | CRoute_In 10.75 | SPart 21.05 | Elev_Up 23.00 (+1.83) |
+Elev_Low cai 23.85 | SPart_Height 26.00 | Elev_High 26.35 (+3.28) | ID 11 em 26.40 | Eject + Air 28.45 (+1.99) |
+SPart cai 28.65 | O_24_Optic 29.70 (+1.21) | Eject cai 29.75 (1.28) | Pist_Back 30.05 | Elev_Down 30.10 | Elev_Low 33.00 (+2.82) |
+Part_Del + CRoute_Out 33.05 | CRoute_Out cai 35.05 | carro sai 35.80`.
+Ciclo da Testing: ~35.8 s por carro (Historian 01: `C_24_Request` -> carro sai ~35.5 s).
+Requested, peca errada: `Elev_High -> Elev_Down` 2.10 s (Historian 2.00), descida 2.90 s (2.93), pistao 2.0 s (1.9),
+`RQ_Wrong -> nova SPart` 10.25 s (10.14).
+`Ctrl+D` na v0.1.3: para no `BUS_SIM_IN_PROC` (sem entrada, falta `B_SimActuators_100`) -- nao mais no TEST.
+
+### Pendente
+- `DIST_Feed_PROVISORIO`, `O_80_Arm_Mag` e `DIST_INIT_PROV` saem quando a Distribution [80] entrar.
+- Ligar o carro da parada 24 ao trilho (paradas 25-28) ate o Hd1 (hoje o `Conveyor29` cria a peca sozinho).
+- Conferir o `T6` do `Conveyor29` contra o padrao N6/N7 do FB11 (pulso de `CartDel` a partir da chegada).
+- Testar com a planta (Connect_OPCUA_Write) nos dois modos.
+
+Modelo: `FullFMS_SIM_V0_1_3_R2025b.slx` (teste) / `_R2026a.slx` (fonte). `Connect_OPCUA_Write.m` aponta para a R2025b.
+
+## FullFMS_SIM v0.1.3 --> v0.1.4  (Distribution [80])
+
+Distribution no `Chart_SIM`, no mesmo formato da Testing e da Sorting: controle = ladder rede a rede (`OB1`,
+`FB1`, `FB3`, `FB4` Single, `FB5` Continuous, `FB6` Counted, lidos renderizados, polaridade NA/NF conferida) +
+planta (braco, pistao do magazine, ventosa) com tempos do Historian. **Sai o `DIST_Feed_PROVISORIO` da v0.1.3**:
+a peca que chega ao elevador da Testing agora vem do braco da Distribution, o `O_80_Arm_Mag` vem da planta e o
+`C_85_Initialization` vem do FB1 da Distribution (o `DIST_INIT_PROV` saiu). A ligacao Distribution -> Testing segue o
+ladder: a Testing pede peca pelo `A_74_CRoute_In80` (ou `C_75_RQ_Wrong`) e a Distribution so entrega com o elevador
+embaixo e vazio (`O_70_Elev_Low & ~O_70_SPart`). Feito a partir da v0.1.3 (save com novo nome; a v0.1.3 nao mudou).
+O construtor desta versao ficou em `%TEMP%`, fora da pasta.
+
+### Saidas e ligacoes
+| Porta | Saida | Destino |
+|---|---|---|
+| 1-14 | (iguais a v0.1.3) | `BUS_SIM_IN_MASTER`, `_HD1`, `_SORT`, `_TEST` |
+| 15-17 | `SimActuators_80`, `SimControl_80`, `SimSensors_80` | `BUS_SIM_IN_DIST` 1-3 (ordem do `B_SIM_DIST`) |
+
+- `PreLoadFcn`: `load("BUS_CONFIG_SIM.mat"); run("Param_SIM_V0_1_4.m")`.
+- Estados de topo novos: `DIST_Ctrl` (10), `DIST_Plant` (11). Saiu o `DIST_Feed_PROVISORIO`.
+
+### Controle (`DIST_Ctrl`, 7 paralelos) x ladder
+| Estado / transicao | Ladder | O que faz |
+|---|---|---|
+| entry do `DIST_Ctrl` | supervisorio | `C_85_Single/Continuous/Counted = (DIST_MODE == 1/2/3)`, `C_83_RQ_Parts = RQ_PARTS`; zera `SC_*` e `SA_*` |
+| `FB1_N2_Check` | FB1 N2 | `C_82_Profibus`; magazine vazio -> `FB1_Mag_Empty`, cheio -> `FB1_Mag_Full` (contagem conhecida) |
+| `FB1_N3_N4_EmptyMag` | FB1 N3/N4 | contagem desconhecida (nem cheio nem vazio): o CLP esvazia o magazine na Testing. **So o estado; o ciclo de esvaziar nao foi modelado** (o cenario comeca com o magazine cheio) |
+| `FB1_N5_ArmToMag` -> `FB1_N1_N5_InitOk` | FB1 N5/N1 | braco para o magazine (`A2M_2`); `Arm_Mag` -> `Init_Ok` = `C_85_Initialization` |
+| `OB1_N4_C1` | OB1 N4..N6 | contador C1 (S_CUD): CU = borda do `Mag_Full`, CD = borda do `Pist_Fwd`, S = `Mag_Full` por `T1` 5 s (PV 9), R = `Pist_Back & Mag_Empty` por `T2` 1 s; `PartinMag = C1 > 0`; `C_85_Part_Mag`, `C_86_Mag_Parts` |
+| `OB1_N7_Off` / `OB1_N8_Off` / `OB1_N9_Off` | OB1 N7..N9 | FB4/FB5/FB6 so com `Init_Ok` e o bit do modo |
+| `FB4_N1_SingleOn` | FB4 N1 | (`Start` ou `C_85_Start` ou `C_75_RQ_Wrong` ou `A_74_CRoute_In80 & Key_Pos`) `& O_70_Elev_Low & ~O_70_SPart & PartinMag` -> S `Single_On` |
+| `D4_A2D_1` | FB4 N2 | braco vazio ate a entrega (so com o elevador da Testing embaixo e vazio) |
+| `D4_PistFwd` -> `D4_Transport` | FB4 N2 | `Arm_Del & Pist_Back` -> pistao empurra 1 peca; `Pist_Fwd` -> S `Transport`, R pistao |
+| `D4_A2M_1` -> `D4_SuctOn` -> `D4_PartStuck` | FB4 N2 | braco ao magazine; `Arm_Mag` -> ventosa; `Part_Stuck` -> S `PartStuck` |
+| `D4_A2D_2` -> `D4_SuctOff` | FB4 N2 | braco com a peca ate a entrega (elevador embaixo e vazio); `Arm_Del` -> R ventosa, `Suction_Off` enquanto `Part_Stuck` |
+| `D4_PartDel` -> `D4_A2M_2` -> `D4_Reset` | FB4 N2 | `~Part_Stuck` -> S `PartDel`; braco volta ao magazine; `Arm_Mag` -> R `Single_On`, `PartDel` |
+| `FB5_N1_AutoOn` ... `D5_PartDel` | FB5 N1/N2 | mesma sequencia do braco; depois da entrega volta direto ao pistao (o braco fica na entrega) |
+| `D5_N3_T3` -> `D5_N3_A2M_2` -> `D5_N4_Reset` | FB5 N3/N4 | `Arm_Del & Pist_Back & Magazine_Empty` -> `T3` S_ODT 1 s -> braco ao magazine -> R `Automatic_On` |
+| `FB6_N1_N2_LoadC2` | FB6 N1/N2 | partida (sem o ramo `RQ_Wrong`) `& Arm_Mag & Elev_Low & ~SPart & PartinMag & Exis_Parts >= RQ_Parts` -> carrega o C2 (S_CD) com `RQ_Parts + 1`; `Counted_On = C2 > 0`; `C_87_RQ_MParts = CV` |
+| `D6_*` (N3) | FB6 N3 | mesma sequencia do FB4 (`A2D_1` ... `A2M_2`) |
+| `D6_N4_Wait` -> `D6_N4_DecCount` -> `D6_N5_NewCycle` | FB6 N4/N5 | `PartDel & C_75_Identified80` ou `C_75_RQ_Part_Del & C_75_Requested80` -> `Dec_Count` + `T3` SE 1 s -> R `PartDel`; `RQ_Wrong & Requested80` -> R `PartDel` sem decrementar; repete enquanto `Counted_On` |
+| `OB1_N10_Wait` -> `OB1_N11_PartDel` | OB1 N10/N11 | `FB4_PartDel` ou borda NEG do `FB5_PartMove` ou `FB6_PartDel` -> `T4` SE 4 s -> `C_85_Part_Del` |
+| `FB3_Map` | FB3 | `Pist_Adv`, `Suction_On`, `Suction_Off`, `Arm_2_Del` (`A2D_1`/`A2D_2` dos 3 FBs), `Arm_2_Mag` (FB1 + `A2M_1`/`A2M_2`), `Led_Start = Init_Ok`, `Led_Extra1 = C_85_Part_Del` |
+
+Observacoes do ladder (mantidas):
+- A Distribution le sensores da Testing (`O_70_Elev_Low`, `O_70_SPart`) e a Testing le o `O_80_Arm_Mag`: os dois CLPs
+  trocam sinais pelo OPC UA. No SIM sao os mesmos locais (`ElevLow70`, `PartIn70`, `ArmMag80`).
+- **FB6: o C2 e carregado com `C_83_RQ_Parts + 1`** e o `Counted_On` e o `Q` do contador (CV > 0). Lido literalmente,
+  o Counted entrega `RQ_Parts + 1` pecas -- na verificacao, `RQ_PARTS = 2` entregou 3. Pode ser compensacao de algum
+  efeito do CLP que o SIM nao tem (ex.: decremento extra na carga) -- conferir na planta.
+- FB5 e FB6 usam o mesmo `T3` ("FB6_Timer"); nunca rodam juntos.
+- FB5: no SIM o pistao so repete com `~Magazine_Empty` (a pagina do FB5 N2 com o ramo do pistao nao foi relida nesta
+  versao; a v0.4.18 confirmou que a sequencia do braco e a mesma do FB4).
+
+### Planta (`DIST_Plant`, 4 paralelos)
+- `Arm`: `Arm_AtMag -> Arm_ToDel -> Arm_AtDel -> Arm_ToMag` (inverte no meio se o comando mudar). Ida mais lenta vazio
+  (3.36 s) que carregado (3.27 s); `O_80_Arm_Mag` cai 1.85 s / 1.29 s depois do comando. O braco sobre a Testing liga o
+  `O_70_SStation` (cai 1.07 s depois do `Arm_2_Mag`).
+- `MagPiston`: `Pist_Adv` -> `Pist_Back` cai 0.33 s, `Pist_Fwd` 0.905 s (a peca de baixo sai do magazine), volta 0.11 s.
+- `Suction`: ventosa no magazine com peca -> `Part_Stuck` 0.11 s; ventosa desliga na entrega -> 0.22 s depois a peca cai no
+  elevador da Testing (`O_70_SPart`, cor = proxima de `PART_COLORS`, metalica liga o indutivo).
+- `Sensors_Out80`: `Mag_Full = magCount >= 9`, `Mag_Empty = magCount == 0`; painel `Key_Pos = 1`.
+
+### Tempos (`Param_SIM_V0_1_4.m`)
+| Parametro | Valor | Origem |
+|---|---|---|
+| `T_DIST_T1` / `T_DIST_T2` | 5 / 1 s | ladder exato (OB1 N4 T1/T2 S_ODT) |
+| `T_DIST_T3` | 1 s | ladder exato (FB5 N3 / FB6 N4) |
+| `T_DIST_T4` | 4 s | ladder exato (OB1 N10 SE); Historian `C_85_Part_Del` 3.79 s (n=22) |
+| `t_d_a2d_empty` / `t_d_a2d_load` | 3.36 / 3.27 s | Historian `F_82_Arm_2_Del -> O_80_Arm_Del` (n=22 / n=22) |
+| `t_d_magoff_empty` / `t_d_magoff_load` | 1.85 / 1.29 s | Historian `-> O_80_Arm_Mag` cai |
+| `t_d_a2m` / `t_d_deloff` / `t_d_sst_off` | 2.01 / 1.28 / 1.07 s | Historian a partir do `F_82_Arm_2_Mag` (n=44) |
+| `t_d_pist_fwd` / `t_d_pist_bckoff` / `t_d_pist_back` | 0.905 / 0.33 / 0.11 s | Historian (n=9 / 22 / 22) |
+| `t_d_suct` / `t_d_release` | 0.11 / 0.22 s | Historian (n=21 / 22) |
+| `DIST_MODE`, `RQ_PARTS`, `MAG_PARTS0`, `MAG_CAP` | 1, 2, 9, 9 | cenario (magazine cheio no inicio) |
+
+### Verificacao (modelo temporario em `%TEMP%`, so o Chart_SIM, FixedStep 0.01)
+| Cenario | Resultado |
+|---|---|
+| A: Single + Identified, pecas [vermelha preta metalica], 3 carros | 3 entregas (`C_85_Part_Del` em 21.65, 58.20, 94.75), Testing 11/10/01, 3 carros saem (36.60, 73.15, 109.70); magazine 9 -> 6 |
+| B: Single + Requested, carro pede vermelha, pecas [preta vermelha] | preta rejeitada; `C_75_RQ_Wrong` em 34.55 dispara o FB4 de novo (ramo `RQ_Wrong` do FB4 N1); vermelha no elevador 10.65 s depois (Historian 10.14), vai ao carro; 1 carro |
+| C: Continuous + Identified, 3 carros | a proxima peca ja fica pronta no braco: carros saem em 37.65, 55.70, 73.75 (~18 s por carro contra ~36.5 s no Single); a 4a peca fica no elevador no fim |
+| D: Counted (`RQ_PARTS = 2`) + Identified | C2 carregado com 3 em 10.90; 3 entregas e o `Counted_On` cai (ver observacao do FB6) |
+
+Linha do tempo da 1a peca (cenario A), em s (Historian 01 entre parenteses):
+`CRoute_In80 / Single_On / Arm_2_Del 10.95 (+0.04) | Arm_Del 14.40 (+3.36) | Pist_Adv 14.45 | Pist_Fwd -> Transport, Arm_2_Mag 15.50 |
+Arm_Mag 17.60 (+2.01) | Suction_On 17.65 | Part_Stuck 17.80 (+0.11) | Arm_2_Del 17.90 | Arm_Del 21.25 (+3.27) | ventosa desliga 21.30 |
+peca no elevador 21.55 (+0.22) | C_85_Part_Del 21.65 -> 25.65 | braco no magazine 23.75`.
+`CRoute_In80 -> O_70_SPart`: 10.65 s no SIM x 10.15 s no Historian (diferenca dos passos de 0.05 s nas ~12 transicoes).
+`Ctrl+D` na v0.1.4: continua parando no `BUS_SIM_IN_PROC` (falta `B_SimActuators_100`). A Distribution so pode ser conferida
+pelo Ctrl+D quando a Processing entrar; o chart com a Distribution compila e roda no modelo de verificacao.
+
+### Pendente
+- `FB1_N3_N4_EmptyMag`: procedimento de esvaziar o magazine com contagem desconhecida (so o estado existe).
+- Conferir na planta o `RQ_Parts + 1` do Counted e o ramo do pistao no FB5 N2.
+- Ligar o carro da parada 24 ao trilho ate o Hd1; conferir o `T6` do `Conveyor29`.
+
+Modelo: `FullFMS_SIM_V0_1_4_R2025b.slx` (teste) / `_R2026a.slx` (fonte). `Connect_OPCUA_Write.m` aponta para a R2025b.
+
+## FullFMS_SIM v0.1.4 --> v0.1.5  (Processing [100])
+
+Processing no `Chart_SIM`: controle = ladder rede a rede (`OB1`, `FB1`, `FB3`, `FB4` Test, `FB5` Test+Drill, `FB6`
+Rotation, lidos renderizados) + planta (mesa giratoria de 6 posicoes, furadeira, pino de teste) com tempos do Historian.
+O Hd2 [90] ainda nao existe no SIM: a garra que poe e tira a peca da mesa e o **`HD2_Feed_PROVISORIO`** (sai na v0.1.6).
+Feito a partir da v0.1.4 (save com novo nome; a v0.1.4 nao mudou). Construtor em `%TEMP%`.
+
+### Saidas e ligacoes
+| Porta | Saida | Destino |
+|---|---|---|
+| 18-20 | `SimActuators_100`, `SimControl_100`, `SimSensors_100` | `BUS_SIM_IN_PROC` 1-3 |
+
+`PreLoadFcn`: `load("BUS_CONFIG_SIM.mat"); run("Param_SIM_V0_1_5.m")`. Estados de topo novos: `PROC_Ctrl` (12),
+`PROC_Plant` (13), `HD2_Feed_PROVISORIO` (14).
+
+### Controle (`PROC_Ctrl`, 6 paralelos) x ladder
+| Estado | Ladder | O que faz |
+|---|---|---|
+| `FB1_N2_DrillUp` -> `FB1_N3_Empty1` -> `FB1_N4_Rotate3` -> `FB1_N5_Empty2` -> `FB1_N12_InitOk` | FB1 N2..N5, N12 | broca em cima; mesa parada sem peca nas posicoes inicial/teste/broca; gira 3 passos (C1 = 3, so com a garra do Hd2 em cima ou fora da entrega); confere a outra metade; `Init_Ok` = `C_105_Initialization` |
+| `FB1_N6_N11_Clear` | FB1 N6..N11 | peca na mesa na partida: **so o estado** (o cenario comeca com a mesa vazia) |
+| `OB1_N4_N8_Map` | OB1 N4, N8 | `C_105_Part_ready` = pronto do FB4/FB5/FB6; contador C11 das bordas do `RT_Sensor` com `RT_On` -> `C_106_RT_Counter` |
+| `FB4_N1_StartTest` | FB4 N1 | `PInit_Pos & O_90_Claw_High & RT_Sensor & ~RT_On` -> S `StartTest`, R `C_105_Test_OK/Fail` |
+| `FB4_N2_SpinToTest` | FB4 N2 | C4 = 4: gira ate 4 bordas do `RT_Sensor` |
+| `FB4_N3_T4_TestDelay` -> `FB4_N4_TestPin` | FB4 N3/N4 | `~RT_On & PTest_Pos & RT_Sensor` -> T4 SP 2 s -> pino de teste |
+| `FB4_N5_N6_Result` | FB4 N5/N6 | T5 S_ODT 1 s: `PTest_Ok` -> `TestOK` / senao `TestFail`; `C_105_Test_OK` / `C_105_Test_Fail` |
+| `FB4_N7_SpinToCollect` -> `FB4_N8_PartReady` -> `FB4_N9_PickedUp` | FB4 N7..N9 | C5 = 2 passos ate a posicao inicial; `Part_ready`; garra do Hd2 na entrega, embaixo, com peca -> reset |
+| `FB5_*` | FB5 N1..N16 | igual ao FB4 ate o teste; Ok: C7 = 1 passo, pino de fixacao + broca desce (N8), `SDrill_Low` -> T8 SP 2 s com a broca ligada (N9/N10), broca sobe (N11), `SDrill_High` -> solta e `DrillOk` (N12), C8 = 1 passo (N13); Fail: C9 = 2 passos (N14); `Part_ready` (N15), reset (N16) |
+| `FB6_*` | FB6 N1..N5 | C10 = 6 passos (volta inteira), `RotationOK`, `Part_ready`, reset |
+| `FB3_Map` | FB3 | `RT_On`, `Drill_Down`, `Drill_Up` (FB1 + FB5), `Drill_Pin`, `Drill_On`, `Test_Pin`, `Led_Start`, `Led_Extra1 = Part_ready` |
+
+Observacoes do ladder:
+- Geometria da mesa pelos contadores: teste a 4 passos da entrada, broca a 5, volta a entrada em 6.
+- Pino de teste: no ladder e T4 SP 2 s, mas no Historian o pino cai junto com a mesa voltando a girar ~1 s depois
+  (fim do T5). O SIM segue o Historian (pino 1 s). Conferir na rede do FB3 do `Test_Pin`.
+- `C_103_RQ_Turns` vai para o bus, mas o FB6 usa `C#6` fixo e nao le esse valor.
+
+### Planta e tempos (`Param_SIM_V0_1_5.m`)
+| Parametro | Valor | Origem |
+|---|---|---|
+| `T_PROC_T4` / `T_PROC_T5` / `T_PROC_T8` | 2 / 1 / 2 s | ladder exato; Historian `Test_Pin -> Test_Ok` 0.99 s (n=17), broca ligada 1.99 s (n=2) |
+| `t_rt_step` | 1.13 s | Historian: intervalo entre bordas do `RT_Sensor` (n=76) |
+| `t_rt_hi` | 0.13 s | Historian 01 (o tempo alto do sensor varia 0.06..1.2 s): estimado |
+| `t_ptest_ok` | 0.06 s | Historian `Test_Pin -> PTest_Ok` (n=17) |
+| `t_drill_down` / `t_drill_up` | 0.21 / 0.29 s | Historian (n=2) |
+| `t_h2_*` (garra provisoria) | 0.13 .. 1.14 s | Historian 01 (n=1); `t_h2_return` = 20 s estimado |
+| `PROC_MODE`, `PROC_TEST_OK`, `RQ_TURNS` | 1, [1 1 1], 1 | cenario |
+
+Sensores `PInit_Pos`/`PTest_Pos`/`PDrill_Pos`: no SIM so a peca do cenario; no Historian eles piscam durante o giro
+(provavelmente outras pecas ou os rebaixos da mesa) -- simplificacao.
+
+### Verificacao (modelo temporario, so o Chart_SIM)
+| Cenario | Resultado |
+|---|---|
+| A: Test, 3 pecas [ok fail ok] | giro ate o teste 4.65 s (Historian 4.50), pino 1.05 s, giro de volta 2.35 s (2.31); `Test_Ok`/`Test_Fail`/`Test_Ok` certos; 3 pecas retiradas |
+| B: Test+Drill, [ok fail] | Ok: broca desce 0.25 s, ligada 2.0 s, sobe 0.30 s, gira ate o fim; Fail: 2 passos sem furar |
+| C: Rotation, 2 pecas | volta inteira em 6.95 s (Historian 6.78 s, n=2) |
+`Ctrl+D` na v0.1.5: para no `BUS_SIM_IN_NODE` (falta `B_SimActuators_30`) -- nao mais no PROC.
+
+### Pendente
+- `HD2_Feed_PROVISORIO` sai quando o Hd2 [90] entrar (v0.1.6). `FB1_N6_N11_Clear` (peca na mesa na partida).
+
+Modelo: `FullFMS_SIM_V0_1_5_R2025b.slx` (teste) / `_R2026a.slx` (fonte). `Connect_OPCUA_Write.m` aponta para a R2025b.
+
+## FullFMS_SIM v0.1.5 --> v0.1.6  (Handling 2 [90])
+
+Hd2 no `Chart_SIM`: controle = ladder rede a rede (`OB1`, `FB1` Initialization, `FB3` OPC-UA Actuators, `FB4` Cart_2_Del,
+`FB5` Del_2_Cart) + planta (garra: vertical, horizontal carro <-> entrega, pinca) + **parada 25** (destino Processing do
+Master FB11). Sai o `HD2_Feed_PROVISORIO` da v0.1.5. Feito a partir da v0.1.5 (save com novo nome; a v0.1.5 nao mudou).
+Construtor em `%TEMP%`.
+
+Cadeia agora: Distribution -> Testing -> carro na parada 24 -> `C_24_CRoute_Out` -> carro anda ate a parada 25 ->
+Hd2 FB4 tira a peca do carro e poe na mesa da Processing -> Processing (Test / Test+Drill / Rotation) ->
+`C_105_Part_ready` -> Hd2 FB5 devolve a peca ao carro -> `C_95_PD_Cart` -> T1 2 s `A_94_CRoute_Out` -> carro sai.
+
+### Saidas e ligacoes
+| Porta | Saida | Destino |
+|---|---|---|
+| 21-24 | `SimActuators_90`, `SimASi_90`, `SimControl_90`, `SimSensors_90` | `BUS_SIM_IN_HD2` 1-4 |
+
+`PreLoadFcn`: `load("BUS_CONFIG_SIM.mat"); run("Param_SIM_V0_1_6.m")`. Estados de topo novos: `HD2_Ctrl` (14),
+`HD2_Plant` (15), `Conveyor25` (16). Na `Testing`, o `C24_Release` agora conta o carro com peca (`nCart25`) para a parada 25.
+
+### Controle (`HD2_Ctrl`, 6 paralelos) x ladder
+| Estado | Ladder | O que faz |
+|---|---|---|
+| `FB1_N2_N3_Check` -> `FB1_N1_N2_InitOk` | FB1 N1..N3 | `Profibus`; garra em cima, sem peca, no carro -> `C_95_Initialization`; se nao estiver no carro, vai para o carro |
+| `FB1_N4_N5_Deliver` | FB1 N4/N5 | peca na garra na partida: **so o estado** (o cenario comeca sem peca) |
+| `OB1_Map90` | OB1 N4, N7, N9 | `OKMove` = carro na parada, garra vazia e (Cart2Del com a mesa livre, ou Del2Cart com o carro vazio); `PD_Proc` / `PD_Cart`; `No_Cart`, `CRoute_In`, `Cart_Full` |
+| `OB1_N8_Wait` -> `OB1_N8_Pulse` -> `OB1_N8_Hold` | OB1 N8 T1 | `PD_Cart` -> T1 S_PULSE 2 s -> `A_94_CRoute_Out` |
+| `FB4_N1_Begin` .. `FB4_N6_PartDelivered` | FB4 N1..N6 | (`OKMove & Cart2Del` ou ja em curso) `& CRoute_In & Key_Pos`: garra ao carro, desce, fecha, sobe, vai a entrega, desce, abre, sobe -> `PartDel` |
+| `FB5_N1_Begin` .. `FB5_N6_PartDelivered` | FB5 N1..N6 | (`OKMove & Del2Cart` ou `Part_ready` com o carro vazio) `& (Part_ready ou Start)`: o caminho inverso, da mesa ao carro |
+| `FB3_Map` | FB3 | `Claw_2_Cart`, `Claw_2_Del`, `Claw_Down`, `Close_Claw` (FB1 + FB4 + FB5, com `Key_Pos`), `Led_Start`, `Led_Extra1 = PD_Cart` |
+
+### Planta e tempos (`Param_SIM_V0_1_6.m`)
+| Parametro | Valor | Origem |
+|---|---|---|
+| `T_HD2_T1` | 2 s | ladder exato (Historian `A_94_CRoute_Out` 1.95 s, n=19) |
+| `t_c2_down` / `t_c2_up` | 0.75 / 0.97 s | Historian `Claw_Down` -> `Claw_Low` / -> `Claw_High` (n=76) |
+| `t_c2_2del` / `t_c2_2cart` | 3.65 / 2.59 s | Historian `Claw_2_Del` -> `Claw_Del` / `Claw_2_Cart` -> `Claw_Cart` (n=19) |
+| `t_c2_res_*` | 1.78 / 1.67 / 0.07 s | pulso do `Claw_Reserve` no meio do curso (n=37) |
+| `t_c2_open` | 0.225 s | abre a garra -> `Part_in_Claw` cai (n=38) |
+| `T_CONV25_T1` | 3 s | FB11 destino Processing, mesmo padrao do destino Testing (Historian `C_25_CartDel` 2.90 s) |
+| `t_25_arrive` | 10.27 s | Historian `C_25_Request` -> `O_25_Cart_Stat` (n=19) |
+| `t_25_croute_in` | 1.87 s | duracao do `A_94_CRoute_In` (n=19) |
+| `t_25_pist_bck` / `t_25_optic_off` / `t_25_leave` | 0.40 / 1.50 / 2.68 s | `CRoute_Out` -> pistao recua / optico cai / `Cart_Stat` cai (n=19) |
+| `HD2_CART2DEL`, `HD2_DEL2CART` | 1, 1 | setup do supervisorio |
+
+### Verificacao (modelo temporario, so o Chart_SIM)
+| Cenario | Resultado |
+|---|---|
+| A: Distribution -> Testing -> 24 -> 25 -> Hd2 -> Processing Test -> Hd2 -> carro, 2 pecas | carro pedido na 25 em 33.85 s e parado em 44.15 s (10.3 s, Hist 10.27); `CRoute_In` 1.9 s; Hd2 FB4: garra desce 0.80 s, ida a entrega 3.75 s (3.65), peca na mesa em 51.5 s; teste; FB5 devolve, `PD_Cart` 67.55 s, `CRoute_Out` 2.0 s, carro sai 2.7 s depois; 2 pecas, 2 carros |
+| B: idem Test+Drill, 1 peca | mesma sequencia, furacao no meio; carro sai em 72.95 s |
+`Ctrl+D` na v0.1.6: para no `BUS_SIM_IN_NODE` (falta `B_SimActuators_30`), como na v0.1.5. Modelo final: 25 blocos, 32 linhas.
+
+### Pendente
+- `Conveyor25` e simplificado (como a 29 e a 24): sai na v0.1.8 com o FB11 do Master completo.
+- `FB1_N4_N5_Deliver` (peca na garra na partida) so como estado. `C_95_Start` vem do cenario (falso).
+
+Modelo: `FullFMS_SIM_V0_1_6_R2025b.slx` (teste) / `_R2026a.slx` (fonte). `Connect_OPCUA_Write.m` aponta para a R2025b.
+
+## FullFMS_SIM v0.1.6 --> v0.1.7  (NODE: Robot [30] + Storage [40])
+
+Robot [30] e Storage [40] no `Chart_SIM` + paradas 27 (Robot) e 28 (Storage). O Robot e remota da Master: o
+controle dele e o `Master/FB3 - Robot Remote` (N1..N15). A Storage tem CLP proprio (`Storage/OB1`, `FB1`..`FB5`).
+Feito a partir da v0.1.6 (save com novo nome; a v0.1.6 nao mudou). Construtor em `%TEMP%`.
+
+Cadeia agora: ... Processing -> Hd2 devolve a peca -> carro sai da parada 25 -> parada 27 (Robot: `CRoute_In` ->
+`Part_Del` -> `CRoute_Out`) -> parada 28 (Storage: Store 3 s / Retrieve 5 s -> `CRoute_Out`) -> carro sai.
+
+### Saidas e ligacoes
+| Porta | Saida | Destino |
+|---|---|---|
+| 25-29 | `SimActuators_30`, `SimASi_30`, `SimControl_30`, `SimSensors_30`, `SimRFID_RFID` | `BUS_SIM_IN_NODE` 1-5 |
+| 30-33 | `SimActuators_40`, `SimASi_40`, `SimControl_40`, `SimSensors_40` | `BUS_SIM_IN_NODE` 6-9 |
+
+`PreLoadFcn`: `load("BUS_CONFIG_SIM.mat"); run("Param_SIM_V0_1_7.m")`. Estados de topo novos: `ROB_Ctrl` (17),
+`ROB_Plant` (18), `Conveyor27` (19), `STOR_Ctrl` (20), `STOR_Panel` (21), `Conveyor28` (22).
+No `Conveyor25`, o `C25_Gone` agora manda o carro para a parada 27 (`nCart27`).
+
+**`Ctrl+D` na v0.1.7: OK (46 s)** -- primeira versao do SIM que compila inteira (todos os `BUS_SIM_IN_*` ligados).
+
+### Robot (`ROB_Ctrl`) x ladder `Master/FB3`
+| Estado | Rede | O que faz |
+|---|---|---|
+| entry | N15 | `C_30_Robot1`/`C_30_Robot2` pelo `ROBOT_MODE` (setup) |
+| `FB3_Map30` | N4..N11 | `A_34_No_Cart = ~Cart_Stat`; `A_34_Cart_Full = Cart_Stat & Optic`; `Led_Extra1 = No_Cart`, `Led_Extra2 = Cart_Full` |
+| `N12_T7_CartDel` | N12 | `A_34_CRoute_In & (Robot1 ou Robot2)` -> `FB3_CartDel` (T7) |
+| `N13_PartDel` | N13 | borda NEG do `FB3_CartDel` -> S `C_35_Part_Del` |
+| `N14_T8_Reset` | N14 | `Part_Del` -> `A_34_CRoute_Out`; T8 S_ODT 2 s -> R `Part_Del` |
+
+Observacao: no ladder o T7 e S_PEXT 5 s, mas no Historian o `Part_Del` vem 0.22 s depois do fim do `CRoute_In`
+(2.08 s depois do inicio, n=19), nunca 5 s. O SIM segue o Historian: `CartDel` acaba com o `CRoute_In` (5 s fica como
+limite). Mesmo caso do pino da Processing.
+
+**`ROB_Plant` em repouso**: os cilindros, a garra e o magazine do robo (`SS_31_*`, `SS_32_*`) sao comandados pelo
+programa do proprio robo -- nao estao no CLP (o FB3 so repassa) nem no Historian. Ficam no valor de repouso
+(cilindros recuados, mola na posicao de pega, magazine com tampa). `SimRFID_RFID` = 0 (sem dado de RFID no Historian).
+
+### Storage (`STOR_Ctrl`) x ladder
+| Estado | Ladder | O que faz |
+|---|---|---|
+| `FB1_N1_Profibus` -> `FB1_N1_InitOk` | FB1 N1 | `C_42_Profibus` -> `Init_Ok` -> `C_45_Initialization` |
+| `FB4_Store` | OB1 N4 + FB4 N1 | `Init & StorePart`; `CRoute_In & Key_Pos` -> T1 S_PEXT 3 s (`StoreOK`), R `ProcessOK` |
+| `FB5_Retrieve` | OB1 N5 + FB5 N1 | igual com T2 5 s (`RetrieveOK`) |
+| `OB1_N6_NEG_ProcOK` | OB1 N6 | borda NEG do `StoreOK`/`RetrieveOK` -> S `ProcessOK` |
+| `OB1_N7_T3_CRouteOut` | OB1 N7 | `Key_Pos & ProcessOK` -> T3 S_PULSE 2 s -> `A_44_CRoute_Out` |
+| `Map40` | OB1 N8/N9 + FB3 | `No_Cart`, `Cart_Full`, `CRoute_In`; LEDs Start / Extra1 / Extra2 |
+A Storage nao tem mecanica (FB4/FB5 sao "Simulated Timer"): `STOR_Panel` so tem o painel (FB2).
+`C_45_Start` (caminho sem `Key_Pos`) fica falso.
+
+### Tempos (`Param_SIM_V0_1_7.m`)
+| Parametro | Valor | Origem |
+|---|---|---|
+| `T_ROB_T7` / `T_ROB_T8` | 5 / 2 s | ladder; Historian `CRoute_Out` 1.96 s |
+| `T_STOR_T1` / `T_STOR_T2` / `T_STOR_T3` | 3 / 5 / 2 s | ladder; Historian `CRoute_In -> CRoute_Out` 3.08 s (Store) / 5.18 s (Retrieve), `CRoute_Out` 2.00 s |
+| `t_27_travel` | 24.66 s | Historian `A_94_CRoute_Out -> A_34_Cart_Stat` 27.34 s menos a saida da 25; **inclui a parada da Vision** |
+| `t_27_*` (optic/croute/pist/leave) | 0.23 / 0.18 / 1.86 / 0.54 / 1.67 / 2.83 s | Historian A_34 (n=19) |
+| `t_28_travel` | 7.08 s | Historian `A_34_Cart_Stat` cai -> `A_44_Cart_Stat` (n=24) |
+| `t_28_*` | 0.26 / 0.18 / 1.86 / 0.42 / 1.19 / 2.56 s | Historian A_44 (n=19) |
+| `ROBOT_MODE`, `STOR_MODE` | 1, 1 | setup (`Config Setups.xlsx`: Config 1 = Routine 1 / Store) |
+
+### Verificacao (modelo temporario, so o Chart_SIM)
+| Cenario | Resultado |
+|---|---|
+| A: Robot1 + Store, 2 pecas | parada 27: `CRoute_In` 1.9 s, `Part_Del`/`CRoute_Out` 2.0 s, carro sai 2.9 s depois; parada 28: `CRoute_In -> CRoute_Out` 3.0 s (Hist 3.08), `CRoute_Out` 2.0 s; 2 carros ate o fim |
+| B: Robot2 + Retrieve, 1 peca | `CRoute_In -> CRoute_Out` 5.0 s (Hist 5.18) |
+
+### Pendente
+- `Conveyor27`/`Conveyor28` simplificados; a viagem 25 -> 27 inclui a Vision. Saem na v0.1.8 (FB11 + Vision).
+- Programa do robo (cilindros/garra) e RFID: sem dado.
+
+Modelo: `FullFMS_SIM_V0_1_7_R2025b.slx` (teste) / `_R2026a.slx` (fonte). `Connect_OPCUA_Write.m` aponta para a R2025b.
+
+## FullFMS_SIM v0.1.7 --> v0.1.8  (MASTER [20]: esteira completa + Vision [26] + supervisorio)
+
+As paradas que eram simplificadas (`Conveyor29`, `Conveyor24`, `Conveyor25`, `Conveyor27` e `Conveyor28`, cada uma
+com contador proprio e viagem fixa) foram substituidas por uma esteira so, controlada pelo `Master/FB11` rede a rede.
+O carro agora da a volta no laco `29 -> 24 -> 25 -> 26 -> 27 -> 28 -> 29`. Feito a partir da v0.1.7 (save com novo nome;
+a v0.1.7 nao mudou). Construtor em `%TEMP%`.
+
+Cadeia completa: o supervisorio pede o carro para a 24 -> Distribution / Testing poe a peca -> 25 (Hd2 + Processing)
+-> 26 (Vision) -> 27 (Robot) -> 28 (Storage) -> 29 (Hd1 + Sorting) -> o supervisorio pede a 24 de novo, ate `N_PARTS`.
+
+Estados de topo novos (com a mesma ordem de execucao das paradas que sairam): `CONV_Plant` (1), `FB11_Ctrl` (8),
+`MES_Super` (16), `VISION_Stn` (19). Saidas e ligacoes nao mudaram (33 portas). **`Ctrl+D` na v0.1.8: OK (56 s)**; 25 blocos, 41 linhas (R2026a e R2025b). `PreLoadFcn`:
+`load("BUS_CONFIG_SIM.mat"); run("Param_SIM_V0_1_8.m")`.
+
+### `FB11_Ctrl` x ladder `Master/FB11` (6 destinos x N1..N7) + N43..N48 + FB2
+| Estado | Rede | O que faz |
+|---|---|---|
+| `N1_Request` | N1/8/15/22/29/36 | `C_2N_Request` (visto pelo CLP) e **nenhum outro destino pedindo** -> S `FB11_<dest>` |
+| `N2_PathFrom<origem>` | N2/9/16/23/30/37 | cascata do carro mais proximo a montante: o 1o testa so `Cart_Stat`, os seguintes acumulam os NF; o ultimo e o caso default -> S `FB11_<dest>_<origem>` + S `Cart_Selected` |
+| `N3_Conveyor` | N3/... | `Controler_On` -> S `FB11_<dest>_Conv`; senao `FB11_Conv_Error` |
+| `N4_PinsOff` | N4/... | `Cart_Next` da parada imediatamente a montante -> R todos os caminhos do destino (pinos voltam) |
+| `N5_Count` | N5/... | contador S_CU: pulsos do `Count` -> `A_x3_CartID`; R na borda POS do `Pist_Bck` |
+| `N6_T_SE_CartDel` -> `N7_CartDelOff` | N6/N7 | `Cart_Stat` do destino -> T SE (S_PEXT) 3 s -> `C_2N_CartDel`; R esteira, pedido e `Cart_Selected` |
+| `Pins_FB2_Map` | N43..N48 + FB2 | pino da parada s = OU de todos os caminhos origem -> destino que passam por s (da origem ate antes do destino); `SA_2x_Cart_*` = pino; `F_22_Conveyor` = OU das esteiras; `C_2N_CRoute_Out` = `A_x4_CRoute_Out` (FB2 N14...) |
+
+Prioridades do N2 (mais proximo a montante, igual a sombra v0.4.17): Testing 29>28>27>26>25, Processing 24>29>28>27>26,
+Vision 25>24>29>28>27, Robot 26>25>24>29>28, Storage 27>26>25>24>29, Sorting 28>27>26>25>24.
+
+### Planta (`CONV_Plant`)
+- `Cart`: `Cart_AtStop` -> `Cart_Move` quando a esteira esta ligada e o pino da parada recuou (`Pist_Bck`); chega na
+  proxima parada depois de `T_HOP_ARR(origem)`; se o pino dela estiver recuado, passa direto. Um carro (`CART_ID` = 2).
+- `Stop_Sensors`: para cada parada, `Cart_Stat`, `Optic` (= carro com peca), `Cart_Next` e `Count` em funcao do tempo
+  no trecho; mais `CartHasPart`/`CartHasPart25`/`PartOnCart` para as estacoes.
+- `Pin24..Pin29`: pistao de parada (recua 0.10 s depois do comando, volta 0.12 s depois).
+- A peca no carro e uma variavel so (`cartPart`): Testing poe, Hd2 tira/devolve, Hd1 tira.
+
+### Supervisorio (`MES_Super`) e Vision (`VISION_Stn`) -- sem ladder
+O supervisorio (Node-RED) nao tem PDF; o comportamento veio do Historian:
+- `MES_Req<N>`: quando a estacao anterior termina (`A_x4_CRoute_Out`; na 26, a Vision), pede o proximo destino:
+  `C_2N_Request` por 2 s, 0.08 s depois. O CLP enxerga o pedido 0.24 s depois (latencia OPC UA + ciclo).
+  O primeiro pedido (`C_24_Request`) sai em 4 s; a 24 so e pedida enquanto `nTest < N_PARTS`.
+- `MES_Arr<N>`: chegada (`C_2N_CartDel`) -> 0.17 s -> `C_2N_CRoute_In` por 1.86 s (FB2: `A_x4_CRoute_In = C_2N_CRoute_In`).
+- `VISION_Stn`: carro parado na 26 -> 5.04 s -> pronto (Historian `O_26_Cart_Stat -> C_27_Request`, n=19).
+
+### Tempos (`Param_SIM_V0_1_8.m`, Historian, mediana, n=19 por trecho)
+| Trecho | Chegada | `Cart_Stat` cai | `Cart_Next` | Optic cai |
+|---|---|---|---|---|
+| 24 -> 25 | 10.02 s | 2.35 | 8.03 | 1.05 |
+| 25 -> 26 | 10.41 | 2.38 | 8.60 | 1.20 |
+| 26 -> 27 | 10.63 | 2.34 | 8.10 | 1.11 |
+| 27 -> 28 | 8.72 | 2.22 | 6.34 | 0.98 |
+| 28 -> 29 | 11.58 | 2.22 | 10.33 | 0.86 |
+| 29 -> 24 | 10.25 | 2.24 | 8.58 | (vazio) |
+Contados a partir do `Release_FB` da origem. `T_FB11_T` = 3 s (Historian `CartDel` 2.89..2.95 s).
+
+### Verificacao (modelo temporario, so o Chart_SIM): 2 pecas, Test, Robot1, Store
+| Medida | SIM | Historian 01 |
+|---|---|---|
+| trechos 29->24 / 24->25 / 25->26 / 26->27 / 27->28 / 28->29 | 10.30 / 10.10 / 10.50 / 10.70 / 8.80 / 11.65 s | 10.19 / 10.00 / 10.38 / 10.63 (mediana) / 8.76 / 11.56 s |
+| Vision (`Cart_Stat` 26 -> `C_27_Request`) | 5.15 s | 5.04 s |
+| `CRoute_Out` -> proximo `Request` | 0.10 s | 0.04..0.11 s |
+| volta completa (1o pedido -> `CRoute_Out` da 29) | 133.8 s (4.1 -> 137.9) | 136.0 s |
+As 2 pecas passam por todas as estacoes (`nTest`, `nProc25Done`, `nRobDone`, `nStorDone`, `nDone` = 2) e o carro para na 29.
+
+### Pendente / simplificacoes
+- Um carro so (o Historian so tem o carro 2). A cascata do N2 ja escolhe entre varios carros, mas a planta move um.
+- Pedido da propria estacao (`A_x4_Request`, caminho alternativo do N1) fica falso.
+- Supervisorio e Vision: comportamento do Historian, nao ha ladder para conferir.
+- Os parametros das paradas simplificadas (`t_24_*`, `t_25_*`, `t_27_*`, `t_28_*`, `t_conv`, `t_leave`) ficaram no Param
+  so para comparacao.
+
+Modelo: `FullFMS_SIM_V0_1_8_R2025b.slx` (teste) / `_R2026a.slx` (fonte). `Connect_OPCUA_Write.m` aponta para a R2025b.
+
+---
+
 # NOTAS, PENDENCIAS E CONTEXTO
 
 ## Estado atual por estacao

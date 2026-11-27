@@ -1,7 +1,7 @@
 % Creates File with TAGs, selects te model name and locate the SSH keys.
 run('Tags_V0_4_20260221.m');
 load('Tags_OPCUA.mat');
-model_name = "FullFMS_2026_02_25_V0_4_10";
+model_name = "FullFMS_2026_02_25_V0_5_0_R2025b";
 key = 'C:\ssh_keys\MatOFI_lab_id_rsa';
 localDir = pwd;
 

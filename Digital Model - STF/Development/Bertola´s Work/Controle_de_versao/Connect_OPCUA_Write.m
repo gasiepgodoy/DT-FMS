@@ -1,5 +1,5 @@
 run('Tags_SIM_V0_1_20261120.m');
-model_name = "FullFMS_2026_02_25_V0_5_0_R2025b";
+model_name = "FullFMS_SIM_V0_1_8_R2025b";
 key = 'C:\ssh_keys\MatOFI_lab_id_rsa';
 localDir = pwd;
 downloadCSV = true;
@@ -9,7 +9,7 @@ ip = ["200.145.26.202", "200.145.26.213", "200.145.26.213", "200.145.26.203","20
 
 station = ["Master", "Robot", "Storage", "Handling1", "Sorting", "Testing","Distribution", "Handling2", "Processing"];
 
-path3 = 'Variables_';
+path3 = 'SimulatedVariables_';
 path4= '.csv';
 CSVLocal = path3 + station + path4;
 
@@ -23,10 +23,10 @@ if downloadCSV
         try
             s = sftp(ip(i), user, 'PrivateKeyFile', key);
             cd(s, "/root/ProjetoGemeo/AAS/" + station(i));
-            mget(s, 'Variables.csv', localDir);
+            mget(s, 'SimulatedVariables.csv', localDir);
             close(s);
 
-            fileOriginal = fullfile(localDir, 'Variables.csv');
+            fileOriginal = fullfile(localDir, 'SimulatedVariables.csv');
             fileDestino  = fullfile(localDir, CSVLocal(i));
             if exist(fileOriginal, 'file')
                 movefile(fileOriginal, fileDestino, 'f');
@@ -77,15 +77,15 @@ evalin('base', "save('BUS_CONFIG_SIM.mat', '" + strjoin(string(busList), "','") 
 fprintf('Bus objects salvos em BUS_CONFIG_SIM.mat (%d buses)\n', numel(busList));
 
 %==========================================================================
-T1 = readtable("Variables_Master.csv");
-T2 = readtable("Variables_Storage.csv");
-T3 = readtable("Variables_Robot.csv");
-T4 = readtable("Variables_Handling1.csv");
-T5 = readtable("Variables_Sorting.csv");
-T6 = readtable("Variables_Testing.csv");
-T7 = readtable("Variables_Distribution.csv");
-T8 = readtable("Variables_Handling2.csv");
-T9 = readtable("Variables_Processing.csv");
+T1 = readtable("SimulatedVariables_Master.csv");
+T2 = readtable("SimulatedVariables_Storage.csv");
+T3 = readtable("SimulatedVariables_Robot.csv");
+T4 = readtable("SimulatedVariables_Handling1.csv");
+T5 = readtable("SimulatedVariables_Sorting.csv");
+T6 = readtable("SimulatedVariables_Testing.csv");
+T7 = readtable("SimulatedVariables_Distribution.csv");
+T8 = readtable("SimulatedVariables_Handling2.csv");
+T9 = readtable("SimulatedVariables_Processing.csv");
 
 T = [T1;T2;T3;T4;T5;T6;T7;T8;T9];
 Var1_limpo = string(erase(T.Var1,';ns'));
